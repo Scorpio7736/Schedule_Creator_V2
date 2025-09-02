@@ -26,25 +26,36 @@ namespace Schedule_Creator_V2
             var availabilityLookup = availabilities.ToLookup(a => a.id);
             var selectedDay = Enum.Parse<AvailDays>(selectedDate.DayOfWeek.ToString());
 
-
-            // TODO: find logic about this stream. Add clause where if there is a staff member who is a sub, they will be added to every day with avail times as UPON REQUEST.
             var scheduleLines = staffList
                 .SelectMany(staff =>
                     availabilityLookup[staff.id]
                         .Where(
-                        ava => ava.dayOfTheWeek == selectedDay 
-                        || 
-                        ava.dayOfTheWeek == AvailDays.Every_Day
+                            ava => ava.dayOfTheWeek == selectedDay
+                            || ava.dayOfTheWeek == AvailDays.Every_Day
                         )
                         .Select(ava => new ScheduleEntry(
                             staff.fName,
                             staff.lName,
                             ava.availTimes,
-                            (staff.position.ToString()),
+                            staff.position.ToString(),
                             staff.certRange
                         ))
                 )
                 .ToList();
+
+            // Add subs to every day with "UPON REQUEST" availability
+            var subStaff = DatabaseRead
+                .ReadStaff()
+                .Where(s => s.position == Positions.SUB && !staffList.Any(st => st.id == s.id))
+                .Select(s => new ScheduleEntry(
+                    s.fName,
+                    s.lName,
+                    "UPON REQUEST",
+                    s.position.ToString(),
+                    s.certRange
+                ));
+
+            scheduleLines.AddRange(subStaff);
 
             ScheduleDataGrid.ItemsSource = scheduleLines;
             CheckSupervisorStaff(scheduleLines);
