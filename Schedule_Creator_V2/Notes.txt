@@ -1,0 +1,12 @@
+﻿List of Pages (* if not added yet):
+
+- Remove Staff
+- 
+-
+-
+-
+
+
+Error List
+- 1000: Null values
+- 1002: Non-working function

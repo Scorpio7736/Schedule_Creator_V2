@@ -1,0 +1,125 @@
+﻿<Page
+    x:Class="Schedule_Creator_V2.Add_Days_Off"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Schedule_Creator_V2"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Add_Days_Off"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid>
+        <Border
+            Margin="20"
+            Padding="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="White"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            CornerRadius="10">
+
+
+            <Grid Margin="20" Background="white">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  Staff Member Label  -->
+                <Label
+                    x:Name="StaffMemberLabel"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,10,5,10"
+                    VerticalAlignment="Center"
+                    Content="Staff Member:" />
+                <!--  Staff Member ComboBox  -->
+                <ComboBox
+                    Name="StaffComboBox"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Width="200"
+                    Margin="0,10"
+                    DisplayMemberPath="displayName" />
+
+                <!--  Start Date Label  -->
+                <Label
+                    x:Name="StartDateLabel"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,10,5,10"
+                    VerticalAlignment="Center"
+                    Content="Start Date:" />
+                <!--  Start DatePicker  -->
+                <DatePicker
+                    Name="StartDatePicker"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="200"
+                    Margin="0,10" />
+
+                <!--  End Date Label  -->
+                <Label
+                    x:Name="EndDateLabel"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,10,5,10"
+                    VerticalAlignment="Center"
+                    Content="End Date:" />
+                <!--  End DatePicker  -->
+                <DatePicker
+                    Name="EndDatePicker"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="200"
+                    Margin="0,10" />
+
+                <!--  Reason box  -->
+                <Label
+                    x:Name="ReasonLabel"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Content="Reason for day off:" />
+
+                <TextBox
+                    x:Name="ReasonBox"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Width="350"
+                    Height="auto"
+                    Background="White"
+                    BorderBrush="black" />
+
+                <!--  Buttons  -->
+                <StackPanel
+                    Grid.Row="4"
+                    Grid.ColumnSpan="2"
+                    Height="50"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        Name="SaveButton"
+                        Width="100"
+                        Click="SaveBtnClick"
+                        Content="Save" />
+                    <Button
+                        Name="CancelButton"
+                        Width="100"
+                        Click="CancelBtnClick"
+                        Content="Cancel" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

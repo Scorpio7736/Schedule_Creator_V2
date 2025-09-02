@@ -1,0 +1,304 @@
+﻿<Page
+    x:Class="Schedule_Creator_V2.Add_Avail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Schedule_Creator_V2"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Add_Avail"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid Background="Transparent">
+        <Border
+            Margin="19"
+            Padding="19"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="White"
+            CornerRadius="10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <!--  Staff selector  -->
+                    <RowDefinition Height="*" />
+                    <!--  Day/time input grid  -->
+                </Grid.RowDefinitions>
+
+
+
+                <!--  Staff Selector  -->
+                <StackPanel Orientation="Vertical">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Grid.Column="0"
+                            x:Name="StaffSelectorLabel"
+                            Content="Select Staff:"
+                            FontSize="16"
+                            FontWeight="Bold" />
+                        <ComboBox
+                            Grid.Column="1"
+                            x:Name="StaffComboBox"
+                            Width="auto"
+                            Height="30"
+                            Margin="0,5,0,0"
+                            DisplayMemberPath="displayName" />
+                        <Button
+                            HorizontalAlignment="Right"
+                            Grid.Column="2"
+                            x:Name="Save_Btn"
+                            Width="100"
+                            Height="30"
+                            Margin="0,0,10,0"
+                            Padding="5"
+                            BorderThickness="0"
+                            Click="Save_Btn_Click"
+                            Content="Save"
+                            FontWeight="Bold"/>
+
+                        <Button
+                            Grid.Column="3"
+                            x:Name="Cancel_Btn"
+                            Width="100"
+                            Height="30"
+                            Padding="5"
+                            BorderThickness="0"
+                            Click="Cancel_Btn_Click"
+                            Content="Cancel"
+                            FontWeight="Bold" />
+                    </Grid>
+                </StackPanel>
+
+                <!--  Availability Grid  -->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <!--  Checkbox  -->
+                        <ColumnDefinition Width="150" />
+                        <!--  Label  -->
+                        <ColumnDefinition Width="*" />
+                        <!--  TextBox  -->
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Row Definitions  -->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <!--  Every Day  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Monday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Tuesday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Wednesday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Thursday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Friday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Saturday  -->
+                        <RowDefinition Height="Auto" />
+                        <!--  Sunday  -->
+                    </Grid.RowDefinitions>
+
+
+
+                    <!--  Every Day  -->
+                    <CheckBox
+                        x:Name="EveryDayCheckBox"
+                        Tag="Every_Day"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Every Day" />
+                    <Label
+                        x:Name="EveryDayLabel"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="EveryDayTextBox"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5"
+                        VerticalAlignment="Center" />
+
+                    <!--  Monday  -->
+                    <CheckBox
+                        x:Name="MondayCheckBox"
+                        Grid.Row="1"
+                        Tag="Monday"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Monday" />
+                    <Label
+                        x:Name="MondayLabel"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="MondayTextBox"
+                        Grid.Row="1"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Tuesday  -->
+                    <CheckBox
+                        x:Name="TuesdayCheckBox"
+                        Grid.Row="2"
+                        Tag="Tuesday"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Tuesday" />
+                    <Label
+                        x:Name="TuesdayLabel"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="TuesdayTextBox"
+                        Grid.Row="2"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Wednesday  -->
+                    <CheckBox
+                        Tag="Wednesday"
+                        x:Name="WednesdayCheckBox"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Wednesday" />
+                    <Label
+                        x:Name="WednesdayLabel"
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        
+                        x:Name="WednesdayTextBox"
+                        Grid.Row="3"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Thursday  -->
+                    <CheckBox
+                        Tag="Thursday"
+                        x:Name="ThursdayCheckBox"
+                        Grid.Row="4"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Thursday" />
+                    <Label
+                        x:Name="ThursdayLabel"
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="ThursdayTextBox"
+                        Grid.Row="4"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Friday  -->
+                    <CheckBox
+                        Tag="Friday"
+                        x:Name="FridayCheckBox"
+                        Grid.Row="5"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Friday" />
+                    <Label
+                        x:Name="FridayLabel"
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="FridayTextBox"
+                        Grid.Row="5"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Saturday  -->
+                    <CheckBox
+                        Tag="Saturday"
+                        x:Name="SaturdayCheckBox"
+                        Grid.Row="6"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Saturday" />
+                    <Label
+                        x:Name="SaturdayLabel"
+                        Grid.Row="6"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="SaturdayTextBox"
+                        Grid.Row="6"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+
+                    <!--  Sunday  -->
+                    <CheckBox
+                        Tag="Sunday"
+                        x:Name="SundayCheckBox"
+                        Grid.Row="7"
+                        Grid.Column="0"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Sunday" />
+                    <Label
+                        x:Name="SundayLabel"
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Margin="5"
+                        VerticalAlignment="Center"
+                        Content="Available Times:" />
+                    <TextBox
+                        x:Name="SundayTextBox"
+                        Grid.Row="7"
+                        Grid.Column="2"
+                        Height="25"
+                        Margin="5" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

@@ -1,0 +1,106 @@
+﻿<Page x:Class="Schedule_Creator_V2.Remove_Days_Off"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Schedule_Creator_V2"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Remove_Days_Off">
+
+
+    <Grid>
+        <Border
+        Margin="20"
+        Padding="20"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="White"
+        BorderBrush="#DDD"
+        BorderThickness="1"
+        CornerRadius="10">
+
+            <Grid Background="white" Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Staff Member Label -->
+                <Label
+        Grid.Row="0"
+        Grid.Column="0"
+        Margin="0,10,5,10"
+        VerticalAlignment="Center"
+        Content="Staff Member:" 
+        x:Name="StaffMemberLabel"/>
+                <!-- Staff Member ComboBox -->
+                <ComboBox
+        Name="StaffComboBox"
+        Grid.Row="0"
+        Grid.Column="1"
+        Width="200"
+        Margin="0,10" 
+        DisplayMemberPath="displayName"/>
+
+                <!-- Start Date Label -->
+                <Label
+        Grid.Row="1"
+        Grid.Column="0"
+        Margin="0,10,5,10"
+        VerticalAlignment="Center"
+        Content="Start Date:" 
+        x:Name="StartDateLabel"/>
+                <!-- Start DatePicker -->
+                <DatePicker
+        Name="StartDatePicker"
+        Grid.Row="1"
+        Grid.Column="1"
+        Width="200"
+        Margin="0,10" />
+
+                <!-- End Date Label -->
+                <Label
+        Grid.Row="2"
+        Grid.Column="0"
+        Margin="0,10,5,10"
+        VerticalAlignment="Center"
+        Content="End Date:" 
+        x:Name="EndDateLabel"/>
+                <!-- End DatePicker -->
+                <DatePicker
+        Name="EndDatePicker"
+        Grid.Row="2"
+        Grid.Column="1"
+        Width="200"
+        Margin="0,10" />
+
+                <!-- Buttons -->
+                <StackPanel
+        Grid.Row="3"
+        Grid.ColumnSpan="2"
+        Margin="0,20,0,0"
+        HorizontalAlignment="Center"
+        Orientation="Horizontal">
+                    <Button
+            Name="SaveButton"
+            Width="100"
+            Content="Save" 
+            Click="SaveBtnClick"/>
+                    <Button
+            Name="CancelButton"
+            Width="100"
+            Content="Cancel" 
+            Click="CancelBtnClick"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

@@ -1,0 +1,68 @@
+﻿<Window
+    x:Class="Schedule_Creator_V2.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Schedule_Creator_V2"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Schedule Creator V2"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Click="Home_Btn_Click" Header="Home" />
+            <MenuItem Header="Staff">
+                <MenuItem Click="Add_Staff_Btn_Click" Header="Add Staff" />
+                <MenuItem Click="Remove_Staff_Btn_Click" Header="Remove Staff"/>
+                <MenuItem Click="Add_Avail_Btn_Click" Header="Add Availability" />
+                <MenuItem Click="Add_Belay_Cert_Btn_Click" Header="Add Belay Cert"/>
+                <!-- <MenuItem Click="Add_PFP_Btn_Click" Header="Add Profile Picture"/> -->
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Click="Staff_Lookup_Btn_Click" Header="Staff Lookup" />
+                <MenuItem Click="View_Email_List_Btn_Click" Header="Available Staff Emails"/>
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Click="Edit_Staff_Btn_Click" Header="Edit Staff" />
+            </MenuItem>
+            <MenuItem Header="Schedule">
+                <MenuItem Click="Add_Days_Off_Btn_Click" Header="Add Days Off" />
+                <MenuItem Click="Remove_Days_Off_Btn_Click" Header="Remove Days Off" />
+                <MenuItem Click="View_Days_Off_Btn_Click" Header="View Days Off"/>
+                <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
+                <MenuItem Click="View_Build_Schedule_Btn_Click" Header="Build Schedule"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid DockPanel.Dock="Bottom">
+
+            <Image
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Panel.ZIndex="0"
+                IsHitTestVisible="False"
+                Source="/Images/Background.jpg"
+                Stretch="UniformToFill" />
+
+            <TextBlock
+                Margin="0,50,0,318"
+                Height="500"
+                HorizontalAlignment="Center"
+                Panel.ZIndex="1"
+                Text="Welcome to Schedule Creator Version 2.0"
+                FontSize="24"
+                FontWeight="Bold"
+                Foreground="Black"
+                Visibility="Visible" 
+                Background="Transparent"
+                />
+
+            <Frame
+                x:Name="DisplayScreen"
+                Panel.ZIndex="1"
+                NavigationUIVisibility="Hidden" />
+        </Grid>
+    </DockPanel>
+</Window>
