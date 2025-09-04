@@ -18,10 +18,5 @@ namespace Schedule_Creator_V2
         {
 
         }
-
-
-
-
-
     }
 }
