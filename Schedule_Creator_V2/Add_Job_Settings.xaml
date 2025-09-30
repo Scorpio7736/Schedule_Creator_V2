@@ -55,7 +55,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="EveryDayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -70,7 +69,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="EveryDayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -101,7 +99,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="MondayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -116,7 +113,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="MondayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -145,7 +141,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="TuesdayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -160,7 +155,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="TuesdayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -189,7 +183,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="WednesdayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -204,7 +197,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="WednesdayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -233,7 +225,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="ThursdayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -248,7 +239,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="ThursdayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -277,7 +267,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="FridayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -292,7 +281,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="FridayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -321,7 +309,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="SaturdayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -336,7 +323,6 @@
 
                                 <StackPanel Grid.Column="2">
                                     <Label
-                                        x:Name="SaturdayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
@@ -365,7 +351,6 @@
 
                                 <StackPanel Grid.Column="1" Margin="10,0,10,0">
                                     <Label
-                                        x:Name="SundayOpeningLabel"
                                         Margin="0,0,0,5"
                                         Content="Opening Time"
                                         FontWeight="SemiBold" />
@@ -380,7 +365,6 @@
 
                                 <StackPanel Grid.Column="2" Margin="0,0,10,10">
                                     <Label
-                                        x:Name="SundayClosingLabel"
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
                                         FontWeight="SemiBold" />
