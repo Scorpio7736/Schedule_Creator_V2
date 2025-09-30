@@ -1,7 +1,5 @@
-﻿using Schedule_Creator_V2.ExtensionMethods;
-using Schedule_Creator_V2.Models;
+﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
-using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 

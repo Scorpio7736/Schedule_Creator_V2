@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Xceed.Wpf.Toolkit;
 
 namespace Schedule_Creator_V2.Models
 {
@@ -56,6 +57,11 @@ namespace Schedule_Creator_V2.Models
                     return false;
                 }
 
+                if (this._input is TimePicker timePicker && timePicker.Value == null)
+                {
+                    return false;
+                }
+
                 return true;
             }
             else
@@ -89,6 +95,11 @@ namespace Schedule_Creator_V2.Models
             if (_input is DatePicker datePicker)
             {
                 datePicker.SelectedDate = null;
+            }
+
+            if (_input is TimePicker timePicker)
+            {
+                timePicker.Value = null;
             }
         }
     }

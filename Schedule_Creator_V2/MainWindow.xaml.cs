@@ -69,7 +69,7 @@ namespace Schedule_Creator_V2
         }
         private void Add_Collection_Btn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayScreen.Content = new Add_Collection();
+            DisplayScreen.Content = new Add_Job_Settings();
         }
         private void Staff_Lookup_Btn_Click(object sender, RoutedEventArgs e)
         {

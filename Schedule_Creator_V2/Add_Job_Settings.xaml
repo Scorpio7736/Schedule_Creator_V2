@@ -1,9 +1,8 @@
 ﻿<Page
-    x:Class="Schedule_Creator_V2.Add_Collection"
+    x:Class="Schedule_Creator_V2.Add_Job_Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     Title="Add_Collection"
@@ -31,9 +30,9 @@
                 <StackPanel Grid.Row="0" Margin="0,0,0,10">
                     <TextBlock
                         Margin="0,0,0,20"
-                        Text="Collection Hours"
                         FontSize="20"
-                        FontWeight="SemiBold" />
+                        FontWeight="SemiBold"
+                        Text="Job Hours" />
 
                     <StackPanel Margin="0,0,0,15">
                         <Label
@@ -41,15 +40,9 @@
                             Margin="0,0,0,5"
                             Content="Day of Week"
                             FontWeight="SemiBold" />
-                        <ComboBox x:Name="DayOfWeekComboBox" Height="30">
-                            <ComboBoxItem Content="Sunday" />
-                            <ComboBoxItem Content="Monday" />
-                            <ComboBoxItem Content="Tuesday" />
-                            <ComboBoxItem Content="Wednesday" />
-                            <ComboBoxItem Content="Thursday" />
-                            <ComboBoxItem Content="Friday" />
-                            <ComboBoxItem Content="Saturday" />
-                        </ComboBox>
+                        <ComboBox 
+                            x:Name="DayOfWeekComboBox" 
+                            Height="30" />
                     </StackPanel>
 
                     <Grid Margin="0,0,0,15">
@@ -67,8 +60,8 @@
                                 FontWeight="SemiBold" />
                             <xctk:TimePicker
                                 x:Name="OpeningTimePicker"
-                                Format="ShortTime"
                                 Height="30"
+                                Format="ShortTime"
                                 ShowButtonSpinner="True"
                                 TimeInterval="00:15:00" />
                         </StackPanel>
@@ -81,8 +74,8 @@
                                 FontWeight="SemiBold" />
                             <xctk:TimePicker
                                 x:Name="ClosingTimePicker"
-                                Format="ShortTime"
                                 Height="30"
+                                Format="ShortTime"
                                 ShowButtonSpinner="True"
                                 TimeInterval="00:15:00" />
                         </StackPanel>
