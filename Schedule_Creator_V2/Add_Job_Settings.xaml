@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Schedule_Creator_V2.Add_Job_Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,6 +26,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
                 <ScrollViewer
                     Grid.Row="0"
                     Margin="0,0,0,10"
@@ -38,524 +39,347 @@
                             FontWeight="SemiBold"
                             Text="Job Hours" />
 
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <Grid Margin="0,0,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                                x:Name="EveryDayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Every Day" />
+                                <CheckBox
+                                    x:Name="EveryDayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Every Day" />
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="EveryDayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="EveryDayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="EveryDayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="EveryDayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                        <Separator Margin="0,0,0,15" />
+                            <Separator Margin="0,0,0,15" />
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                                x:Name="MondayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Monday" />
+                                <CheckBox
+                                    x:Name="MondayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Monday" />
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="MondayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="MondayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="MondayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="MondayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                                x:Name="TuesdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Tuesday" />
+                                <CheckBox
+                                    x:Name="TuesdayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Tuesday" />
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="TuesdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="TuesdayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="TuesdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="TuesdayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                                x:Name="WednesdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Wednesday" />
+                                <CheckBox
+                                    x:Name="WednesdayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Wednesday" />
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="WednesdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="WednesdayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="WednesdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
-                <StackPanel Grid.Row="0" Margin="0,0,0,10">
-                    <TextBlock
-                        Margin="0,0,0,20"
-                        FontSize="20"
-                        FontWeight="SemiBold"
-                        Text="Job Hours" />
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="WednesdayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                    <StackPanel>
-                        <Grid Margin="0,0,0,15">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                            <CheckBox
-                                x:Name="EveryDayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Every Day" />
+                                <CheckBox
+                                    x:Name="ThursdayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Thursday" />
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="EveryDayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="ThursdayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="EveryDayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="ThursdayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                        <Separator Margin="0,0,0,15" />
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    x:Name="FridayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Friday" />
 
-                            <CheckBox
-                                x:Name="MondayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Monday" />
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="FridayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="MondayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="FridayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="MondayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    x:Name="SaturdayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Saturday" />
 
-                            <CheckBox
-                                x:Name="TuesdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Tuesday" />
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="SaturdayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="TuesdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="SaturdayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
 
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="TuesdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <CheckBox
+                                    x:Name="SundayCheckBox"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="Sunday" />
 
-                            <CheckBox
-                                x:Name="WednesdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Wednesday" />
+                                <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Opening Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="SundayOpeningTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
 
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="WednesdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="WednesdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                x:Name="ThursdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Thursday" />
-
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="ThursdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="ThursdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                x:Name="FridayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Friday" />
-
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="FridayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="FridayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                x:Name="SaturdayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Saturday" />
-
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="SaturdayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="SaturdayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="160" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <CheckBox
-                                x:Name="SundayCheckBox"
-                                Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Sunday" />
-
-                            <StackPanel Grid.Column="1" Margin="10,0,10,0">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Opening Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="SundayOpeningTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-
-                            <StackPanel Grid.Column="2">
-                                <Label
-                                    Margin="0,0,0,5"
-                                    Content="Closing Time"
-                                    FontWeight="SemiBold" />
-                                <xctk:TimePicker
-                                    x:Name="SundayClosingTimePicker"
-                                    Height="30"
-                                    Format="ShortTime"
-                                    IsEnabled="False"
-                                    ShowButtonSpinner="True"
-                                    TimeInterval="00:15:00" />
-                            </StackPanel>
-                        </Grid>
+                                <StackPanel Grid.Column="2">
+                                    <Label
+                                        Margin="0,0,0,5"
+                                        Content="Closing Time"
+                                        FontWeight="SemiBold" />
+                                    <xctk:TimePicker
+                                        x:Name="SundayClosingTimePicker"
+                                        Height="30"
+                                        Format="ShortTime"
+                                        IsEnabled="False"
+                                        ShowButtonSpinner="True"
+                                        TimeInterval="00:15:00" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
-
-                </StackPanel>
-
 
                 <StackPanel
                     Grid.Row="1"
