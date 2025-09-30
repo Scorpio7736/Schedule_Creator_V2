@@ -11,10 +11,6 @@ namespace Schedule_Creator_V2
         {
             InitializeComponent();
         }
-        private void View_Build_Schedule_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            DisplayScreen.Content = new Build_Schedule();
-        }
 
         private void View_Email_List_Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -36,10 +32,6 @@ namespace Schedule_Creator_V2
             DisplayScreen.Content = new Remove_Staff();
         }
 
-        private void View_Schedule_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            DisplayScreen.Content = new View_Schedule();
-        }
         private void Remove_Days_Off_Btn_Click(object sender, RoutedEventArgs e)
         {
             DisplayScreen.Content = new Remove_Days_Off();

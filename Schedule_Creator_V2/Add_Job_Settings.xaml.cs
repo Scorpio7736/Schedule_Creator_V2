@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Schedule_Creator_V2.Models;
 using System.Windows;
 using System.Windows.Controls;
-using Schedule_Creator_V2.Models;
-using Schedule_Creator_V2.Services;
-using Xceed.Wpf.Toolkit;
 
 namespace Schedule_Creator_V2
 {
@@ -24,7 +19,7 @@ namespace Schedule_Creator_V2
 
             List<Label> labels = new List<Label>()
                 {
-
+                    
                 };
 
             return new PageInputsAndLabels(inputs, labels);
