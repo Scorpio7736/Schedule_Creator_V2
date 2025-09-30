@@ -16,30 +16,16 @@ namespace Schedule_Creator_V2
     {
         private PageInputsAndLabels GetInputsAndLabels()
         {
-            List<PageInput> inputs = new List<PageInput>();
-            List<Label> labels = new List<Label>();
+            List<PageInput> inputs = new List<PageInput>()
+                {
+                    new PageInput(EveryDayCheckBox, "Every Day Box", true),
 
-            void AddDayInputs(string dayName, CheckBox checkBox, Label openingLabel, TimePicker openingPicker, Label closingLabel, TimePicker closingPicker)
-            {
-                PageInput checkBoxInput = new PageInput(checkBox, $"{dayName} Box", true);
-                PageInput openingInput = new PageInput(openingPicker, $"{dayName} Opening Time", false, new[] { checkBoxInput });
-                PageInput closingInput = new PageInput(closingPicker, $"{dayName} Closing Time", false, new[] { checkBoxInput });
+                };
 
-                inputs.Add(openingInput);
-                labels.Add(openingLabel);
+            List<Label> labels = new List<Label>()
+                {
 
-                inputs.Add(closingInput);
-                labels.Add(closingLabel);
-            }
-
-            AddDayInputs("Every Day", EveryDayCheckBox, EveryDayOpeningLabel, EveryDayOpeningTimePicker, EveryDayClosingLabel, EveryDayClosingTimePicker);
-            AddDayInputs("Monday", MondayCheckBox, MondayOpeningLabel, MondayOpeningTimePicker, MondayClosingLabel, MondayClosingTimePicker);
-            AddDayInputs("Tuesday", TuesdayCheckBox, TuesdayOpeningLabel, TuesdayOpeningTimePicker, TuesdayClosingLabel, TuesdayClosingTimePicker);
-            AddDayInputs("Wednesday", WednesdayCheckBox, WednesdayOpeningLabel, WednesdayOpeningTimePicker, WednesdayClosingLabel, WednesdayClosingTimePicker);
-            AddDayInputs("Thursday", ThursdayCheckBox, ThursdayOpeningLabel, ThursdayOpeningTimePicker, ThursdayClosingLabel, ThursdayClosingTimePicker);
-            AddDayInputs("Friday", FridayCheckBox, FridayOpeningLabel, FridayOpeningTimePicker, FridayClosingLabel, FridayClosingTimePicker);
-            AddDayInputs("Saturday", SaturdayCheckBox, SaturdayOpeningLabel, SaturdayOpeningTimePicker, SaturdayClosingLabel, SaturdayClosingTimePicker);
-            AddDayInputs("Sunday", SundayCheckBox, SundayOpeningLabel, SundayOpeningTimePicker, SundayClosingLabel, SundayClosingTimePicker);
+                };
 
             return new PageInputsAndLabels(inputs, labels);
         }

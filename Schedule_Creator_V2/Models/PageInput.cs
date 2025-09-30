@@ -66,51 +66,40 @@ namespace Schedule_Creator_V2.Models
         {
             this._missingRequiredInputs.Clear();
 
-            if (this._excluded)
+            if (this._excluded != true)
             {
-                return true;
-            }
-
-            if (this._requiredInputs.Count > 0)
-            {
-                bool anyRequiredHasValue = false;
-                bool allRequiredHaveValue = true;
-
-                foreach (PageInput requiredInput in this._requiredInputs)
-                {
-                    if (requiredInput == null || requiredInput.IsExcluded)
-                    {
-                        continue;
-                    }
-
-                    bool requiredHasValue = requiredInput.HasValue();
-                    anyRequiredHasValue |= requiredHasValue;
-
-                    if (!requiredHasValue)
-                    {
-                        allRequiredHaveValue = false;
-                        this._missingRequiredInputs.Add(requiredInput);
-                    }
-                }
-
-                if (!anyRequiredHasValue && !this.HasValue())
-                {
-                    this._missingRequiredInputs.Clear();
-                    return true;
-                }
-
-                if (!allRequiredHaveValue)
+                if (!InputHasValue(this._input))
                 {
                     return false;
                 }
-            }
 
-            if (!this.HasValue())
+                if (this._requiredInputs.Count > 0)
+                {
+                    foreach (PageInput requiredInput in this._requiredInputs)
+                    {
+                        if (requiredInput == null || requiredInput.IsExcluded)
+                        {
+                            continue;
+                        }
+
+                        if (!requiredInput.HasValue())
+                        {
+                            this._missingRequiredInputs.Add(requiredInput);
+                        }
+                    }
+
+                    if (this._missingRequiredInputs.Count > 0)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+            else
             {
-                return false;
+                return true; // returns true if excluded to pass statments
             }
-
-            return true;
         }
 
         public void ResetInput()
