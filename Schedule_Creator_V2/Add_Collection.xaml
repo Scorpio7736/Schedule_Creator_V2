@@ -1,0 +1,113 @@
+﻿<Page
+    x:Class="Schedule_Creator_V2.Add_Collection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Schedule_Creator_V2"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    Title="Add_Collection"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <Grid Background="Transparent">
+        <Border
+            Margin="20"
+            Padding="20"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Background="White"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            CornerRadius="10">
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                    <TextBlock
+                        Margin="0,0,0,20"
+                        Text="Collection Hours"
+                        FontSize="20"
+                        FontWeight="SemiBold" />
+
+                    <StackPanel Margin="0,0,0,15">
+                        <Label
+                            x:Name="DayOfWeekLabel"
+                            Margin="0,0,0,5"
+                            Content="Day of Week"
+                            FontWeight="SemiBold" />
+                        <ComboBox x:Name="DayOfWeekComboBox" Height="30">
+                            <ComboBoxItem Content="Sunday" />
+                            <ComboBoxItem Content="Monday" />
+                            <ComboBoxItem Content="Tuesday" />
+                            <ComboBoxItem Content="Wednesday" />
+                            <ComboBoxItem Content="Thursday" />
+                            <ComboBoxItem Content="Friday" />
+                            <ComboBoxItem Content="Saturday" />
+                        </ComboBox>
+                    </StackPanel>
+
+                    <Grid Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="20" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <Label
+                                x:Name="OpeningTimeLabel"
+                                Margin="0,0,0,5"
+                                Content="Opening Time"
+                                FontWeight="SemiBold" />
+                            <xctk:TimePicker
+                                x:Name="OpeningTimePicker"
+                                Format="ShortTime"
+                                Height="30"
+                                ShowButtonSpinner="True"
+                                TimeInterval="00:15:00" />
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2">
+                            <Label
+                                x:Name="ClosingTimeLabel"
+                                Margin="0,0,0,5"
+                                Content="Closing Time"
+                                FontWeight="SemiBold" />
+                            <xctk:TimePicker
+                                x:Name="ClosingTimePicker"
+                                Format="ShortTime"
+                                Height="30"
+                                ShowButtonSpinner="True"
+                                TimeInterval="00:15:00" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+
+                <StackPanel
+                    Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="SaveButton"
+                        Width="100"
+                        Height="35"
+                        Margin="0,0,10,0"
+                        Click="SaveButton_Click"
+                        Content="Save" />
+                    <Button
+                        x:Name="CancelButton"
+                        Width="100"
+                        Height="35"
+                        Click="CancelButton_Click"
+                        Content="Cancel" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>

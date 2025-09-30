@@ -33,6 +33,7 @@
                 <MenuItem Click="View_Days_Off_Btn_Click" Header="View Days Off"/>
                 <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
                 <MenuItem Click="View_Build_Schedule_Btn_Click" Header="Build Schedule"/>
+                <MenuItem Click="Add_Collection_Btn_Click" Header="Collection Hours" />
             </MenuItem>
         </Menu>
 
