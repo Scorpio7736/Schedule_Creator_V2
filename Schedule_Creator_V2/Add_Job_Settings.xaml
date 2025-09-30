@@ -40,7 +40,7 @@
                             Text="Job Hours" />
 
                         <StackPanel>
-                            <Grid Margin="0,0,0,15">
+                            <Grid Margin="0,0,10,15">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -84,7 +84,7 @@
 
                             <Separator Margin="0,0,0,15" />
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -126,7 +126,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -168,7 +168,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -210,7 +210,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -252,7 +252,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -294,7 +294,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <Grid Margin="0,0,0,10">
+                            <Grid Margin="0,0,10,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="160" />
                                     <ColumnDefinition Width="*" />
@@ -363,7 +363,7 @@
                                         TimeInterval="00:15:00" />
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="2">
+                                <StackPanel Grid.Column="2" Margin="0,0,10,10">
                                     <Label
                                         Margin="0,0,0,5"
                                         Content="Closing Time"
