@@ -5,6 +5,54 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseRead : Database
     {
+
+        public static List<JobSettings> ReadJobSettingsOnDay(DayOfWeek day)
+        {
+            List<JobSettings> returnList = new List<JobSettings>();
+
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+                    *
+                FROM
+                    [UWGB].[JobSettings]
+                WHERE
+                    DayOfWeek = @day
+                """,
+                new SqlParameter("@day", day)
+                ))
+                while (reader.Read())
+                {
+                    returnList.Add(new JobSettings(
+                        (DayOfWeek)reader["DayOfWeek"],
+                        (TimeOnly)reader["OpeningTime"],
+                        (TimeOnly)reader["ClosingTime"]
+                        ));
+                }
+            return returnList;
+        }
+        public static List<JobSettings> ReadJobSettings()
+        {
+            List<JobSettings> returnList = new List<JobSettings>();
+
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+                    *
+                FROM
+                    [UWGB].[JobSettings]
+                """
+                ))
+            while (reader.Read())
+                {
+                    returnList.Add(new JobSettings(
+                        (DayOfWeek)reader["DayOfWeek"],
+                        (TimeOnly)reader["OpeningTime"],
+                        (TimeOnly)reader["ClosingTime"]
+                        ));
+                }
+            return returnList;
+        }
         public static List<Staff> ReadStaffAvailOnDay(AvailDays dayOfTheWeek)
         {
             List<Staff> returnList = new List<Staff>();

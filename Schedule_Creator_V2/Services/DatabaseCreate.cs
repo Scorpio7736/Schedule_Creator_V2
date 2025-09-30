@@ -1,11 +1,25 @@
 ﻿using Microsoft.Data.SqlClient;
 using Schedule_Creator_V2.Models;
-using System.Data;
 
 namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseCreate : Database
     {
+        public static void AddJobSettings(DayOfWeek day, TimeOnly openingTime, TimeOnly closingTime)
+        {
+            ExecuteNonQuery(
+                """
+                INSERT INTO
+                    [UWGB].[JobSettings]
+                    (DayOfWeek, OpeningTime, ClosingTime)
+                VALUES
+                    (@day, @openingTime, @closingTime)
+                """,
+                new SqlParameter("@day", day),
+                new SqlParameter("@openingTime", openingTime),
+                new SqlParameter("@closingTime", closingTime)
+                );
+        }
         public static void AddStaff(string fName, string mName, string lName, Positions position, byte[]? profilePicture, string email, bool isBelayCertified)
         {
             ExecuteNonQuery(
@@ -66,7 +80,8 @@ namespace Schedule_Creator_V2.Services
                     "INSERT INTO [UWGB].[Availability] (id, dayOfTheWeek, availTimes) VALUES (@id, @dayOfTheWeek, @availTimes)",
                     new SqlParameter("@id", id),
                     new SqlParameter("@dayOfTheWeek", day.ToString()),
-                    new SqlParameter("@availTimes", availTimes));
+                    new SqlParameter("@availTimes", availTimes)
+                    );
             
         }
 
@@ -74,7 +89,16 @@ namespace Schedule_Creator_V2.Services
         {
             ExecuteNonQuery(
                 "DELETE FROM [UWGB].[Availability] WHERE id = @id",
-                new SqlParameter("@id", id));
+                new SqlParameter("@id", id)
+                );
+        }
+
+        public static void RemoveJobSetting(DayOfWeek day)
+        {
+            ExecuteNonQuery(
+                "DELETE FROM [UWGB].[JobSettings] WHERE DayOfWeek = @day",
+                new SqlParameter("@day", day)
+                );
         }
 
         public static void RemoveAllFromAll(int id)
@@ -84,6 +108,7 @@ namespace Schedule_Creator_V2.Services
             DELETE FROM [UWGB].[Staff] WHERE id = @id;
             DELETE FROM [UWGB].[Availability] WHERE id = @id;
             DELETE FROM [UWGB].[DaysOff] WHERE id = @id;
+            DELETE FROM [UWGB].[JobSettings];
             """,
             new SqlParameter("@id", id));
         }

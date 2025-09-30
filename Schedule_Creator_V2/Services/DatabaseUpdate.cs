@@ -5,6 +5,16 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseUpdate : Database
     {
+
+        public static void UpdateJobSettings(DayOfWeek day, TimeOnly openingTime, TimeOnly closingTime)
+        {
+            ExecuteNonQuery(
+                "UPDATE [UWGB].[JobSettings] SET OpeningTime = @openingTime, ClosingTime = @closingTime WHERE DayOfWeek = @day",
+                new SqlParameter("@day", day),
+                new SqlParameter("@openingTime", openingTime),
+                new SqlParameter("@closingTime", closingTime)
+                );
+        }
         public static void UpdateStaff(int id, string fName, string mName, string lName, Positions position, string studentEmail)
         {
             ExecuteNonQuery(
