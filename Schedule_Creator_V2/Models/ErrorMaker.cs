@@ -25,7 +25,7 @@ namespace Schedule_Creator_V2.Models
 
         public void MakeError()
         {
-            List<string> errors = new List<string>();
+            HashSet<string> errors = new HashSet<string>();
 
             foreach (var input in this._kvp)
             {
@@ -37,17 +37,30 @@ namespace Schedule_Creator_V2.Models
                 {
                     label.ErrorOut();
                     errors.Add(pageInput.GetTitle());
+
+                    foreach (PageInput missingRequired in pageInput.GetMissingRequiredInputs())
+                    {
+                        if (this._kvp.TryGetValue(missingRequired, out Label requiredLabel))
+                        {
+                            requiredLabel.ErrorOut();
+                        }
+
+                        errors.Add(missingRequired.GetTitle());
+                    }
                 }
             }
 
-            string errorString = $"Missing inputs: {string.Join(", ", errors)}";
-            Messages.Display(new Error(1000, errorString));
+            if (errors.Count > 0)
+            {
+                string errorString = $"Missing inputs: {string.Join(", ", errors)}";
+                Messages.Display(new Error(1000, errorString));
+            }
 
         }
 
         public void WithVoidExceptionError()
         {
-            List<string> errors = new List<string>();
+            HashSet<string> errors = new HashSet<string>();
 
             foreach (var input in this._kvp)
             {
@@ -60,11 +73,24 @@ namespace Schedule_Creator_V2.Models
                 {
                     label.ErrorOut();
                     errors.Add(pageInput.GetTitle());
+
+                    foreach (PageInput missingRequired in pageInput.GetMissingRequiredInputs())
+                    {
+                        if (this._kvp.TryGetValue(missingRequired, out Label requiredLabel))
+                        {
+                            requiredLabel.ErrorOut();
+                        }
+
+                        errors.Add(missingRequired.GetTitle());
+                    }
                 }
             }
 
-            string errorString = $"Missing inputs: {string.Join(", ", errors)}";
-            Messages.Display(new Error(1000, errorString));
+            if (errors.Count > 0)
+            {
+                string errorString = $"Missing inputs: {string.Join(", ", errors)}";
+                Messages.Display(new Error(1000, errorString));
+            }
         }
 
     }

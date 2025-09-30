@@ -21,9 +21,14 @@ namespace Schedule_Creator_V2.Models
         {
             return this._kvp;
         }
+
+        public bool TryGetLabel(PageInput input, out Label label)
+        {
+            return this._kvp.TryGetValue(input, out label);
+        }
         public bool CheckIfNulls()
         {
-            
+
             foreach (PageInput kvp in _kvp.Keys)
             {
                 if (kvp.CheckNull() == false)
