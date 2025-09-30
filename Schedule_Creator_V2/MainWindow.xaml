@@ -24,7 +24,6 @@
                 <MenuItem Header="Qualifications">
                     <MenuItem Click="Add_Avail_Btn_Click" Header="Add Availability" />
                     <MenuItem Click="Add_Belay_Cert_Btn_Click" Header="Add Belay Cert"/>
-                    <!-- <MenuItem Click="Add_PFP_Btn_Click" Header="Add Profile Picture"/> -->
                 </MenuItem>
 
                 <MenuItem Header="Time Off">
@@ -35,7 +34,7 @@
             </MenuItem>
 
             <MenuItem Header="Scheduling">
-                <MenuItem Click="Add_Collection_Btn_Click" Header="Collection Hours" />
+                <MenuItem Click="Add_Collection_Btn_Click" Header="Job Hours" />
             </MenuItem>
 
             <MenuItem Header="Insights">

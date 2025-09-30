@@ -10,6 +10,9 @@ namespace Schedule_Creator_V2
         public MainWindow()
         {
             InitializeComponent();
+
+            //Load Launch Page
+            DisplayScreen.Content = new Launch_Page();
         }
 
         private void View_Email_List_Btn_Click(object sender, RoutedEventArgs e)
@@ -40,10 +43,6 @@ namespace Schedule_Creator_V2
         private void Add_Days_Off_Btn_Click(object sender, RoutedEventArgs e)
         {
             DisplayScreen.Content = new Add_Days_Off();
-        }
-        private void Add_PFP_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            DisplayScreen.Content = new Add_PFP();
         }
         private void Home_Btn_Click(object sender, RoutedEventArgs e)
         {

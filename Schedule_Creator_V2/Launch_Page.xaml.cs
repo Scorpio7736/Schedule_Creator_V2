@@ -1,19 +1,16 @@
 ﻿using System.Windows.Controls;
+using System.Threading;
 
 namespace Schedule_Creator_V2
 {
     /// <summary>
-    /// Interaction logic for Splash_Page.xaml
+    /// Interaction logic for Launch_Page.xaml
     /// </summary>
-    public partial class Splash_Page : Page
+    public partial class Launch_Page : Page
     {
-        public Splash_Page()
+        public Launch_Page()
         {
             InitializeComponent();
-        }
-
-        public void FadeIn(float rate)
-        {
 
         }
     }
