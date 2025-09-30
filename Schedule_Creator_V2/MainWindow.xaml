@@ -13,27 +13,36 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Click="Home_Btn_Click" Header="Home" />
-            <MenuItem Header="Staff">
-                <MenuItem Click="Add_Staff_Btn_Click" Header="Add Staff" />
-                <MenuItem Click="Remove_Staff_Btn_Click" Header="Remove Staff"/>
-                <MenuItem Click="Add_Avail_Btn_Click" Header="Add Availability" />
-                <MenuItem Click="Add_Belay_Cert_Btn_Click" Header="Add Belay Cert"/>
-                <!-- <MenuItem Click="Add_PFP_Btn_Click" Header="Add Profile Picture"/> -->
+
+            <MenuItem Header="Staff Management">
+                <MenuItem Header="Staff Records">
+                    <MenuItem Click="Add_Staff_Btn_Click" Header="Add Staff" />
+                    <MenuItem Click="Edit_Staff_Btn_Click" Header="Edit Staff" />
+                    <MenuItem Click="Remove_Staff_Btn_Click" Header="Remove Staff" />
+                </MenuItem>
+
+                <MenuItem Header="Qualifications">
+                    <MenuItem Click="Add_Avail_Btn_Click" Header="Add Availability" />
+                    <MenuItem Click="Add_Belay_Cert_Btn_Click" Header="Add Belay Cert"/>
+                    <!-- <MenuItem Click="Add_PFP_Btn_Click" Header="Add Profile Picture"/> -->
+                </MenuItem>
+
+                <MenuItem Header="Time Off">
+                    <MenuItem Click="Add_Days_Off_Btn_Click" Header="Add Days Off" />
+                    <MenuItem Click="Remove_Days_Off_Btn_Click" Header="Remove Days Off" />
+                    <MenuItem Click="View_Days_Off_Btn_Click" Header="View Days Off"/>
+                </MenuItem>
             </MenuItem>
-            <MenuItem Header="View">
+
+            <MenuItem Header="Scheduling">
+                <MenuItem Click="View_Build_Schedule_Btn_Click" Header="Build Schedule"/>
+                <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
+                <MenuItem Click="Add_Collection_Btn_Click" Header="Collection Hours" />
+            </MenuItem>
+
+            <MenuItem Header="Insights">
                 <MenuItem Click="Staff_Lookup_Btn_Click" Header="Staff Lookup" />
                 <MenuItem Click="View_Email_List_Btn_Click" Header="Available Staff Emails"/>
-            </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Click="Edit_Staff_Btn_Click" Header="Edit Staff" />
-            </MenuItem>
-            <MenuItem Header="Schedule">
-                <MenuItem Click="Add_Days_Off_Btn_Click" Header="Add Days Off" />
-                <MenuItem Click="Remove_Days_Off_Btn_Click" Header="Remove Days Off" />
-                <MenuItem Click="View_Days_Off_Btn_Click" Header="View Days Off"/>
-                <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
-                <MenuItem Click="View_Build_Schedule_Btn_Click" Header="Build Schedule"/>
-                <MenuItem Click="Add_Collection_Btn_Click" Header="Collection Hours" />
             </MenuItem>
         </Menu>
 
