@@ -9,25 +9,11 @@ namespace Schedule_Creator_V2
     /// </summary>
     public partial class Add_Job_Settings : Page
     {
-        private PageInputsAndLabels GetInputsAndLabels()
-        {
-            List<PageInput> inputs = new List<PageInput>()
-                {
-                    new PageInput(EveryDayCheckBox, "Every Day Box", true),
-
-                };
-
-            List<Label> labels = new List<Label>()
-                {
-                    
-                };
-
-            return new PageInputsAndLabels(inputs, labels);
-        }
 
         public Add_Job_Settings()
         {
             InitializeComponent();
+
 
         }
 

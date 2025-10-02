@@ -61,7 +61,6 @@ namespace Schedule_Creator_V2
         }
         private void Staff_Lookup_Btn_Click(object sender, RoutedEventArgs e)
         {
-            DisplayScreen.Content = null;
             DisplayScreen.Content = new View_Staff();
         }
 
@@ -69,8 +68,5 @@ namespace Schedule_Creator_V2
         {
             DisplayScreen.Content = new Edit_Staff();
         }
-
-
-
     }
 }
