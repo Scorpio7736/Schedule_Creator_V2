@@ -10,9 +10,6 @@ namespace Schedule_Creator_V2
         public MainWindow()
         {
             InitializeComponent();
-
-            //Load Launch Page
-            DisplayScreen.Content = new Launch_Page();
         }
 
         private void View_Email_List_Btn_Click(object sender, RoutedEventArgs e)
