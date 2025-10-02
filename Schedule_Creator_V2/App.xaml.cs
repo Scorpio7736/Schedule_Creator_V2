@@ -2,6 +2,7 @@
 using System.Data;
 using System.Windows;
 using Schedule_Creator_V2;
+using System.Threading;
 
 namespace Schedule_Creator_V2
 {
@@ -15,6 +16,7 @@ namespace Schedule_Creator_V2
             var splash = new SplashScreen("/Images/Logo.png");
             splash.Show(true);
             base.OnStartup(e);
+            Thread.Sleep(1000);
         }
     }
 }

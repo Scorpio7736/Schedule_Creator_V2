@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <None Remove="Images\Background.jpg" />
+    <None Remove="Images\Logo.jpg" />
+    <None Remove="Images\Logo.png" />
     <None Remove="Images\UREC.png" />
     <None Remove="Images\User_Blank.jpg" />
   </ItemGroup>
@@ -24,6 +26,8 @@
 
   <ItemGroup>
     <Resource Include="Images\Background.jpg" />
+    <Resource Include="Images\Logo.jpg" />
+    <Resource Include="Images\Logo.png" />
     <Resource Include="Images\UREC.png" />
     <Resource Include="Images\User_Blank.jpg" />
   </ItemGroup>
