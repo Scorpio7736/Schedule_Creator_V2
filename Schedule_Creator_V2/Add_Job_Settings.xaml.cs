@@ -11,11 +11,13 @@ namespace Schedule_Creator_V2
     /// </summary>
     public partial class Add_Job_Settings : Page
     {
+        private readonly IReadOnlyList<DateTime?> _timeOptions;
         private readonly IReadOnlyList<DayTimePickerGroup> _dayTimePickerGroups;
 
         public Add_Job_Settings()
         {
             InitializeComponent();
+            _timeOptions = CreateTimeOptions();
             _dayTimePickerGroups = CreateDayTimePickerGroups();
 
             foreach (DayTimePickerGroup group in _dayTimePickerGroups)
@@ -52,36 +54,47 @@ namespace Schedule_Creator_V2
 
                 bool isChecked = checkBox.IsChecked == true;
 
-                UpdateTimePicker(group.OpeningPicker, isChecked, TimeSpan.FromHours(9));
-                UpdateTimePicker(group.ClosingPicker, isChecked, TimeSpan.FromHours(17));
+                UpdateTimePicker(group.OpeningPicker, isChecked);
+                UpdateTimePicker(group.ClosingPicker, isChecked);
 
                 break;
             }
         }
 
-        private void UpdateTimePicker(TimePickerControl timePicker, bool isEnabled, TimeSpan defaultTimeOfDay)
+        private void UpdateTimePicker(TimePickerControl timePicker, bool isEnabled)
         {
             timePicker.IsEnabled = isEnabled;
 
             if (isEnabled)
             {
-                if (timePicker.Value == null)
+                if (!ReferenceEquals(timePicker.ItemsSource, _timeOptions))
                 {
-                    timePicker.Value = CreateDefaultTime(defaultTimeOfDay);
+                    timePicker.ItemsSource = _timeOptions;
+                }
+
+                if (timePicker.Value == null && _timeOptions.Count > 0)
+                {
+                    timePicker.Value = _timeOptions[0];
                 }
             }
             else
             {
+                timePicker.ItemsSource = null;
                 timePicker.Value = null;
             }
         }
 
-        private static DateTime CreateDefaultTime(TimeSpan timeOfDay)
+        private static IReadOnlyList<DateTime?> CreateTimeOptions()
         {
-            DateTime today = DateTime.Today;
-            DateTime defaultTime = today.Date + timeOfDay;
+            DateTime baseDate = DateTime.Today;
+            List<DateTime?> times = new();
 
-            return defaultTime;
+            for (int interval = 0; interval < 24 * 4; interval++)
+            {
+                times.Add(baseDate.AddMinutes(interval * 15));
+            }
+
+            return times;
         }
 
         private IReadOnlyList<DayTimePickerGroup> CreateDayTimePickerGroups()
