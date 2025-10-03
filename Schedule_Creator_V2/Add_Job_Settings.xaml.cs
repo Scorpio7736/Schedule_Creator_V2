@@ -23,6 +23,11 @@ namespace Schedule_Creator_V2
             foreach (DayTimePickerGroup group in _dayTimePickerGroups)
             {
                 group.CheckBox.Click += DayCheckBox_Click;
+
+                bool isChecked = group.CheckBox.IsChecked == true;
+
+                UpdateTimePicker(group.OpeningPicker, isChecked);
+                UpdateTimePicker(group.ClosingPicker, isChecked);
             }
         }
 
