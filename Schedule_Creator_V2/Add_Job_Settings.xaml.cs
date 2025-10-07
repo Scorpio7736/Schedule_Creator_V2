@@ -1,3 +1,4 @@
+using Schedule_Creator_V2.Models;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -14,6 +15,20 @@ namespace Schedule_Creator_V2
         public Add_Job_Settings()
         {
             InitializeComponent();
+            MakeNewRow();
+        }
+
+        private void MakeNewRow()
+        {
+            ComboBox dayOfWeekBox = new ComboBox();
+            dayOfWeekBox.Items.Add(Enum.GetValues<DayOfWeek>);
+
+
+
+            DaysOffDataGrid.Items.Add(new JobSettingsRow(
+                dayOfWeekBox, 
+                new TimePickerControl(), 
+                new TimePickerControl()));
         }
 
 

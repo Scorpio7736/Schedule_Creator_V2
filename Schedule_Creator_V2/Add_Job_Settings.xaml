@@ -21,7 +21,53 @@
             BorderThickness="1"
             CornerRadius="10">
 
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="AUTO" />
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0">
+                    <Label
+                        HorizontalAlignment="Center"
+                        Content="Job Hour Settings"
+                        FontWeight="Bold" />
+                </StackPanel>
+
+                <DataGrid
+                    x:Name="DaysOffDataGrid"
+                    Grid.Row="1"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    HeadersVisibility="Column">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="*" Binding="{Binding dayOfWeek}" Header="Day of the week" />
+                        <DataGridTextColumn Width="*" Binding="{Binding openTime}" Header="Start Time" />
+                        <DataGridTextColumn Width="*" Binding="{Binding closeTime}" Header="End Time" />
+                        <DataGridTextColumn Width="*" Binding="{Binding dayOfWeek}" Header="Add Another" />
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel
+                    x:Name="ButtonPannel"
+                    Grid.Row="2"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <Button
+                        Width="150"
+                        Height="50"
+                        Click="SaveButton_Click"
+                        Content="Save" />
+                    <Button
+                        Width="150"
+                        Height="50"
+                        Click="CancelButton_Click"
+                        Content="Cancel" />
+                </StackPanel>
+
+            </Grid>
+
         </Border>
     </Grid>
 </Page>

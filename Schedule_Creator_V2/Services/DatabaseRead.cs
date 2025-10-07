@@ -31,6 +31,7 @@ namespace Schedule_Creator_V2.Services
                 }
             return returnList;
         }
+
         public static List<JobSettings> ReadJobSettings()
         {
             List<JobSettings> returnList = new List<JobSettings>();
