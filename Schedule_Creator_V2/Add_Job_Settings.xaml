@@ -36,16 +36,46 @@
                 </StackPanel>
 
                 <DataGrid
-                    x:Name="DaysOffDataGrid"
+                    x:Name="JobSettingsGrid"
                     Grid.Row="1"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     HeadersVisibility="Column">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Width="*" Binding="{Binding dayOfWeek}" Header="Day of the week" />
-                        <DataGridTextColumn Width="*" Binding="{Binding openTime}" Header="Start Time" />
-                        <DataGridTextColumn Width="*" Binding="{Binding closeTime}" Header="End Time" />
-                        <DataGridTextColumn Width="*" Binding="{Binding dayOfWeek}" Header="Add Another" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding dayOfWeek}"
+                            Header="Day of the week" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding openTime}"
+                            Header="Start Time" />
+                        <DataGridTextColumn
+                            Width="*"
+                            Binding="{Binding closeTime}"
+                            Header="End Time" />
+                        <DataGridTemplateColumn Width="*" Header="Add New Row">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="AUTO"
+                                        Height="30"
+                                        Click="MakeNewRow"
+                                        Content="Add" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Remove Row">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="AUTO"
+                                        Height="30"
+                                        Click="RemoveRow"
+                                        Content="Remove" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 

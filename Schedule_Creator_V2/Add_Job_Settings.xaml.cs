@@ -1,6 +1,9 @@
+using Microsoft.Graph.Models;
+using Schedule_Creator_V2.ExtensionMethods;
 using Schedule_Creator_V2.Models;
 using System;
 using System.Collections.Generic;
+using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
 using TimePickerControl = Xceed.Wpf.Toolkit.TimePicker;
@@ -18,17 +21,31 @@ namespace Schedule_Creator_V2
             MakeNewRow();
         }
 
-        private void MakeNewRow()
+        public void MakeNewRow()
         {
             ComboBox dayOfWeekBox = new ComboBox();
             dayOfWeekBox.Items.Add(Enum.GetValues<DayOfWeek>);
 
 
 
-            DaysOffDataGrid.Items.Add(new JobSettingsRow(
+            JobSettingsGrid.Items.Add(new JobSettingsRow(
                 dayOfWeekBox, 
                 new TimePickerControl(), 
                 new TimePickerControl()));
+        }
+
+        public void MakeNewRow(object sender, RoutedEventArgs e)
+        {
+            MakeNewRow();
+        }
+
+        public void RemoveRow(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+
+            int index = JobSettingsGrid.GetRowIndexFromButton(btn);
+
+            JobSettingsGrid.Items.Remove(index);
         }
 
 
