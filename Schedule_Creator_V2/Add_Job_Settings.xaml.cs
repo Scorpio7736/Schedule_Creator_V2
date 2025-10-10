@@ -23,16 +23,16 @@ namespace Schedule_Creator_V2
 
         public void MakeNewRow()
         {
-            ComboBox dayOfWeekBox = new ComboBox();
-            dayOfWeekBox.Items.Add(Enum.GetValues<DayOfWeek>);
-
-
+            ComboBox dayOfWeekBox = new ComboBox
+            {
+                ItemsSource = Enum.GetValues(typeof(DayOfWeek)),
+                SelectedIndex = 0
+            };
 
             JobSettingsGrid.Items.Add(new JobSettingsRow(
                 dayOfWeekBox, 
                 new TimePickerControl(), 
-                new TimePickerControl()
-                ));
+                new TimePickerControl()));
         }
 
         public void MakeNewRow(object sender, RoutedEventArgs e)
