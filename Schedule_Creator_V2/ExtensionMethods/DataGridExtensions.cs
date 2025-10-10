@@ -19,12 +19,11 @@ namespace Schedule_Creator_V2.ExtensionMethods
             return row?.GetIndex() ?? -1;
         }
 
-    public static T? FindParent<T>(this DependencyObject child) where T : DependencyObject
+        public static T? FindParent<T>(this DependencyObject child) where T : DependencyObject
         {
+            DependencyObject? parent = VisualTreeHelper.GetParent(child);
 
-            DependencyObject parent = System.Windows.Media.VisualTreeHelper.GetParent(child);
-
-            if (parent != null && parent is not T)
+            while (parent is not null && parent is not T)
             {
                 parent = VisualTreeHelper.GetParent(parent);
             }
