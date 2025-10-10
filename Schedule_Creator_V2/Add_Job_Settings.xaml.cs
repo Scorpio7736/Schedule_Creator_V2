@@ -42,11 +42,19 @@ namespace Schedule_Creator_V2
 
         public void RemoveRow(object sender, RoutedEventArgs e)
         {
-            Button btn = sender as Button;
+            if (sender is not Button btn)
+            {
+                return;
+            }
 
             int index = JobSettingsGrid.GetRowIndexFromButton(btn);
 
-            JobSettingsGrid.Items.Remove(index);
+            if (index < 0 || index >= JobSettingsGrid.Items.Count)
+            {
+                return;
+            }
+
+            JobSettingsGrid.Items.RemoveAt(index);
         }
 
 
