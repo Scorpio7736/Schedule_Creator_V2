@@ -92,13 +92,27 @@ namespace Schedule_Creator_V2
                             1000,
                             "Null Value Error"
                         ));
-                    break;
+                    return;
                 }
             }
 
+            Messages.Display(new Message("All availability data for this staff member has been saved.", "Availability Saved"));
+
+
         }
 
-        private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
+        private void Clear_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            int staffID = ((Staff)StaffComboBox.SelectedItem).id;
+
+            DatabaseCreate.RemoveAllAvailability(staffID);
+
+            Cancel_Btn_Click();
+
+            Messages.Display(new Message("All saved availability data for this staff member has been cleared.", "Availability Reset"));
+        }
+
+        private void Cancel_Btn_Click(object? sender = null, RoutedEventArgs? e = null)
         {
             while (AvailGrid.Items.Count > 0)
             {

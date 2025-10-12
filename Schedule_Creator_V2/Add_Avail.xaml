@@ -37,6 +37,7 @@
                             <ColumnDefinition />
                             <ColumnDefinition />
                             <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label
                             x:Name="StaffSelectorLabel"
@@ -55,6 +56,19 @@
                             DisplayMemberPath="displayName"
                             SelectionChanged="FillGrid" />
 
+                        <Button
+                            x:Name="Clear_All_Button"
+                            Grid.Column="4"
+                            Width="100"
+                            Height="30"
+                            Margin="0,0,10,0"
+                            Padding="5"
+                            HorizontalAlignment="Right"
+                            BorderThickness="0"
+                            Click="Clear_Btn_Click"
+                            Content="Clear All"
+                            FontWeight="Bold" />
+                        
                         <Button
                             x:Name="Save_Btn"
                             Grid.Column="2"
