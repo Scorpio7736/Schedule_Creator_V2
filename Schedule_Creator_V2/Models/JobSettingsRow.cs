@@ -66,9 +66,9 @@ namespace Schedule_Creator_V2.Models
         {
             if (
                 this._dayOfWeekBox.SelectedItem != null
-                &&
+                ||
                 this._startTimePicker.Value.Value != null
-                &&
+                ||
                 this.endTimePicker.Value.Value != null
                 )
             {

@@ -1,5 +1,6 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
+using Schedule_Creator_V2.ExtensionMethods;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,49 +17,91 @@ namespace Schedule_Creator_V2
             StaffComboBox.ItemsSource = DatabaseRead.ReadStaff();
         }
 
-        
-        private void Reset_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
         private void FillGrid(object sender, RoutedEventArgs e)
         {
             List<Availability> availabilities = DatabaseRead.ReadAvailability();
 
             if (availabilities.Count > 0)
             {
-                foreach (Availability avail in availabilities)
-                {
-                    AvailGrid.Items.Add(new AvailRow(avail));
-                }
+                MakeNewRows(availabilities);
             }
             else
             {
-                AvailGrid.Items.Add(new AvailRow());
+                MakeNewRow();
             }
         }
 
-        private void MakeNewRow(object sender, RoutedEventArgs e)
-        { 
-        
+        private void MakeNewRows(List<Availability> availabilities)
+        {
+            foreach (Availability avail in availabilities)
+            {
+                AvailGrid.Items.Add(new AvailRow(avail));
+            }
+        }
+
+        private void MakeNewRow(object? sender = null, RoutedEventArgs? e = null)
+        {
+            AvailGrid.Items.Add(new AvailRow());
         }
 
         private void RemoveRow(object sender, RoutedEventArgs e)
         {
+            if (sender is not Button btn)
+            {
+                return;
+            }
 
+            int index = AvailGrid.GetRowIndexFromButton(btn);
+
+            if (index < 0 || index >= AvailGrid.Items.Count)
+            {
+                return;
+            }
+
+            if (AvailGrid.Items.Count > 1)
+            {
+                AvailGrid.Items.RemoveAt(index);
+            }
         }
 
 
         private void Save_Btn_Click(object sender, RoutedEventArgs e)
         {
-            
+
+            foreach (AvailRow item in AvailGrid.Items)
+            {
+
+                if (item.IsThereNull() == false)
+                {
+                    DatabaseCreate.AddAvailability(
+                        new Availability(
+                        ((Staff)StaffComboBox.SelectedItem).id,
+                        (DayOfWeek)item.dayOfTheWeek.SelectedItem,
+                        TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
+                        TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
+                    ));
+                }
+                else
+                {
+                    Messages.Display(
+                        new Error(
+                            1000,
+                            "Null Value Error"
+                        ));
+                    break;
+                }
+            }
 
         }
 
         private void Cancel_Btn_Click(object sender, RoutedEventArgs e)
         {
-           
+            while (AvailGrid.Items.Count > 0)
+            {
+                AvailGrid.Items.RemoveAt(0);
+            }
+
+            MakeNewRow();
         }
 
     }
