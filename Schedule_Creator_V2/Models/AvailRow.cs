@@ -1,12 +1,82 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Schedule_Creator_V2.Properties;
+using System;
+using System.Windows;
+using System.Windows.Controls;
+using TimePickerControl = Xceed.Wpf.Toolkit.TimePicker;
 
 namespace Schedule_Creator_V2.Models
 {
-    class AvailRow : JobSettingsRow
+    class AvailRow
     {
+        private ComboBox _dayOfWeekBox = new ComboBox();
+        private TimePickerControl _startTimePicker;
+        private TimePickerControl _endTimePicker;
+
+        public AvailRow()
+        {
+            this._dayOfWeekBox.ItemsSource = Enum.GetValues(typeof(DayOfWeek));
+            this._dayOfWeekBox.Margin = new Thickness(4, 0, 4, 0);
+            this._dayOfWeekBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+            this._startTimePicker = new TimePickerControl();
+            this._startTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._startTimePicker.Margin = new Thickness(4, 0, 4, 0);
+
+            this._endTimePicker = new TimePickerControl();
+            this._endTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
+        }
+
+        public AvailRow(Availability inputs)
+        {
+            this._dayOfWeekBox.ItemsSource = Enum.GetValues(typeof(DayOfWeek));
+            this._dayOfWeekBox.Margin = new Thickness(4, 0, 4, 0);
+            this._dayOfWeekBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this._dayOfWeekBox.SelectedItem = inputs.dayOfTheWeek;
+
+            this._startTimePicker = new TimePickerControl();
+            this._startTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._startTimePicker.Margin = new Thickness(4, 0, 4, 0);
+            this._startTimePicker.Value = DateTime.Today.Add(inputs.startTime.ToTimeSpan());
+
+            this._endTimePicker = new TimePickerControl();
+            this._endTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
+            this._endTimePicker.Value = DateTime.Today.Add(inputs.endTime.ToTimeSpan());
+        }
+
+        public ComboBox dayOfTheWeek
+        {
+            get { return this._dayOfWeekBox; }
+            set { this._dayOfWeekBox = value; }
+        }
+
+        public TimePickerControl startTimePicker
+        {
+            get { return this._startTimePicker; }
+            set { this._startTimePicker = value; }
+        }
+
+        public TimePickerControl endTimePicker
+        {
+            get { return this._endTimePicker; }
+            set { this._endTimePicker = value; }
+        }
+
+        public bool IsThereNull()
+        {
+            if (
+                this._dayOfWeekBox.SelectedItem != null
+                &&
+                this._startTimePicker.Value.Value != null
+                &&
+                this.endTimePicker.Value.Value != null
+                )
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

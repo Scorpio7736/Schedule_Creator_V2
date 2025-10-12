@@ -52,7 +52,8 @@
                             Width="auto"
                             Height="30"
                             Margin="0,5,0,0"
-                            DisplayMemberPath="displayName" />
+                            DisplayMemberPath="displayName"
+                            SelectionChanged="FillGrid" />
 
                         <Button
                             x:Name="Save_Btn"
@@ -79,7 +80,7 @@
                             FontWeight="Bold" />
                     </Grid>
                 </StackPanel>
-                <DataGrid Grid.Row="1">
+                <DataGrid Grid.Row="1" x:Name="AvailGrid">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Width="*" Header="Day of the week">
                             <DataGridTemplateColumn.CellTemplate>

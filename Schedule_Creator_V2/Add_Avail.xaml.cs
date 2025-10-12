@@ -1,4 +1,5 @@
-﻿using Schedule_Creator_V2.Services;
+﻿using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,6 +20,23 @@ namespace Schedule_Creator_V2
         private void Reset_Btn_Click(object sender, RoutedEventArgs e)
         {
             
+        }
+
+        private void FillGrid(object sender, RoutedEventArgs e)
+        {
+            List<Availability> availabilities = DatabaseRead.ReadAvailability();
+
+            if (availabilities.Count > 0)
+            {
+                foreach (Availability avail in availabilities)
+                {
+                    AvailGrid.Items.Add(new AvailRow(avail));
+                }
+            }
+            else
+            {
+                AvailGrid.Items.Add(new AvailRow());
+            }
         }
 
         private void MakeNewRow(object sender, RoutedEventArgs e)

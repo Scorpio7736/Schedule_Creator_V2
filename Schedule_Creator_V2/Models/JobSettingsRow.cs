@@ -76,11 +76,5 @@ namespace Schedule_Creator_V2.Models
             }
             return true;
         }
-
-
-        public void MakeErrors()
-        {
-
-        }
     }
 }
