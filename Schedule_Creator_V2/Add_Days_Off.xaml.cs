@@ -3,6 +3,8 @@ using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
+using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace Schedule_Creator_V2
@@ -50,7 +52,6 @@ namespace Schedule_Creator_V2
                     DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
                ))
             {
-
                 int id = ((Staff)StaffComboBox.SelectedItem).id;
                 DateOnly startDate = DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value);
                 DateOnly endtDate = DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
