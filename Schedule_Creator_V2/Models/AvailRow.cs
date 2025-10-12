@@ -65,17 +65,24 @@ namespace Schedule_Creator_V2.Models
 
         public bool IsThereNull()
         {
-            if (
-                this._dayOfWeekBox.SelectedItem != null
-                ||
-                this._startTimePicker.Value.Value != null
-                ||
-                this.endTimePicker.Value.Value != null
-                )
+            if (this._dayOfWeekBox.SelectedItem == null)
             {
-                return false;
+                return true;
             }
-            return true;
+
+            DateTime? startValue = this._startTimePicker.Value;
+            if (startValue.HasValue == false)
+            {
+                return true;
+            }
+
+            DateTime? endValue = this._endTimePicker.Value;
+            if (endValue.HasValue == false)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }
