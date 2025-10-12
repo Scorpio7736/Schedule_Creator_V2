@@ -40,7 +40,7 @@ namespace Schedule_Creator_V2.Services
                     WHERE dayOfTheWeek = @dayOfTheWeek
                 );
                 """,
-                new SqlParameter("@dayOfTheWeek", dayOfTheWeek.ToString())
+                new SqlParameter("@dayOfTheWeek", dayOfTheWeek)
                 ))
             {
                 while (reader.Read())
