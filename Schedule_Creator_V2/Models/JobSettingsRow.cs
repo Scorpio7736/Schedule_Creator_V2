@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using TimePickerControl = Xceed.Wpf.Toolkit.TimePicker;
 
 namespace Schedule_Creator_V2.Models
@@ -12,8 +14,14 @@ namespace Schedule_Creator_V2.Models
         public JobSettingsRow()
         {
             this._dayOfWeekBox.ItemsSource = Enum.GetValues(typeof(DayOfWeek));
+            this._dayOfWeekBox.Margin = new Thickness(4, 0, 4, 0);
+            this._dayOfWeekBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
             this._startTimePicker = new TimePickerControl();
+            this._startTimePicker.Margin = new Thickness(4, 0, 4, 0);
+
             this._endTimePicker = new TimePickerControl();
+            this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
         }
 
         public ComboBox dayOfTheWeek

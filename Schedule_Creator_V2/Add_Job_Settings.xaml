@@ -40,20 +40,39 @@
                     Grid.Row="1"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
-                    HeadersVisibility="Column">
+                    HeadersVisibility="Column"
+                    RowHeight="50">
                     <DataGrid.Columns>
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding dayOfWeek}"
-                            Header="Day of the week" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding openTime}"
-                            Header="Start Time" />
-                        <DataGridTextColumn
-                            Width="*"
-                            Binding="{Binding closeTime}"
-                            Header="End Time" />
+                        <DataGridTemplateColumn Width="*" Header="Day of the week">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding dayOfTheWeek}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Start Time">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding startTimePicker}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="End Time">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding endTimePicker}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTemplateColumn Width="*" Header="Add New Row">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
