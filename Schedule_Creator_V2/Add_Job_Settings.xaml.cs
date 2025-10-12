@@ -14,17 +14,39 @@ namespace Schedule_Creator_V2
         public Add_Job_Settings()
         {
             InitializeComponent();
-            MakeNewRow();
+
+            List<JobSettings> settings =  DatabaseRead.ReadJobSettings();
+
+            if (settings != null && settings.Count > 0)
+            {
+                MakeNewRow(settings);
+            }
+            else
+            {
+                MakeNewRow();
+            }                
         }
 
-        public void MakeNewRow()
+        public void MakeNewRow(List<JobSettings> settings)
+        {
+            foreach (JobSettings setting in settings)
+            {
+                JobSettingsGrid.Items.Add(new JobSettingsRow(setting));
+            }
+            
+        }
+
+        public void MakeNewRow(object? sender = null, RoutedEventArgs? e = null)
         {
             JobSettingsGrid.Items.Add(new JobSettingsRow());
         }
 
-        public void MakeNewRow(object sender, RoutedEventArgs e)
+        private void RemoveAll_Click(object sender, RoutedEventArgs e)
         {
-            MakeNewRow();
+            DatabaseCreate.RemoveJobSettings();
+            CancelButton_Click();
+
+            Messages.Display(new Message("All Job Settings have been deleted.", "All Settings Deleted!"));
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -51,7 +73,7 @@ namespace Schedule_Creator_V2
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object? sender = null, RoutedEventArgs? e = null)
         {
             while (JobSettingsGrid.Items.Count > 0)
             {

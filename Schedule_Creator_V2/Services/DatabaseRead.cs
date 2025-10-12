@@ -24,9 +24,9 @@ namespace Schedule_Creator_V2.Services
                 while (reader.Read())
                 {
                     returnList.Add(new JobSettings(
-                        (DayOfWeek)reader["DayOfWeek"],
-                        (TimeOnly)reader["OpeningTime"],
-                        (TimeOnly)reader["ClosingTime"]
+                        Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["ClosingTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["OpeningTime"])
                         ));
                 }
             return returnList;
@@ -47,9 +47,9 @@ namespace Schedule_Creator_V2.Services
             while (reader.Read())
                 {
                     returnList.Add(new JobSettings(
-                        (DayOfWeek)reader["DayOfWeek"],
-                        (TimeOnly)reader["OpeningTime"],
-                        (TimeOnly)reader["ClosingTime"]
+                        Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["ClosingTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["OpeningTime"])
                         ));
                 }
             return returnList;

@@ -101,6 +101,11 @@ namespace Schedule_Creator_V2.Services
                 );
         }
 
+        public static void RemoveJobSettings()
+        {
+            ExecuteNonQuery("DELETE FROM [UWGB].[JobSettings]");
+        }
+
         public static void RemoveAllFromAll(int id)
         {
             ExecuteNonQuery(

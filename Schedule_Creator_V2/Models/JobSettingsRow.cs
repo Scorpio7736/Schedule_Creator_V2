@@ -26,6 +26,24 @@ namespace Schedule_Creator_V2.Models
             this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
         }
 
+        public JobSettingsRow(JobSettings settings)
+        {
+            this._dayOfWeekBox.ItemsSource = Enum.GetValues(typeof(DayOfWeek));
+            this._dayOfWeekBox.Margin = new Thickness(4, 0, 4, 0);
+            this._dayOfWeekBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+            this._dayOfWeekBox.SelectedItem = settings.dayOfWeek;
+
+            this._startTimePicker = new TimePickerControl();
+            this._startTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._startTimePicker.Margin = new Thickness(4, 0, 4, 0);
+            this._startTimePicker.Value = DateTime.Today.Add(settings.openingTime.ToTimeSpan());
+
+            this._endTimePicker = new TimePickerControl();
+            this._endTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
+            this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
+            this._endTimePicker.Value = DateTime.Today.Add(settings.closingTime.ToTimeSpan());
+        }
+
         public ComboBox dayOfTheWeek
         {
             get { return this._dayOfWeekBox; }
@@ -47,11 +65,11 @@ namespace Schedule_Creator_V2.Models
         public bool IsThereNull()
         {
             if (
-                this._dayOfWeekBox != null
+                this._dayOfWeekBox.SelectedItem != null
                 &&
-                this._startTimePicker != null
+                this._startTimePicker.Value.Value != null
                 &&
-                this.endTimePicker != null
+                this.endTimePicker.Value.Value != null
                 )
             {
                 return false;
