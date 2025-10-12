@@ -6,5 +6,7 @@ using System.Threading.Tasks;
 
 namespace Schedule_Creator_V2.Models
 {
-    public record ViewStaffLine(DayOfWeek dayOfTheWeek, string availTimes);
+    class AvailRow : JobSettingsRow
+    {
+    }
 }

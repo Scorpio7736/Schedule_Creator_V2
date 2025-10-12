@@ -6,32 +6,6 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
-        public static List<JobSettings> ReadJobSettingsOnDay(DayOfWeek day)
-        {
-            List<JobSettings> returnList = new List<JobSettings>();
-
-            using (var reader = ExecuteReader(
-                """
-                SELECT
-                    *
-                FROM
-                    [UWGB].[JobSettings]
-                WHERE
-                    DayOfWeek = @day
-                """,
-                new SqlParameter("@day", day)
-                ))
-                while (reader.Read())
-                {
-                    returnList.Add(new JobSettings(
-                        Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["ClosingTime"]),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["OpeningTime"])
-                        ));
-                }
-            return returnList;
-        }
-
         public static List<JobSettings> ReadJobSettings()
         {
             List<JobSettings> returnList = new List<JobSettings>();
@@ -54,7 +28,7 @@ namespace Schedule_Creator_V2.Services
                 }
             return returnList;
         }
-        public static List<Staff> ReadStaffAvailOnDay(AvailDays dayOfTheWeek)
+        public static List<Staff> ReadStaffAvailOnDay(DayOfWeek dayOfTheWeek)
         {
             List<Staff> returnList = new List<Staff>();
             using (var reader = ExecuteReader("""
@@ -174,8 +148,9 @@ namespace Schedule_Creator_V2.Services
                     returnList.Add(
                         new Availability(
                             id,
-                            Enum.Parse<AvailDays>(reader["dayOfTheWeek"].ToString()),
-                            ((string)reader["availTimes"])
+                            Enum.Parse<DayOfWeek>(reader["dayOfTheWeek"].ToString()),
+                            TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
+                            TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"])
                             ));
                 }
             }
@@ -193,8 +168,9 @@ namespace Schedule_Creator_V2.Services
                 {
                     returnList.Add(new Availability(
                         (int)(reader["id"]),
-                        Enum.Parse<AvailDays>((string)(reader["dayOfTheWeek"])),
-                        (string)(reader["availTimes"])
+                        Enum.Parse<DayOfWeek>(reader["dayOfTheWeek"].ToString()),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"])
                         ));
                 }
             }

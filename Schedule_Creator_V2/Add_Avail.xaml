@@ -33,42 +33,43 @@
                 <StackPanel Orientation="Vertical">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Label
+                            x:Name="StaffSelectorLabel"
+                            Grid.Column="0"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Grid.Column="0"
-                            x:Name="StaffSelectorLabel"
                             Content="Select Staff:"
                             FontSize="16"
                             FontWeight="Bold" />
                         <ComboBox
-                            Grid.Column="1"
                             x:Name="StaffComboBox"
+                            Grid.Column="1"
                             Width="auto"
                             Height="30"
                             Margin="0,5,0,0"
                             DisplayMemberPath="displayName" />
+
                         <Button
-                            HorizontalAlignment="Right"
-                            Grid.Column="2"
                             x:Name="Save_Btn"
+                            Grid.Column="2"
                             Width="100"
                             Height="30"
                             Margin="0,0,10,0"
                             Padding="5"
+                            HorizontalAlignment="Right"
                             BorderThickness="0"
                             Click="Save_Btn_Click"
                             Content="Save"
-                            FontWeight="Bold"/>
+                            FontWeight="Bold" />
 
                         <Button
-                            Grid.Column="3"
                             x:Name="Cancel_Btn"
+                            Grid.Column="3"
                             Width="100"
                             Height="30"
                             Padding="5"
@@ -78,226 +79,62 @@
                             FontWeight="Bold" />
                     </Grid>
                 </StackPanel>
-
-                <!--  Availability Grid  -->
-                <Grid Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <!--  Checkbox  -->
-                        <ColumnDefinition Width="150" />
-                        <!--  Label  -->
-                        <ColumnDefinition Width="*" />
-                        <!--  TextBox  -->
-                    </Grid.ColumnDefinitions>
-
-                    <!--  Row Definitions  -->
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <!--  Every Day  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Monday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Tuesday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Wednesday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Thursday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Friday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Saturday  -->
-                        <RowDefinition Height="Auto" />
-                        <!--  Sunday  -->
-                    </Grid.RowDefinitions>
-
-
-
-                    <!--  Every Day  -->
-                    <CheckBox
-                        x:Name="EveryDayCheckBox"
-                        Tag="Every_Day"
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Every Day" />
-                    <Label
-                        x:Name="EveryDayLabel"
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="EveryDayTextBox"
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5"
-                        VerticalAlignment="Center" />
-
-                    <!--  Monday  -->
-                    <CheckBox
-                        x:Name="MondayCheckBox"
-                        Grid.Row="1"
-                        Tag="Monday"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Monday" />
-                    <Label
-                        x:Name="MondayLabel"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="MondayTextBox"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Tuesday  -->
-                    <CheckBox
-                        x:Name="TuesdayCheckBox"
-                        Grid.Row="2"
-                        Tag="Tuesday"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Tuesday" />
-                    <Label
-                        x:Name="TuesdayLabel"
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="TuesdayTextBox"
-                        Grid.Row="2"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Wednesday  -->
-                    <CheckBox
-                        Tag="Wednesday"
-                        x:Name="WednesdayCheckBox"
-                        Grid.Row="3"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Wednesday" />
-                    <Label
-                        x:Name="WednesdayLabel"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        
-                        x:Name="WednesdayTextBox"
-                        Grid.Row="3"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Thursday  -->
-                    <CheckBox
-                        Tag="Thursday"
-                        x:Name="ThursdayCheckBox"
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Thursday" />
-                    <Label
-                        x:Name="ThursdayLabel"
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="ThursdayTextBox"
-                        Grid.Row="4"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Friday  -->
-                    <CheckBox
-                        Tag="Friday"
-                        x:Name="FridayCheckBox"
-                        Grid.Row="5"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Friday" />
-                    <Label
-                        x:Name="FridayLabel"
-                        Grid.Row="5"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="FridayTextBox"
-                        Grid.Row="5"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Saturday  -->
-                    <CheckBox
-                        Tag="Saturday"
-                        x:Name="SaturdayCheckBox"
-                        Grid.Row="6"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Saturday" />
-                    <Label
-                        x:Name="SaturdayLabel"
-                        Grid.Row="6"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="SaturdayTextBox"
-                        Grid.Row="6"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-
-                    <!--  Sunday  -->
-                    <CheckBox
-                        Tag="Sunday"
-                        x:Name="SundayCheckBox"
-                        Grid.Row="7"
-                        Grid.Column="0"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Sunday" />
-                    <Label
-                        x:Name="SundayLabel"
-                        Grid.Row="7"
-                        Grid.Column="1"
-                        Margin="5"
-                        VerticalAlignment="Center"
-                        Content="Available Times:" />
-                    <TextBox
-                        x:Name="SundayTextBox"
-                        Grid.Row="7"
-                        Grid.Column="2"
-                        Height="25"
-                        Margin="5" />
-                </Grid>
+                <DataGrid Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="*" Header="Day of the week">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding dayOfTheWeek}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Start Time">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding startTimePicker}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="End Time">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding endTimePicker}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Add New Row">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="AUTO"
+                                        Height="30"
+                                        Click="MakeNewRow"
+                                        Content="Add" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Width="*" Header="Remove Row">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button
+                                        Width="AUTO"
+                                        Height="30"
+                                        Click="RemoveRow"
+                                        Content="Remove" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </Grid>
         </Border>
     </Grid>

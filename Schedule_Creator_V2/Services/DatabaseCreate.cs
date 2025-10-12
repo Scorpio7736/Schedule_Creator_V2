@@ -74,13 +74,14 @@ namespace Schedule_Creator_V2.Services
 
         
 
-        public static void AddAvailability(int id, AvailDays day, string availTimes)
+        public static void AddAvailability(int id, DayOfWeek dayOfWeek, TimeOnly startTime, TimeOnly endTime)
         {
                 ExecuteNonQuery(
-                    "INSERT INTO [UWGB].[Availability] (id, dayOfTheWeek, availTimes) VALUES (@id, @dayOfTheWeek, @availTimes)",
+                    "INSERT INTO [UWGB].[Availability] (id, dayOfTheWeek, startTime, endTime) VALUES (@id, @dayOfTheWeek, @startTime, @endTime)",
                     new SqlParameter("@id", id),
-                    new SqlParameter("@dayOfTheWeek", day.ToString()),
-                    new SqlParameter("@availTimes", availTimes)
+                    new SqlParameter("@dayOfTheWeek", dayOfWeek),
+                    new SqlParameter("@startTime", startTime),
+                    new SqlParameter("@endTime", endTime)
                     );
             
         }
