@@ -18,9 +18,11 @@ namespace Schedule_Creator_V2.Models
             this._dayOfWeekBox.HorizontalAlignment = HorizontalAlignment.Stretch;
 
             this._startTimePicker = new TimePickerControl();
+            this._startTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
             this._startTimePicker.Margin = new Thickness(4, 0, 4, 0);
 
             this._endTimePicker = new TimePickerControl();
+            this._endTimePicker.TimeInterval = new TimeSpan(0, 15, 0);
             this._endTimePicker.Margin = new Thickness(4, 0, 4, 0);
         }
 
@@ -42,6 +44,25 @@ namespace Schedule_Creator_V2.Models
             set { this._endTimePicker = value; }
         }
 
+        public bool IsThereNull()
+        {
+            if (
+                this._dayOfWeekBox != null
+                &&
+                this._startTimePicker != null
+                &&
+                this.endTimePicker != null
+                )
+            {
+                return false;
+            }
+            return true;
+        }
 
+
+        public void MakeErrors()
+        {
+
+        }
     }
 }

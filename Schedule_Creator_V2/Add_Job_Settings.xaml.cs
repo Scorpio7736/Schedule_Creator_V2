@@ -1,12 +1,8 @@
-using Microsoft.Graph.Models;
 using Schedule_Creator_V2.ExtensionMethods;
 using Schedule_Creator_V2.Models;
-using System;
-using System.Collections.Generic;
-using System.Printing;
+using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
-using TimePickerControl = Xceed.Wpf.Toolkit.TimePicker;
 
 namespace Schedule_Creator_V2
 {
@@ -32,21 +28,37 @@ namespace Schedule_Creator_V2
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            List<JobSettings> saveList = new List<JobSettings>();
-            
             foreach (JobSettingsRow item in JobSettingsGrid.Items)
             {
-                saveList.Add(new JobSettings(
-                    (DayOfWeek)item.dayOfTheWeek.SelectedItem,
-                    TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
-                    TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
-                    ));
-            }
 
+                if (item.IsThereNull() == false)
+                {
+                    DatabaseCreate.AddJobSettings(new JobSettings(
+                        (DayOfWeek)item.dayOfTheWeek.SelectedItem,
+                        TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
+                        TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
+                    ));
+                }
+                else
+                {
+                    Messages.Display(
+                        new Error(
+                            1000,
+                            "Null Value Error"
+                        ));
+                    break;
+                }
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            while (JobSettingsGrid.Items.Count > 0)
+            {
+                JobSettingsGrid.Items.RemoveAt(0);
+            }
+
+            MakeNewRow();
 
         }
 

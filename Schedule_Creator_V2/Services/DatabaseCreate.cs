@@ -5,7 +5,7 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseCreate : Database
     {
-        public static void AddJobSettings(DayOfWeek day, TimeOnly openingTime, TimeOnly closingTime)
+        public static void AddJobSettings(JobSettings settings)
         {
             ExecuteNonQuery(
                 """
@@ -15,9 +15,9 @@ namespace Schedule_Creator_V2.Services
                 VALUES
                     (@day, @openingTime, @closingTime)
                 """,
-                new SqlParameter("@day", day),
-                new SqlParameter("@openingTime", openingTime),
-                new SqlParameter("@closingTime", closingTime)
+                new SqlParameter("@day", settings.dayOfWeek),
+                new SqlParameter("@openingTime", settings.openingTime),
+                new SqlParameter("@closingTime", settings.closingTime)
                 );
         }
         public static void AddStaff(string fName, string mName, string lName, Positions position, byte[]? profilePicture, string email, bool isBelayCertified)
