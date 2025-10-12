@@ -67,16 +67,15 @@ namespace Schedule_Creator_V2
 
         private void Save_Btn_Click(object sender, RoutedEventArgs e)
         {
+            int staffID = ((Staff)StaffComboBox.SelectedItem).id;
+            DatabaseCreate.RemoveAllAvailability(staffID);
 
             foreach (AvailRow item in AvailGrid.Items)
             {
 
                 if (item.IsThereNull() == false)
                 {
-                    int staffID = ((Staff)StaffComboBox.SelectedItem).id;
-
-                    DatabaseCreate.RemoveAllAvailability(staffID);
-
+                    
                     DatabaseCreate.AddAvailability(
                         new Availability(
                         staffID,

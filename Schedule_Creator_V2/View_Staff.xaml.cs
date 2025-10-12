@@ -25,6 +25,7 @@ namespace Schedule_Creator_V2
             LastNameText.Text = staff.lName;
             JobPositionText.Text = staff.position.GetDescription();
             EmailText.Text = staff.email;
+            List<ViewStaffRow> dataRows = new List<ViewStaffRow>();
             
             if (staff.isBelayCertified)
             {
@@ -35,7 +36,17 @@ namespace Schedule_Creator_V2
                 IsCertText.Text = "Not Certified";
             }
 
-            AvailabilityDataGrid.ItemsSource = avaList;
+
+            foreach (Availability avail in avaList)
+            {
+
+                dataRows.Add(new ViewStaffRow(
+                    avail.dayOfTheWeek,
+                    $"Available between: {avail.startTime} - {avail.endTime}"
+                    ));
+            }
+
+            AvailabilityDataGrid.ItemsSource = dataRows;
 
         }
 

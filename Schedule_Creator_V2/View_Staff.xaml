@@ -93,7 +93,7 @@
                         Height="auto"
                         MinHeight="200">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Day of Week" Binding="{Binding dayOfTheWeek}" Width="*" />
+                            <DataGridTextColumn Header="Day of Week" Binding="{Binding day}" Width="*" />
                             <DataGridTextColumn Header="Avail Times" Binding="{Binding availTimes}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
