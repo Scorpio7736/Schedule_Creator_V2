@@ -73,9 +73,13 @@ namespace Schedule_Creator_V2
 
                 if (item.IsThereNull() == false)
                 {
+                    int staffID = ((Staff)StaffComboBox.SelectedItem).id;
+
+                    DatabaseCreate.RemoveAllAvailability(staffID);
+
                     DatabaseCreate.AddAvailability(
                         new Availability(
-                        ((Staff)StaffComboBox.SelectedItem).id,
+                        staffID,
                         (DayOfWeek)item.dayOfTheWeek.SelectedItem,
                         TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
                         TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
