@@ -23,21 +23,31 @@ namespace Schedule_Creator_V2
 
         public void MakeNewRow()
         {
-            ComboBox dayOfWeekBox = new ComboBox
-            {
-                ItemsSource = Enum.GetValues(typeof(DayOfWeek)),
-                SelectedIndex = 0
-            };
-
-            JobSettingsGrid.Items.Add(new JobSettingsRow(
-                dayOfWeekBox, 
-                new TimePickerControl(), 
-                new TimePickerControl()));
+            JobSettingsGrid.Items.Add(new JobSettingsRow());
         }
 
         public void MakeNewRow(object sender, RoutedEventArgs e)
         {
             MakeNewRow();
+        }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<JobSettings> saveList = new List<JobSettings>();
+            
+            foreach (JobSettingsRow item in JobSettingsGrid.Items)
+            {
+                saveList.Add(new JobSettings(
+                    (DayOfWeek)item.dayOfTheWeek.SelectedItem,
+                    TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
+                    TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
+                    ));
+            }
+
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public void RemoveRow(object sender, RoutedEventArgs e)
@@ -54,18 +64,10 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            JobSettingsGrid.Items.RemoveAt(index);
-        }
-
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            if (JobSettingsGrid.Items.Count > 1)
+            {
+                JobSettingsGrid.Items.RemoveAt(index);
+            }
         }
     }
 
