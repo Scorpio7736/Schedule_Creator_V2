@@ -50,6 +50,9 @@ namespace Schedule_Creator_V2
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+
+            DatabaseCreate.RemoveJobSettings();
+
             foreach (JobSettingsRow item in JobSettingsGrid.Items)
             {
 

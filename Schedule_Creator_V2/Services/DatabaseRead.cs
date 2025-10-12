@@ -22,8 +22,8 @@ namespace Schedule_Creator_V2.Services
                 {
                     returnList.Add(new JobSettings(
                         Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["ClosingTime"]),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["OpeningTime"])
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["OpeningTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["ClosingTime"])
                         ));
                 }
             return returnList;
