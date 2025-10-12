@@ -177,6 +177,26 @@ namespace Schedule_Creator_V2.Services
             return returnList;
         }
 
+        public static List<Availability> ReadAvailabilityByID(int id)
+        {
+            List<Availability> returnList = new List<Availability>();
+            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[Availability] WHERE id = @id",
+                new SqlParameter("@id", id)
+                ))
+            {
+                while (reader.Read())
+                {
+                    returnList.Add(new Availability(
+                        (int)(reader["id"]),
+                        Enum.Parse<DayOfWeek>(reader["dayOfTheWeek"].ToString()),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"])
+                        ));
+                }
+            }
+            return returnList;
+        }
+
         public static List<DaysOff> ReadDaysOff()
         {
             List<DaysOff> returnList = new List<DaysOff> ();

@@ -19,7 +19,11 @@ namespace Schedule_Creator_V2
 
         private void FillGrid(object sender, RoutedEventArgs e)
         {
-            List<Availability> availabilities = DatabaseRead.ReadAvailability();
+            int staffID = ((Staff)StaffComboBox.SelectedItem).id;
+
+            List<Availability> availabilities = DatabaseRead.ReadAvailabilityByID(staffID);
+
+            AvailGrid.Items.Clear();
 
             if (availabilities.Count > 0)
             {
