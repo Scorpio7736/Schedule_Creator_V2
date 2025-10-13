@@ -12,6 +12,10 @@ namespace Schedule_Creator_V2
             InitializeComponent();
         }
 
+        private void View_Schedule_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayScreen.Content = new View_Schedule();
+        }
         private void View_Email_List_Btn_Click(object sender, RoutedEventArgs e)
         {
             DisplayScreen.Content = new View_Email_List();
