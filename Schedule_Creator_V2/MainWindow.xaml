@@ -36,7 +36,8 @@
 
             <MenuItem Header="Scheduling">
                 <MenuItem Click="Add_Collection_Btn_Click" Header="Job Hours" />
-                <MenuItem Click="View_Schedule_Btn_Click" Header="Build Schedule" />
+                <MenuItem Click="Build_Schedule_Btn_Click" Header="Build Schedule" />
+                <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
             </MenuItem>
 
             <MenuItem Header="Insights">
