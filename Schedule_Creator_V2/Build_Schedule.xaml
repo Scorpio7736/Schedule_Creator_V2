@@ -37,78 +37,134 @@
                     <Button
                         Height="50"
                         Margin="10"
+                        Click="AddRow_Click"
                         Content="Add Row" />
 
                     <Button
                         Height="50"
                         Margin="10"
-                        Content="Add Row" />
-
-                    <Button 
-                        Height="50" 
-                        Margin="10"
-                        Content="Save Schedule"
-                        />
+                        Content="Delete Row" />
 
                     <Button
                         Height="50"
                         Margin="10"
-                        Content="Clear Schedule"
-                        />
-                    
-                    
+                        Content="Save Schedule" />
+
+                    <Button
+                        Height="50"
+                        Margin="10"
+                        Content="Clear Schedule" />
+
+
                 </StackPanel>
                 <DataGrid x:Name="ScheduleGrid" Grid.Row="1">
                     <DataGrid.Columns>
-                        <DataGridTextColumn
+
+                        <DataGridTemplateColumn
                             x:Name="MonCol"
                             Width="*"
-                            Binding="{Binding AvailMon}"
-                            Header="Monday" 
-                            Visibility="Hidden"
-                            />
+                            Header="Monday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding MonBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+
+                        <DataGridTemplateColumn
                             x:Name="TueCol"
                             Width="*"
-                            Binding="{Binding AvailTue}"
-                            Header="Tuesday" 
-                            Visibility="Hidden"/>
+                            Header="Tuesday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding TueBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+                        <DataGridTemplateColumn
                             x:Name="WedCol"
                             Width="*"
-                            Binding="{Binding AvailWed}"
-                            Header="Wed" 
-                            Visibility="Hidden"/>
+                            Header="Wednesday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding WedBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+                        <DataGridTemplateColumn
                             x:Name="ThuCol"
                             Width="*"
-                            Binding="{Binding AvailThu}"
-                            Header="Thu" 
-                            Visibility="Hidden"/>
+                            Header="Thursday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding ThuBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+                        <DataGridTemplateColumn
                             x:Name="FriCol"
                             Width="*"
-                            Binding="{Binding AvailFri}"
-                            Header="Fri" 
-                            Visibility="Hidden"/>
+                            Header="Friday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding FriBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+                        <DataGridTemplateColumn
                             x:Name="SatCol"
                             Width="*"
-                            Binding="{Binding AvailSat}"
-                            Header="Sat" 
-                            Visibility="Hidden"/>
+                            Header="Saturday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding SatBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTextColumn
+                        <DataGridTemplateColumn
                             x:Name="SunCol"
                             Width="*"
-                            Binding="{Binding AvailSun}"
-                            Header="Sun" 
-                            Visibility="Hidden"/>
+                            Header="Sunday"
+                            Visibility="Hidden">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <ContentControl
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding SunBox}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

@@ -1,5 +1,6 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Schedule_Creator_V2
@@ -67,6 +68,19 @@ namespace Schedule_Creator_V2
                     continue;
                 }
             }
+        }
+
+        private void AddRow_Click(object sender, RoutedEventArgs e)
+        {
+            BuildScheduleRow newRow = new BuildScheduleRow();
+
+
+
+
+
+
+
+            ScheduleGrid.Items.Add(newRow);
         }
 
         private void SetAvailCol()
