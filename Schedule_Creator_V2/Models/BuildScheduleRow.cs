@@ -1,48 +1,47 @@
-﻿using Schedule_Creator_V2.Services;
+using Schedule_Creator_V2.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Schedule_Creator_V2.Models
 {
     internal class BuildScheduleRow
     {
-        private ComboBox _MonBox { get; set; }
-        private ComboBox _TueBox { get; set; }
-        private ComboBox _WedBox { get; set; }
-        private ComboBox _ThuBox { get; set; }
-        private ComboBox _FriBox { get; set; }
-        private ComboBox _SatBox { get; set; }
-        private ComboBox _SunBox { get; set; }
+        public ComboBox MonBox { get; }
+        public ComboBox TueBox { get; }
+        public ComboBox WedBox { get; }
+        public ComboBox ThuBox { get; }
+        public ComboBox FriBox { get; }
+        public ComboBox SatBox { get; }
+        public ComboBox SunBox { get; }
 
         public BuildScheduleRow()
         {
-            _MonBox = new ComboBox();
-            _MonBox.ItemsSource = GetAvailForDay(DayOfWeek.Monday);
-
-            _TueBox = new ComboBox();
-            _TueBox.ItemsSource = GetAvailForDay(DayOfWeek.Tuesday);
-
-            _WedBox = new ComboBox();
-            _WedBox.ItemsSource = GetAvailForDay(DayOfWeek.Wednesday);
-
-            _ThuBox = new ComboBox();
-            _ThuBox.ItemsSource = GetAvailForDay(DayOfWeek.Thursday);
-
-            _FriBox = new ComboBox();
-            _FriBox.ItemsSource = GetAvailForDay(DayOfWeek.Friday);
-
-            _SatBox = new ComboBox();
-            _SatBox.ItemsSource = GetAvailForDay(DayOfWeek.Saturday);
-
-            _SunBox = new ComboBox();
-            _SunBox.ItemsSource = GetAvailForDay(DayOfWeek.Sunday);
+            MonBox = BuildComboBoxForDay(DayOfWeek.Monday);
+            TueBox = BuildComboBoxForDay(DayOfWeek.Tuesday);
+            WedBox = BuildComboBoxForDay(DayOfWeek.Wednesday);
+            ThuBox = BuildComboBoxForDay(DayOfWeek.Thursday);
+            FriBox = BuildComboBoxForDay(DayOfWeek.Friday);
+            SatBox = BuildComboBoxForDay(DayOfWeek.Saturday);
+            SunBox = BuildComboBoxForDay(DayOfWeek.Sunday);
         }
 
-        private List<Staff> GetAvailForDay(DayOfWeek day)
+        private static ComboBox BuildComboBoxForDay(DayOfWeek day)
+        {
+            ComboBox comboBox = new ComboBox
+            {
+                ItemsSource = GetAvailForDay(day),
+                DisplayMemberPath = nameof(Staff.displayName),
+                SelectedValuePath = nameof(Staff.id),
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(4, 0, 4, 0)
+            };
+
+            return comboBox;
+        }
+
+        private static List<Staff> GetAvailForDay(DayOfWeek day)
         {
             List<Staff> returnList = new List<Staff>();
             List<Staff> availOnDay = DatabaseRead.ReadStaffAvailOnDay(day);
@@ -54,7 +53,6 @@ namespace Schedule_Creator_V2.Models
                     returnList.Add(staff);
                 }
             }
-
 
             return returnList;
         }
