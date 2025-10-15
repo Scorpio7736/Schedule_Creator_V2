@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Enums;
 
 namespace Schedule_Creator_V2.Services
 {

@@ -1,10 +1,28 @@
 ﻿using Microsoft.Data.SqlClient;
 using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Enums;
+using Schedule_Creator_V2.Models.Records;
 
 namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseCreate : Database
     {
+
+        public static void AddSchedule(ScheduleRow row)
+        {
+            ExecuteNonQuery(
+                """
+                INSERT INTO
+                    [UWGB].[Schedule]
+                    (dayOfWeek, staffID)
+                VALUES
+                    (@dayOfWeek, @staffID)
+                """,
+                new SqlParameter("@dayOfWeek", row.dayOfWeek),
+                new SqlParameter("@staffID", row.staffID)
+                );
+        }
+
         public static void AddJobSettings(JobSettings settings)
         {
             ExecuteNonQuery(

@@ -1,7 +1,5 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,37 +35,37 @@ namespace Schedule_Creator_V2
                     ScheduleGrid.Columns[MON_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Tuesday)
                 {
                     ScheduleGrid.Columns[TUE_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Wednesday)
                 {
                     ScheduleGrid.Columns[WED_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Thursday)
                 {
                     ScheduleGrid.Columns[THU_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Friday)
                 {
                     ScheduleGrid.Columns[FRI_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Saturday)
                 {
                     ScheduleGrid.Columns[SAT_COL].Visibility = Visibility.Visible;
                     continue;
                 }
-
+                else
                 if (day == DayOfWeek.Sunday)
                 {
                     ScheduleGrid.Columns[SUN_COL].Visibility = Visibility.Visible;

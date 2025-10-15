@@ -30,7 +30,7 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel
-                    Grid.Row="0"
+                    Grid.Row="1"
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
 
@@ -57,7 +57,10 @@
 
 
                 </StackPanel>
-                <DataGrid x:Name="ScheduleGrid" Grid.Row="1" AutoGenerateColumns="False">
+                <DataGrid
+                    x:Name="ScheduleGrid"
+                    Grid.Row="0"
+                    AutoGenerateColumns="False">
                     <DataGrid.Columns>
 
                         <DataGridTemplateColumn
@@ -99,9 +102,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding WedBox}" />
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding WedBox}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -114,9 +117,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding ThuBox}" />
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding ThuBox}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -129,9 +132,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding FriBox}" />
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding FriBox}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -144,9 +147,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding SatBox}" />
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding SatBox}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -159,9 +162,9 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding SunBox}" />
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding SunBox}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

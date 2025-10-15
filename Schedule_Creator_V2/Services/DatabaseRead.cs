@@ -1,10 +1,59 @@
 ﻿using Microsoft.Data.SqlClient;
 using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Enums;
+using Schedule_Creator_V2.Models.Records;
 
 namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseRead : Database
     {
+
+        public static List<ScheduleRow> GetSchedule()
+        {
+            List<ScheduleRow> returnList = new List<ScheduleRow>();
+
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+                *
+                FROM
+                [UWGB].[Schedule]
+                """
+                ))
+            while (reader.Read())
+            {
+                returnList.Add(new ScheduleRow(
+                    Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
+                    (int)reader["staffID"]
+                    ));
+            }
+            return returnList;
+        }
+
+        public static List<ScheduleRow> GetScheduleOnDay(DayOfWeek day)
+        {
+            List<ScheduleRow> returnList = new List<ScheduleRow>();
+
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+                *
+                FROM
+                [UWGB].[Schedule]
+                WHERE
+                dayOfWeek == @dayOfWeek
+                """,
+                new SqlParameter("@dayOfWeek", day)
+                ))
+                while (reader.Read())
+                {
+                    returnList.Add(new ScheduleRow(
+                        Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
+                        (int)reader["staffID"]
+                        ));
+                }
+            return returnList;
+        }
 
         public static List<JobSettings> ReadJobSettings()
         {
