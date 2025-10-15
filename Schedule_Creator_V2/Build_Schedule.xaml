@@ -57,7 +57,7 @@
 
 
                 </StackPanel>
-                <DataGrid x:Name="ScheduleGrid" Grid.Row="1">
+                <DataGrid x:Name="ScheduleGrid" Grid.Row="1" AutoGenerateColumns="False">
                     <DataGrid.Columns>
 
                         <DataGridTemplateColumn
