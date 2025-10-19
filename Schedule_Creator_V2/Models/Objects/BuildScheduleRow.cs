@@ -1,9 +1,5 @@
 using Schedule_Creator_V2.Services;
-using System;
-using System.Collections.Generic;
 using System.Windows;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Schedule_Creator_V2.Models
@@ -17,6 +13,7 @@ namespace Schedule_Creator_V2.Models
         public ComboBox FriBox { get; }
         public ComboBox SatBox { get; }
         public ComboBox SunBox { get; }
+        public Button DelBTN { get; }
 
         public BuildScheduleRow()
         {
@@ -27,6 +24,7 @@ namespace Schedule_Creator_V2.Models
             FriBox = BuildComboBoxForDay(DayOfWeek.Friday);
             SatBox = BuildComboBoxForDay(DayOfWeek.Saturday);
             SunBox = BuildComboBoxForDay(DayOfWeek.Sunday);
+            DelBTN = new Button();
         }
 
         private static ComboBox BuildComboBoxForDay(DayOfWeek day)
