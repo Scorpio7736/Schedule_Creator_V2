@@ -1,5 +1,6 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -84,26 +85,36 @@ namespace Schedule_Creator_V2
 
         private void SetAvailCol()
         {
-            List<JobSettings> settings = DatabaseRead.ReadJobSettings();
             List<DayOfWeek> openDays = new List<DayOfWeek>();
 
-            if (settings.Count > 0)
+            DayOfWeek[] allDays =
             {
-                foreach (JobSettings setting in settings)
-                {
-                    if (!openDays.Contains(setting.dayOfWeek))
-                    {
-                        openDays.Add(setting.dayOfWeek);
-                    }
-                }
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday,
+                DayOfWeek.Saturday,
+                DayOfWeek.Sunday
+            };
 
+            foreach (DayOfWeek day in allDays)
+            {
+                if (DatabaseRead.GetStaffNameAndAvail(day).Count > 0)
+                {
+                    openDays.Add(day);
+                }
+            }
+
+            if (openDays.Count > 0)
+            {
                 SetColVis(openDays);
             }
             else
             {
                 Messages.Display(new Error(
                     1000,
-                    "No Job Hours Saved!"
+                    "No Staff Availability Saved!"
                     ));
             }
 
