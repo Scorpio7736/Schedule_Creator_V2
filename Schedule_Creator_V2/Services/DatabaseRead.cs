@@ -8,6 +8,40 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
+        public static List<StaffNameAndAvail> GetStaffNameAndAvail(DayOfWeek day)
+        {
+            List<StaffNameAndAvail> returnList = new List<StaffNameAndAvail>();
+
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+
+                    s.id, s.fName, s.lName, a.dayOfTheWeek, a.startTime, a.endTime
+                FROM
+                    [UWGB].[Staff] s
+                RIGHT JOIN
+                    [UWGB].[Availability] a
+                ON
+
+                    s.id = a.id
+                WEHRE
+                    @day = a.dayOfTheWeek
+                """,
+                new SqlParameter("@day", day)
+                ))
+                while (reader.Read())
+                {
+                    returnList.Add(new StaffNameAndAvail(
+                        (int)reader["id"],
+                        (string)reader["fName"],
+                        (string)reader["lName"],
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
+                        TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"])
+                        ));
+                }
+            return returnList;
+        }
+
         public static List<ScheduleRow> GetSchedule()
         {
             List<ScheduleRow> returnList = new List<ScheduleRow>();

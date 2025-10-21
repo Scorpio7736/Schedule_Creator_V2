@@ -1,3 +1,4 @@
+using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,14 +25,14 @@ namespace Schedule_Creator_V2.Models
             FriBox = BuildComboBoxForDay(DayOfWeek.Friday);
             SatBox = BuildComboBoxForDay(DayOfWeek.Saturday);
             SunBox = BuildComboBoxForDay(DayOfWeek.Sunday);
-            DelBTN = new Button();
+            DelBTN = new Button { Content = "Delete" };
         }
 
         private static ComboBox BuildComboBoxForDay(DayOfWeek day)
         {
             ComboBox comboBox = new ComboBox
             {
-                ItemsSource = GetAvailForDay(day),
+                ItemsSource = DatabaseRead.GetStaffNameAndAvail(day),
                 DisplayMemberPath = nameof(Staff.displayName),
                 SelectedValuePath = nameof(Staff.id),
                 HorizontalContentAlignment = HorizontalAlignment.Left,
@@ -39,22 +40,6 @@ namespace Schedule_Creator_V2.Models
             };
 
             return comboBox;
-        }
-
-        private static List<Staff> GetAvailForDay(DayOfWeek day)
-        {
-            List<Staff> returnList = new List<Staff>();
-            List<Staff> availOnDay = DatabaseRead.ReadStaffAvailOnDay(day);
-
-            foreach (Staff staff in availOnDay)
-            {
-                if (!returnList.Contains(staff))
-                {
-                    returnList.Add(staff);
-                }
-            }
-
-            return returnList;
         }
     }
 }
