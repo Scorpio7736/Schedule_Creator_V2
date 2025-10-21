@@ -25,9 +25,9 @@ namespace Schedule_Creator_V2.Services
 
                     s.id = a.id
                 WHERE
-                    @day == a.dayOfTheWeek
+                    a.dayOfTheWeek = @day
                 """,
-                new SqlParameter("@day", day)
+                new SqlParameter("@day", day.ToString())
                 ))
                 while (reader.Read())
                 {
@@ -75,9 +75,9 @@ namespace Schedule_Creator_V2.Services
                 FROM
                 [UWGB].[Schedule]
                 WHERE
-                dayOfWeek == @dayOfWeek
+                dayOfWeek = @dayOfWeek
                 """,
-                new SqlParameter("@dayOfWeek", day)
+                new SqlParameter("@dayOfWeek", day.ToString())
                 ))
                 while (reader.Read())
                 {
@@ -123,7 +123,7 @@ namespace Schedule_Creator_V2.Services
                     WHERE dayOfTheWeek = @dayOfTheWeek
                 );
                 """,
-                new SqlParameter("@dayOfTheWeek", dayOfTheWeek)
+                new SqlParameter("@dayOfTheWeek", dayOfTheWeek.ToString())
                 ))
             {
                 while (reader.Read())

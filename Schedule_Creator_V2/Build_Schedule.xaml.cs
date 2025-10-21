@@ -1,5 +1,6 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +12,7 @@ namespace Schedule_Creator_V2
     /// </summary>
     public partial class Build_Schedule : Page
     {
-        private readonly ObservableCollection<BuildScheduleRow> _rows = new();
+        private readonly ObservableCollection<BuildScheduleRow> _rows = new ObservableCollection<BuildScheduleRow>();
 
         public Build_Schedule()
         {
