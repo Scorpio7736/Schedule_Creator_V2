@@ -25,7 +25,7 @@ namespace Schedule_Creator_V2.Services
 
                     s.id = a.id
                 WEHRE
-                    @day = a.dayOfTheWeek
+                    @day == a.dayOfTheWeek
                 """,
                 new SqlParameter("@day", day)
                 ))
