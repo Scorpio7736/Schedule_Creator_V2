@@ -33,7 +33,7 @@ namespace Schedule_Creator_V2.Models
             ComboBox comboBox = new ComboBox
             {
                 ItemsSource = DatabaseRead.GetStaffNameAndAvail(day),
-                DisplayMemberPath = nameof(Staff.displayName),
+                DisplayMemberPath = nameof(StaffNameAndAvail.displayName),
                 SelectedValuePath = nameof(Staff.id),
                 HorizontalContentAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(4, 0, 4, 0)
