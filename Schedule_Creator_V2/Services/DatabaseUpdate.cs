@@ -10,7 +10,7 @@ namespace Schedule_Creator_V2.Services
         {
             ExecuteNonQuery(
                 "UPDATE [UWGB].[JobSettings] SET OpeningTime = @openingTime, ClosingTime = @closingTime WHERE DayOfWeek = @day",
-                new SqlParameter("@day", day),
+                new SqlParameter("@day", day.ToString()),
                 new SqlParameter("@openingTime", openingTime),
                 new SqlParameter("@closingTime", closingTime)
                 );

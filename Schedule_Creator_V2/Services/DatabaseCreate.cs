@@ -18,7 +18,7 @@ namespace Schedule_Creator_V2.Services
                 VALUES
                     (@dayOfWeek, @staffID)
                 """,
-                new SqlParameter("@dayOfWeek", row.dayOfWeek),
+                new SqlParameter("@dayOfWeek", row.dayOfWeek.ToString()),
                 new SqlParameter("@staffID", row.staffID)
                 );
         }
@@ -33,7 +33,7 @@ namespace Schedule_Creator_V2.Services
                 VALUES
                     (@day, @openingTime, @closingTime)
                 """,
-                new SqlParameter("@day", settings.dayOfWeek),
+                new SqlParameter("@day", settings.dayOfWeek.ToString()),
                 new SqlParameter("@openingTime", settings.openingTime),
                 new SqlParameter("@closingTime", settings.closingTime)
                 );
@@ -97,7 +97,7 @@ namespace Schedule_Creator_V2.Services
                 ExecuteNonQuery(
                     "INSERT INTO [UWGB].[Availability] (id, dayOfTheWeek, startTime, endTime) VALUES (@id, @dayOfTheWeek, @startTime, @endTime)",
                     new SqlParameter("@id", availability.id),
-                    new SqlParameter("@dayOfTheWeek", availability.dayOfTheWeek),
+                    new SqlParameter("@dayOfTheWeek", availability.dayOfTheWeek.ToString()),
                     new SqlParameter("@startTime", availability.startTime),
                     new SqlParameter("@endTime", availability.endTime)
                     );
@@ -116,7 +116,7 @@ namespace Schedule_Creator_V2.Services
         {
             ExecuteNonQuery(
                 "DELETE FROM [UWGB].[JobSettings] WHERE DayOfWeek = @day",
-                new SqlParameter("@day", day)
+                new SqlParameter("@day", day.ToString())
                 );
         }
 
