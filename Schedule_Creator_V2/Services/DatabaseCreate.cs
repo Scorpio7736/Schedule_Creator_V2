@@ -97,7 +97,7 @@ namespace Schedule_Creator_V2.Services
                 ExecuteNonQuery(
                     "INSERT INTO [UWGB].[Availability] (id, dayOfTheWeek, startTime, endTime) VALUES (@id, @dayOfTheWeek, @startTime, @endTime)",
                     new SqlParameter("@id", availability.id),
-                    new SqlParameter("@dayOfTheWeek", availability.dayOfTheWeek.ToString()),
+                    new SqlParameter("@dayOfTheWeek", availability.dayOfTheWeek),
                     new SqlParameter("@startTime", availability.startTime),
                     new SqlParameter("@endTime", availability.endTime)
                     );
