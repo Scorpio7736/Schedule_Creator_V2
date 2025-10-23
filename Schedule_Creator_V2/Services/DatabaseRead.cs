@@ -27,7 +27,7 @@ namespace Schedule_Creator_V2.Services
                 WHERE
                     a.dayOfTheWeek = @day
                 """,
-                new SqlParameter("@day", day.ToString())
+                new SqlParameter("@day", day)
                 ))
                 while (reader.Read())
                 {

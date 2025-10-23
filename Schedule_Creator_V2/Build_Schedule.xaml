@@ -43,11 +43,6 @@
                     <Button
                         Height="50"
                         Margin="10"
-                        Content="Delete Row" />
-
-                    <Button
-                        Height="50"
-                        Margin="10"
                         Content="Save Schedule" />
 
                     <Button
