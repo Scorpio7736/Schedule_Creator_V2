@@ -24,52 +24,28 @@ namespace Schedule_Creator_V2
 
         private void SetColVis(List<DayOfWeek> openDays)
         {
-            //TODO: find a better way to do this PLEASE!!!!!!!!!!!!!!!!!
-
             int MON_COL = 0, TUE_COL = 1, WED_COL = 2, THU_COL = 3, FRI_COL = 4, SAT_COL = 5, SUN_COL = 6;
+
+            Dictionary<DayOfWeek, int> settingDict = new Dictionary<DayOfWeek, int>
+            {
+                {DayOfWeek.Monday, MON_COL },
+                {DayOfWeek.Tuesday, TUE_COL },
+                {DayOfWeek.Wednesday, WED_COL },
+                {DayOfWeek.Thursday, THU_COL },
+                {DayOfWeek.Friday, FRI_COL },
+                {DayOfWeek.Saturday, SAT_COL },
+                {DayOfWeek.Sunday, SUN_COL }
+            };
 
             foreach (DayOfWeek day in openDays)
             {
-                if (day == DayOfWeek.Monday)
+                foreach (KeyValuePair<DayOfWeek, int> dict in settingDict)
                 {
-                    ScheduleGrid.Columns[MON_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Tuesday)
-                {
-                    ScheduleGrid.Columns[TUE_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Wednesday)
-                {
-                    ScheduleGrid.Columns[WED_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Thursday)
-                {
-                    ScheduleGrid.Columns[THU_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Friday)
-                {
-                    ScheduleGrid.Columns[FRI_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Saturday)
-                {
-                    ScheduleGrid.Columns[SAT_COL].Visibility = Visibility.Visible;
-                    continue;
-                }
-                else
-                if (day == DayOfWeek.Sunday)
-                {
-                    ScheduleGrid.Columns[SUN_COL].Visibility = Visibility.Visible;
-                    continue;
+                    if (day == dict.Key)
+                    {
+                        ScheduleGrid.Columns[dict.Value].Visibility = Visibility.Visible;
+                        break;
+                    }
                 }
             }
         }
