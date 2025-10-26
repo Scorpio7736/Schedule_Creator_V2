@@ -28,6 +28,7 @@ namespace Schedule_Creator_V2.Models
             DelBTN = new Button { Content = "Delete" };
         }
 
+
         private static ComboBox BuildComboBoxForDay(DayOfWeek day)
         {
             ComboBox comboBox = new ComboBox
