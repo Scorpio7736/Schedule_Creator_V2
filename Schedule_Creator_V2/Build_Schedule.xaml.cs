@@ -54,7 +54,17 @@ namespace Schedule_Creator_V2
         {
             BuildScheduleRow newRow = new BuildScheduleRow();
 
+            newRow.DelBTN.Click += (_, _) => DeleteRow(newRow);
+
             _rows.Add(newRow);
+        }
+
+        private void DeleteRow(BuildScheduleRow row)
+        {
+            if (_rows.Contains(row))
+            {
+                _rows.Remove(row);
+            }
         }
 
         private void SetAvailCol()
