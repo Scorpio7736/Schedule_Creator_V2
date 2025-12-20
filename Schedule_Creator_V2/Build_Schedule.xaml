@@ -43,12 +43,14 @@
                     <Button
                         Height="50"
                         Margin="10"
-                        Content="Save Schedule" />
+                        Content="Save Schedule" 
+                        Click="SaveSchedule_Click"/>
 
                     <Button
                         Height="50"
                         Margin="10"
-                        Content="Clear Schedule" />
+                        Content="Clear Schedule" 
+                        Click="ClearSchedule_Click"/>
 
 
                 </StackPanel>
@@ -68,7 +70,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding MonBox}" />
+                                        Content="{Binding MonBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -84,7 +86,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding TueBox}" />
+                                        Content="{Binding TueBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -99,7 +101,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding WedBox}" />
+                                        Content="{Binding WedBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -114,7 +116,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding ThuBox}" />
+                                        Content="{Binding ThuBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -129,7 +131,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding FriBox}" />
+                                        Content="{Binding FriBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -144,7 +146,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding SatBox}" />
+                                        Content="{Binding SatBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -159,7 +161,7 @@
                                     <ContentControl
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Content="{Binding SunBox}" />
+                                        Content="{Binding SunBox.Key}" />
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

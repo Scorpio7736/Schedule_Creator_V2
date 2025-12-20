@@ -7,7 +7,6 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseCreate : Database
     {
-
         public static void AddSchedule(ScheduleRow row)
         {
             ExecuteNonQuery(
@@ -89,8 +88,6 @@ namespace Schedule_Creator_V2.Services
                     new SqlParameter("@date", date));
             }
         }
-
-        
 
         public static void AddAvailability( Availability availability)
         {

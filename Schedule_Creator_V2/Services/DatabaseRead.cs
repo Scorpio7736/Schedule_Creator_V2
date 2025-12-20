@@ -7,6 +7,29 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseRead : Database
     {
+        public static Staff GetStaffByID(int id)
+        {
+            using (var reader = ExecuteReader(
+                "SELECT * FROM [UWGB].[Staff] WHERE id = @id",
+                new SqlParameter("@id", id)))
+            {
+                if (reader.Read())
+                {
+                    return new Staff(
+                        (int)reader["id"],
+                        (string)reader["fName"],
+                        (string)reader["mName"],
+                        (string)reader["lName"],
+                        Enum.Parse<Positions>((string)reader["position"]),
+                        (string)reader["email"],
+                        bool.Parse((string)reader["belayCert"]),
+                        reader["certifiedOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["certifiedOn"]),
+                        reader["expiresOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["expiresOn"])
+                        );
+                }
+                return new Staff(1, "", "", "", Positions.Unknown, "", false, null, null);
+            }
+        }
 
         public static List<StaffNameAndAvail> GetStaffNameAndAvail(DayOfWeek day)
         {
@@ -123,7 +146,7 @@ namespace Schedule_Creator_V2.Services
                     WHERE dayOfTheWeek = @dayOfTheWeek
                 );
                 """,
-                new SqlParameter("@dayOfTheWeek", dayOfTheWeek.ToString())
+                new SqlParameter("@dayOfTheWeek", dayOfTheWeek)
                 ))
             {
                 while (reader.Read())

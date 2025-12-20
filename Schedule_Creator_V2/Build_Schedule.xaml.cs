@@ -1,4 +1,5 @@
 using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -21,6 +22,29 @@ namespace Schedule_Creator_V2
 
             SetAvailCol();
         }
+
+        private void SaveSchedule_Click(object sender, RoutedEventArgs e)
+        {
+
+            ObservableCollection<BuildScheduleRow> rowsToSave = ScheduleGrid.ItemsSource as ObservableCollection<BuildScheduleRow>;
+
+            foreach (BuildScheduleRow row in rowsToSave)
+            {
+                List<DayOfWeekStaffPair> selectedStaff = row.getSelectedStaff();
+
+                foreach (DayOfWeekStaffPair pair in selectedStaff)
+                {
+                    DayOfWeek tempDay = pair.day;
+                    Staff tempStaff = pair.staff;
+
+                   DatabaseCreate.AddSchedule(new ScheduleRow(
+                        tempDay, 
+                        (int)tempStaff.id
+                   ));
+                }
+            }
+        }
+
 
         private void SetColVis(List<DayOfWeek> openDays)
         {
@@ -56,7 +80,14 @@ namespace Schedule_Creator_V2
 
             newRow.DelBTN.Click += (_, _) => DeleteRow(newRow);
 
-            _rows.Add(newRow);
+            if (_rows.Count < 10)
+            {
+                _rows.Add(newRow);
+            }
+            else
+            {
+                Messages.Display(new Error(0001, "Too many Shifts Scheduled."));
+            }
         }
 
         private void DeleteRow(BuildScheduleRow row)
@@ -65,6 +96,11 @@ namespace Schedule_Creator_V2
             {
                 _rows.Remove(row);
             }
+        }
+
+        private void ClearSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            _rows.Clear();
         }
 
         private void SetAvailCol()
