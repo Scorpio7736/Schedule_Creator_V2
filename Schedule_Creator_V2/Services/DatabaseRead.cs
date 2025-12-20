@@ -7,6 +7,25 @@ namespace Schedule_Creator_V2.Services
 {
     internal class DatabaseRead : Database
     {
+
+        public static List<string> GetAllScheduleNames()
+        {
+                       List<string> returnList = new List<string>();
+            using (var reader = ExecuteReader(
+                """
+                SELECT DISTINCT 
+                	scheduleName
+                FROM
+                	[UWGB].[Schedule]
+                """
+                ))
+            while (reader.Read())
+            {
+                returnList.Add((string)reader["scheduleName"]);
+            }
+            return returnList;
+        }
+
         public static Staff GetStaffByID(int id)
         {
             using (var reader = ExecuteReader(

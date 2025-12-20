@@ -21,18 +21,38 @@ namespace Schedule_Creator_V2
             SetAvailCol();
         }
 
-        private void SaveSchedule_Click(object sender, RoutedEventArgs e)
+        private bool ErrorChecker()
         {
-            if (ScheduleNameBox.Text == null || ScheduleNameBox.Text == "")
+            string scheduleName = ScheduleNameBox.Text;
+
+            if (scheduleName == null || scheduleName == "")
             {
                 Messages.Display(new Error(
                     1001,
                     "Schedule must have a name."
                     ));
-
-                return;
+                return true;
             }
 
+            if (DatabaseRead.GetAllScheduleNames().Contains(scheduleName))
+            {
+                Messages.Display(new Error(
+                    1002,
+                    "Schedule name already exists."
+                    ));
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SaveSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            
+            if (ErrorChecker())
+            {
+                return;
+            }
 
 
             ObservableCollection<BuildScheduleRow> rowsToSave = ScheduleGrid.ItemsSource as ObservableCollection<BuildScheduleRow>;
