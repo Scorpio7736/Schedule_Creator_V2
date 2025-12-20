@@ -48,7 +48,8 @@
                         VerticalContentAlignment="Center"
                         Background="#FAFAFA"
                         BorderBrush="#DDD"
-                        BorderThickness="1" />
+                        BorderThickness="1" 
+                        SelectionChanged="FillBoxes"/>
                 </StackPanel>
 
                 <DataGrid x:Name="ScheduleGrid" Grid.Row="1">

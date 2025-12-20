@@ -8,6 +8,31 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
+        public static List<ScheduleRow> GetScheduleByName(string scheduleName)
+        {
+            List<ScheduleRow> returnList = new List<ScheduleRow>();
+            using (var reader = ExecuteReader(
+                """
+                SELECT
+                *
+                FROM
+                [UWGB].[Schedule]
+                WHERE
+                scheduleName = @scheduleName
+                """,
+                new SqlParameter("@scheduleName", scheduleName)
+                ))
+                while (reader.Read())
+                {
+                    returnList.Add(new ScheduleRow(
+                        Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
+                        (int)reader["staffID"],
+                        (string)reader["scheduleName"]
+                        ));
+                }
+            return returnList;
+        }
+
         public static List<string> GetAllScheduleNames()
         {
                        List<string> returnList = new List<string>();

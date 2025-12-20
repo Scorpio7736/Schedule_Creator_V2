@@ -1,11 +1,7 @@
-﻿using Schedule_Creator_V2.ExtensionMethods;
-using Schedule_Creator_V2.Models;
+﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System;
-using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace Schedule_Creator_V2
 {
