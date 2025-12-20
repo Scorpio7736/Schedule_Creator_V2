@@ -73,6 +73,12 @@ namespace Schedule_Creator_V2
                    ));
                 }
             }
+
+            Messages.Display(new Message(
+                "Schedule Saved Successfully!", 
+                "Success"
+                ));
+
         }
 
         private void SetColVis(List<DayOfWeek> openDays)
