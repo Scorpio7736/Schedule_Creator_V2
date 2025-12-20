@@ -11,14 +11,25 @@ namespace Schedule_Creator_V2.Services
         {
             ExecuteNonQuery(
                 """
+                DELETE FROM
+                    [UWGB].[Schedule]
+                WHERE
+                    scheduleName = @scheduleName
+                """,
+                new SqlParameter("@scheduleName", row.scheduleName
+                ));
+
+            ExecuteNonQuery(
+                """
                 INSERT INTO
                     [UWGB].[Schedule]
-                    (dayOfWeek, staffID)
+                    (dayOfWeek, staffID, scheduleName)
                 VALUES
-                    (@dayOfWeek, @staffID)
+                    (@dayOfWeek, @staffID, @scheduleName)
                 """,
                 new SqlParameter("@dayOfWeek", row.dayOfWeek.ToString()),
-                new SqlParameter("@staffID", row.staffID)
+                new SqlParameter("@staffID", row.staffID),
+                new SqlParameter("@scheduleName", row.scheduleName)
                 );
         }
 

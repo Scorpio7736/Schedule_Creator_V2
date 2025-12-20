@@ -34,11 +34,11 @@ namespace Schedule_Creator_V2.Models
             {
                 { MonBox.Key, DayOfWeek.Monday }, 
                 { TueBox.Key, DayOfWeek.Tuesday }, 
-                { WedBox.Key, DayOfWeek.Tuesday }, 
-                { ThuBox.Key, DayOfWeek.Tuesday }, 
-                { FriBox.Key, DayOfWeek.Tuesday }, 
-                { SatBox.Key, DayOfWeek.Tuesday },
-                { SunBox.Key, DayOfWeek.Tuesday } 
+                { WedBox.Key, DayOfWeek.Wednesday }, 
+                { ThuBox.Key, DayOfWeek.Thursday }, 
+                { FriBox.Key, DayOfWeek.Friday }, 
+                { SatBox.Key, DayOfWeek.Saturday },
+                { SunBox.Key, DayOfWeek.Sunday } 
             };
             
             DelBTN = new Button { Content = "Delete" };

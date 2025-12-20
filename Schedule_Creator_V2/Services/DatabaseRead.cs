@@ -81,7 +81,8 @@ namespace Schedule_Creator_V2.Services
             {
                 returnList.Add(new ScheduleRow(
                     Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
-                    (int)reader["staffID"]
+                    (int)reader["staffID"],
+                    (string)reader["scheduleName"]
                     ));
             }
             return returnList;
@@ -106,7 +107,8 @@ namespace Schedule_Creator_V2.Services
                 {
                     returnList.Add(new ScheduleRow(
                         Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
-                        (int)reader["staffID"]
+                        (int)reader["staffID"],
+                        (string)reader["scheduleName"]
                         ));
                 }
             return returnList;

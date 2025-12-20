@@ -20,44 +20,38 @@
             BorderBrush="#DDD"
             BorderThickness="1"
             CornerRadius="10">
-            <Grid Margin="20" Background="white">
 
+            <Grid Margin="12">
                 <Grid.RowDefinitions>
-
-                    <RowDefinition Height="AUTO" />
-                    <RowDefinition Height="AUTO" />
-
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel
-                    Grid.Row="1"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="4,0,0,10"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Text="Build Schedule" />
 
-                    <Button
-                        Height="50"
-                        Margin="10"
-                        Click="AddRow_Click"
-                        Content="Add Row" />
-
-                    <Button
-                        Height="50"
-                        Margin="10"
-                        Content="Save Schedule" 
-                        Click="SaveSchedule_Click"/>
-
-                    <Button
-                        Height="50"
-                        Margin="10"
-                        Content="Clear Schedule" 
-                        Click="ClearSchedule_Click"/>
-
-
-                </StackPanel>
                 <DataGrid
                     x:Name="ScheduleGrid"
-                    Grid.Row="0"
-                    AutoGenerateColumns="False">
+                    Grid.Row="1"
+                    Margin="0,0,0,12"
+                    AutoGenerateColumns="False"
+                    CanUserAddRows="False"
+                    GridLinesVisibility="Vertical"
+                    HeadersVisibility="Column"
+                    HorizontalScrollBarVisibility="Auto"
+                    MinRowHeight="36"
+                    RowHeaderWidth="0"
+                    RowHeight="36"
+                    SelectionMode="Single"
+                    SelectionUnit="FullRow"
+                    VerticalScrollBarVisibility="Auto">
+
                     <DataGrid.Columns>
 
                         <DataGridTemplateColumn
@@ -74,7 +68,6 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
 
                         <DataGridTemplateColumn
                             x:Name="TueCol"
@@ -168,13 +161,13 @@
 
                         <DataGridTemplateColumn
                             x:Name="DelCol"
-                            Width="*"
+                            Width="Auto"
                             Header="Delete"
                             Visibility="Visible">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <ContentControl
-                                        HorizontalAlignment="Stretch"
+                                        HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Content="{Binding DelBTN}" />
                                 </DataTemplate>
@@ -183,6 +176,93 @@
 
                     </DataGrid.Columns>
                 </DataGrid>
+
+                <Grid Grid.Row="2" Margin="0,6,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <!--  Reserve space for the 3 buttons so the left side never gets overlapped  -->
+                        <ColumnDefinition Width="370" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--  Left: Schedule Name  -->
+                    <Grid Grid.Column="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="#555"
+                            Text="Schedule Name:" />
+
+                        <TextBox
+                            x:Name="ScheduleNameBox"
+                            Grid.Column="1"
+                            Height="40"
+                            MinWidth="160"
+                            MaxWidth="320"
+                            Padding="10,6"
+                            HorizontalAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Background="#FAFAFA"
+                            BorderBrush="#DDD"
+                            BorderThickness="1">
+
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="BorderBrush" Value="#C8C8C8" />
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                            <Setter Property="BorderBrush" Value="#6AA9FF" />
+                                            <Setter Property="Background" Value="White" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.65" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+
+                    <!--  Right: Buttons  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <Button
+                            x:Name="AddRowButton"
+                            Width="110"
+                            Height="40"
+                            Margin="6,0,0,0"
+                            Click="AddRow_Click"
+                            Content="Add Row" />
+
+                        <Button
+                            x:Name="SaveButton"
+                            Width="120"
+                            Height="40"
+                            Margin="6,0,0,0"
+                            Click="SaveSchedule_Click"
+                            Content="Save Schedule" />
+
+                        <Button
+                            x:Name="ClearButton"
+                            Width="120"
+                            Height="40"
+                            Margin="6,0,0,0"
+                            Click="ClearSchedule_Click"
+                            Content="Clear Schedule" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Border>
     </Grid>

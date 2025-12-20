@@ -17,14 +17,23 @@ namespace Schedule_Creator_V2
         public Build_Schedule()
         {
             InitializeComponent();
-
             ScheduleGrid.ItemsSource = _rows;
-
             SetAvailCol();
         }
 
         private void SaveSchedule_Click(object sender, RoutedEventArgs e)
         {
+            if (ScheduleNameBox.Text == null || ScheduleNameBox.Text == "")
+            {
+                Messages.Display(new Error(
+                    1001,
+                    "Schedule must have a name."
+                    ));
+
+                return;
+            }
+
+
 
             ObservableCollection<BuildScheduleRow> rowsToSave = ScheduleGrid.ItemsSource as ObservableCollection<BuildScheduleRow>;
 
@@ -39,12 +48,12 @@ namespace Schedule_Creator_V2
 
                    DatabaseCreate.AddSchedule(new ScheduleRow(
                         tempDay, 
-                        (int)tempStaff.id
+                        (int)tempStaff.id,
+                        ScheduleNameBox.Text
                    ));
                 }
             }
         }
-
 
         private void SetColVis(List<DayOfWeek> openDays)
         {
