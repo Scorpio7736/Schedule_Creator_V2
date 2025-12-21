@@ -2,6 +2,7 @@
 using Schedule_Creator_V2.Services;
 using System.Windows;
 using System.Windows.Controls;
+using Schedule_Creator_V2.Models;
 
 namespace Schedule_Creator_V2
 {
@@ -51,22 +52,11 @@ namespace Schedule_Creator_V2
 
         }
 
-
         private void FillBoxes(object sender, RoutedEventArgs e)
         {
             // Cannot be null as this function is called when there is an option selected.
-            List<ScheduleRow> rows = DatabaseRead.GetScheduleByName(ScheduleComboBox.SelectedItem.ToString());
-
-            foreach (ScheduleRow row in rows)
-            {
-
-
-
-            }
-
-
-
-
+            List<ScheduleRow> staffRows = DatabaseRead.GetScheduleByName(ScheduleComboBox.SelectedItem.ToString());
+            
         }
     }
 }
