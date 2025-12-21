@@ -8,6 +8,23 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
+        public static List<DayOfWeek> GetJobSettingsDays()
+        {
+            List<DayOfWeek> returnList = new List<DayOfWeek>();
+            using (var reader = ExecuteReader(
+                """
+                SELECT Distinct
+                    DayOfWeek
+                FROM
+                    [UWGB].[JobSettings]
+                """
+                ))
+            while (reader.Read())
+            {
+                returnList.Add(Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]));
+            }
+            return returnList;
+        }
         public static List<ScheduleRow> GetScheduleByName(string scheduleName)
         {
             List<ScheduleRow> returnList = new List<ScheduleRow>();

@@ -57,36 +57,50 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="MonCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailMon}"
                             Header="Monday" />
 
                         <DataGridTextColumn
                             Width="*"
+                            Visibility="Hidden"
+                            x:Name="TueCol"
                             Binding="{Binding AvailTue}"
                             Header="Tuesday" />
 
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="WedCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailWed}"
                             Header="Wed" />
 
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="ThuCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailThu}"
                             Header="Thu" />
 
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="FriCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailFri}"
                             Header="Fri" />
 
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="SatCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailSat}"
                             Header="Sat" />
 
                         <DataGridTextColumn
                             Width="*"
+                            x:Name="SunCol"
+                            Visibility="Hidden"
                             Binding="{Binding AvailSun}"
                             Header="Sun" />
                     </DataGrid.Columns>

@@ -17,7 +17,9 @@ namespace Schedule_Creator_V2
         public Build_Schedule()
         {
             InitializeComponent();
+
             ScheduleGrid.ItemsSource = _rows;
+
             SetAvailCol();
         }
 
