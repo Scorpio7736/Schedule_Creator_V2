@@ -5,10 +5,6 @@ namespace Schedule_Creator_V2.Services
 {
     internal class Database
     {
-        
-        //------------------------------------------------------------------------------------------------------------------------
-        //------------------------------------------------------------------------------------------------------------------------
-
         /// <summary>
         /// Executes a non query command in the database. Primary use is going to be for INSERT INTO statements.
         /// </summary>
@@ -82,9 +78,5 @@ namespace Schedule_Creator_V2.Services
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
             return sqlCommand;
         }
-        //------------------------------------------------------------------------------------------------------------------------
-
-
-       
     }
 }
