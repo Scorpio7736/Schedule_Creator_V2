@@ -12,22 +12,16 @@ namespace Schedule_Creator_V2
             DataFolderExists();
         }
 
-        private static bool DataFolderExists()
+        private static void DataFolderExists()
         {
-            DirectoryInfo? current = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            string dataPath = Path.Combine(AppContext.BaseDirectory, "Data");
 
-            while (current != null && !current.EnumerateFiles("*.sln").Any())
+            if (!Directory.Exists(dataPath))
             {
-                current = current.Parent;
+                Directory.CreateDirectory(dataPath);
             }
 
-            if (current == null)
-            {
-                return false;
-            }
-
-            string dataPath = Path.Combine(current.FullName, "Data");
-            return Directory.Exists(dataPath);
+            AppDomain.CurrentDomain.SetData("DataDirectory", dataPath);
         }
 
     }
