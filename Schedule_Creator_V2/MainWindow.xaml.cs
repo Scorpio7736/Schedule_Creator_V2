@@ -10,6 +10,7 @@ namespace Schedule_Creator_V2
         public MainWindow()
         {
             InitializeComponent();
+            DatabaseMigragtion.Migration();
         }
 
         private void Build_Schedule_Btn_Click(object sender, RoutedEventArgs e)

@@ -1,50 +1,34 @@
 ﻿using Microsoft.Data.SqlClient;
 using Schedule_Creator_V2.Services;
+using System.IO;
 
 namespace Schedule_Creator_V2
 {
     internal class DatabaseMigragtion : Database
     {
-        public static void TestDatabaseExistence()
-        {
-            List<string> dbNames = new List<string> 
-            { 
-                "Availability",
-                "DaysOff",
-                "JobSettings",
-                "Schedule",
-                "Staff"
-            };
 
-            foreach (string databaseName in dbNames)
+        public static void Migration()
+        {
+            DataFolderExists();
+        }
+
+        private static bool DataFolderExists()
+        {
+            DirectoryInfo? current = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+
+            while (current != null && !current.EnumerateFiles("*.sln").Any())
             {
-                if ( ! DatabaseExists(databaseName))
-                {
-                    CreateDatabaseAndTables();
-                }
+                current = current.Parent;
             }
 
+            if (current == null)
+            {
+                return false;
+            }
+
+            string dataPath = Path.Combine(current.FullName, "Data");
+            return Directory.Exists(dataPath);
         }
 
-        private static void CreateDatabaseAndTables()
-        {
-
-        }
-
-        public static bool DatabaseExists(string databaseName)
-        {
-            int exists = ExecuteScalar<int>(
-                @"""
-                SELECT
-                    CASE
-                        WHEN DB_ID(@dbName) IS NOT NULL THEN 1
-                        ELSE 0
-                    END
-                """,
-                new SqlParameter("@dbName", databaseName)
-            );
-
-            return exists == 1;
-        }
     }
 }
