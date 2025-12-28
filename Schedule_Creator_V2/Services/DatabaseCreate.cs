@@ -10,27 +10,10 @@ namespace Schedule_Creator_V2.Services
         public static void AddSchedule(ScheduleRow row)
         {
             ExecuteNonQuery(
-                """
-                DELETE FROM
-                    [UWGB].[Schedule]
-                WHERE
-                    scheduleName = @scheduleName
-                """,
-                new SqlParameter("@scheduleName", row.scheduleName
-                ));
-
-            ExecuteNonQuery(
-                """
-                INSERT INTO
-                    [UWGB].[Schedule]
-                    (dayOfWeek, staffID, scheduleName)
-                VALUES
-                    (@dayOfWeek, @staffID, @scheduleName)
-                """,
+                Queries.AddSchedule,
                 new SqlParameter("@dayOfWeek", row.dayOfWeek.ToString()),
                 new SqlParameter("@staffID", row.staffID),
-                new SqlParameter("@scheduleName", row.scheduleName)
-                );
+                new SqlParameter("@scheduleName", row.scheduleName));
         }
 
         public static void AddJobSettings(JobSettings settings)

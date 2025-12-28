@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Schedule_Creator_V2.Services;
+using System.Windows;
 
 namespace Schedule_Creator_V2
 {
@@ -10,6 +11,7 @@ namespace Schedule_Creator_V2
         public MainWindow()
         {
             InitializeComponent();
+            DataMigragtion.EnsureDatabaseExists();
         }
 
         private void Build_Schedule_Btn_Click(object sender, RoutedEventArgs e)
