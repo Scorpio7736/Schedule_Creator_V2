@@ -14,13 +14,13 @@ namespace Schedule_Creator_V2
         public View_Schedule()
         {
             InitializeComponent();
-            ScheduleComboBox.ItemsSource = DatabaseRead.GetAllScheduleNames();
+            ScheduleComboBox.ItemsSource = DatabaseRead.ReadAllScheduleNames();
             SetVisibility();
         }
 
         private void SetVisibility()
         {
-            List<DayOfWeek> jobDays = DatabaseRead.GetJobSettingsDays();
+            List<DayOfWeek> jobDays = DatabaseRead.ReadJobSettingsDays();
             
             foreach (DayOfWeek day in jobDays)
             {
@@ -55,7 +55,7 @@ namespace Schedule_Creator_V2
         private void FillBoxes(object sender, RoutedEventArgs e)
         {
             // Cannot be null as this function is called when there is an option selected.
-            List<ScheduleRow> staffRows = DatabaseRead.GetScheduleByName(ScheduleComboBox.SelectedItem.ToString());
+            List<ScheduleRow> staffRows = DatabaseRead.ReadScheduleByScheduleName(ScheduleComboBox.SelectedItem.ToString());
             
         }
     }

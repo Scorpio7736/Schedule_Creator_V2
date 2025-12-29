@@ -53,7 +53,7 @@ namespace Schedule_Creator_V2.Models
                 if (pair.Key.SelectedValue != null)
                 {
                     int selectedStaffId = (int)pair.Key.SelectedValue;
-                    Staff? selectedStaff = DatabaseRead.GetStaffByID(selectedStaffId);
+                    Staff? selectedStaff = DatabaseRead.ReadStaffByID(selectedStaffId);
 
                     if (selectedStaff != null)
                     {
@@ -70,7 +70,7 @@ namespace Schedule_Creator_V2.Models
         {
             ComboBox comboBox = new ComboBox
             {
-                ItemsSource = DatabaseRead.GetStaffNameAndAvail(day),
+                ItemsSource = DatabaseRead.ReadStaffNamesAndAvailOnDay(day),
                 DisplayMemberPath = nameof(StaffNameAndAvail.displayName),
                 SelectedValuePath = nameof(Staff.id),
                 HorizontalContentAlignment = HorizontalAlignment.Left,

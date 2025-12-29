@@ -61,20 +61,16 @@ namespace Schedule_Creator_V2 {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DELETE FROM
-        ///    [UWGB].[Schedule]
-        ///WHERE
-        ///    scheduleName = @scheduleName
-        ///
-        ///INSERT INTO
-        ///    [UWGB].[Schedule]
-        ///    (dayOfWeek, staffID, scheduleName)
-        ///VALUES
-        ///    (@dayOfWeek, @staffID, @scheduleName).
+        ///   Looks up a localized string similar to INSERT 
+        ///	INTO 
+        ///		[UWGB].[Availability] 
+        ///	(id, dayOfTheWeek, startTime, endTime) 
+        ///VALUES 
+        ///		(@id, @dayOfTheWeek, @startTime, @endTime).
         /// </summary>
-        internal static string AddSchedule {
+        internal static string CreateAvailability {
             get {
-                return ResourceManager.GetString("AddSchedule", resourceCulture);
+                return ResourceManager.GetString("CreateAvailability", resourceCulture);
             }
         }
         
@@ -98,11 +94,68 @@ namespace Schedule_Creator_V2 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO 
+        ///    [UWGB].[DaysOff] 
+        ///    (id, Date, reason) 
+        ///VALUES 
+        ///    (@id, @date, @reason).
+        /// </summary>
+        internal static string CreateDaysOff {
+            get {
+                return ResourceManager.GetString("CreateDaysOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO
+        ///    [UWGB].[JobSettings]
+        ///    (DayOfWeek, OpeningTime, ClosingTime)
+        ///VALUES
+        ///    (@day, @openingTime, @closingTime).
+        /// </summary>
+        internal static string CreateJobSettings {
+            get {
+                return ResourceManager.GetString("CreateJobSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM
+        ///    [UWGB].[Schedule]
+        ///WHERE
+        ///    scheduleName = @scheduleName
+        ///
+        ///INSERT INTO
+        ///    [UWGB].[Schedule]
+        ///    (dayOfWeek, staffID, scheduleName)
+        ///VALUES
+        ///    (@dayOfWeek, @staffID, @scheduleName).
+        /// </summary>
+        internal static string CreateSchedule {
+            get {
+                return ResourceManager.GetString("CreateSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CREATE SCHEMA [UWGB] AUTHORIZATION dbo.
         /// </summary>
         internal static string CreateSchemas {
             get {
                 return ResourceManager.GetString("CreateSchemas", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to INSERT INTO 
+        ///    [UWGB].[Staff] 
+        ///    (fName, mName, lName, position, email, belayCert) 
+        ///VALUES 
+        ///    (@fName, @mName, @lName, @position, @email, @belayCert).
+        /// </summary>
+        internal static string CreateStaff {
+            get {
+                return ResourceManager.GetString("CreateStaff", resourceCulture);
             }
         }
         
@@ -128,6 +181,269 @@ namespace Schedule_Creator_V2 {
         internal static string CreateTables {
             get {
                 return ResourceManager.GetString("CreateTables", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE 
+        ///	FROM 
+        ///		[UWGB].[Availability] 
+        ///WHERE 
+        ///	id = @id.
+        /// </summary>
+        internal static string DeleteAllAvailability {
+            get {
+                return ResourceManager.GetString("DeleteAllAvailability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM [UWGB].[JobSettings].
+        /// </summary>
+        internal static string DeleteAllJobSettings {
+            get {
+                return ResourceManager.GetString("DeleteAllJobSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM 
+        ///    [UWGB].[DaysOff] 
+        ///WHERE 
+        ///    id = @id AND Date = @date.
+        /// </summary>
+        internal static string DeleteDaysOff {
+            get {
+                return ResourceManager.GetString("DeleteDaysOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DELETE
+        ///	FROM
+        ///		[UWGB].[JobSettings]
+        ///WHERE
+        ///		DayOfWeek = @DayOfWeek.
+        /// </summary>
+        internal static string DeleteJobSettingsOnDay {
+            get {
+                return ResourceManager.GetString("DeleteJobSettingsOnDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT DISTINCT 
+        ///    scheduleName
+        ///FROM
+        ///    [UWGB].[Schedule].
+        /// </summary>
+        internal static string ReadAllScheduleNames {
+            get {
+                return ResourceManager.GetString("ReadAllScheduleNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	* 
+        ///FROM 
+        ///	[UWGB].[Availability] 
+        ///WHERE 
+        ///	id = @id.
+        /// </summary>
+        internal static string ReadAvailByID {
+            get {
+                return ResourceManager.GetString("ReadAvailByID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	* 
+        ///FROM 
+        ///	[UWGB].[Availability] 
+        ///WHERE 
+        ///	@id = id.
+        /// </summary>
+        internal static string ReadAvailForStaffByID {
+            get {
+                return ResourceManager.GetString("ReadAvailForStaffByID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	* 
+        ///FROM 
+        ///	[UWGB].[DaysOff].
+        /// </summary>
+        internal static string ReadDaysOff {
+            get {
+                return ResourceManager.GetString("ReadDaysOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///    *
+        ///FROM
+        ///    [UWGB].[JobSettings].
+        /// </summary>
+        internal static string ReadJobSettings {
+            get {
+                return ResourceManager.GetString("ReadJobSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT Distinct
+        ///    DayOfWeek
+        ///FROM
+        ///    [UWGB].[JobSettings].
+        /// </summary>
+        internal static string ReadJobSettingsDays {
+            get {
+                return ResourceManager.GetString("ReadJobSettingsDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///	*
+        ///FROM
+        ///	[UWGB].[Schedule].
+        /// </summary>
+        internal static string ReadSchedule {
+            get {
+                return ResourceManager.GetString("ReadSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///	*
+        ///FROM
+        ///	[UWGB].[Schedule]
+        ///WHERE
+        ///	scheduleName = @scheduleName.
+        /// </summary>
+        internal static string ReadScheduleByScheduleName {
+            get {
+                return ResourceManager.GetString("ReadScheduleByScheduleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///	*
+        ///FROM
+        ///	[UWGB].[Schedule]
+        ///WHERE
+        ///	dayOfWeek = @dayOfWeek.
+        /// </summary>
+        internal static string ReadScheduleOnDay {
+            get {
+                return ResourceManager.GetString("ReadScheduleOnDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///	*
+        ///FROM
+        ///	[UWGB].[Staff];.
+        /// </summary>
+        internal static string ReadStaff {
+            get {
+                return ResourceManager.GetString("ReadStaff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///    *
+        ///FROM 
+        ///    [UWGB].[Staff]
+        ///WHERE 
+        ///    id IN (
+        ///        SELECT 
+        ///            id
+        ///        FROM 
+        ///            [UWGB].[Availability]
+        ///        WHERE 
+        ///            dayOfTheWeek = @dayOfTheWeek
+        ///);.
+        /// </summary>
+        internal static string ReadStaffAvailOnDay {
+            get {
+                return ResourceManager.GetString("ReadStaffAvailOnDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT 
+        ///	* 
+        ///FROM 
+        ///	[UWGB].[Staff] 
+        ///WHERE 
+        ///	id = @id.
+        /// </summary>
+        internal static string ReadStaffByID {
+            get {
+                return ResourceManager.GetString("ReadStaffByID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT
+        ///    s.id, s.fName, s.lName, a.dayOfTheWeek, a.startTime, a.endTime
+        ///FROM
+        ///    [UWGB].[Staff] s
+        ///RIGHT JOIN
+        ///    [UWGB].[Availability] a
+        ///ON
+        ///
+        ///    s.id = a.id
+        ///WHERE
+        ///    a.dayOfTheWeek = @day.
+        /// </summary>
+        internal static string ReadStaffNamesAndAvailOnDay {
+            get {
+                return ResourceManager.GetString("ReadStaffNamesAndAvailOnDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE 
+        ///    [UWGB].[Staff]
+        ///SET 
+        ///    belayCert = @belayCert,
+        ///    certifiedOn = @certifiedOn,
+        ///    expiresOn = @expiresOn
+        ///WHERE 
+        ///    id = @id.
+        /// </summary>
+        internal static string UpdateBelayCert {
+            get {
+                return ResourceManager.GetString("UpdateBelayCert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to UPDATE 
+        ///	[UWGB].[Staff] 
+        ///SET 
+        ///	fName = @fName, 
+        ///	mName = @mName, 
+        ///	lName = @lName, 
+        ///	position = @position, 
+        ///	email = @email 
+        ///WHERE 
+        ///	id = @id.
+        /// </summary>
+        internal static string UpdateStaff {
+            get {
+                return ResourceManager.GetString("UpdateStaff", resourceCulture);
             }
         }
     }

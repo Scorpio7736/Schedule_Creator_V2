@@ -46,7 +46,7 @@ namespace Schedule_Creator_V2
 
             if (inputsAndLabels.CheckIfNulls())
             {
-                DatabaseCreate.RemoveAllFromAll(((Staff)StaffSelector.SelectedItem).id);
+                DatabaseDelete.DeleteAllByID(((Staff)StaffSelector.SelectedItem).id);
                 Messages.Display(new Message("We are sad to see you leave :(", "Staff Deleted"));
                 inputsAndLabels.ResetAll();
                 StaffSelector.ItemsSource = DatabaseRead.ReadStaff();

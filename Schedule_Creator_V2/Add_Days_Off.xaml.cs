@@ -55,8 +55,8 @@ namespace Schedule_Creator_V2
                 string reason = ReasonBox.Text;
 
 
-                DatabaseCreate.RemoveDaysOff(id, DateList);
-                DatabaseCreate.AddDaysOff(id, DateList, reason);
+                DatabaseDelete.DeleteDaysOff(id, DateList);
+                DatabaseCreate.CreateDaysOff(id, DateList, reason);
 
                 Messages.Display(new Message("Requested day(s) off", "Request made!"));
 

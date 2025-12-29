@@ -60,7 +60,7 @@ namespace Schedule_Creator_V2
 
                 Positions selectedPosition = (Positions)JobPositionComboBox.SelectedItem;
 
-                DatabaseCreate.AddStaff(firstName, middleName, lastName, selectedPosition, (byte[]?)null, staffEmail, false);
+                DatabaseCreate.CreateStaff(firstName, middleName, lastName, selectedPosition, (byte[]?)null, staffEmail, false);
 
                 Messages.Display(new Message($"Staff member {firstName} {lastName} was added to the team!", "Staff Added!"));
 

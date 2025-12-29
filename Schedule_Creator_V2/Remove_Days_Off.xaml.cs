@@ -68,7 +68,7 @@ namespace Schedule_Creator_V2
                 List<DateOnly> DateList = UniFunc.GetRangeOfDates(startDate, endtDate);
 
 
-                DatabaseCreate.RemoveDaysOff(id, DateList);
+                DatabaseDelete.DeleteDaysOff(id, DateList);
 
                 Messages.Display(new Message("Removed day(s) off", "Deletion made!"));
 

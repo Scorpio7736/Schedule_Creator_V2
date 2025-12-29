@@ -57,7 +57,7 @@ namespace Schedule_Creator_V2
                 SelectStaffLabel.Reset();
 
                 int id = ((Staff)StaffSelector.SelectedItem).id;
-                var availList = DatabaseRead.ReadAvailForStaffMem(id);
+                var availList = DatabaseRead.ReadAvailForStaffByID(id);
 
                 DisplayData((Staff)StaffSelector.SelectedItem, availList);
                 

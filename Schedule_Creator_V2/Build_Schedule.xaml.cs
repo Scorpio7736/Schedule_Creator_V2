@@ -36,7 +36,7 @@ namespace Schedule_Creator_V2
                 return true;
             }
 
-            if (DatabaseRead.GetAllScheduleNames().Contains(scheduleName))
+            if (DatabaseRead.ReadAllScheduleNames().Contains(scheduleName))
             {
                 Messages.Display(new Error(
                     1002,
@@ -68,7 +68,7 @@ namespace Schedule_Creator_V2
                     DayOfWeek tempDay = pair.day;
                     Staff tempStaff = pair.staff;
 
-                   DatabaseCreate.AddSchedule(new ScheduleRow(
+                   DatabaseCreate.CreateSchedule(new ScheduleRow(
                         tempDay, 
                         (int)tempStaff.id,
                         ScheduleNameBox.Text
@@ -157,7 +157,7 @@ namespace Schedule_Creator_V2
 
             foreach (DayOfWeek day in allDays)
             {
-                if (DatabaseRead.GetStaffNameAndAvail(day).Count > 0)
+                if (DatabaseRead.ReadStaffNamesAndAvailOnDay(day).Count > 0)
                 {
                     openDays.Add(day);
                 }

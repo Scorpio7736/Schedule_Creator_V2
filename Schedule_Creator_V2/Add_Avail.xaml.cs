@@ -21,7 +21,7 @@ namespace Schedule_Creator_V2
         {
             int staffID = ((Staff)StaffComboBox.SelectedItem).id;
 
-            List<Availability> availabilities = DatabaseRead.ReadAvailabilityByID(staffID);
+            List<Availability> availabilities = DatabaseRead.ReadAvailByID(staffID);
 
             AvailGrid.Items.Clear();
 
@@ -72,7 +72,7 @@ namespace Schedule_Creator_V2
         private void Save_Btn_Click(object sender, RoutedEventArgs e)
         {
             int staffID = ((Staff)StaffComboBox.SelectedItem).id;
-            DatabaseCreate.RemoveAllAvailability(staffID);
+            DatabaseDelete.DeleteAllAvailability(staffID);
 
             foreach (AvailRow item in AvailGrid.Items)
             {
@@ -80,7 +80,7 @@ namespace Schedule_Creator_V2
                 if (item.IsThereNull() == false)
                 {
                     
-                    DatabaseCreate.AddAvailability(
+                    DatabaseCreate.CreateAvailability(
                         new Availability(
                         staffID,
                         (DayOfWeek)item.dayOfTheWeek.SelectedItem,
@@ -108,7 +108,7 @@ namespace Schedule_Creator_V2
         {
             int staffID = ((Staff)StaffComboBox.SelectedItem).id;
 
-            DatabaseCreate.RemoveAllAvailability(staffID);
+            DatabaseDelete.DeleteAllAvailability(staffID);
 
             Cancel_Btn_Click();
 

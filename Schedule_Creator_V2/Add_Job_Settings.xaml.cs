@@ -43,7 +43,7 @@ namespace Schedule_Creator_V2
 
         private void RemoveAll_Click(object sender, RoutedEventArgs e)
         {
-            DatabaseCreate.RemoveJobSettings();
+            DatabaseDelete.DeleteAllJobSettings();
             CancelButton_Click();
 
             Messages.Display(new Message("All Job Settings have been deleted.", "All Settings Deleted!"));
@@ -51,14 +51,14 @@ namespace Schedule_Creator_V2
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
 
-            DatabaseCreate.RemoveJobSettings();
+            DatabaseDelete.DeleteAllJobSettings();
 
             foreach (JobSettingsRow item in JobSettingsGrid.Items)
             {
 
                 if (item.IsThereNull() == false)
                 {
-                    DatabaseCreate.AddJobSettings(new JobSettings(
+                    DatabaseCreate.CreateJobSettings(new JobSettings(
                         (DayOfWeek)item.dayOfTheWeek.SelectedItem,
                         TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
                         TimeOnly.FromDateTime(item.endTimePicker.Value.Value)

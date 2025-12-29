@@ -8,35 +8,21 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
-        public static List<DayOfWeek> GetJobSettingsDays()
+        public static List<DayOfWeek> ReadJobSettingsDays()
         {
             List<DayOfWeek> returnList = new List<DayOfWeek>();
-            using (var reader = ExecuteReader(
-                """
-                SELECT Distinct
-                    DayOfWeek
-                FROM
-                    [UWGB].[JobSettings]
-                """
-                ))
+            using (var reader = ExecuteReader(Queries.ReadJobSettingsDays))
             while (reader.Read())
             {
                 returnList.Add(Enum.Parse<DayOfWeek>((string)reader["DayOfWeek"]));
             }
             return returnList;
         }
-        public static List<ScheduleRow> GetScheduleByName(string scheduleName)
+        public static List<ScheduleRow> ReadScheduleByScheduleName(string scheduleName)
         {
             List<ScheduleRow> returnList = new List<ScheduleRow>();
             using (var reader = ExecuteReader(
-                """
-                SELECT
-                *
-                FROM
-                [UWGB].[Schedule]
-                WHERE
-                scheduleName = @scheduleName
-                """,
+                Queries.ReadScheduleByScheduleName,
                 new SqlParameter("@scheduleName", scheduleName)
                 ))
                 while (reader.Read())
@@ -50,17 +36,10 @@ namespace Schedule_Creator_V2.Services
             return returnList;
         }
 
-        public static List<string> GetAllScheduleNames()
+        public static List<string> ReadAllScheduleNames()
         {
                        List<string> returnList = new List<string>();
-            using (var reader = ExecuteReader(
-                """
-                SELECT DISTINCT 
-                	scheduleName
-                FROM
-                	[UWGB].[Schedule]
-                """
-                ))
+            using (var reader = ExecuteReader(Queries.ReadAllScheduleNames))
             while (reader.Read())
             {
                 returnList.Add((string)reader["scheduleName"]);
@@ -68,10 +47,10 @@ namespace Schedule_Creator_V2.Services
             return returnList;
         }
 
-        public static Staff GetStaffByID(int id)
+        public static Staff ReadStaffByID(int id)
         {
             using (var reader = ExecuteReader(
-                "SELECT * FROM [UWGB].[Staff] WHERE id = @id",
+                Queries.ReadStaffByID,
                 new SqlParameter("@id", id)))
             {
                 if (reader.Read())
@@ -92,25 +71,12 @@ namespace Schedule_Creator_V2.Services
             }
         }
 
-        public static List<StaffNameAndAvail> GetStaffNameAndAvail(DayOfWeek day)
+        public static List<StaffNameAndAvail> ReadStaffNamesAndAvailOnDay(DayOfWeek day)
         {
             List<StaffNameAndAvail> returnList = new List<StaffNameAndAvail>();
 
             using (var reader = ExecuteReader(
-                """
-                SELECT
-
-                    s.id, s.fName, s.lName, a.dayOfTheWeek, a.startTime, a.endTime
-                FROM
-                    [UWGB].[Staff] s
-                RIGHT JOIN
-                    [UWGB].[Availability] a
-                ON
-
-                    s.id = a.id
-                WHERE
-                    a.dayOfTheWeek = @day
-                """,
+                Queries.ReadStaffNamesAndAvailOnDay,
                 new SqlParameter("@day", day)
                 ))
                 while (reader.Read())
@@ -126,67 +92,11 @@ namespace Schedule_Creator_V2.Services
             return returnList;
         }
 
-        public static List<ScheduleRow> GetSchedule()
-        {
-            List<ScheduleRow> returnList = new List<ScheduleRow>();
-
-            using (var reader = ExecuteReader(
-                """
-                SELECT
-                *
-                FROM
-                [UWGB].[Schedule]
-                """
-                ))
-            while (reader.Read())
-            {
-                returnList.Add(new ScheduleRow(
-                    Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
-                    (int)reader["staffID"],
-                    (string)reader["scheduleName"]
-                    ));
-            }
-            return returnList;
-        }
-
-        public static List<ScheduleRow> GetScheduleOnDay(DayOfWeek day)
-        {
-            List<ScheduleRow> returnList = new List<ScheduleRow>();
-
-            using (var reader = ExecuteReader(
-                """
-                SELECT
-                *
-                FROM
-                [UWGB].[Schedule]
-                WHERE
-                dayOfWeek = @dayOfWeek
-                """,
-                new SqlParameter("@dayOfWeek", day.ToString())
-                ))
-                while (reader.Read())
-                {
-                    returnList.Add(new ScheduleRow(
-                        Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
-                        (int)reader["staffID"],
-                        (string)reader["scheduleName"]
-                        ));
-                }
-            return returnList;
-        }
-
         public static List<JobSettings> ReadJobSettings()
         {
             List<JobSettings> returnList = new List<JobSettings>();
 
-            using (var reader = ExecuteReader(
-                """
-                SELECT
-                    *
-                FROM
-                    [UWGB].[JobSettings]
-                """
-                ))
+            using (var reader = ExecuteReader(Queries.ReadJobSettings))
             while (reader.Read())
                 {
                     returnList.Add(new JobSettings(
@@ -200,15 +110,8 @@ namespace Schedule_Creator_V2.Services
         public static List<Staff> ReadStaffAvailOnDay(DayOfWeek dayOfTheWeek)
         {
             List<Staff> returnList = new List<Staff>();
-            using (var reader = ExecuteReader("""
-                                SELECT *
-                FROM [UWGB].[Staff]
-                WHERE id IN (
-                    SELECT id
-                    FROM [UWGB].[Availability]
-                    WHERE dayOfTheWeek = @dayOfTheWeek
-                );
-                """,
+            using (var reader = ExecuteReader(
+                Queries.ReadStaffAvailOnDay,
                 new SqlParameter("@dayOfTheWeek", dayOfTheWeek)
                 ))
             {
@@ -229,39 +132,11 @@ namespace Schedule_Creator_V2.Services
             }
             return returnList;
         }
-        public static List<Staff> ReadStaffWithNoAvail()
-        {
-            List<Staff> returnList = new List<Staff>();
-            using (var reader = ExecuteReader("""
-                                SELECT *
-                FROM [UWGB].[Staff]
-                WHERE id NOT IN (
-                    SELECT id
-                    FROM [UWGB].[Availability]
-                );
-                """))
-            {
-                while (reader.Read())
-                {
-                    returnList.Add(new Staff(
-                        (int)reader["id"],
-                        (string)reader["fName"],
-                        (string)reader["mName"],
-                        (string)reader["lName"],
-                        Enum.Parse<Positions>((string)reader["position"]),
-                        (string)reader["email"],
-                        bool.Parse((string)reader["belayCert"]),
-                        reader["certifiedOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["certifiedOn"]),
-                        reader["expiresOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["expiresOn"])
-                    ));
-                }
-            }
-            return returnList;
-        }
+       
         public static List<Staff> ReadStaff()
         {
             List<Staff> returnList = new List<Staff>();
-            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[Staff]"))
+            using (var reader = ExecuteReader(Queries.ReadStaff))
             {
                 while (reader.Read())
                 {
@@ -281,35 +156,11 @@ namespace Schedule_Creator_V2.Services
             return returnList;
         }
 
-        public static Staff ReadStaffByID(int id)
-        {
-            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[Staff] WHERE id = @id", new SqlParameter("@id", id)))
-            {
-                if (reader.Read())
-                {
-                    return new Staff(
-                        (int)reader["id"],
-                        (string)reader["fName"],
-                        (string)reader["mName"],
-                        (string)reader["lName"],
-                        Enum.Parse<Positions>((string)reader["position"]),
-                        (string)reader["email"],
-                        bool.Parse((string)reader["belayCert"]),
-                        reader["certifiedOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["certifiedOn"]),
-                        reader["expiresOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["expiresOn"])
-                        );
-                }
-                return new Staff(1, "", "", "", Positions.Unknown, "",false, null, null);
-            }
-        }
-
-
-
-        public static List<Availability> ReadAvailForStaffMem(int id)
+        public static List<Availability> ReadAvailForStaffByID(int id)
         {
             var returnList = new List<Availability>();
             using (var reader = ExecuteReader(
-                "SELECT * FROM [UWGB].[Availability] WHERE @id = id",
+                Queries.ReadAvailForStaffByID,
                 new SqlParameter("@id", id)))
             {
                 while (reader.Read())
@@ -326,30 +177,12 @@ namespace Schedule_Creator_V2.Services
 
             return returnList.OrderBy(a => a.dayOfTheWeek).ToList();
         }
-     
 
-        public static List<Availability> ReadAvailability()
+        public static List<Availability> ReadAvailByID(int id)
         {
             List<Availability> returnList = new List<Availability>();
-            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[Availability]"))
-            {
-                while (reader.Read())
-                {
-                    returnList.Add(new Availability(
-                        (int)(reader["id"]),
-                        Enum.Parse<DayOfWeek>(reader["dayOfTheWeek"].ToString()),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
-                        TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"])
-                        ));
-                }
-            }
-            return returnList;
-        }
-
-        public static List<Availability> ReadAvailabilityByID(int id)
-        {
-            List<Availability> returnList = new List<Availability>();
-            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[Availability] WHERE id = @id",
+            using (var reader = ExecuteReader(
+                Queries.ReadAvailByID,
                 new SqlParameter("@id", id)
                 ))
             {
@@ -369,7 +202,7 @@ namespace Schedule_Creator_V2.Services
         public static List<DaysOff> ReadDaysOff()
         {
             List<DaysOff> returnList = new List<DaysOff> ();
-            using (var reader = ExecuteReader("SELECT * FROM [UWGB].[DaysOff]"))
+            using (var reader = ExecuteReader(Queries.ReadDaysOff))
             {
                 while (reader.Read())
                 {

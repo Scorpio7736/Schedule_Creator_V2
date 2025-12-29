@@ -118,16 +118,85 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="AddSchedule" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Queries\AddSchedule.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="CreateAvailability" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Create\CreateAvailability.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CreateDatabase" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Queries\CreateDatabase.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Queries\Migration\CreateDatabase.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="CreateDaysOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Create\CreateDaysOff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="CreateJobSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Create\CreateJobSettings.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="CreateSchedule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Create\CreateSchedule.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CreateSchemas" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Queries\CreateSchemas.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Queries\Migration\CreateSchemas.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="CreateStaff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Create\CreateStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="CreateTables" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Queries\CreateTables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>Queries\Migration\CreateTables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DeleteAllAvailability" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Delete\DeleteAllAvailability.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DeleteAllJobSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Delete\DeleteAllJobSettings.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DeleteDaysOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Delete\DeleteDaysOff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="DeleteJobSettingsOnDay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Delete\DeleteJobSettingsOnDay.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadAllScheduleNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadAllScheduleNames.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadAvailByID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadAvailByID.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadAvailForStaffByID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadAvailForStaffByID.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadDaysOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadDaysOff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadJobSettings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadJobSettings.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadJobSettingsDays" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadJobSettingsDays.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadSchedule" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadSchedule.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadScheduleByScheduleName" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadScheduleByScheduleName.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadScheduleOnDay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadScheduleOnDay.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadStaff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadStaffAvailOnDay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadStaffAvailOnDay.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadStaffByID" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadStaffByID.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ReadStaffNamesAndAvailOnDay" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadStaffNamesAndAvailOnDay.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UpdateBelayCert" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Update\UpdateBelayCert.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="UpdateStaff" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Update\UpdateStaff.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>
