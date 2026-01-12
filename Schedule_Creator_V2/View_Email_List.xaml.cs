@@ -1,5 +1,6 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
+using System.Collections;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,15 +15,38 @@ namespace Schedule_Creator_V2
         public View_Email_List()
         {
             InitializeComponent();
-            AvailabilityComboBox.ItemsSource = Enum.GetValues(typeof(DayOfWeek));
+            ArrayList AvailSelectorValues = new ArrayList()
+            {
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday",
+                "Sunday",
+                "No Availability"
+            };
+
+            AvailabilityComboBox.ItemsSource = AvailSelectorValues;
         }
 
-       
+
         private void LoadData(object sender, RoutedEventArgs e)
         {
-            DayOfWeek selectedDay = Enum.Parse<DayOfWeek>(AvailabilityComboBox.SelectedItem.ToString());
+            List<Staff> availOnDay;
+
+            try
+            {
+                DayOfWeek selectedDay = Enum.Parse<DayOfWeek>(AvailabilityComboBox.SelectedItem?.ToString());
+
+                availOnDay = DatabaseRead.ReadStaffAvailOnDay(selectedDay);
+            }
+            catch
+            {
+                availOnDay = DatabaseRead.ReadStaffWithNoAvail();
+            }
+
             List<ViewEmailRow> rows = new List<ViewEmailRow>();
-            List<Staff> availOnDay = DatabaseRead.ReadStaffAvailOnDay(selectedDay);
             List<string> availEmails = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -32,12 +56,13 @@ namespace Schedule_Creator_V2
                     staff.fName,
                     staff.lName,
                     staff.email
-                    ));
+                ));
+
                 availEmails.Add(staff.email);
             }
 
             UsersDataGrid.ItemsSource = rows;
-            
+
             for (int i = 0; i < availEmails.Count; i++)
             {
                 stringBuilder.Append(availEmails[i]);
@@ -48,12 +73,13 @@ namespace Schedule_Creator_V2
             }
 
             EmailsTextBox.Text = stringBuilder.ToString();
-
         }
+
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            Clipboard.SetText(EmailsTextBox.Text);
+            MessageBox.Show("Emails copied to clipboard!");
         }
     }
 }

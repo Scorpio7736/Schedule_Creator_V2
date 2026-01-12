@@ -124,10 +124,9 @@ namespace Schedule_Creator_V2 {
         ///    [UWGB].[Schedule]
         ///WHERE
         ///    scheduleName = @scheduleName
-        ///
         ///INSERT INTO
         ///    [UWGB].[Schedule]
-        ///    (dayOfWeek, staffID, scheduleName)
+        ///    ([dayOfWeek], staffID, scheduleName)
         ///VALUES
         ///    (@dayOfWeek, @staffID, @scheduleName).
         /// </summary>
@@ -410,6 +409,30 @@ namespace Schedule_Creator_V2 {
         internal static string ReadStaffNamesAndAvailOnDay {
             get {
                 return ResourceManager.GetString("ReadStaffNamesAndAvailOnDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT DISTINCT
+        ///    a.id,
+        ///    a.dayOfTheWeek,
+        ///    a.startTime,
+        ///    a.endTime,
+        ///    s.fName,
+        ///    s.mName,
+        ///    s.lName,
+        ///    s.position,
+        ///    s.email,
+        ///    s.belayCert,
+        ///    s.certifiedOn,
+        ///    s.expiresOn
+        ///FROM UWGB.Availability AS a
+        ///INNER JOIN UWGB.Staff AS s
+        ///    ON a.id = s.id;.
+        /// </summary>
+        internal static string ReadStaffWithNoAvail {
+            get {
+                return ResourceManager.GetString("ReadStaffWithNoAvail", resourceCulture);
             }
         }
         

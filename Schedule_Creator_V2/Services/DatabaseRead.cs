@@ -8,6 +8,29 @@ namespace Schedule_Creator_V2.Services
     internal class DatabaseRead : Database
     {
 
+        public static List<Staff> ReadStaffWithNoAvail()
+        {
+            List<Staff> returnList = new List<Staff>();
+
+            using (var reader = ExecuteReader(Queries.ReadStaffWithNoAvail))
+            while (reader.Read())
+            {
+                returnList.Add(new Staff(
+                    (int)reader["id"],
+                    (string)reader["fName"],
+                    (string)reader["mName"],
+                    (string)reader["lName"],
+                    Enum.Parse<Positions>((string)reader["position"]),
+                    (string)reader["email"],
+                    bool.Parse((string)reader["belayCert"]),
+                    reader["certifiedOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["certifiedOn"]),
+                    reader["expiresOn"] is DBNull ? null : DateOnly.FromDateTime((DateTime)reader["expiresOn"])
+                ));
+            }
+
+            return returnList;
+        }
+
         public static List<DayOfWeek> ReadJobSettingsDays()
         {
             List<DayOfWeek> returnList = new List<DayOfWeek>();
