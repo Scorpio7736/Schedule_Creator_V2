@@ -58,5 +58,21 @@ namespace Schedule_Creator_V2
             List<ScheduleRow> staffRows = DatabaseRead.ReadScheduleByScheduleName(ScheduleComboBox.SelectedItem.ToString());
             
         }
+
+
+
+
+
+        /*
+         * LOGIC PATH AND IDEA OF HOW THIS PAGE SHOULD WORK:
+         * 
+         * 1. select * from database where schedule_name = selected_schedule_name on day
+         * 2. create lists for each day of the week in order of row
+         * 3. for each item in each list for each row, make new record row
+         * 4. list of records display in grid 
+         */
+
+
+
     }
 }

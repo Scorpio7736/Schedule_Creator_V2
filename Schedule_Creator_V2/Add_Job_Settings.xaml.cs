@@ -63,6 +63,12 @@ namespace Schedule_Creator_V2
                         TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
                         TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
                     ));
+
+                    Messages.Display(
+                        new Message(
+                            "Job Settings have been saved successfully.", 
+                            "Settings Saved!"
+                        ));
                 }
                 else
                 {

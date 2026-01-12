@@ -50,7 +50,15 @@ namespace Schedule_Creator_V2
 
         private void SaveSchedule_Click(object sender, RoutedEventArgs e)
         {
-            
+
+            /*
+             * CHANGE LOGIC:
+             *  1. Create lists for each filled day column
+             *  2. change database to be ScheduleName, DayOfWeek, StaffID
+             *  3. Loop through and save each entry
+             */
+
+
             if (ErrorChecker())
             {
                 return;
@@ -68,11 +76,12 @@ namespace Schedule_Creator_V2
                     DayOfWeek tempDay = pair.day;
                     Staff tempStaff = pair.staff;
 
-                   DatabaseCreate.CreateSchedule(new ScheduleRow(
-                        tempDay, 
-                        (int)tempStaff.id,
-                        ScheduleNameBox.Text
-                   ));
+                   DatabaseCreate.CreateSchedule(
+                       new ScheduleRow(
+                            tempDay, 
+                            (int)tempStaff.id,
+                            ScheduleNameBox.Text
+                        ));
                 }
             }
 
