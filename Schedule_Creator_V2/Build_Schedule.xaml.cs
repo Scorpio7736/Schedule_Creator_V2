@@ -48,42 +48,69 @@ namespace Schedule_Creator_V2
             return false;
         }
 
+        private List<BuildNewScheduleRow> GetBuildNewScheduleRows()
+        {
+            List<BuildNewScheduleRow> returnList = new List<BuildNewScheduleRow>();
+            List<BuildScheduleRow> rows = _rows.ToList();
+
+            foreach (BuildScheduleRow row in rows)
+            {
+
+                string scheduleName = ScheduleNameBox.Text;
+                StaffNameAndAvail mondayStaff = (StaffNameAndAvail)row.MonBox.Key.SelectedItem;
+                StaffNameAndAvail tuesdayStaff = (StaffNameAndAvail)row.TueBox.Key.SelectedItem;
+                StaffNameAndAvail wednesdayStaff = (StaffNameAndAvail)row.WedBox.Key.SelectedItem;
+                StaffNameAndAvail thursdayStaff = (StaffNameAndAvail)row.ThuBox.Key.SelectedItem;
+                StaffNameAndAvail fridayStaff = (StaffNameAndAvail)row.FriBox.Key.SelectedItem;
+                StaffNameAndAvail saturdayStaff = (StaffNameAndAvail)row.SatBox.Key.SelectedItem;
+                StaffNameAndAvail sundayStaff = (StaffNameAndAvail)row.SunBox.Key.SelectedItem;
+
+                BuildNewScheduleRow newRow = new BuildNewScheduleRow
+                (
+                    scheduleName,
+                    mondayStaff,
+                    tuesdayStaff,
+                    wednesdayStaff,
+                    thursdayStaff,
+                    fridayStaff,
+                    saturdayStaff,
+                    sundayStaff
+                );
+                returnList.Add(newRow);
+            }
+            return returnList;
+        }
+
         private void SaveSchedule_Click(object sender, RoutedEventArgs e)
         {
-
-            /*
-             * CHANGE LOGIC:
-             *  1. Create lists for each filled day column
-             *  2. change database to be ScheduleName, DayOfWeek, StaffID
-             *  3. Loop through and save each entry
-             */
-
 
             if (ErrorChecker())
             {
                 return;
             }
 
+            List<BuildNewScheduleRow> newScheduleRows = GetBuildNewScheduleRows();
 
-            ObservableCollection<BuildScheduleRow> rowsToSave = ScheduleGrid.ItemsSource as ObservableCollection<BuildScheduleRow>;
-
-            foreach (BuildScheduleRow row in rowsToSave)
+            foreach (BuildNewScheduleRow row in newScheduleRows)
             {
-                List<DayOfWeekStaffPair> selectedStaff = row.getSelectedStaff();
 
-                foreach (DayOfWeekStaffPair pair in selectedStaff)
+                List<(DayOfWeek, StaffNameAndAvail)> rowItems = row.GetRowsItemsWithDay();
+
+                foreach ((DayOfWeek, StaffNameAndAvail) item in rowItems)
                 {
-                    DayOfWeek tempDay = pair.day;
-                    Staff tempStaff = pair.staff;
-
-                   DatabaseCreate.CreateSchedule(
-                       new ScheduleRow(
-                            tempDay, 
-                            (int)tempStaff.id,
-                            ScheduleNameBox.Text
-                        ));
+                    //TODO: ONly Last Day Is Saved FOR SOME REASON!!!
+                    DatabaseCreate.CreateSchedule(
+                        new ScheduleRow(
+                            item.Item1,
+                            item.Item2.id,
+                            row.scheduleName
+                            ));
+                    
                 }
+
             }
+
+
 
             Messages.Display(new Message(
                 "Schedule Saved Successfully!", 
