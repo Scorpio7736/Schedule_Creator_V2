@@ -12,7 +12,7 @@ CREATE TABLE [UWGB].[DaysOff] (
 );
 
 CREATE TABLE [UWGB].[JobSettings] (
-    [DayOfWeek]   NVARCHAR (50) NOT NULL,
+    [DayOfWeek]   NVARCHAR (50) NOT NULL PRIMARY KEY,
     [OpeningTime] TIME (2)      NOT NULL,
     [ClosingTime] TIME (2)      NOT NULL
 );
