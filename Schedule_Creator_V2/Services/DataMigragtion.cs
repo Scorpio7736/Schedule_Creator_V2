@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Configuration;
 using System.IO;
+using Schedule_Creator_V2.Models;
 
 namespace Schedule_Creator_V2.Services
 {
@@ -24,8 +25,16 @@ namespace Schedule_Creator_V2.Services
 
         private static void CreateDatabase()
         {
+            string welcomeMessage = """
+                This app helps you manage staff details, availability, days off, and job settings all in one place.
+                It also helps you build and review schedules faster so your team can stay organized.
+                Credit: Designed and maintained by Jack London.
+                """;
+
             CreateDatabaseFile();
             CreateDatabaseSchema();
+
+            Messages.Display(new Message(welcomeMessage, "Welcome New User!"));
         }
 
 
