@@ -27,6 +27,15 @@ namespace Schedule_Creator_V2
             }                
         }
 
+        /// <summary>
+        /// Adds a new row to the JobSettingsGrid for each JobSettings object in the specified list.
+        /// </summary>
+        /// <remarks>
+        /// Each JobSettings object in the list is used to create a new JobSettingsRow, which is
+        /// then added to the JobSettingsGrid. The order of the rows in the grid corresponds to the order of the objects
+        /// in the provided list.
+        /// </remarks>
+        /// <param name="settings">A list of JobSettings objects to be added as new rows to the grid. Cannot be null.</param>
         public void MakeNewRow(List<JobSettings> settings)
         {
             foreach (JobSettings setting in settings)
@@ -48,6 +57,14 @@ namespace Schedule_Creator_V2
 
             Messages.Display(new Message("All Job Settings have been deleted.", "All Settings Deleted!"));
         }
+        /// <summary>
+        /// Handles the click event for the Save button by validating and saving job settings to the database.
+        /// </summary>
+        /// <remarks>This method deletes all existing job settings before saving new ones. If any job
+        /// setting contains a null value, the operation is halted and an error message is displayed. Upon successful
+        /// completion, a confirmation message is shown to the user.</remarks>
+        /// <param name="sender">The source of the event, typically the Save button that was clicked.</param>
+        /// <param name="e">The event data associated with the click event.</param>
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -63,12 +80,6 @@ namespace Schedule_Creator_V2
                         TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
                         TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
                     ));
-
-                    Messages.Display(
-                        new Message(
-                            "Job Settings have been saved successfully.", 
-                            "Settings Saved!"
-                        ));
                 }
                 else
                 {
@@ -77,9 +88,16 @@ namespace Schedule_Creator_V2
                             1000,
                             "Null Value Error"
                         ));
-                    break;
+                    return;
                 }
             }
+
+            Messages.Display(
+                        new Message(
+                            "Job Settings have been saved successfully.",
+                            "Settings Saved!"
+                        ));
+
         }
 
         private void CancelButton_Click(object? sender = null, RoutedEventArgs? e = null)
