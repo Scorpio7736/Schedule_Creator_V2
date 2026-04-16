@@ -56,8 +56,8 @@
                         <TextBlock.ToolTip>
                             <ToolTip>
                                 <TextBlock Width="260" TextWrapping="Wrap">
-                                    This page shows only days that are within defined job hours and have qualified staff available to work.<LineBreak />
-                                    Days outside job hours or with no available staff are automatically hidden.</TextBlock>
+                                    This page shows only days that are configured in Job Settings.<LineBreak />
+                                    Update Job Settings to control which day columns appear when building a schedule.</TextBlock>
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
