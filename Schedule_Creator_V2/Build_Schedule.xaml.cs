@@ -152,36 +152,17 @@ namespace Schedule_Creator_V2
 
         private void SetAvailCol()
         {
-            List<DayOfWeek> openDays = new List<DayOfWeek>();
+            List<DayOfWeek> jobSettingDays = DatabaseRead.ReadJobSettingsDays();
 
-            DayOfWeek[] allDays =
+            if (jobSettingDays.Count > 0)
             {
-                DayOfWeek.Monday,
-                DayOfWeek.Tuesday,
-                DayOfWeek.Wednesday,
-                DayOfWeek.Thursday,
-                DayOfWeek.Friday,
-                DayOfWeek.Saturday,
-                DayOfWeek.Sunday
-            };
-
-            foreach (DayOfWeek day in allDays)
-            {
-                if (DatabaseRead.ReadStaffNamesAndAvailOnDay(day).Count > 0)
-                {
-                    openDays.Add(day);
-                }
-            }
-
-            if (openDays.Count > 0)
-            {
-                SetColVis(openDays);
+                SetColVis(jobSettingDays);
             }
             else
             {
                 Messages.Display(new Error(
                     1000,
-                    "No Staff Availability Saved!"
+                    "No job setting days found. Please configure job settings first."
                     ));
             }
 
