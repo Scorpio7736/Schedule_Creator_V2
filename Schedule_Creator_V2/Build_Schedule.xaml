@@ -61,6 +61,16 @@
                             </ToolTip>
                         </TextBlock.ToolTip>
                     </TextBlock>
+
+                    <Button
+                        x:Name="AutoComplete_BTN"
+                        Content="Auto Complete A Schedule"
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        MinWidth="0"
+                        
+                        />
+
                 </Grid>
 
 
