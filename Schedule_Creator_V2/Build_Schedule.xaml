@@ -65,6 +65,7 @@
                     <Button
                         x:Name="AutoComplete_BTN"
                         Content="Auto Complete A Schedule"
+                        Click="AutoComplete_BTN_Click"
                         Grid.Row="0"
                         Grid.Column="2"
                         MinWidth="0"
