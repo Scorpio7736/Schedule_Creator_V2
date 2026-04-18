@@ -13,6 +13,7 @@ namespace Schedule_Creator_V2.Services
 
     internal static class AutoScheduleService
     {
+        private static readonly Random Randomizer = Random.Shared;
         private static readonly HashSet<Positions> LeadPositions = new HashSet<Positions>
         {
             Positions.Shift_Lead,
@@ -25,9 +26,8 @@ namespace Schedule_Creator_V2.Services
             AutoScheduleResult result = new AutoScheduleResult();
             int minimumStaffPerDay = Math.Max(3, requestedStaffPerDay);
 
-            List<JobSettings> settings = DatabaseRead.ReadJobSettings()
-                .OrderBy(setting => setting.dayOfWeek)
-                .ToList();
+            List<JobSettings> settings = DatabaseRead.ReadJobSettings().ToList();
+            ShuffleInPlace(settings);
 
             if (settings.Count == 0)
             {
@@ -37,8 +37,9 @@ namespace Schedule_Creator_V2.Services
 
             List<Staff> allStaff = DatabaseRead.ReadStaff()
                 .Where(staff => !excludedStaffIds.Contains(staff.id))
-                .OrderBy(staff => staff.displayName)
                 .ToList();
+
+            ShuffleInPlace(allStaff);
 
             if (allStaff.Count == 0)
             {
@@ -100,10 +101,17 @@ namespace Schedule_Creator_V2.Services
         {
             List<int> selectedIds = new List<int>();
 
-            List<Staff> leadCandidates = candidates.Where(staff => LeadPositions.Contains(staff.position)).ToList();
+            List<Staff> randomizedCandidates = candidates.ToList();
+            ShuffleInPlace(randomizedCandidates);
+
+            Dictionary<int, int> randomTieBreakers = randomizedCandidates
+                .Select((staff, index) => new { staff.id, index })
+                .ToDictionary(item => item.id, item => item.index);
+
+            List<Staff> leadCandidates = randomizedCandidates.Where(staff => LeadPositions.Contains(staff.position)).ToList();
             Staff? selectedLead = leadCandidates
                 .OrderBy(staff => assignmentCounts[staff.id])
-                .ThenBy(staff => staff.displayName)
+                .ThenBy(staff => randomTieBreakers[staff.id])
                 .FirstOrDefault();
 
             if (selectedLead != null)
@@ -111,14 +119,14 @@ namespace Schedule_Creator_V2.Services
                 selectedIds.Add(selectedLead.id);
             }
 
-            IEnumerable<Staff> nonLeads = candidates.Where(staff => !LeadPositions.Contains(staff.position));
-            IEnumerable<Staff> extraLeads = candidates.Where(staff => LeadPositions.Contains(staff.position) && (selectedLead == null || staff.id != selectedLead.id));
+            IEnumerable<Staff> nonLeads = randomizedCandidates.Where(staff => !LeadPositions.Contains(staff.position));
+            IEnumerable<Staff> extraLeads = randomizedCandidates.Where(staff => LeadPositions.Contains(staff.position) && (selectedLead == null || staff.id != selectedLead.id));
 
             IEnumerable<Staff> orderedFill = nonLeads
                 .Concat(extraLeads)
                 .Where(staff => !selectedIds.Contains(staff.id))
                 .OrderBy(staff => assignmentCounts[staff.id])
-                .ThenBy(staff => staff.displayName);
+                .ThenBy(staff => randomTieBreakers[staff.id]);
 
             foreach (Staff staff in orderedFill)
             {
@@ -142,8 +150,13 @@ namespace Schedule_Creator_V2.Services
         {
             foreach (Staff staff in allStaff.Where(s => assignmentCounts[s.id] == 0))
             {
-                JobSettings? dayToUse = settings
+                List<JobSettings> availableDays = settings
                     .Where(setting => CoversHalfShift(staff.id, setting, availabilityByStaff))
+                    .ToList();
+
+                ShuffleInPlace(availableDays);
+
+                JobSettings? dayToUse = availableDays
                     .OrderBy(setting => result.DayAssignments.TryGetValue(setting.dayOfWeek, out List<int>? assigned) ? assigned.Count : 0)
                     .FirstOrDefault();
 
@@ -163,6 +176,16 @@ namespace Schedule_Creator_V2.Services
                     dayAssignments.Add(staff.id);
                     assignmentCounts[staff.id]++;
                 }
+            }
+        }
+
+
+        private static void ShuffleInPlace<T>(IList<T> items)
+        {
+            for (int i = items.Count - 1; i > 0; i--)
+            {
+                int swapIndex = Randomizer.Next(i + 1);
+                (items[i], items[swapIndex]) = (items[swapIndex], items[i]);
             }
         }
 
