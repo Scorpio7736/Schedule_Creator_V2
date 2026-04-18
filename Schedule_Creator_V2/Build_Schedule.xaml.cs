@@ -168,9 +168,24 @@ namespace Schedule_Creator_V2
 
         }
 
+        private static ComboBox GetComboBoxForDay(BuildScheduleRow row, DayOfWeek day)
+        {
+            return day switch
+            {
+                DayOfWeek.Monday => row.MonBox.Key,
+                DayOfWeek.Tuesday => row.TueBox.Key,
+                DayOfWeek.Wednesday => row.WedBox.Key,
+                DayOfWeek.Thursday => row.ThuBox.Key,
+                DayOfWeek.Friday => row.FriBox.Key,
+                DayOfWeek.Saturday => row.SatBox.Key,
+                DayOfWeek.Sunday => row.SunBox.Key,
+                _ => throw new ArgumentOutOfRangeException(nameof(day), day, null)
+            };
+        }
+
         private void AutoComplete_BTN_Click(object sender, RoutedEventArgs e)
         {
-            // Intentionally left blank. Auto-generate schedule action is disabled.
+            
         }
     }
 }
