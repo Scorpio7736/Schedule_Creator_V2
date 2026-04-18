@@ -185,7 +185,51 @@ namespace Schedule_Creator_V2
 
         private void AutoComplete_BTN_Click(object sender, RoutedEventArgs e)
         {
-            
+            Auto_Generate_Options optionsWindow = new Auto_Generate_Options
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (optionsWindow.ShowDialog() != true)
+            {
+                return;
+            }
+
+            AutoScheduleResult result = AutoScheduleService.Generate(optionsWindow.StaffPerDay, optionsWindow.ExcludedStaffIds);
+
+            if (result.DayAssignments.Count == 0)
+            {
+                Messages.Display(new Error(1006, "Unable to generate a schedule. Check job settings, staff, and availability."));
+                return;
+            }
+
+            _rows.Clear();
+
+            int requiredRows = result.DayAssignments.Values.Select(assignments => assignments.Count).DefaultIfEmpty(0).Max();
+
+            for (int i = 0; i < requiredRows; i++)
+            {
+                BuildScheduleRow newRow = new BuildScheduleRow();
+                newRow.DelBTN.Click += (_, _) => DeleteRow(newRow);
+                _rows.Add(newRow);
+            }
+
+            foreach (KeyValuePair<DayOfWeek, List<int>> assignment in result.DayAssignments)
+            {
+                for (int rowIndex = 0; rowIndex < assignment.Value.Count; rowIndex++)
+                {
+                    ComboBox comboBox = GetComboBoxForDay(_rows[rowIndex], assignment.Key);
+                    comboBox.SelectedValue = assignment.Value[rowIndex];
+                }
+            }
+
+            ScheduleNameBox.Text = "Auto Generated Schedule";
+
+            if (result.Warnings.Count > 0)
+            {
+                string warningMessage = string.Join(Environment.NewLine, result.Warnings.Distinct());
+                Messages.Display(new Message(warningMessage, "Auto Generate Warnings"));
+            }
         }
     }
 }
