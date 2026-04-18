@@ -185,7 +185,7 @@ namespace Schedule_Creator_V2
 
         private void AutoComplete_BTN_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Intentionally left blank. Auto-generate schedule action is disabled.
         }
     }
 }
