@@ -137,9 +137,9 @@ namespace Schedule_Creator_V2.Services
                     }
 
                     List<int> currentDay = dayAssignments[day];
-                    int leadCount = currentDay.Count(id => IsLead(staffById[id]));
 
                     int replacementIndex = -1;
+                    int bestPriority = int.MaxValue;
                     for (int i = 0; i < currentDay.Count; i++)
                     {
                         int currentId = currentDay[i];
@@ -149,30 +149,33 @@ namespace Schedule_Creator_V2.Services
                         }
 
                         bool currentIsLead = IsLead(staffById[currentId]);
+                        int priority;
+
                         if (isLead)
                         {
-                            if (currentIsLead)
-                            {
-                                replacementIndex = i;
-                                break;
-                            }
+                            // Prefer lead-for-lead swaps first.
+                            // Allow replacing a non-lead if needed so multiple leads are possible,
+                            // but this remains a lower-priority choice.
+                            priority = currentIsLead ? 0 : 1;
                         }
                         else
                         {
-                            if (!currentIsLead)
+                            if (currentIsLead)
                             {
-                                replacementIndex = i;
-                                break;
+                                continue;
                             }
+
+                            priority = 0;
+                        }
+
+                        if (priority < bestPriority)
+                        {
+                            bestPriority = priority;
+                            replacementIndex = i;
                         }
                     }
 
                     if (replacementIndex < 0)
-                    {
-                        continue;
-                    }
-
-                    if (isLead && leadCount > 1)
                     {
                         continue;
                     }
