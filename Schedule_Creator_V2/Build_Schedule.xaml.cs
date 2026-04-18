@@ -168,9 +168,75 @@ namespace Schedule_Creator_V2
 
         }
 
+        private static ComboBox GetComboBoxForDay(BuildScheduleRow row, DayOfWeek day)
+        {
+            return day switch
+            {
+                DayOfWeek.Monday => row.MonBox.Key,
+                DayOfWeek.Tuesday => row.TueBox.Key,
+                DayOfWeek.Wednesday => row.WedBox.Key,
+                DayOfWeek.Thursday => row.ThuBox.Key,
+                DayOfWeek.Friday => row.FriBox.Key,
+                DayOfWeek.Saturday => row.SatBox.Key,
+                DayOfWeek.Sunday => row.SunBox.Key,
+                _ => throw new ArgumentOutOfRangeException(nameof(day), day, null)
+            };
+        }
+
         private void AutoComplete_BTN_Click(object sender, RoutedEventArgs e)
         {
-            // Intentionally left blank. Auto-generate schedule action is disabled.
+            AutoScheduleGenerator generator = new AutoScheduleGenerator();
+            AutoScheduleGenerator.AutoScheduleResult result = generator.Generate();
+
+            if (!result.Success)
+            {
+                Messages.Display(new Error(1006, result.Message));
+                return;
+            }
+
+            _rows.Clear();
+
+            const int requiredRows = 3;
+            for (int i = 0; i < requiredRows; i++)
+            {
+                BuildScheduleRow newRow = new BuildScheduleRow();
+                newRow.DelBTN.Click += (_, _) => DeleteRow(newRow);
+                _rows.Add(newRow);
+            }
+
+            foreach (KeyValuePair<DayOfWeek, List<int>> dayAssignment in result.DayAssignments)
+            {
+                DayOfWeek day = dayAssignment.Key;
+                List<int> assignedIds = dayAssignment.Value;
+
+                for (int rowIndex = 0; rowIndex < _rows.Count && rowIndex < assignedIds.Count; rowIndex++)
+                {
+                    ComboBox comboBox = GetComboBoxForDay(_rows[rowIndex], day);
+                    comboBox.SelectedValue = assignedIds[rowIndex];
+                }
+            }
+
+            ScheduleNameBox.Text = $"Auto Generated Schedule {DateTime.Now:yyyy-MM-dd HH:mm}";
+
+            if (result.UnassignedStaffIds.Count > 0)
+            {
+                List<Staff> staff = DatabaseRead.ReadStaff();
+                Dictionary<int, string> names = staff.ToDictionary(member => member.id, member => member.displayName);
+
+                string unassignedNames = string.Join(", ", result.UnassignedStaffIds.Where(names.ContainsKey).Select(id => names[id]));
+
+                Messages.Display(new Message(
+                    $"{result.Message} Unassigned staff: {unassignedNames}. Half-shift splitting is not available in this version.",
+                    "Auto-Generate Complete"
+                    ));
+
+                return;
+            }
+
+            Messages.Display(new Message(
+                "Auto-generated schedule created with 3 staff per shift and one lead per day.",
+                "Auto-Generate Complete"
+                ));
         }
     }
 }
