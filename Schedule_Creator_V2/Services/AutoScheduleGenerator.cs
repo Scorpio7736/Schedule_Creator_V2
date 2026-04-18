@@ -43,11 +43,11 @@ namespace Schedule_Creator_V2.Services
 
             Dictionary<int, int> assignmentCount = staffById.Keys.ToDictionary(id => id, _ => 0);
             Dictionary<DayOfWeek, List<int>> dayAssignments = new Dictionary<DayOfWeek, List<int>>();
+            List<DayOfWeek> daysWithoutLead = new List<DayOfWeek>();
 
             foreach (DayOfWeek day in settingsByDay.Keys.OrderBy(day => day))
             {
                 List<int> dayStaffIds = availByDay[day].Select(avail => avail.id).Distinct().ToList();
-                List<int> dayLeadIds = dayStaffIds.Where(id => IsLead(staffById[id])).ToList();
 
                 if (dayStaffIds.Count < 3)
                 {
@@ -58,30 +58,8 @@ namespace Schedule_Creator_V2.Services
                         new List<int>());
                 }
 
-                if (dayLeadIds.Count == 0)
-                {
-                    return new AutoScheduleResult(
-                        false,
-                        new Dictionary<DayOfWeek, List<int>>(),
-                        $"{day}: no lead-qualified staff can cover the full shift hours.",
-                        new List<int>());
-                }
-
-                int selectedLeadId = PickBest(dayLeadIds, assignmentCount, staffById);
-                List<int> selectedIds = new List<int> { selectedLeadId };
-
-                List<int> nonLeadIds = dayStaffIds.Where(id => !IsLead(staffById[id])).ToList();
-                IEnumerable<int> supportPool = nonLeadIds.Count >= 2
-                    ? nonLeadIds
-                    : dayStaffIds.Where(id => id != selectedLeadId);
-
-                List<int> supportIds = supportPool
-                    .OrderBy(id => assignmentCount[id])
-                    .ThenBy(id => staffById[id].displayName)
-                    .Take(2)
-                    .ToList();
-
-                if (supportIds.Count < 2)
+                List<int> selectedIds = PickBestThreePersonTeam(dayStaffIds, assignmentCount, staffById);
+                if (selectedIds.Count < 3)
                 {
                     return new AutoScheduleResult(
                         false,
@@ -90,7 +68,10 @@ namespace Schedule_Creator_V2.Services
                         new List<int>());
                 }
 
-                selectedIds.AddRange(supportIds);
+                if (!selectedIds.Any(id => IsLead(staffById[id])))
+                {
+                    daysWithoutLead.Add(day);
+                }
 
                 foreach (int id in selectedIds)
                 {
@@ -111,6 +92,11 @@ namespace Schedule_Creator_V2.Services
             string message = unassignedStaffIds.Count == 0
                 ? "Schedule generated successfully."
                 : "Schedule generated, but some staff could not be assigned to a full shift.";
+            if (daysWithoutLead.Count > 0)
+            {
+                string noLeadDays = string.Join(", ", daysWithoutLead.OrderBy(day => day));
+                message += $" Warning: no lead-qualified staff were available for {noLeadDays}.";
+            }
 
             return new AutoScheduleResult(true, dayAssignments, message, unassignedStaffIds);
         }
@@ -137,9 +123,9 @@ namespace Schedule_Creator_V2.Services
                     }
 
                     List<int> currentDay = dayAssignments[day];
-                    int leadCount = currentDay.Count(id => IsLead(staffById[id]));
 
                     int replacementIndex = -1;
+                    int bestPriority = int.MaxValue;
                     for (int i = 0; i < currentDay.Count; i++)
                     {
                         int currentId = currentDay[i];
@@ -149,30 +135,33 @@ namespace Schedule_Creator_V2.Services
                         }
 
                         bool currentIsLead = IsLead(staffById[currentId]);
+                        int priority;
+
                         if (isLead)
                         {
-                            if (currentIsLead)
-                            {
-                                replacementIndex = i;
-                                break;
-                            }
+                            // Prefer lead-for-lead swaps first.
+                            // Allow replacing a non-lead if needed so multiple leads are possible,
+                            // but this remains a lower-priority choice.
+                            priority = currentIsLead ? 0 : 1;
                         }
                         else
                         {
-                            if (!currentIsLead)
+                            if (currentIsLead)
                             {
-                                replacementIndex = i;
-                                break;
+                                continue;
                             }
+
+                            priority = 0;
+                        }
+
+                        if (priority < bestPriority)
+                        {
+                            bestPriority = priority;
+                            replacementIndex = i;
                         }
                     }
 
                     if (replacementIndex < 0)
-                    {
-                        continue;
-                    }
-
-                    if (isLead && leadCount > 1)
                     {
                         continue;
                     }
@@ -191,12 +180,45 @@ namespace Schedule_Creator_V2.Services
             return LeadPositions.Contains(staff.position);
         }
 
-        private static int PickBest(List<int> staffIds, Dictionary<int, int> assignmentCount, Dictionary<int, Staff> staffById)
+        private static List<int> PickBestThreePersonTeam(
+            List<int> dayStaffIds,
+            Dictionary<int, int> assignmentCount,
+            Dictionary<int, Staff> staffById)
         {
-            return staffIds
-                .OrderBy(id => assignmentCount[id])
-                .ThenBy(id => staffById[id].displayName)
-                .First();
+            if (dayStaffIds.Count < 3)
+            {
+                return new List<int>();
+            }
+
+            List<int>? bestTeam = null;
+            int bestScore = int.MaxValue;
+            string bestKey = string.Empty;
+
+            for (int i = 0; i < dayStaffIds.Count - 2; i++)
+            {
+                for (int j = i + 1; j < dayStaffIds.Count - 1; j++)
+                {
+                    for (int k = j + 1; k < dayStaffIds.Count; k++)
+                    {
+                        List<int> team = new List<int> { dayStaffIds[i], dayStaffIds[j], dayStaffIds[k] };
+                        int leadCount = team.Count(id => IsLead(staffById[id]));
+                        int extraLeadPenalty = Math.Max(0, leadCount - 1) * 100;
+                        int noLeadPenalty = leadCount == 0 ? 500 : 0;
+                        int assignmentLoad = team.Sum(id => assignmentCount[id]);
+                        int score = assignmentLoad + extraLeadPenalty + noLeadPenalty;
+                        string teamKey = string.Join("|", team.Select(id => staffById[id].displayName).OrderBy(name => name));
+
+                        if (score < bestScore || (score == bestScore && string.CompareOrdinal(teamKey, bestKey) < 0))
+                        {
+                            bestScore = score;
+                            bestKey = teamKey;
+                            bestTeam = team;
+                        }
+                    }
+                }
+            }
+
+            return bestTeam ?? new List<int>();
         }
 
         private static bool CoversWholeShift(StaffNameAndAvail avail, JobSettings settings)
