@@ -2,59 +2,51 @@
 {
     internal class EmailBaseClass
     {
+        // EMAIL VALUES
         private List<Staff> sendTo;
         public List<Staff> sendCc;
         public string subject;
         public bool isFlagged;
         public bool isMarkedImportant;
-
         // HEADER VARIABLES
-        protected string _preHeaderText;
-        protected string _organizationLabel;
-        protected string _headerLabel;
-        protected string _emailHeading;
-        protected string _headerSubtitle;
+        public string preHeaderText;
+        public string organizationLabel;
+        public string headerLabel;
+        public string emailHeading;
+        public string headerSubtitle;
         // FOOTER VARIABLES
-        protected string _footerOrganization;
-        protected string _footerWebsiteLink;
-        protected string _footerText;
+        public string footerOrganization;
+        public string footerWebsiteLink;
+        public string footerText;
 
         public EmailBaseClass(
-            List<Staff> sendTo, 
-            List<Staff> sendCc, 
-            string subject, 
-            bool? isFlagged = false, 
-            bool? isMarkedImportant = false
+            List<Staff> sendTo,
+            List<Staff> sendCc,
+            string subject,
+            string emailHeading,
+            string headerSubtitle,
+            bool? isFlagged = false,
+            bool? isMarkedImportant = false            
         )
         {
             sendTo = sendTo;
             sendCc = sendCc;
             subject = subject;
+            emailHeading = emailHeading;
+            headerSubtitle = headerSubtitle;
             this.isFlagged = isFlagged ?? false;
             this.isMarkedImportant = isMarkedImportant ?? false;
-            _preHeaderText = "";
-            _organizationLabel = "University Recreation";
-            _headerLabel = "UWGB Climbing Tower";
-            _emailHeading = "Email Heading";
-            _headerSubtitle = "A short Summary or the subject of the email";
-            _footerOrganization = "University of Wisconsin Green Bay";
-            _footerWebsiteLink = "https://www.uwgb.edu/urec/adventure/climbing/";
-            _footerText = "You are receiving this message because you are affiliated with the UWGB Climbing Tower.";
+            preHeaderText = "";
+            organizationLabel = "University Recreation";
+            headerLabel = "UWGB Climbing Tower";
+            footerOrganization = "University of Wisconsin Green Bay";
+            footerWebsiteLink = "https://www.uwgb.edu/urec/adventure/climbing/";
+            footerText = "You are receiving this message because you are affiliated with the UWGB Climbing Tower.";
         }
         public List<Staff> SendTo { get; set; }
         public List<Staff> SendCc { get; set; }
         public string Subject { get; set; }
         public bool IsFlagged { get; set; }
         public bool IsMarkedImportant { get; set; }
-        public string preHeaderText { get; set; }
-        public string organizationLabel { get; set; }
-        public string headerLabel { get; set; }
-        public string emailHeading { get; set; }
-        public string headerSubtitle { get; set; }
-        public string footerOrganization { get; set; }
-        public string footerWebsiteLink { get; set; }
-        public string footerText { get; set; }
-
-
     }
 }

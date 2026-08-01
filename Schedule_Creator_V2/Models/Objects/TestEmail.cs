@@ -1,19 +1,9 @@
-﻿namespace Schedule_Creator_V2.Models.Objects
-{
-    public class TestEmail : EmailBaseClass
-    {
-        protected string _recipientGreeting;
-        protected string _emailBody;
-        public TestEmail(
+﻿using Schedule_Creator_V2.Models.BaseClasses;
 
-            ) : base(
-            new List<Staff>(),
-            new List<Staff>(),
-            "Test Email Subject"
-        )
-        {
-            
-        }
-    
+namespace Schedule_Creator_V2.Models.Objects
+{
+    public class TestEmail
+    {
+        
     }
 }
