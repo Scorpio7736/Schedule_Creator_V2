@@ -29,7 +29,6 @@
     <Resource Include="Images\Logo.jpg" />
     <Resource Include="Images\Logo.png" />
     <Resource Include="Images\UREC.png" />
-    <Resource Include="Images\User_Blank.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,6 +56,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\" />
   </ItemGroup>
 
 </Project>

@@ -27,7 +27,7 @@ namespace Schedule_Creator_V2
                     new PageInput(LastNameBox, "Last Name"),
                     new PageInput(JobPositionComboBox, "Job Position"),
                     new PageInput(StudentEmailBox, "Student Email")
-                };   
+                };
 
             List<Label> labels = new List<Label>()
                 {
