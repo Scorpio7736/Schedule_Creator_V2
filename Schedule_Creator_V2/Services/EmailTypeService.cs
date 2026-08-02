@@ -25,8 +25,7 @@ namespace Schedule_Creator_V2.Services
                             OrganizationName: "UNIVERSITY RECREATION",
                             HeaderLabel: "TEST MESSAGE FOR TOWER TEAM",
                             EmailHeading: "THIS IS A TEST",
-                            HeaderSubtitle: "TESTING OF THE NEW FORMAT",
-                            CustomHeaderImageUrl: EmailImageSources.Default_HeaderImage
+                            HeaderSubtitle: "TESTING OF THE NEW FORMAT"
                         ),
 
                         new CustomBodyInputs(
@@ -85,7 +84,7 @@ namespace Schedule_Creator_V2.Services
                             HeaderLabel: "WELCOME TO THE CLIMBING TOWER TEAM",
                             EmailHeading: "WELCOME TO THE CLIMBING TOWER TEAM",
                             HeaderSubtitle: "WE ARE EXCITED TO HAVE YOU ON BOARD!",
-                            CustomHeaderImageUrl: EmailImageSources.WelcomToTheTowerTeamHeader
+                            HeaderImageUrl: EmailImageSources.WelcomToTheTowerTeamHeader
                         ),
                         new CustomBodyInputs(
                                 EmailInputConstants.TowerTeamGreeting,

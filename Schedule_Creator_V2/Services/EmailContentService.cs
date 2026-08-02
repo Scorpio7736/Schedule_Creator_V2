@@ -929,8 +929,10 @@ namespace Schedule_Creator_V2.Services
                 ?? string.Empty;
 
             string headerImageUrl =
-                headerInputs?.HeaderImageUrl
-                ?? EmailImageSources.Default_HeaderImage;
+    string.IsNullOrWhiteSpace(
+        headerInputs?.HeaderImageUrl)
+            ? EmailImageSources.Default_HeaderImage
+            : headerInputs.HeaderImageUrl;
 
             return $$"""
                 <tr id="headerOrganizationSection">
