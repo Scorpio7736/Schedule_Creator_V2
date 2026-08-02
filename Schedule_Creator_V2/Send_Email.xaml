@@ -21,6 +21,7 @@
                 CornerRadius="10">
 
             <Grid>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="20"/>
@@ -31,6 +32,7 @@
 
                 <!-- Page Header -->
                 <StackPanel Grid.Row="0">
+
                     <TextBlock Text="Create Email"
                                FontSize="26"
                                FontWeight="SemiBold"
@@ -40,10 +42,12 @@
                                Text="Select an email type, choose the recipients, and complete the required fields."
                                FontSize="14"
                                Foreground="#6B7280"/>
+
                 </StackPanel>
 
                 <!-- Main Content -->
                 <Grid Grid.Row="2">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="280"/>
                         <ColumnDefinition Width="20"/>
@@ -52,6 +56,7 @@
 
                     <!-- Left Column -->
                     <Grid Grid.Column="0">
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="20"/>
@@ -67,6 +72,7 @@
                                 CornerRadius="8">
 
                             <StackPanel>
+
                                 <TextBlock Text="Email Type"
                                            FontSize="16"
                                            FontWeight="SemiBold"
@@ -81,20 +87,12 @@
                                           Height="36"
                                           Padding="8,4"
                                           VerticalContentAlignment="Center"
-                                          SelectionChanged="EmailTypeComboBox_SelectionChanged">
+                                          ItemsSource="{Binding EmailTypes}"
+                                          DisplayMemberPath="displayName"
+                                          SelectionChanged="EmailTypeComboBox_SelectionChanged"/>
 
-                                    <ComboBoxItem Content="Select an email type..."
-                                                  IsSelected="True"
-                                                  IsEnabled="False"/>
-
-                                    <ComboBoxItem Content="General Announcement"/>
-                                    <ComboBoxItem Content="Schedule Announcement"/>
-                                    <ComboBoxItem Content="Availability Request"/>
-                                    <ComboBoxItem Content="Shift Reminder"/>
-                                    <ComboBoxItem Content="Training Announcement"/>
-                                    <ComboBoxItem Content="Custom Email"/>
-                                </ComboBox>
                             </StackPanel>
+
                         </Border>
 
                         <!-- Staff Selection -->
@@ -106,6 +104,7 @@
                                 CornerRadius="8">
 
                             <Grid>
+
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
@@ -119,7 +118,7 @@
                                            FontWeight="SemiBold"
                                            Foreground="#1F2937"/>
 
-                                <!-- Selection Controls -->
+                                <!-- Staff Selection Buttons -->
                                 <StackPanel Grid.Row="1"
                                             Margin="0,8,0,0"
                                             Orientation="Horizontal">
@@ -134,49 +133,64 @@
                                             Padding="10,5"
                                             Content="Clear"
                                             Click="ClearStaffSelectionButton_Click"/>
+
                                 </StackPanel>
 
-                                <!-- Staff Checkboxes -->
+                                <!-- Staff List -->
                                 <Border Grid.Row="3"
                                         Background="White"
                                         BorderBrush="#D1D5DB"
                                         BorderThickness="1"
                                         CornerRadius="5">
 
-                                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                                  HorizontalScrollBarVisibility="Disabled">
+                                    <ListBox x:Name="StaffListBox"
+                                             ItemsSource="{Binding StaffMembers}"
+                                             BorderThickness="0"
+                                             Background="Transparent"
+                                             SelectionMode="Multiple"
+                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                                        <StackPanel x:Name="StaffCheckboxPanel"
-                                                    Margin="10">
+                                        <ListBox.ItemContainerStyle>
 
-                                            <!--
-                                            These are temporary examples.
-                                            You can later populate this panel from your staff list.
-                                            -->
+                                            <Style TargetType="ListBoxItem">
 
-                                            <CheckBox Margin="0,5"
-                                                      Content="Staff Member 1"/>
+                                                <Setter Property="HorizontalContentAlignment"
+                                                        Value="Stretch"/>
 
-                                            <CheckBox Margin="0,5"
-                                                      Content="Staff Member 2"/>
+                                                <Setter Property="Padding"
+                                                        Value="0"/>
 
-                                            <CheckBox Margin="0,5"
-                                                      Content="Staff Member 3"/>
+                                            </Style>
 
-                                            <CheckBox Margin="0,5"
-                                                      Content="Staff Member 4"/>
+                                        </ListBox.ItemContainerStyle>
 
-                                            <CheckBox Margin="0,5"
-                                                      Content="Staff Member 5"/>
+                                        <ListBox.ItemTemplate>
 
-                                        </StackPanel>
-                                    </ScrollViewer>
+                                            <DataTemplate>
+
+                                                <CheckBox Margin="8,5"
+                                                          VerticalAlignment="Center"
+                                                          Content="{Binding displayName}"
+                                                          IsChecked="{Binding IsSelected,
+                                                              RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                              Mode=TwoWay}"/>
+
+                                            </DataTemplate>
+
+                                        </ListBox.ItemTemplate>
+
+                                    </ListBox>
+
                                 </Border>
+
                             </Grid>
+
                         </Border>
+
                     </Grid>
 
-                    <!-- Right Column: Dynamic Input Area -->
+                    <!-- Dynamic Email Input Area -->
                     <Border Grid.Column="2"
                             Padding="20"
                             Background="#F9FAFB"
@@ -185,6 +199,7 @@
                             CornerRadius="8">
 
                         <Grid>
+
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="10"/>
@@ -192,6 +207,7 @@
                             </Grid.RowDefinitions>
 
                             <StackPanel Grid.Row="0">
+
                                 <TextBlock Text="Email Information"
                                            FontSize="18"
                                            FontWeight="SemiBold"
@@ -201,92 +217,27 @@
                                            Text="The required input fields will appear below after an email type is selected."
                                            TextWrapping="Wrap"
                                            Foreground="#6B7280"/>
+
                             </StackPanel>
 
                             <ScrollViewer Grid.Row="2"
                                           VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
 
-                                <!--
-                                Add or generate email-specific input controls
-                                inside this panel.
-                                -->
-                                <StackPanel x:Name="EmailInputFieldsPanel">
+                                <!-- Controls are generated here -->
+                                <StackPanel x:Name="EmailInputFieldsPanel"/>
 
-                                    <!-- Default Placeholder -->
-                                    <Border x:Name="NoEmailTypeSelectedPanel"
-                                            Padding="30"
-                                            HorizontalAlignment="Stretch"
-                                            Background="White"
-                                            BorderBrush="#D1D5DB"
-                                            BorderThickness="1"
-                                            CornerRadius="6">
-
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <TextBlock HorizontalAlignment="Center"
-                                                       Text="No Email Type Selected"
-                                                       FontSize="18"
-                                                       FontWeight="SemiBold"
-                                                       Foreground="#4B5563"/>
-
-                                            <TextBlock Margin="0,8,0,0"
-                                                       HorizontalAlignment="Center"
-                                                       Text="Select an email type to display its input fields."
-                                                       TextAlignment="Center"
-                                                       TextWrapping="Wrap"
-                                                       Foreground="#6B7280"/>
-                                        </StackPanel>
-                                    </Border>
-
-                                    <!--
-                                    Example input section.
-
-                                    Set Visibility="Collapsed" until the
-                                    appropriate email type is selected.
-                                    -->
-                                    <StackPanel x:Name="GeneralEmailInputPanel"
-                                                Visibility="Collapsed">
-
-                                        <TextBlock Margin="0,0,0,5"
-                                                   Text="Email Subject"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBox x:Name="EmailSubjectTextBox"
-                                                 Height="36"
-                                                 Margin="0,0,0,15"
-                                                 Padding="8"
-                                                 VerticalContentAlignment="Center"/>
-
-                                        <TextBlock Margin="0,0,0,5"
-                                                   Text="Heading"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBox x:Name="EmailHeadingTextBox"
-                                                 Height="36"
-                                                 Margin="0,0,0,15"
-                                                 Padding="8"
-                                                 VerticalContentAlignment="Center"/>
-
-                                        <TextBlock Margin="0,0,0,5"
-                                                   Text="Message"
-                                                   FontWeight="SemiBold"/>
-
-                                        <TextBox x:Name="EmailMessageTextBox"
-                                                 MinHeight="180"
-                                                 Padding="8"
-                                                 AcceptsReturn="True"
-                                                 TextWrapping="Wrap"
-                                                 VerticalScrollBarVisibility="Auto"/>
-                                    </StackPanel>
-
-                                </StackPanel>
                             </ScrollViewer>
+
                         </Grid>
+
                     </Border>
+
                 </Grid>
 
                 <!-- Bottom Buttons -->
                 <Grid Grid.Row="4">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
@@ -317,9 +268,15 @@
                                 Foreground="White"
                                 Content="Generate Email"
                                 Click="GenerateEmailButton_Click"/>
+
                     </StackPanel>
+
                 </Grid>
+
             </Grid>
+
         </Border>
+
     </Grid>
+
 </Page>
