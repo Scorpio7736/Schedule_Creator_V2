@@ -43,7 +43,9 @@
             <MenuItem Header="Insights">
                 <MenuItem Click="Staff_Lookup_Btn_Click" Header="Staff Lookup" />
                 <MenuItem Click="View_Email_List_Btn_Click" Header="Available Staff Emails"/>
+                <MenuItem Click="Send_Email_Btn_Click" Header="Send Email"/>
             </MenuItem>
+            
         </Menu>
 
         <Grid DockPanel.Dock="Bottom">

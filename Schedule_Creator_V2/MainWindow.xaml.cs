@@ -13,6 +13,10 @@ namespace Schedule_Creator_V2
             InitializeComponent();
             DataMigragtion.EnsureDatabaseExists();
         }
+        private void Send_Email_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            DisplayScreen.Content = new Send_Email();
+        }
 
         private void Build_Schedule_Btn_Click(object sender, RoutedEventArgs e)
         {
