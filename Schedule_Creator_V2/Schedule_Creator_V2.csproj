@@ -1,85 +1,86 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-	  <ApplicationIcon>Images\Logo.ico</ApplicationIcon>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Images\Background.jpg" />
-    <None Remove="Images\Logo.jpg" />
-    <None Remove="Images\Logo.png" />
-    <None Remove="Images\UREC.png" />
-    <None Remove="Images\User_Blank.jpg" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Images\Logo.ico</ApplicationIcon>
+	</PropertyGroup>
 
 	<ItemGroup>
-		<None Update="Models\Objects\Email.html">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.21.0" />
-
-		<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
-
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-
-		<PackageReference Include="Microsoft.Graph" Version="5.91.0" />
-
-		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.13.2" />
+		<None Remove="Images\Background.jpg" />
+		<None Remove="Images\Logo.jpg" />
+		<None Remove="Images\Logo.png" />
+		<None Remove="Images\UREC.png" />
+		<None Remove="Images\User_Blank.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Update="Models\Objects\Email.html">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Images\Background.jpg" />
-    <Resource Include="Images\Logo.jpg" />
-    <Resource Include="Images\Logo.png" />
-    <Resource Include="Images\UREC.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Azure.Identity"
+						  Version="1.21.0" />
 
-  <ItemGroup>
-    <Compile Update="Models\Records\CustomHeaderInputs.cs">
-      <Generator>MSBuild:Compile</Generator>
-    </Compile>
-    <Compile Update="Properties\Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Update="Queries.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Queries.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
+		<PackageReference Include="Extended.Wpf.Toolkit"
+						  Version="4.7.25104.5739" />
 
-  <ItemGroup>
-    <EmbeddedResource Update="Queries.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Queries.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient"
+						  Version="6.1.1" />
 
-  <ItemGroup>
-    <None Update="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+		<PackageReference Include="Microsoft.Graph"
+						  Version="5.91.0" />
 
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient"
+						  Version="3.13.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Images\Background.jpg" />
+		<Resource Include="Images\Logo.jpg" />
+		<Resource Include="Images\Logo.png" />
+		<Resource Include="Images\UREC.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Models\Records\CustomHeaderInputs.cs">
+			<Generator>MSBuild:Compile</Generator>
+		</Compile>
+
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+
+		<Compile Update="Queries.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Queries.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Queries.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Queries.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Views\" />
+	</ItemGroup>
 
 </Project>
