@@ -1,128 +1,674 @@
-﻿<Page
-    x:Class="Schedule_Creator_V2.Add_Staff"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Add_Staff"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+﻿<Page x:Class="Schedule_Creator_V2.Add_Staff"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      Title="Add Staff"
+      Background="#F1F5F3"
+      FontFamily="Segoe UI">
+
+    <Page.Resources>
+
+        <!-- Main cards -->
+        <Style x:Key="CardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="12"/>
+
+            <Setter Property="Padding"
+                    Value="24"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.08"
+                                      Color="#143D30"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Field labels -->
+        <Style x:Key="FieldLabelStyle"
+               TargetType="Label">
+
+            <Setter Property="Padding"
+                    Value="0"/>
+
+            <Setter Property="Margin"
+                    Value="0,0,0,7"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#293A34"/>
+
+        </Style>
+
+        <!-- Text inputs -->
+        <Style TargetType="TextBox">
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="10,6"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Position selector -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Primary button -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="150"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#174E3D"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#174E3D"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#0A3E2E"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.50"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Secondary button -->
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="105"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F1F5F3"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#849B90"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#E5ECE8"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </Page.Resources>
 
     <Grid>
-        <Border
-        Margin="20"
-        Padding="20"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        Background="White"
-        BorderBrush="#DDD"
-        BorderThickness="1"
-        CornerRadius="10">
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
 
-            <Grid Margin="20" Background="White">
+            <Grid Margin="28"
+                  MaxWidth="1050"
+                  HorizontalAlignment="Stretch">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <!-- Page heading -->
+                <Grid Grid.Row="0">
 
-                <!--  First Name  -->
-                <Label
-            x:Name="FirstNameLabel"
-            Grid.Row="0"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Content="First Name:" />
-                <TextBox
-            x:Name="FirstNameBox"
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="0,5" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--  Middle Name  -->
-                <Label
-            x:Name="MiddleNameLabel"
-            Grid.Row="1"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Content="Middle Name:" />
-                <TextBox
-            x:Name="MiddleNameBox"
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="0,5" />
+                    <Border Grid.Column="0"
+                            Width="54"
+                            Height="54"
+                            VerticalAlignment="Top"
+                            Background="#DDEFE7"
+                            CornerRadius="12">
 
-                <!--  Last Name  -->
-                <Label
-            x:Name="LastNameLabel"
-            Grid.Row="2"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Content="Last Name:" />
-                <TextBox
-            x:Name="LastNameBox"
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="0,5" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="26"
+                                   Foreground="#0F5640"
+                                   Text="&#xE710;"/>
 
-                <!--  Job Position  -->
-                <Label
-            x:Name="PositionLabel"
-            Grid.Row="3"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Content="Job Position:" />
-                <ComboBox
-            x:Name="JobPositionComboBox"
-            Grid.Row="3"
-            Grid.Column="1"
-            Margin="0,5" />
+                    </Border>
 
-                <!--  Email  -->
-                <Label
-            x:Name="StudentEmailLabel"
-            Grid.Row="4"
-            Grid.Column="0"
-            VerticalAlignment="Center"
-            Content="Student Email:" />
-                <TextBox
-            x:Name="StudentEmailBox"
-            Grid.Row="4"
-            Grid.Column="1"
-            Margin="0,5" />
+                    <StackPanel Grid.Column="2">
 
-                <!--  Buttons  -->
-                <StackPanel
-            Grid.Row="5"
-            Grid.ColumnSpan="2"
-            Margin="0,20,0,0"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-                    <Button
-                Width="150"
-                Height="50"
-                Margin="10,0"
-                Click="AddEmployee_Click"
-                Content="Save" />
-                    <Button
-                Width="150"
-                Height="50"
-                Margin="10,0"
-                Click="Cancel_Click"
-                Content="Cancel" />
-                </StackPanel>
+                        <TextBlock Text="Add Staff Member"
+                                   FontSize="27"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
+
+                        <TextBlock Margin="0,5,0,0"
+                                   MaxWidth="760"
+                                   Text="Create a new staff record with the employee's name, position, and university email address."
+                                   FontSize="14"
+                                   LineHeight="21"
+                                   TextWrapping="Wrap"
+                                   Foreground="#66736D"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Main content -->
+                <Grid Grid.Row="2">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="1.1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Staff form -->
+                    <Border Grid.Column="0"
+                            Style="{StaticResource CardStyle}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Card heading -->
+                            <StackPanel Grid.Row="0">
+
+                                <TextBlock Text="Staff Information"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,5,0,0"
+                                           Text="Enter the information used to identify and schedule this staff member."
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                            <!-- Form fields -->
+                            <Grid Grid.Row="2">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- First and middle names -->
+                                <Grid Grid.Row="0">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+
+                                        <Label x:Name="FirstNameLabel"
+                                               Style="{StaticResource FieldLabelStyle}"
+                                               Content="First Name"/>
+
+                                        <TextBox x:Name="FirstNameBox"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2">
+
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label x:Name="MiddleNameLabel"
+                                                   Grid.Column="0"
+                                                   Style="{StaticResource FieldLabelStyle}"
+                                                   Content="Middle Name"/>
+
+                                            <Border Grid.Column="2"
+                                                    Margin="0,1,0,7"
+                                                    Padding="7,2"
+                                                    VerticalAlignment="Center"
+                                                    Background="#F0F3F1"
+                                                    CornerRadius="4">
+
+                                                <TextBlock FontSize="10"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="#75817C"
+                                                           Text="OPTIONAL"/>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                        <TextBox x:Name="MiddleNameBox"/>
+
+                                    </StackPanel>
+
+                                </Grid>
+
+                                <!-- Last name -->
+                                <StackPanel Grid.Row="2">
+
+                                    <Label x:Name="LastNameLabel"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Content="Last Name"/>
+
+                                    <TextBox x:Name="LastNameBox"/>
+
+                                </StackPanel>
+
+                                <!-- Position -->
+                                <StackPanel Grid.Row="4">
+
+                                    <Label x:Name="PositionLabel"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Content="Job Position"/>
+
+                                    <ComboBox x:Name="JobPositionComboBox"/>
+
+                                    <TextBlock Margin="1,6,0,0"
+                                               Text="The position controls how the staff member is identified within scheduling tools."
+                                               FontSize="12"
+                                               LineHeight="17"
+                                               TextWrapping="Wrap"
+                                               Foreground="#7A8680"/>
+
+                                </StackPanel>
+
+                                <!-- Email -->
+                                <StackPanel Grid.Row="6">
+
+                                    <Label x:Name="StudentEmailLabel"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Content="Student Email"/>
+
+                                    <TextBox x:Name="StudentEmailBox"
+                                             ToolTip="Enter the staff member's university email address"/>
+
+                                    <TextBlock Margin="1,6,0,0"
+                                               Text="This address is used when selecting staff members for generated emails."
+                                               FontSize="12"
+                                               LineHeight="17"
+                                               TextWrapping="Wrap"
+                                               Foreground="#7A8680"/>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                            <!-- Form actions -->
+                            <StackPanel Grid.Row="4"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+
+                                <Button Style="{StaticResource SecondaryButtonStyle}"
+                                        Click="Cancel_Click"
+                                        Content="Reset"/>
+
+                                <Button Margin="10,0,0,0"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Click="AddEmployee_Click">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Margin="0,0,7,0"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="14"
+                                                   Text="&#xE710;"/>
+
+                                        <TextBlock Text="Add Staff Member"/>
+
+                                    </StackPanel>
+
+                                </Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Information panel -->
+                    <Border Grid.Column="2"
+                            Style="{StaticResource CardStyle}">
+
+                        <StackPanel>
+
+                            <Border Width="48"
+                                    Height="48"
+                                    HorizontalAlignment="Left"
+                                    Background="#E7F2ED"
+                                    CornerRadius="10">
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="23"
+                                           Foreground="#0F5640"
+                                           Text="&#xE77B;"/>
+
+                            </Border>
+
+                            <TextBlock Margin="0,16,0,0"
+                                       Text="New Staff Records"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
+
+                            <TextBlock Margin="0,8,0,0"
+                                       Text="After the staff member is added, you can configure their availability, time off, and belay certification from the Staff Management menu."
+                                       FontSize="13"
+                                       LineHeight="20"
+                                       TextWrapping="Wrap"
+                                       Foreground="#66736D"/>
+
+                            <!-- Required fields -->
+                            <Border Margin="0,20,0,0"
+                                    Padding="14"
+                                    Background="#F5F8F6"
+                                    BorderBrush="#D9E4DF"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Required information"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#315E4D"/>
+
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="• First name"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="• Last name"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="• Job position"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="• Student email"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <!-- Next steps -->
+                            <Border Margin="0,16,0,0"
+                                    Padding="14"
+                                    Background="#EEF5FA"
+                                    BorderBrush="#C9DBE8"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Recommended next steps"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#365E78"/>
+
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="1. Add weekly availability"
+                                               FontSize="12"
+                                               Foreground="#536D7D"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="2. Record belay certification"
+                                               FontSize="12"
+                                               Foreground="#536D7D"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="3. Review the staff record"
+                                               FontSize="12"
+                                               Foreground="#536D7D"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </Grid>
+
             </Grid>
-        </Border>
+
+        </ScrollViewer>
+
     </Grid>
+
 </Page>

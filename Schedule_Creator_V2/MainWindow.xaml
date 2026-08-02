@@ -1,80 +1,828 @@
-﻿<Window
-    x:Class="Schedule_Creator_V2.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Schedule Creator V2"
-    Width="800"
-    Height="450"
-    mc:Ignorable="d"
-    WindowStartupLocation="CenterScreen">
+﻿<Window x:Class="Schedule_Creator_V2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Schedule Creator V2"
+        Width="1180"
+        Height="760"
+        MinWidth="900"
+        MinHeight="620"
+        WindowStartupLocation="CenterScreen"
+        Background="#F1F5F3"
+        FontFamily="Segoe UI">
 
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Click="Home_Btn_Click" Header="Home" />
+    <Window.Resources>
+
+        <!-- Main menu -->
+        <Style TargetType="Menu">
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0,0,0,1"/>
+        </Style>
+
+        <Style TargetType="MenuItem">
+            <Setter Property="Padding"
+                    Value="16,9"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#26312D"/>
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsHighlighted"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#E5F2ED"/>
+
+                    <Setter Property="Foreground"
+                            Value="#0F5640"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+        </Style>
+
+        <!-- General card -->
+        <Style x:Key="ContentCardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="14"/>
+
+            <Setter Property="Padding"
+                    Value="22"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      Opacity="0.10"
+                                      ShadowDepth="3"
+                                      Color="#1F4539"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Dashboard action cards -->
+        <Style x:Key="DashboardButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="MinHeight"
+                    Value="150"/>
+
+            <Setter Property="Margin"
+                    Value="0,0,14,14"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="CardBorder"
+                                Padding="20"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="14">
+
+                            <Border.Effect>
+
+                                <DropShadowEffect BlurRadius="12"
+                                                  Direction="270"
+                                                  Opacity="0.08"
+                                                  ShadowDepth="2"
+                                                  Color="#1F4539"/>
+
+                            </Border.Effect>
+
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="CardBorder"
+                                        Property="Background"
+                                        Value="#F2F8F5"/>
+
+                                <Setter TargetName="CardBorder"
+                                        Property="BorderBrush"
+                                        Value="#54A888"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="CardBorder"
+                                        Property="Background"
+                                        Value="#E2F1EA"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="CardBorder"
+                                        Property="Opacity"
+                                        Value="0.55"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Green primary button -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="150"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,8"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="Background"
+                    Value="#54B948"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#54B948"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="PrimaryBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="PrimaryBorder"
+                                        Property="Background"
+                                        Value="#439E38"/>
+
+                                <Setter TargetName="PrimaryBorder"
+                                        Property="BorderBrush"
+                                        Value="#439E38"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="PrimaryBorder"
+                                        Property="Background"
+                                        Value="#347D2C"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="82"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Application header -->
+        <Border Grid.Row="0"
+                Background="#0F5640">
+
+            <Grid Margin="24,0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="14"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Width="52"
+                        Height="52"
+                        VerticalAlignment="Center"
+                        Background="White"
+                        CornerRadius="12">
+
+                    <Image Margin="7"
+                           Source="/Images/Logo.png"
+                           Stretch="Uniform"/>
+
+                </Border>
+
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Text="Schedule Creator"
+                               FontSize="23"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+
+                    <TextBlock Margin="0,3,0,0"
+                               Text="UWGB Climbing Tower staff and scheduling management"
+                               FontSize="13"
+                               Foreground="#D5E9E2"/>
+
+                </StackPanel>
+
+                <Border Grid.Column="3"
+                        Padding="14,8"
+                        VerticalAlignment="Center"
+                        Background="#23705A"
+                        CornerRadius="8">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="16"
+                                   Foreground="White"
+                                   Text="&#xE80F;"/>
+
+                        <TextBlock Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Text="Version 2.0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Navigation menu -->
+        <Menu Grid.Row="1">
+
+            <MenuItem Header="Home"
+                      Click="Home_Btn_Click"/>
 
             <MenuItem Header="Staff Management">
+
                 <MenuItem Header="Staff Records">
-                    <MenuItem Click="Add_Staff_Btn_Click" Header="Add Staff" />
-                    <MenuItem Click="Edit_Staff_Btn_Click" Header="Edit Staff" />
-                    <MenuItem Click="Remove_Staff_Btn_Click" Header="Remove Staff" />
+
+                    <MenuItem Header="Add Staff"
+                              Click="Add_Staff_Btn_Click"/>
+
+                    <MenuItem Header="Edit Staff"
+                              Click="Edit_Staff_Btn_Click"/>
+
+                    <MenuItem Header="Remove Staff"
+                              Click="Remove_Staff_Btn_Click"/>
+
                 </MenuItem>
 
                 <MenuItem Header="Qualifications">
-                    <MenuItem Click="Add_Avail_Btn_Click" Header="Add Availability" />
-                    <MenuItem Click="Add_Belay_Cert_Btn_Click" Header="Add Belay Cert"/>
+
+                    <MenuItem Header="Add Availability"
+                              Click="Add_Avail_Btn_Click"/>
+
+                    <MenuItem Header="Add Belay Certification"
+                              Click="Add_Belay_Cert_Btn_Click"/>
+
                 </MenuItem>
 
                 <MenuItem Header="Time Off">
-                    <MenuItem Click="Add_Days_Off_Btn_Click" Header="Add Days Off" />
-                    <MenuItem Click="Remove_Days_Off_Btn_Click" Header="Remove Days Off" />
-                    <MenuItem Click="View_Days_Off_Btn_Click" Header="View Days Off"/>
+
+                    <MenuItem Header="Add Days Off"
+                              Click="Add_Days_Off_Btn_Click"/>
+
+                    <MenuItem Header="Remove Days Off"
+                              Click="Remove_Days_Off_Btn_Click"/>
+
+                    <MenuItem Header="View Days Off"
+                              Click="View_Days_Off_Btn_Click"/>
+
                 </MenuItem>
+
             </MenuItem>
 
             <MenuItem Header="Scheduling">
-                <MenuItem Click="Add_Collection_Btn_Click" Header="Job Hours" />
-                <MenuItem Click="Build_Schedule_Btn_Click" Header="Build Schedule" />
-                <MenuItem Click="View_Schedule_Btn_Click" Header="View Schedule" />
+
+                <MenuItem Header="Job Hours"
+                          Click="Add_Collection_Btn_Click"/>
+
+                <MenuItem Header="Build Schedule"
+                          Click="Build_Schedule_Btn_Click"/>
+
+                <MenuItem Header="View Schedule"
+                          Click="View_Schedule_Btn_Click"/>
+
             </MenuItem>
 
             <MenuItem Header="Insights">
-                <MenuItem Click="Staff_Lookup_Btn_Click" Header="Staff Lookup" />
-                <MenuItem Click="View_Email_List_Btn_Click" Header="Available Staff Emails"/>
-                <MenuItem Click="Send_Email_Btn_Click" Header="Send Email"/>
+
+                <MenuItem Header="Staff Lookup"
+                          Click="Staff_Lookup_Btn_Click"/>
+
+                <MenuItem Header="Available Staff Emails"
+                          Click="View_Email_List_Btn_Click"/>
+
+                <MenuItem Header="Send Email"
+                          Click="Send_Email_Btn_Click"/>
+
             </MenuItem>
-            
+
         </Menu>
 
-        <Grid DockPanel.Dock="Bottom">
+        <!-- Main workspace -->
+        <Grid Grid.Row="2">
 
-            <Image
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Panel.ZIndex="0"
-                IsHitTestVisible="False"
-                Source="/Images/Background.jpg"
-                Stretch="UniformToFill" />
+            <!-- Subtle background -->
+            <Image Source="/Images/Background.jpg"
+                   Stretch="UniformToFill"
+                   Opacity="0.10"
+                   IsHitTestVisible="False"/>
 
-            <TextBlock
-                Margin="0,50,0,318"
-                Height="500"
-                HorizontalAlignment="Center"
-                Panel.ZIndex="1"
-                Text="Welcome to Schedule Creator Version 2.0"
-                FontSize="24"
-                FontWeight="Bold"
-                Foreground="Black"
-                Visibility="Visible" 
-                Background="Transparent"
-                />
+            <Border Background="#EAF1EE"
+                    Opacity="0.80"
+                    IsHitTestVisible="False"/>
 
-            <Frame
-                x:Name="DisplayScreen"
-                Panel.ZIndex="1"
-                NavigationUIVisibility="Hidden" />
+            <!-- Home dashboard -->
+            <ScrollViewer x:Name="HomeDashboard"
+                          Margin="28"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled">
+
+                <StackPanel MaxWidth="1180"
+                            HorizontalAlignment="Stretch">
+
+                    <!-- Welcome banner -->
+                    <Border CornerRadius="16"
+                            Padding="34"
+                            Margin="0,0,0,24">
+
+                        <Border.Background>
+
+                            <LinearGradientBrush StartPoint="0,0"
+                                                 EndPoint="1,1">
+
+                                <GradientStop Offset="0"
+                                              Color="#0F5640"/>
+
+                                <GradientStop Offset="1"
+                                              Color="#278567"/>
+
+                            </LinearGradientBrush>
+
+                        </Border.Background>
+
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="230"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Grid.Column="0"
+                                        VerticalAlignment="Center">
+
+                                <TextBlock Text="Welcome back"
+                                           FontSize="15"
+                                           FontWeight="SemiBold"
+                                           Foreground="#BFE1D5"/>
+
+                                <TextBlock Margin="0,5,0,0"
+                                           Text="Climbing Tower Schedule Creator"
+                                           FontSize="31"
+                                           FontWeight="Bold"
+                                           Foreground="White"/>
+
+                                <TextBlock Margin="0,12,0,0"
+                                           MaxWidth="650"
+                                           Text="Manage staff, availability, schedules, time-off requests, and team communications from one place."
+                                           FontSize="15"
+                                           LineHeight="23"
+                                           TextWrapping="Wrap"
+                                           Foreground="#E1F0EB"/>
+
+                                <StackPanel Margin="0,22,0,0"
+                                            Orientation="Horizontal">
+
+                                    <Button Style="{StaticResource PrimaryButtonStyle}"
+                                            Content="Build a Schedule"
+                                            Click="Build_Schedule_Btn_Click"/>
+
+                                    <Button Margin="12,0,0,0"
+                                            MinWidth="145"
+                                            Height="42"
+                                            Padding="18,8"
+                                            Background="#2C755F"
+                                            BorderBrush="#73B69F"
+                                            BorderThickness="1"
+                                            Foreground="White"
+                                            FontWeight="SemiBold"
+                                            Cursor="Hand"
+                                            Content="Send an Email"
+                                            Click="Send_Email_Btn_Click"/>
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                            <Border Grid.Column="1"
+                                    Width="175"
+                                    Height="175"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Background="#22FFFFFF"
+                                    CornerRadius="88">
+
+                                <Image Margin="30"
+                                       Source="/Images/Logo.png"
+                                       Stretch="Uniform"/>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Quick actions header -->
+                    <Grid Margin="2,0,2,14">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+
+                            <TextBlock Text="Quick Actions"
+                                       FontSize="22"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
+
+                            <TextBlock Margin="0,4,0,0"
+                                       Text="Open the tools you use most often."
+                                       Foreground="#6B7280"/>
+
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="#527064"
+                                   Text="Select an action to get started"/>
+
+                    </Grid>
+
+                    <!-- Main quick-action cards -->
+                    <UniformGrid Columns="4">
+
+                        <Button Style="{StaticResource DashboardButtonStyle}"
+                                Click="Build_Schedule_Btn_Click">
+
+                            <StackPanel>
+
+                                <Border Width="46"
+                                        Height="46"
+                                        HorizontalAlignment="Left"
+                                        Background="#DDF2E3"
+                                        CornerRadius="10">
+
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="23"
+                                               Foreground="#21843C"
+                                               Text="&#xE787;"/>
+
+                                </Border>
+
+                                <TextBlock Margin="0,16,0,0"
+                                           Text="Build Schedule"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,7,0,0"
+                                           Text="Create and assign the upcoming staff schedule."
+                                           TextWrapping="Wrap"
+                                           LineHeight="19"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Style="{StaticResource DashboardButtonStyle}"
+                                Click="View_Schedule_Btn_Click">
+
+                            <StackPanel>
+
+                                <Border Width="46"
+                                        Height="46"
+                                        HorizontalAlignment="Left"
+                                        Background="#E0EEFA"
+                                        CornerRadius="10">
+
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="23"
+                                               Foreground="#266EA5"
+                                               Text="&#xE8A5;"/>
+
+                                </Border>
+
+                                <TextBlock Margin="0,16,0,0"
+                                           Text="View Schedule"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,7,0,0"
+                                           Text="Review saved schedules and current assignments."
+                                           TextWrapping="Wrap"
+                                           LineHeight="19"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Style="{StaticResource DashboardButtonStyle}"
+                                Click="Staff_Lookup_Btn_Click">
+
+                            <StackPanel>
+
+                                <Border Width="46"
+                                        Height="46"
+                                        HorizontalAlignment="Left"
+                                        Background="#F0E7FA"
+                                        CornerRadius="10">
+
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="23"
+                                               Foreground="#7650A6"
+                                               Text="&#xE77B;"/>
+
+                                </Border>
+
+                                <TextBlock Margin="0,16,0,0"
+                                           Text="Staff Lookup"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,7,0,0"
+                                           Text="Find staff details, positions, and availability."
+                                           TextWrapping="Wrap"
+                                           LineHeight="19"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                        <Button Style="{StaticResource DashboardButtonStyle}"
+                                Click="Send_Email_Btn_Click">
+
+                            <StackPanel>
+
+                                <Border Width="46"
+                                        Height="46"
+                                        HorizontalAlignment="Left"
+                                        Background="#FCEBD8"
+                                        CornerRadius="10">
+
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="23"
+                                               Foreground="#C26D18"
+                                               Text="&#xE715;"/>
+
+                                </Border>
+
+                                <TextBlock Margin="0,16,0,0"
+                                           Text="Send Email"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,7,0,0"
+                                           Text="Create formatted emails for selected staff."
+                                           TextWrapping="Wrap"
+                                           LineHeight="19"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                        </Button>
+
+                    </UniformGrid>
+
+                    <!-- Secondary tools -->
+                    <Grid Margin="0,10,0,24">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Staff management -->
+                        <Border Grid.Column="0"
+                                Style="{StaticResource ContentCardStyle}">
+
+                            <StackPanel>
+
+                                <TextBlock Text="Staff Management"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,5,0,17"
+                                           Text="Maintain staff records and qualifications."
+                                           Foreground="#6B7280"/>
+
+                                <Button Height="38"
+                                        Margin="0,0,0,8"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="＋  Add a new staff member"
+                                        Click="Add_Staff_Btn_Click"/>
+
+                                <Button Height="38"
+                                        Margin="0,0,0,8"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="✎  Edit staff information"
+                                        Click="Edit_Staff_Btn_Click"/>
+
+                                <Button Height="38"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="◷  Add staff availability"
+                                        Click="Add_Avail_Btn_Click"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                        <!-- Schedule support -->
+                        <Border Grid.Column="2"
+                                Style="{StaticResource ContentCardStyle}">
+
+                            <StackPanel>
+
+                                <TextBlock Text="Schedule Support"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,5,0,17"
+                                           Text="Configure hours and review staff time off."
+                                           Foreground="#6B7280"/>
+
+                                <Button Height="38"
+                                        Margin="0,0,0,8"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="◫  Configure job hours"
+                                        Click="Add_Collection_Btn_Click"/>
+
+                                <Button Height="38"
+                                        Margin="0,0,0,8"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="＋  Add days off"
+                                        Click="Add_Days_Off_Btn_Click"/>
+
+                                <Button Height="38"
+                                        HorizontalContentAlignment="Left"
+                                        Padding="12,0"
+                                        Content="☷  View days off"
+                                        Click="View_Days_Off_Btn_Click"/>
+
+                            </StackPanel>
+
+                        </Border>
+
+                    </Grid>
+
+                </StackPanel>
+
+            </ScrollViewer>
+
+            <!-- Pages are displayed here -->
+            <Frame x:Name="DisplayScreen"
+                   Visibility="Collapsed"
+                   NavigationUIVisibility="Hidden"
+                   Background="#F1F5F3"/>
+
         </Grid>
-    </DockPanel>
+
+    </Grid>
+
 </Window>

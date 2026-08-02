@@ -1,156 +1,875 @@
-﻿<Page
-    x:Class="Schedule_Creator_V2.Add_Avail"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Add_Avail"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+﻿<Page x:Class="Schedule_Creator_V2.Add_Avail"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      Title="Add Availability"
+      Background="#F1F5F3"
+      FontFamily="Segoe UI">
 
-    <Grid Background="Transparent">
-        <Border
-            Margin="19"
-            Padding="19"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="White"
-            CornerRadius="10">
+    <Page.Resources>
 
-            <Grid>
+        <!-- Card -->
+        <Style x:Key="CardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="12"/>
+
+            <Setter Property="Padding"
+                    Value="22"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.08"
+                                      Color="#143D30"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Standard ComboBox -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="MinHeight"
+                    Value="38"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+        </Style>
+
+        <!-- Time picker -->
+        <Style TargetType="{x:Type xctk:TimePicker}">
+
+            <Setter Property="MinHeight"
+                    Value="38"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+        </Style>
+
+        <!-- Primary button -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="110"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#174E3D"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#174E3D"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#0A3E2E"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.50"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Secondary button -->
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="100"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F1F5F3"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#849B90"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#E5ECE8"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Destructive button -->
+        <Style x:Key="DangerButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource SecondaryButtonStyle}">
+
+            <Setter Property="Foreground"
+                    Value="#B42318"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#E8B4AE"/>
+
+            <Setter Property="Background"
+                    Value="#FFF8F7"/>
+
+        </Style>
+
+        <!-- Row button base -->
+        <Style x:Key="RowButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="82"/>
+
+            <Setter Property="Height"
+                    Value="32"/>
+
+            <Setter Property="Padding"
+                    Value="12,4"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.78"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.60"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="AddRowButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource RowButtonStyle}">
+
+            <Setter Property="Background"
+                    Value="#E4F4E8"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#A8D5B2"/>
+
+            <Setter Property="Foreground"
+                    Value="#176B32"/>
+
+        </Style>
+
+        <Style x:Key="RemoveRowButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource RowButtonStyle}">
+
+            <Setter Property="Background"
+                    Value="#FFF1EF"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#EDC0BA"/>
+
+            <Setter Property="Foreground"
+                    Value="#B42318"/>
+
+        </Style>
+
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="GridLinesVisibility"
+                    Value="Horizontal"/>
+
+            <Setter Property="HorizontalGridLinesBrush"
+                    Value="#E5EBE8"/>
+
+            <Setter Property="VerticalGridLinesBrush"
+                    Value="Transparent"/>
+
+            <Setter Property="HeadersVisibility"
+                    Value="Column"/>
+
+            <Setter Property="CanUserAddRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserDeleteRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserResizeRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserReorderColumns"
+                    Value="False"/>
+
+            <Setter Property="AutoGenerateColumns"
+                    Value="False"/>
+
+            <Setter Property="RowHeaderWidth"
+                    Value="0"/>
+
+            <Setter Property="RowHeight"
+                    Value="58"/>
+
+            <Setter Property="ColumnHeaderHeight"
+                    Value="46"/>
+
+            <Setter Property="SelectionMode"
+                    Value="Single"/>
+
+            <Setter Property="SelectionUnit"
+                    Value="FullRow"/>
+
+            <Setter Property="AlternatingRowBackground"
+                    Value="#FAFCFB"/>
+
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+
+            <Setter Property="Background"
+                    Value="#EAF2EE"/>
+
+            <Setter Property="Foreground"
+                    Value="#234438"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Padding"
+                    Value="12,8"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#D6E1DC"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0,0,0,1"/>
+
+        </Style>
+
+        <Style TargetType="DataGridRow">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="AlternationIndex"
+                         Value="1">
+
+                    <Setter Property="Background"
+                            Value="#FAFCFB"/>
+
+                </Trigger>
+
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#F0F7F3"/>
+
+                </Trigger>
+
+                <Trigger Property="IsSelected"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#DDEFE7"/>
+
+                    <Setter Property="Foreground"
+                            Value="#1F2937"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <Style TargetType="DataGridCell">
+
+            <Setter Property="Padding"
+                    Value="10,7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FocusVisualStyle"
+                    Value="{x:Null}"/>
+
+        </Style>
+
+    </Page.Resources>
+
+    <Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <Grid Margin="28"
+                  MaxWidth="1150"
+                  HorizontalAlignment="Stretch">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <!--  Staff selector  -->
-                    <RowDefinition Height="*" />
-                    <!--  Day/time input grid  -->
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+                <!-- Page heading -->
+                <Grid Grid.Row="0">
 
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--  Staff Selector  -->
-                <StackPanel Orientation="Vertical">
+                    <Border Grid.Column="0"
+                            Width="54"
+                            Height="54"
+                            VerticalAlignment="Top"
+                            Background="#DDEFE7"
+                            CornerRadius="12">
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="26"
+                                   Foreground="#0F5640"
+                                   Text="&#xE823;"/>
+
+                    </Border>
+
+                    <StackPanel Grid.Column="2">
+
+                        <TextBlock Text="Staff Availability"
+                                   FontSize="27"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
+
+                        <TextBlock Margin="0,5,0,0"
+                                   MaxWidth="760"
+                                   Text="Select a staff member, then enter each day and time range when they are available to work."
+                                   FontSize="14"
+                                   LineHeight="21"
+                                   TextWrapping="Wrap"
+                                   Foreground="#66736D"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Staff selection -->
+                <Border Grid.Row="2"
+                        Style="{StaticResource CardStyle}">
+
                     <Grid>
+
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label
-                            x:Name="StaffSelectorLabel"
-                            Grid.Column="0"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Content="Select Staff:"
-                            FontSize="16"
-                            FontWeight="Bold" />
-                        <ComboBox
-                            x:Name="StaffComboBox"
-                            Grid.Column="1"
-                            Width="auto"
-                            Height="30"
-                            Margin="0,5,0,0"
-                            DisplayMemberPath="displayName"
-                            SelectionChanged="FillGrid" />
 
-                        <Button
-                            x:Name="Clear_All_Button"
-                            Grid.Column="4"
-                            Width="100"
-                            Height="30"
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            HorizontalAlignment="Right"
-                            BorderThickness="0"
-                            Click="Clear_Btn_Click"
-                            Content="Clear All"
-                            FontWeight="Bold" />
-                        
-                        <Button
-                            x:Name="Save_Btn"
-                            Grid.Column="2"
-                            Width="100"
-                            Height="30"
-                            Margin="0,0,10,0"
-                            Padding="5"
-                            HorizontalAlignment="Right"
-                            BorderThickness="0"
-                            Click="Save_Btn_Click"
-                            Content="Save"
-                            FontWeight="Bold" />
+                        <StackPanel Grid.Column="0">
 
-                        <Button
-                            x:Name="Cancel_Btn"
-                            Grid.Column="3"
-                            Width="100"
-                            Height="30"
-                            Padding="5"
-                            BorderThickness="0"
-                            Click="Cancel_Btn_Click"
-                            Content="Cancel"
-                            FontWeight="Bold" />
+                            <TextBlock Text="Select Staff Member"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
+
+                            <TextBlock Margin="0,4,0,12"
+                                       Text="Existing availability will load automatically after selecting a staff member."
+                                       FontSize="13"
+                                       TextWrapping="Wrap"
+                                       Foreground="#6B7280"/>
+
+                            <ComboBox x:Name="StaffComboBox"
+                                      MinWidth="300"
+                                      MaxWidth="520"
+                                      HorizontalAlignment="Left"
+                                      DisplayMemberPath="displayName"
+                                      SelectionChanged="FillGrid"/>
+
+                        </StackPanel>
+
+                        <Border Grid.Column="2"
+                                Padding="16,12"
+                                VerticalAlignment="Center"
+                                Background="#F4F8F6"
+                                BorderBrush="#D7E4DE"
+                                BorderThickness="1"
+                                CornerRadius="8">
+
+                            <StackPanel Orientation="Horizontal">
+
+                                <TextBlock VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="17"
+                                           Foreground="#4C7565"
+                                           Text="&#xE946;"/>
+
+                                <TextBlock Margin="9,0,0,0"
+                                           MaxWidth="260"
+                                           VerticalAlignment="Center"
+                                           Text="Use separate rows when availability changes during the week."
+                                           FontSize="12"
+                                           LineHeight="17"
+                                           TextWrapping="Wrap"
+                                           Foreground="#52635C"/>
+
+                            </StackPanel>
+
+                        </Border>
+
                     </Grid>
-                </StackPanel>
-                <DataGrid Grid.Row="1" x:Name="AvailGrid">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="*" Header="Day of the week">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding dayOfTheWeek}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Start Time">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding startTimePicker}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="End Time">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding endTimePicker}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Add New Row">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Width="AUTO"
-                                        Height="30"
-                                        Click="MakeNewRow"
-                                        Content="Add" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Remove Row">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Width="AUTO"
-                                        Height="30"
-                                        Click="RemoveRow"
-                                        Content="Remove" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+
+                </Border>
+
+                <!-- Availability editor -->
+                <Border Grid.Row="4"
+                        Style="{StaticResource CardStyle}">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="14"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="18"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Section heading -->
+                        <Grid Grid.Row="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Availability Entries"
+                                           FontSize="18"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,4,0,0"
+                                           Text="Times can be entered in 15-minute intervals."
+                                           FontSize="13"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                            <Border Grid.Column="1"
+                                    Padding="11,6"
+                                    VerticalAlignment="Center"
+                                    Background="#EAF2EE"
+                                    CornerRadius="6">
+
+                                <TextBlock FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="#315E4D"
+                                           Text="Weekly Availability"/>
+
+                            </Border>
+
+                        </Grid>
+
+                        <!-- DataGrid -->
+                        <Border Grid.Row="2"
+                                MinHeight="300"
+                                Background="White"
+                                BorderBrush="#DDE5E1"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+
+                            <DataGrid x:Name="AvailGrid">
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTemplateColumn Width="1.35*"
+                                                            Header="Day of the Week">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding dayOfTheWeek}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="1.25*"
+                                                            Header="Start Time">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding startTimePicker}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="1.25*"
+                                                            Header="End Time">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding endTimePicker}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="110"
+                                                            Header="Add Row">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <Button Style="{StaticResource AddRowButtonStyle}"
+                                                        Click="MakeNewRow"
+                                                        Content="+ Add"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="110"
+                                                            Header="Remove">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <Button Style="{StaticResource RemoveRowButtonStyle}"
+                                                        Click="RemoveRow"
+                                                        Content="Remove"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+                        </Border>
+
+                        <!-- Bottom actions -->
+                        <Grid Grid.Row="4">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button x:Name="Clear_All_Button"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource DangerButtonStyle}"
+                                    Click="Clear_Btn_Click"
+                                    Content="Clear All Saved"/>
+
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal">
+
+                                <Button x:Name="Cancel_Btn"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Click="Cancel_Btn_Click"
+                                        Content="Reset"/>
+
+                                <Button x:Name="Save_Btn"
+                                        Margin="10,0,0,0"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Click="Save_Btn_Click"
+                                        Content="Save Availability"/>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
+
             </Grid>
-        </Border>
+
+        </ScrollViewer>
+
     </Grid>
+
 </Page>

@@ -1,127 +1,910 @@
-<Page
-    x:Class="Schedule_Creator_V2.Add_Job_Settings"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    Title="Add_Collection"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+<Page x:Class="Schedule_Creator_V2.Add_Job_Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      Title="Job Settings"
+      Background="#F1F5F3"
+      FontFamily="Segoe UI">
 
-    <Grid Background="Transparent">
-        <Border
-            Margin="20"
-            Padding="20"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="White"
-            BorderBrush="#DDD"
-            BorderThickness="1"
-            CornerRadius="10">
+    <Page.Resources>
 
-            <Grid>
+        <!-- Main card -->
+        <Style x:Key="CardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="12"/>
+
+            <Setter Property="Padding"
+                    Value="24"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.08"
+                                      Color="#143D30"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Dynamically created day ComboBoxes -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="MinHeight"
+                    Value="38"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Dynamically created time pickers -->
+        <Style TargetType="{x:Type xctk:TimePicker}">
+
+            <Setter Property="MinHeight"
+                    Value="38"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+        </Style>
+
+        <!-- Primary button -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="145"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#174E3D"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#174E3D"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#0A3E2E"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.50"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Secondary button -->
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="105"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F1F5F3"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#849B90"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#E5ECE8"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Destructive button -->
+        <Style x:Key="DangerButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="175"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="#FFF7F6"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#E4AAA3"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#B42318"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#FDE8E5"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#D78076"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F7D2CD"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- DataGrid row buttons -->
+        <Style x:Key="RowButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="82"/>
+
+            <Setter Property="Height"
+                    Value="32"/>
+
+            <Setter Property="Padding"
+                    Value="12,4"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.78"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.60"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="AddRowButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource RowButtonStyle}">
+
+            <Setter Property="Background"
+                    Value="#E4F4E8"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#A8D5B2"/>
+
+            <Setter Property="Foreground"
+                    Value="#176B32"/>
+
+        </Style>
+
+        <Style x:Key="RemoveRowButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource RowButtonStyle}">
+
+            <Setter Property="Background"
+                    Value="#FFF1EF"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#EDC0BA"/>
+
+            <Setter Property="Foreground"
+                    Value="#B42318"/>
+
+        </Style>
+
+        <!-- DataGrid -->
+        <Style TargetType="DataGrid">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="GridLinesVisibility"
+                    Value="Horizontal"/>
+
+            <Setter Property="HorizontalGridLinesBrush"
+                    Value="#E5EBE8"/>
+
+            <Setter Property="VerticalGridLinesBrush"
+                    Value="Transparent"/>
+
+            <Setter Property="HeadersVisibility"
+                    Value="Column"/>
+
+            <Setter Property="CanUserAddRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserDeleteRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserResizeRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserReorderColumns"
+                    Value="False"/>
+
+            <Setter Property="AutoGenerateColumns"
+                    Value="False"/>
+
+            <Setter Property="RowHeaderWidth"
+                    Value="0"/>
+
+            <Setter Property="RowHeight"
+                    Value="58"/>
+
+            <Setter Property="ColumnHeaderHeight"
+                    Value="46"/>
+
+            <Setter Property="SelectionMode"
+                    Value="Single"/>
+
+            <Setter Property="SelectionUnit"
+                    Value="FullRow"/>
+
+            <Setter Property="AlternatingRowBackground"
+                    Value="#FAFCFB"/>
+
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+
+            <Setter Property="Background"
+                    Value="#EAF2EE"/>
+
+            <Setter Property="Foreground"
+                    Value="#234438"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Padding"
+                    Value="12,8"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#D6E1DC"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0,0,0,1"/>
+
+        </Style>
+
+        <Style TargetType="DataGridRow">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="AlternationIndex"
+                         Value="1">
+
+                    <Setter Property="Background"
+                            Value="#FAFCFB"/>
+
+                </Trigger>
+
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#F0F7F3"/>
+
+                </Trigger>
+
+                <Trigger Property="IsSelected"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#DDEFE7"/>
+
+                    <Setter Property="Foreground"
+                            Value="#1F2937"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <Style TargetType="DataGridCell">
+
+            <Setter Property="Padding"
+                    Value="10,7"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FocusVisualStyle"
+                    Value="{x:Null}"/>
+
+        </Style>
+
+    </Page.Resources>
+
+    <Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <Grid Margin="28"
+                  MaxWidth="1150"
+                  HorizontalAlignment="Stretch">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="AUTO" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="AUTO" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0">
-                    <Label
-                        HorizontalAlignment="Center"
-                        Content="Job Hour Settings"
-                        FontWeight="Bold" />
-                </StackPanel>
+                <!-- Page heading -->
+                <Grid Grid.Row="0">
 
-                <DataGrid
-                    x:Name="JobSettingsGrid"
-                    Grid.Row="1"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="False"
-                    HeadersVisibility="Column"
-                    RowHeight="50">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="*" Header="Day of the week">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding dayOfTheWeek}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Start Time">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding startTimePicker}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="End Time">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding endTimePicker}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Add New Row">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Width="AUTO"
-                                        Height="30"
-                                        Click="MakeNewRow"
-                                        Content="Add" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="*" Header="Remove Row">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Width="AUTO"
-                                        Height="30"
-                                        Click="RemoveRow"
-                                        Content="Remove" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel
-                    x:Name="ButtonPannel"
-                    Grid.Row="2"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <Button
-                        Width="150"
-                        Height="50"
-                        Click="RemoveAll_Click"
-                        Content="Remove All Settings" />
-                    <Button
-                        Width="150"
-                        Height="50"
-                        Click="SaveButton_Click"
-                        Content="Save" />
-                    <Button
-                        Width="150"
-                        Height="50"
-                        Click="CancelButton_Click"
-                        Content="Cancel" />
-                </StackPanel>
+                    <Border Grid.Column="0"
+                            Width="54"
+                            Height="54"
+                            VerticalAlignment="Top"
+                            Background="#DDEFE7"
+                            CornerRadius="12">
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="26"
+                                   Foreground="#0F5640"
+                                   Text="&#xE8A5;"/>
+
+                    </Border>
+
+                    <StackPanel Grid.Column="2">
+
+                        <TextBlock Text="Job Hour Settings"
+                                   FontSize="27"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
+
+                        <TextBlock Margin="0,5,0,0"
+                                   MaxWidth="790"
+                                   Text="Configure the normal opening and closing time for each day the climbing tower is scheduled to operate."
+                                   FontSize="14"
+                                   LineHeight="21"
+                                   TextWrapping="Wrap"
+                                   Foreground="#66736D"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Main settings card -->
+                <Border Grid.Row="2"
+                        Style="{StaticResource CardStyle}">
+
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="14"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="18"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Section heading -->
+                        <Grid Grid.Row="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+
+                                <TextBlock Text="Weekly Operating Hours"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,5,0,0"
+                                           Text="Add one row for each operating day and select its opening and closing time."
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                            <Border Grid.Column="1"
+                                    Padding="12,7"
+                                    VerticalAlignment="Center"
+                                    Background="#EAF2EE"
+                                    BorderBrush="#D4E2DB"
+                                    BorderThickness="1"
+                                    CornerRadius="7">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14"
+                                               Foreground="#315E4D"
+                                               Text="&#xE823;"/>
+
+                                    <TextBlock Margin="7,0,0,0"
+                                               VerticalAlignment="Center"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="#315E4D"
+                                               Text="15-minute intervals"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </Grid>
+
+                        <!-- Settings grid -->
+                        <Border Grid.Row="2"
+                                MinHeight="340"
+                                Background="White"
+                                BorderBrush="#DDE5E1"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+
+                            <DataGrid x:Name="JobSettingsGrid">
+
+                                <DataGrid.Columns>
+
+                                    <DataGridTemplateColumn Width="1.35*"
+                                                            Header="Day of the Week">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding dayOfTheWeek}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="1.25*"
+                                                            Header="Opening Time">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding startTimePicker}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="1.25*"
+                                                            Header="Closing Time">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <ContentControl HorizontalAlignment="Stretch"
+                                                                VerticalAlignment="Center"
+                                                                Content="{Binding endTimePicker}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="110"
+                                                            Header="Add Row">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <Button Style="{StaticResource AddRowButtonStyle}"
+                                                        Click="MakeNewRow"
+                                                        Content="+ Add"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="110"
+                                                            Header="Remove">
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <Button Style="{StaticResource RemoveRowButtonStyle}"
+                                                        Click="RemoveRow"
+                                                        Content="Remove"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+
+                        </Border>
+
+                        <!-- Bottom actions -->
+                        <Grid Grid.Row="4">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource DangerButtonStyle}"
+                                    Click="RemoveAll_Click">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock Margin="0,0,7,0"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14"
+                                               Text="&#xE74D;"/>
+
+                                    <TextBlock Text="Remove All Settings"/>
+
+                                </StackPanel>
+
+                            </Button>
+
+                            <StackPanel x:Name="ButtonPannel"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal">
+
+                                <Button Style="{StaticResource SecondaryButtonStyle}"
+                                        Click="CancelButton_Click"
+                                        Content="Reset"/>
+
+                                <Button Margin="10,0,0,0"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Click="SaveButton_Click">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Margin="0,0,7,0"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="14"
+                                                   Text="&#xE74E;"/>
+
+                                        <TextBlock Text="Save Settings"/>
+
+                                    </StackPanel>
+
+                                </Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Grid>
+
+                </Border>
 
             </Grid>
 
-        </Border>
+        </ScrollViewer>
+
     </Grid>
+
 </Page>

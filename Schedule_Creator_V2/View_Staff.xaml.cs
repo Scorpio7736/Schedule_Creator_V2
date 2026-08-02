@@ -26,14 +26,62 @@ namespace Schedule_Creator_V2
             JobPositionText.Text = staff.position.GetDescription();
             EmailText.Text = staff.email;
             List<ViewStaffRow> dataRows = new List<ViewStaffRow>();
-            
+
             if (staff.isBelayCertified)
             {
-                IsCertText.Text = $"Certified from {staff.certRange}";
+                IsCertText.Text =
+                    $"Certified from {staff.certRange}";
+
+                // Checkmark
+                CertificationIcon.Text = "\uE73E";
+
+                CertificationBorder.Background =
+                    new SolidColorBrush(
+                        Color.FromRgb(234, 246, 239));
+
+                CertificationBorder.BorderBrush =
+                    new SolidColorBrush(
+                        Color.FromRgb(183, 217, 199));
+
+                CertificationIconBorder.Background =
+                    new SolidColorBrush(
+                        Color.FromRgb(217, 239, 226));
+
+                CertificationIcon.Foreground =
+                    new SolidColorBrush(
+                        Color.FromRgb(22, 121, 74));
+
+                IsCertText.Foreground =
+                    new SolidColorBrush(
+                        Color.FromRgb(22, 121, 74));
             }
             else
             {
-                IsCertText.Text = "Not Certified";
+                IsCertText.Text =
+                    "Not Certified";
+
+                // X icon
+                CertificationIcon.Text = "\uE711";
+
+                CertificationBorder.Background =
+                    new SolidColorBrush(
+                        Color.FromRgb(255, 241, 239));
+
+                CertificationBorder.BorderBrush =
+                    new SolidColorBrush(
+                        Color.FromRgb(237, 192, 186));
+
+                CertificationIconBorder.Background =
+                    new SolidColorBrush(
+                        Color.FromRgb(253, 224, 220));
+
+                CertificationIcon.Foreground =
+                    new SolidColorBrush(
+                        Color.FromRgb(180, 35, 24));
+
+                IsCertText.Foreground =
+                    new SolidColorBrush(
+                        Color.FromRgb(180, 35, 24));
             }
 
 

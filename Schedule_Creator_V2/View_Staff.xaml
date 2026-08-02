@@ -1,104 +1,730 @@
-﻿<Page
-    x:Class="Schedule_Creator_V2.View_Staff"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="View_Staff"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+﻿<Page x:Class="Schedule_Creator_V2.View_Staff"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      Title="View Staff"
+      Background="#F1F5F3"
+      FontFamily="Segoe UI">
 
-    <Border Background="White" Margin="10" CornerRadius="10" BorderBrush="Gray" BorderThickness="1">
-        <Grid Margin="20">
-            <Grid Margin="10">
+    <Page.Resources>
+
+        <!-- Main cards -->
+        <Style x:Key="CardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="12"/>
+
+            <Setter Property="Padding"
+                    Value="22"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.08"
+                                      Color="#143D30"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Staff selector -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Detail labels -->
+        <Style x:Key="DetailLabelStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="Margin"
+                    Value="0,0,0,5"/>
+
+            <Setter Property="FontSize"
+                    Value="11"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#68756F"/>
+
+        </Style>
+
+        <!-- Detail values -->
+        <Style x:Key="DetailValueStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="FontSize"
+                    Value="15"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
+
+        </Style>
+
+        <!-- Availability grid -->
+        <Style TargetType="DataGrid">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="AutoGenerateColumns"
+                    Value="False"/>
+
+            <Setter Property="CanUserAddRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserDeleteRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserResizeRows"
+                    Value="False"/>
+
+            <Setter Property="CanUserReorderColumns"
+                    Value="False"/>
+
+            <Setter Property="IsReadOnly"
+                    Value="True"/>
+
+            <Setter Property="HeadersVisibility"
+                    Value="Column"/>
+
+            <Setter Property="GridLinesVisibility"
+                    Value="Horizontal"/>
+
+            <Setter Property="HorizontalGridLinesBrush"
+                    Value="#E5EBE8"/>
+
+            <Setter Property="VerticalGridLinesBrush"
+                    Value="Transparent"/>
+
+            <Setter Property="RowHeaderWidth"
+                    Value="0"/>
+
+            <Setter Property="RowHeight"
+                    Value="50"/>
+
+            <Setter Property="ColumnHeaderHeight"
+                    Value="46"/>
+
+            <Setter Property="SelectionMode"
+                    Value="Single"/>
+
+            <Setter Property="SelectionUnit"
+                    Value="FullRow"/>
+
+            <Setter Property="AlternatingRowBackground"
+                    Value="#FAFCFB"/>
+
+            <Setter Property="HorizontalScrollBarVisibility"
+                    Value="Auto"/>
+
+            <Setter Property="VerticalScrollBarVisibility"
+                    Value="Auto"/>
+
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+
+            <Setter Property="Background"
+                    Value="#EAF2EE"/>
+
+            <Setter Property="Foreground"
+                    Value="#234438"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Padding"
+                    Value="13,8"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#D6E1DC"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0,0,0,1"/>
+
+        </Style>
+
+        <Style TargetType="DataGridRow">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="AlternationIndex"
+                         Value="1">
+
+                    <Setter Property="Background"
+                            Value="#FAFCFB"/>
+
+                </Trigger>
+
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#F0F7F3"/>
+
+                </Trigger>
+
+                <Trigger Property="IsSelected"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#DDEFE7"/>
+
+                    <Setter Property="Foreground"
+                            Value="#1F2937"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <Style TargetType="DataGridCell">
+
+            <Setter Property="Padding"
+                    Value="13,8"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FocusVisualStyle"
+                    Value="{x:Null}"/>
+
+        </Style>
+
+    </Page.Resources>
+
+    <Grid>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+
+            <Grid Margin="28"
+                  MaxWidth="1120"
+                  HorizontalAlignment="Stretch">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
 
-                <!--  Staff Selector + View Button  -->
-                <StackPanel
-                    Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Margin="0,0,0,10"
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal">
-                    <Label
-                        Name="SelectStaffLabel"
-                        Margin="0,0,10,0"
-                        VerticalAlignment="Center"
-                        FontWeight="Bold"
-                        Content="Select Staff Member:" />
-                    <ComboBox
-                        Name="StaffSelector"
-                        Width="200"
-                        Margin="0,0,10,0"
-                        SelectionChanged="StaffSelector_SelectionChanged"
-                        DisplayMemberPath="displayName"
-                        />
-                </StackPanel>
+                <!-- Page heading -->
+                <Grid Grid.Row="0">
 
-                <!--  Left Side: Display Info  -->
-                <StackPanel
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top">
-                    <TextBlock FontWeight="Bold" Text="First Name:" />
-                    <TextBlock Name="FirstNameText" Margin="0,0,0,10" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <TextBlock FontWeight="Bold" Text="Middle Name:" />
-                    <TextBlock Name="MiddleNameText" Margin="0,0,0,10" />
+                    <Border Grid.Column="0"
+                            Width="54"
+                            Height="54"
+                            VerticalAlignment="Top"
+                            Background="#DDEFE7"
+                            CornerRadius="12">
 
-                    <TextBlock FontWeight="Bold" Text="Last Name:" />
-                    <TextBlock Name="LastNameText" Margin="0,0,0,10" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="26"
+                                   Foreground="#0F5640"
+                                   Text="&#xE77B;"/>
 
-                    <TextBlock FontWeight="Bold" Text="Job Position:" />
-                    <TextBlock Name="JobPositionText" Margin="0,0,0,10" />
+                    </Border>
 
-                    <TextBlock FontWeight="Bold" Text="Student Email:" />
-                    <TextBlock Name="EmailText" Margin="0,0,0,10" />
+                    <StackPanel Grid.Column="2">
 
-                    <TextBlock FontWeight="Bold" Text="Belay Certified"/>
-                    <TextBlock Name="IsCertText" Margin="0,0,0,10" />
-                </StackPanel>
+                        <TextBlock Text="View Staff"
+                                   FontSize="27"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
 
-                <!--  Right Side: Availability Grid  -->
-                <StackPanel
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="10"
-                    HorizontalAlignment="Center">
+                        <TextBlock Margin="0,5,0,0"
+                                   MaxWidth="820"
+                                   Text="Select a staff member to review their contact information, position, certification status, and weekly availability."
+                                   FontSize="14"
+                                   LineHeight="21"
+                                   TextWrapping="Wrap"
+                                   Foreground="#66736D"/>
 
-                    <TextBlock
-                        FontWeight="Bold"
-                        FontSize="14"
-                        Text="Availabilities"
-                        Margin="0,0,0,5" />
+                    </StackPanel>
 
-                    <DataGrid
-                        Name="AvailabilityDataGrid"
-                        AutoGenerateColumns="False"
-                        HeadersVisibility="Column"
-                        CanUserAddRows="False"
-                        IsReadOnly="True"
-                        Width="auto"
-                        Height="auto"
-                        MinHeight="200">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Day of Week" Binding="{Binding day}" Width="*" />
-                            <DataGridTextColumn Header="Avail Times" Binding="{Binding availTimes}" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </StackPanel>
+                </Grid>
+
+                <!-- Staff selector -->
+                <Border Grid.Row="2"
+                        Style="{StaticResource CardStyle}">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="24"/>
+                            <ColumnDefinition Width="360"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+
+                            <TextBlock Text="Staff Selection"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
+
+                            <TextBlock Margin="0,5,0,0"
+                                       Text="Choose a staff record to load its saved information."
+                                       FontSize="13"
+                                       TextWrapping="Wrap"
+                                       Foreground="#6B7280"/>
+
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2"
+                                    VerticalAlignment="Center">
+
+                            <Label x:Name="SelectStaffLabel"
+                                   Margin="0,0,0,7"
+                                   Padding="0"
+                                   FontSize="13"
+                                   FontWeight="SemiBold"
+                                   Foreground="#293A34"
+                                   Content="Select Staff Member"/>
+
+                            <ComboBox x:Name="StaffSelector"
+                                      DisplayMemberPath="displayName"
+                                      SelectionChanged="StaffSelector_SelectionChanged"/>
+
+                        </StackPanel>
+
+                    </Grid>
+
+                </Border>
+
+                <!-- Staff information -->
+                <Grid Grid.Row="4">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.05*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="1.75*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Personal details -->
+                    <Border Grid.Column="0"
+                            Style="{StaticResource CardStyle}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="18"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Card heading -->
+                            <StackPanel Grid.Row="0">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <Border Width="40"
+                                            Height="40"
+                                            Margin="0,0,11,0"
+                                            Background="#E7F2ED"
+                                            CornerRadius="8">
+
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="18"
+                                                   Foreground="#0F5640"
+                                                   Text="&#xE77B;"/>
+
+                                    </Border>
+
+                                    <StackPanel VerticalAlignment="Center">
+
+                                        <TextBlock Text="Staff Details"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#1F2937"/>
+
+                                        <TextBlock Margin="0,2,0,0"
+                                                   Text="Saved employee information"
+                                                   FontSize="11"
+                                                   Foreground="#7A8680"/>
+
+                                    </StackPanel>
+
+                                </StackPanel>
+
+                            </StackPanel>
+
+                            <!-- Details -->
+                            <StackPanel Grid.Row="2">
+
+                                <!-- First name -->
+                                <Border Margin="0,0,0,10"
+                                        Padding="13"
+                                        Background="#F8FAF9"
+                                        BorderBrush="#E1E8E4"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+
+                                    <StackPanel>
+
+                                        <TextBlock Style="{StaticResource DetailLabelStyle}"
+                                                   Text="FIRST NAME"/>
+
+                                        <TextBlock x:Name="FirstNameText"
+                                                   Style="{StaticResource DetailValueStyle}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- Middle name -->
+                                <Border Margin="0,0,0,10"
+                                        Padding="13"
+                                        Background="#F8FAF9"
+                                        BorderBrush="#E1E8E4"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+
+                                    <StackPanel>
+
+                                        <TextBlock Style="{StaticResource DetailLabelStyle}"
+                                                   Text="MIDDLE NAME"/>
+
+                                        <TextBlock x:Name="MiddleNameText"
+                                                   Style="{StaticResource DetailValueStyle}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- Last name -->
+                                <Border Margin="0,0,0,10"
+                                        Padding="13"
+                                        Background="#F8FAF9"
+                                        BorderBrush="#E1E8E4"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+
+                                    <StackPanel>
+
+                                        <TextBlock Style="{StaticResource DetailLabelStyle}"
+                                                   Text="LAST NAME"/>
+
+                                        <TextBlock x:Name="LastNameText"
+                                                   Style="{StaticResource DetailValueStyle}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- Position -->
+                                <Border Margin="0,0,0,10"
+                                        Padding="13"
+                                        Background="#F8FAF9"
+                                        BorderBrush="#E1E8E4"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+
+                                    <StackPanel>
+
+                                        <TextBlock Style="{StaticResource DetailLabelStyle}"
+                                                   Text="JOB POSITION"/>
+
+                                        <TextBlock x:Name="JobPositionText"
+                                                   Style="{StaticResource DetailValueStyle}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- Email -->
+                                <Border Margin="0,0,0,10"
+                                        Padding="13"
+                                        Background="#F8FAF9"
+                                        BorderBrush="#E1E8E4"
+                                        BorderThickness="1"
+                                        CornerRadius="7">
+
+                                    <StackPanel>
+
+                                        <TextBlock Style="{StaticResource DetailLabelStyle}"
+                                                   Text="STUDENT EMAIL"/>
+
+                                        <TextBlock x:Name="EmailText"
+                                                   Style="{StaticResource DetailValueStyle}"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                                <!-- Certification -->
+                                <Border x:Name="CertificationBorder"
+        Padding="13"
+        Background="#EAF6EF"
+        BorderBrush="#B7D9C7"
+        BorderThickness="1"
+        CornerRadius="7">
+
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="10"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border x:Name="CertificationIconBorder"
+                Grid.Column="0"
+                Width="34"
+                Height="34"
+                VerticalAlignment="Center"
+                Background="#D9EFE2"
+                CornerRadius="7">
+
+                                            <TextBlock x:Name="CertificationIcon"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="#16794A"
+                       Text="&#xE73E;"/>
+
+                                        </Border>
+
+                                        <StackPanel Grid.Column="2"
+                    VerticalAlignment="Center">
+
+                                            <TextBlock Style="{StaticResource DetailLabelStyle}"
+                       Margin="0,0,0,3"
+                       Text="BELAY CERTIFICATION"/>
+
+                                            <TextBlock x:Name="IsCertText"
+                       Style="{StaticResource DetailValueStyle}"
+                       FontSize="13"
+                       Foreground="#16794A"/>
+
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Availability -->
+                    <Border Grid.Column="2"
+                            Style="{StaticResource CardStyle}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="16"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="14"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Heading -->
+                            <Grid Grid.Row="0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Weekly Availability"
+                                               FontSize="18"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="Saved availability ranges for the selected staff member."
+                                               FontSize="12"
+                                               Foreground="#6B7280"/>
+
+                                </StackPanel>
+
+                                <Border Grid.Column="1"
+                                        Padding="10,6"
+                                        VerticalAlignment="Center"
+                                        Background="#EAF2EE"
+                                        BorderBrush="#D4E2DB"
+                                        BorderThickness="1"
+                                        CornerRadius="6">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="13"
+                                                   Foreground="#315E4D"
+                                                   Text="&#xE787;"/>
+
+                                        <TextBlock Margin="6,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#315E4D"
+                                                   Text="AVAILABILITY"/>
+
+                                    </StackPanel>
+
+                                </Border>
+
+                            </Grid>
+
+                            <!-- Availability grid -->
+                            <Border Grid.Row="2"
+                                    MinHeight="360"
+                                    Background="White"
+                                    BorderBrush="#DDE5E1"
+                                    BorderThickness="1"
+                                    CornerRadius="9"
+                                    ClipToBounds="True">
+
+                                <DataGrid x:Name="AvailabilityDataGrid">
+
+                                    <DataGrid.Columns>
+
+                                        <DataGridTextColumn Header="Day of Week"
+                                                            Binding="{Binding day}"
+                                                            Width="1.1*"/>
+
+                                        <DataGridTextColumn Header="Available Times"
+                                                            Binding="{Binding availTimes}"
+                                                            Width="2*"/>
+
+                                    </DataGrid.Columns>
+
+                                </DataGrid>
+
+                            </Border>
+
+                            <!-- Note -->
+                            <Border Grid.Row="4"
+                                    Padding="12,10"
+                                    Background="#F4F8F6"
+                                    BorderBrush="#D7E4DE"
+                                    BorderThickness="1"
+                                    CornerRadius="7">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock VerticalAlignment="Top"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14"
+                                               Foreground="#4C7565"
+                                               Text="&#xE946;"/>
+
+                                    <TextBlock Margin="8,0,0,0"
+                                               Text="Availability can be changed from the Add Availability page."
+                                               FontSize="11"
+                                               TextWrapping="Wrap"
+                                               Foreground="#52635C"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </Grid>
+
+                    </Border>
+
+                </Grid>
+
             </Grid>
-        </Grid>
-    </Border>
+
+        </ScrollViewer>
+
+    </Grid>
+
 </Page>

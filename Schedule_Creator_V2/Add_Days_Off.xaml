@@ -1,125 +1,658 @@
-﻿<Page
-    x:Class="Schedule_Creator_V2.Add_Days_Off"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:Schedule_Creator_V2"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Add_Days_Off"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
-    mc:Ignorable="d">
+﻿<Page x:Class="Schedule_Creator_V2.Add_Days_Off"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      d:DesignHeight="700"
+      d:DesignWidth="1100"
+      Title="Add Days Off"
+      Background="#F1F5F3"
+      FontFamily="Segoe UI">
+
+    <Page.Resources>
+
+        <!-- Main cards -->
+        <Style x:Key="CardStyle"
+               TargetType="Border">
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#DDE5E1"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="12"/>
+
+            <Setter Property="Padding"
+                    Value="24"/>
+
+            <Setter Property="Effect">
+
+                <Setter.Value>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.08"
+                                      Color="#143D30"/>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Field labels -->
+        <Style x:Key="FieldLabelStyle"
+               TargetType="Label">
+
+            <Setter Property="Padding"
+                    Value="0"/>
+
+            <Setter Property="Margin"
+                    Value="0,0,0,7"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#293A34"/>
+
+        </Style>
+
+        <!-- Staff selector -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Date controls -->
+        <Style TargetType="DatePicker">
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Reason input -->
+        <Style TargetType="TextBox">
+
+            <Setter Property="MinHeight"
+                    Value="110"/>
+
+            <Setter Property="Padding"
+                    Value="11,9"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
+
+            <Setter Property="AcceptsReturn"
+                    Value="True"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Top"/>
+
+            <Setter Property="VerticalScrollBarVisibility"
+                    Value="Auto"/>
+
+        </Style>
+
+        <!-- Primary button -->
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="145"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#0F5640"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#174E3D"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#174E3D"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#0A3E2E"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Opacity"
+                                        Value="0.50"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+        <!-- Secondary button -->
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="105"/>
+
+            <Setter Property="Height"
+                    Value="42"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F1F5F3"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#849B90"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#E5ECE8"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </Page.Resources>
 
     <Grid>
-        <Border
-            Margin="20"
-            Padding="20"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Background="White"
-            BorderBrush="#DDD"
-            BorderThickness="1"
-            CornerRadius="10">
 
+        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
 
-            <Grid Margin="20" Background="white">
+            <Grid Margin="28"
+                  MaxWidth="1050"
+                  HorizontalAlignment="Stretch">
+
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
 
-                <!--  Staff Member Label  -->
-                <Label
-                    x:Name="StaffMemberLabel"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="0,10,5,10"
-                    VerticalAlignment="Center"
-                    Content="Staff Member:" />
-                <!--  Staff Member ComboBox  -->
-                <ComboBox
-                    Name="StaffComboBox"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Width="200"
-                    Margin="0,10"
-                    DisplayMemberPath="displayName" />
+                <!-- Page heading -->
+                <Grid Grid.Row="0">
 
-                <!--  Start Date Label  -->
-                <Label
-                    x:Name="StartDateLabel"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Margin="0,10,5,10"
-                    VerticalAlignment="Center"
-                    Content="Start Date:" />
-                <!--  Start DatePicker  -->
-                <DatePicker
-                    Name="StartDatePicker"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Width="200"
-                    Margin="0,10" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <!--  End Date Label  -->
-                <Label
-                    x:Name="EndDateLabel"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Margin="0,10,5,10"
-                    VerticalAlignment="Center"
-                    Content="End Date:" />
-                <!--  End DatePicker  -->
-                <DatePicker
-                    Name="EndDatePicker"
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Width="200"
-                    Margin="0,10" />
+                    <Border Grid.Column="0"
+                            Width="54"
+                            Height="54"
+                            VerticalAlignment="Top"
+                            Background="#DDEFE7"
+                            CornerRadius="12">
 
-                <!--  Reason box  -->
-                <Label
-                    x:Name="ReasonLabel"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Content="Reason for day off:" />
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="26"
+                                   Foreground="#0F5640"
+                                   Text="&#xE787;"/>
 
-                <TextBox
-                    x:Name="ReasonBox"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Width="350"
-                    Height="auto"
-                    Background="White"
-                    BorderBrush="black" />
+                    </Border>
 
-                <!--  Buttons  -->
-                <StackPanel
-                    Grid.Row="4"
-                    Grid.ColumnSpan="2"
-                    Height="50"
-                    Margin="0,20,0,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-                    <Button
-                        Name="SaveButton"
-                        Width="100"
-                        Click="SaveBtnClick"
-                        Content="Save" />
-                    <Button
-                        Name="CancelButton"
-                        Width="100"
-                        Click="CancelBtnClick"
-                        Content="Cancel" />
-                </StackPanel>
+                    <StackPanel Grid.Column="2">
+
+                        <TextBlock Text="Add Days Off"
+                                   FontSize="27"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
+
+                        <TextBlock Margin="0,5,0,0"
+                                   MaxWidth="760"
+                                   Text="Record a staff member's requested time off so those dates can be considered while building schedules."
+                                   FontSize="14"
+                                   LineHeight="21"
+                                   TextWrapping="Wrap"
+                                   Foreground="#66736D"/>
+
+                    </StackPanel>
+
+                </Grid>
+
+                <!-- Main content -->
+                <Grid Grid.Row="2">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition Width="1.1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Days-off form -->
+                    <Border Grid.Column="0"
+                            Style="{StaticResource CardStyle}">
+
+                        <Grid>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="22"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Grid.Row="0">
+
+                                <TextBlock Text="Time-Off Details"
+                                           FontSize="19"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
+
+                                <TextBlock Margin="0,5,0,0"
+                                           Text="Select the staff member, date range, and reason for the request."
+                                           FontSize="13"
+                                           TextWrapping="Wrap"
+                                           Foreground="#6B7280"/>
+
+                            </StackPanel>
+
+                            <!-- Form -->
+                            <Grid Grid.Row="2">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Staff -->
+                                <StackPanel Grid.Row="0">
+
+                                    <Label x:Name="StaffMemberLabel"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Content="Staff Member"/>
+
+                                    <ComboBox x:Name="StaffComboBox"
+                                              DisplayMemberPath="displayName"/>
+
+                                    <TextBlock Margin="1,6,0,0"
+                                               Text="Choose the staff member requesting time off."
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               Foreground="#7A8680"/>
+
+                                </StackPanel>
+
+                                <!-- Date range -->
+                                <Grid Grid.Row="2">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="18"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0">
+
+                                        <Label x:Name="StartDateLabel"
+                                               Style="{StaticResource FieldLabelStyle}"
+                                               Content="Start Date"/>
+
+                                        <DatePicker x:Name="StartDatePicker"/>
+
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2">
+
+                                        <Label x:Name="EndDateLabel"
+                                               Style="{StaticResource FieldLabelStyle}"
+                                               Content="End Date"/>
+
+                                        <DatePicker x:Name="EndDatePicker"/>
+
+                                    </StackPanel>
+
+                                </Grid>
+
+                                <!-- Reason -->
+                                <StackPanel Grid.Row="4">
+
+                                    <Label x:Name="ReasonLabel"
+                                           Style="{StaticResource FieldLabelStyle}"
+                                           Content="Reason for Time Off"/>
+
+                                    <TextBox x:Name="ReasonBox"
+                                             ToolTip="Enter the reason for the time-off request"/>
+
+                                    <TextBlock Margin="1,6,0,0"
+                                               Text="The reason is optional and will be stored with the selected dates."
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               Foreground="#7A8680"/>
+
+                                </StackPanel>
+
+                            </Grid>
+
+                            <!-- Actions -->
+                            <StackPanel Grid.Row="4"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+
+                                <Button x:Name="CancelButton"
+                                        Style="{StaticResource SecondaryButtonStyle}"
+                                        Click="CancelBtnClick"
+                                        Content="Reset"/>
+
+                                <Button x:Name="SaveButton"
+                                        Margin="10,0,0,0"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Click="SaveBtnClick">
+
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Margin="0,0,7,0"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="14"
+                                                   Text="&#xE74E;"/>
+
+                                        <TextBlock Text="Save Days Off"/>
+
+                                    </StackPanel>
+
+                                </Button>
+
+                            </StackPanel>
+
+                        </Grid>
+
+                    </Border>
+
+                    <!-- Information panel -->
+                    <Border Grid.Column="2"
+                            Style="{StaticResource CardStyle}">
+
+                        <StackPanel>
+
+                            <Border Width="48"
+                                    Height="48"
+                                    HorizontalAlignment="Left"
+                                    Background="#E7F2ED"
+                                    CornerRadius="10">
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="23"
+                                           Foreground="#0F5640"
+                                           Text="&#xE8D1;"/>
+
+                            </Border>
+
+                            <TextBlock Margin="0,16,0,0"
+                                       Text="Time-Off Requests"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
+
+                            <TextBlock Margin="0,8,0,0"
+                                       Text="Every date between the selected start and end dates will be saved as a day off for the staff member."
+                                       FontSize="13"
+                                       LineHeight="20"
+                                       TextWrapping="Wrap"
+                                       Foreground="#66736D"/>
+
+                            <Border Margin="0,20,0,0"
+                                    Padding="14"
+                                    Background="#F5F8F6"
+                                    BorderBrush="#D9E4DF"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Before saving"
+                                               FontSize="13"
+                                               FontWeight="SemiBold"
+                                               Foreground="#315E4D"/>
+
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="• Confirm the correct staff member"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="• Ensure the start date is first"
+                                               FontSize="12"
+                                               Foreground="#52635C"/>
+
+                                    <TextBlock Margin="0,5,0,0"
+                                               Text="• Confirm the full requested date range"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               Foreground="#52635C"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <Border Margin="0,16,0,0"
+                                    Padding="14"
+                                    Background="#FFF8E8"
+                                    BorderBrush="#ECD9A7"
+                                    BorderThickness="1"
+                                    CornerRadius="8">
+
+                                <StackPanel Orientation="Horizontal">
+
+                                    <TextBlock VerticalAlignment="Top"
+                                               FontFamily="Segoe MDL2 Assets"
+                                               FontSize="16"
+                                               Foreground="#A16617"
+                                               Text="&#xE7BA;"/>
+
+                                    <TextBlock Margin="9,0,0,0"
+                                               Text="Saving a date range replaces any existing time-off entries for the same staff member and dates."
+                                               FontSize="12"
+                                               LineHeight="18"
+                                               TextWrapping="Wrap"
+                                               Foreground="#73501D"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </Grid>
+
             </Grid>
-        </Border>
+
+        </ScrollViewer>
+
     </Grid>
+
 </Page>

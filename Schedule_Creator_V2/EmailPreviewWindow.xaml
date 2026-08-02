@@ -2,26 +2,355 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Email Preview"
-        Width="900"
-        Height="800"
-        MinWidth="600"
-        MinHeight="500"
+        Width="1000"
+        Height="820"
+        MinWidth="700"
+        MinHeight="560"
         WindowStartupLocation="CenterOwner"
-        Background="#F3F4F6">
+        Background="#F1F5F3"
+        FontFamily="Segoe UI"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True">
+
+    <Window.Resources>
+
+        <!-- Close button -->
+        <Style x:Key="CloseButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="105"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="18,7"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="Button">
+
+                        <Border x:Name="ButtonBorder"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="7">
+
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#F1F5F3"/>
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="BorderBrush"
+                                        Value="#849B90"/>
+
+                            </Trigger>
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter TargetName="ButtonBorder"
+                                        Property="Background"
+                                        Value="#E5ECE8"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+    </Window.Resources>
 
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Preview Header -->
+        <!-- Window header -->
         <Border Grid.Row="0"
-                Padding="18"
+                Padding="24,20"
+                Background="#0F5640">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="16"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Header icon -->
+                <Border Grid.Column="0"
+                        Width="52"
+                        Height="52"
+                        Background="#25FFFFFF"
+                        CornerRadius="12">
+
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="25"
+                               Foreground="White"
+                               Text="&#xE715;"/>
+
+                </Border>
+
+                <!-- Heading -->
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Text="Email Preview"
+                               FontSize="23"
+                               FontWeight="SemiBold"
+                               Foreground="White"/>
+
+                    <TextBlock Margin="0,4,0,0"
+                               Text="Review the generated email before opening it in Outlook."
+                               FontSize="13"
+                               Foreground="#D5E9E2"/>
+
+                </StackPanel>
+
+                <!-- Preview badge -->
+                <Border Grid.Column="3"
+                        Padding="12,7"
+                        VerticalAlignment="Center"
+                        Background="#23705A"
+                        BorderBrush="#4E8D79"
+                        BorderThickness="1"
+                        CornerRadius="7">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Foreground="White"
+                                   Text="&#xE890;"/>
+
+                        <TextBlock Margin="7,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"
+                                   Text="HTML PREVIEW"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Subject information -->
+        <Border Grid.Row="1"
+                Margin="22,20,22,0"
+                Padding="18,15"
                 Background="White"
-                BorderBrush="#D1D5DB"
-                BorderThickness="0,0,0,1">
+                BorderBrush="#DDE5E1"
+                BorderThickness="1"
+                CornerRadius="10">
+
+            <Border.Effect>
+
+                <DropShadowEffect BlurRadius="10"
+                                  Direction="270"
+                                  ShadowDepth="2"
+                                  Opacity="0.06"
+                                  Color="#143D30"/>
+
+            </Border.Effect>
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="14"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0"
+                        Width="42"
+                        Height="42"
+                        VerticalAlignment="Center"
+                        Background="#E7F2ED"
+                        CornerRadius="9">
+
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="19"
+                               Foreground="#0F5640"
+                               Text="&#xE8BD;"/>
+
+                </Border>
+
+                <StackPanel Grid.Column="2"
+                            VerticalAlignment="Center">
+
+                    <TextBlock Text="Email Subject"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="#6B7872"/>
+
+                    <TextBlock x:Name="SubjectTextBlock"
+                               Margin="0,4,0,0"
+                               FontSize="16"
+                               FontWeight="SemiBold"
+                               Foreground="#1F2937"
+                               TextWrapping="Wrap"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Rendered email preview -->
+        <Grid Grid.Row="2"
+              Margin="22,18,22,18">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Preview section heading -->
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+
+                    <TextBlock Text="Rendered Email"
+                               FontSize="17"
+                               FontWeight="SemiBold"
+                               Foreground="#1F2937"/>
+
+                    <TextBlock Margin="0,3,0,0"
+                               Text="The email content is displayed below as formatted HTML."
+                               FontSize="12"
+                               Foreground="#6B7280"/>
+
+                </StackPanel>
+
+                <Border Grid.Column="1"
+                        Padding="10,6"
+                        VerticalAlignment="Center"
+                        Background="#EAF2EE"
+                        BorderBrush="#D4E2DB"
+                        BorderThickness="1"
+                        CornerRadius="6">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Ellipse Width="7"
+                                 Height="7"
+                                 Margin="0,0,7,0"
+                                 VerticalAlignment="Center"
+                                 Fill="#54B948"/>
+
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="#315E4D"
+                                   Text="PREVIEW READY"/>
+
+                    </StackPanel>
+
+                </Border>
+
+            </Grid>
+
+            <!-- Browser container -->
+            <Border Grid.Row="2"
+                    Background="White"
+                    BorderBrush="#CDD8D3"
+                    BorderThickness="1"
+                    CornerRadius="10">
+
+                <Border.Effect>
+
+                    <DropShadowEffect BlurRadius="14"
+                                      Direction="270"
+                                      ShadowDepth="3"
+                                      Opacity="0.09"
+                                      Color="#143D30"/>
+
+                </Border.Effect>
+
+                <Grid>
+
+                    <!-- Browser background -->
+                    <Border Background="#EEF3F1"
+                            CornerRadius="9"/>
+
+                    <WebBrowser x:Name="EmailPreviewBrowser"
+                                Margin="1"/>
+
+                </Grid>
+
+            </Border>
+
+        </Grid>
+
+        <!-- Footer -->
+        <Border Grid.Row="3"
+                Padding="22,15"
+                Background="White"
+                BorderBrush="#DDE5E1"
+                BorderThickness="0,1,0,0">
 
             <Grid>
 
@@ -30,42 +359,46 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
+                <!-- Preview note -->
+                <StackPanel Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
 
-                    <TextBlock Text="Email Preview"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               Foreground="#1F2937"/>
+                    <TextBlock VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="15"
+                               Foreground="#6A7D74"
+                               Text="&#xE946;"/>
 
-                    <TextBlock x:Name="SubjectTextBlock"
-                               Margin="0,5,0,0"
-                               FontSize="14"
-                               Foreground="#6B7280"
+                    <TextBlock Margin="8,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="#66736D"
+                               Text="Rendering may differ slightly between this preview and Outlook."
                                TextWrapping="Wrap"/>
 
                 </StackPanel>
 
+                <!-- Close -->
                 <Button Grid.Column="1"
-                        MinWidth="90"
-                        Height="34"
-                        Margin="15,0,0,0"
-                        Padding="12,4"
-                        VerticalAlignment="Center"
-                        Content="Close"
-                        Click="CloseButton_Click"/>
+                        Margin="18,0,0,0"
+                        Style="{StaticResource CloseButtonStyle}"
+                        Click="CloseButton_Click">
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBlock Margin="0,0,7,0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="13"
+                                   Text="&#xE711;"/>
+
+                        <TextBlock Text="Close Preview"/>
+
+                    </StackPanel>
+
+                </Button>
 
             </Grid>
-
-        </Border>
-
-        <!-- Rendered Email -->
-        <Border Grid.Row="1"
-                Margin="18"
-                Background="White"
-                BorderBrush="#D1D5DB"
-                BorderThickness="1">
-
-            <WebBrowser x:Name="EmailPreviewBrowser"/>
 
         </Border>
 
