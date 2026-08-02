@@ -1,4 +1,5 @@
 ﻿using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
 using System.Collections.Generic;
@@ -53,8 +54,22 @@ namespace Schedule_Creator_V2.Services
                             RequestBody: "TESTING REQUESTS BODY",
                             RequestButton: "Testing request button",
                             RequestLink: "https://www.uwgb.edu/urec/adventure/climbing/"
-
-
+                        ),
+                        new CustomAttachmentsInputs(
+                            AttachmentsLabel: " ATTACHMENTS lbl",
+                            AttachmentsIntro: "TESTING ATTACHMENTS INTRO",
+                            AttachmentsList: [
+                                "TEST 1",
+                                "TEST 2",
+                                "TEST 3"
+                                ]
+                        ),
+                        new CustomFooterInputs(
+                                FooterOrganization: "UNIVERSITY RECREATION",
+                                FooterWebsiteLink: "https://www.uwgb.edu/urec/",
+                                FooterWebsiteUrl: "https://www.uwgb.edu/urec/",
+                                FooterText: "TESTING FOOTER TEXT",
+                                FooterLogoSource: EmailImageSources.FooterImage
                         )
 
                     }

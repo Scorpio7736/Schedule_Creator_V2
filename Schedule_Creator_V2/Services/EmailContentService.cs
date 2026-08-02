@@ -91,9 +91,9 @@ namespace Schedule_Creator_V2.Services
                 BuildRequestSection(emailType));
 
             html = ReplaceRequiredMarker(
-                html,
-                AttachmentsMarker,
-                string.Empty);
+                    html,
+                    AttachmentsMarker,
+                    BuildAttachmentsSection(emailType));
 
             html = ReplaceRequiredMarker(
                 html,
@@ -126,6 +126,225 @@ namespace Schedule_Creator_V2.Services
 
             return File.ReadAllText(
                 templatePath);
+        }
+
+        private static string BuildAttachmentsSection(
+    EmailType emailType)
+        {
+            CustomAttachmentsInputs? attachmentsInputs =
+                emailType.inputs?
+                    .OfType<CustomAttachmentsInputs>()
+                    .FirstOrDefault();
+
+            if (attachmentsInputs is null)
+            {
+                return string.Empty;
+            }
+
+            List<string> attachments =
+                attachmentsInputs.AttachmentsList?
+                    .Where(attachment =>
+                        !string.IsNullOrWhiteSpace(attachment))
+                    .Select(attachment =>
+                        attachment.Trim())
+                    .ToList()
+                ?? new List<string>();
+
+            bool hasLabel =
+                !string.IsNullOrWhiteSpace(
+                    attachmentsInputs.AttachmentsLabel);
+
+            bool hasIntro =
+                !string.IsNullOrWhiteSpace(
+                    attachmentsInputs.AttachmentsIntro);
+
+            if (!hasLabel &&
+                !hasIntro &&
+                attachments.Count == 0)
+            {
+                return string.Empty;
+            }
+
+            string labelHtml =
+                hasLabel
+                    ? $$"""
+                <div
+                    id="attachmentsLabel"
+                    class="text-brand-green"
+                    style="
+                        font-family:Arial,Helvetica,sans-serif;
+                        font-size:12px;
+                        line-height:17px;
+                        letter-spacing:1.5px;
+                        text-transform:uppercase;
+                        color:#0f5640 !important;
+                        -webkit-text-fill-color:#0f5640 !important;
+                        font-weight:bold;">
+
+                    {{Encode(
+                                attachmentsInputs
+                                    .AttachmentsLabel
+                                    .Trim())}}
+                </div>
+                """
+                    : string.Empty;
+
+            string introHtml =
+                hasIntro
+                    ? $$"""
+                <div
+                    id="attachmentsIntro"
+                    class="text-body"
+                    style="
+                        margin-top:8px;
+                        font-family:Arial,Helvetica,sans-serif;
+                        font-size:16px;
+                        line-height:25px;
+                        color:#303936 !important;
+                        -webkit-text-fill-color:#303936 !important;">
+
+                    {{EncodeWithLineBreaks(
+                                attachmentsInputs
+                                    .AttachmentsIntro
+                                    .Trim())}}
+                </div>
+                """
+                    : string.Empty;
+
+            string attachmentRowsHtml =
+                string.Join(
+                    Environment.NewLine,
+                    attachments.Select(
+                        (attachment, index) =>
+                        {
+                            string fileName =
+                                GetAttachmentDisplayName(
+                                    attachment);
+
+                            return $$"""
+                        <tr
+                            id="attachmentItem{{index + 1}}">
+
+                            <td
+                                width="34"
+                                valign="middle"
+                                bgcolor="#ffffff"
+                                style="
+                                    width:34px;
+                                    padding:12px 0 12px 14px;
+                                    border-bottom:1px solid #bfdbd4;
+                                    background-color:#ffffff !important;
+                                    background-image:linear-gradient(
+                                        #ffffff,
+                                        #ffffff) !important;
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:18px;
+                                    line-height:22px;
+                                    color:#0f5640 !important;
+                                    -webkit-text-fill-color:#0f5640 !important;
+                                    font-weight:bold;">
+
+                                &#128206;
+                            </td>
+
+                            <td
+                                valign="middle"
+                                bgcolor="#ffffff"
+                                class="text-body"
+                                style="
+                                    padding:12px 14px 12px 8px;
+                                    border-bottom:1px solid #bfdbd4;
+                                    background-color:#ffffff !important;
+                                    background-image:linear-gradient(
+                                        #ffffff,
+                                        #ffffff) !important;
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:15px;
+                                    line-height:22px;
+                                    color:#303936 !important;
+                                    -webkit-text-fill-color:#303936 !important;
+                                    font-weight:bold;">
+
+                                {{Encode(fileName)}}
+                            </td>
+                        </tr>
+                        """;
+                        }));
+
+            string attachmentsListHtml =
+                attachments.Count == 0
+                    ? string.Empty
+                    : $$"""
+                <table
+                    id="attachmentsList"
+                    role="presentation"
+                    width="100%"
+                    cellpadding="0"
+                    cellspacing="0"
+                    border="0"
+                    bgcolor="#ffffff"
+                    style="
+                        width:100%;
+                        margin-top:16px;
+                        border-collapse:collapse;
+                        border-left:5px solid #f28c18;
+                        background-color:#ffffff !important;
+                        background-image:linear-gradient(
+                            #ffffff,
+                            #ffffff) !important;">
+
+                    {{attachmentRowsHtml}}
+                </table>
+                """;
+
+            return $$"""
+        <tr id="attachmentsSection">
+            <td
+                bgcolor="#bfdbd4"
+                class="content-padding background-mint"
+                style="
+                    padding-top:28px;
+                    padding-bottom:28px;
+                    font-family:Arial,Helvetica,sans-serif;
+                    background-color:#bfdbd4 !important;
+                    background-image:linear-gradient(
+                        #bfdbd4,
+                        #bfdbd4) !important;">
+
+                {{labelHtml}}
+
+                {{introHtml}}
+
+                {{attachmentsListHtml}}
+            </td>
+        </tr>
+        """;
+        }
+        private static string GetAttachmentDisplayName(
+    string attachment)
+        {
+            if (string.IsNullOrWhiteSpace(attachment))
+            {
+                return string.Empty;
+            }
+
+            string trimmedAttachment =
+                attachment.Trim();
+
+            try
+            {
+                string fileName =
+                    Path.GetFileName(
+                        trimmedAttachment);
+
+                return string.IsNullOrWhiteSpace(fileName)
+                    ? trimmedAttachment
+                    : fileName;
+            }
+            catch
+            {
+                return trimmedAttachment;
+            }
         }
         private static string BuildAnnouncementsSection(
     EmailType emailType)
