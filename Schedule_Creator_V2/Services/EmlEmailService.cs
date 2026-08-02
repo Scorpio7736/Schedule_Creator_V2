@@ -16,27 +16,46 @@ namespace Schedule_Creator_V2.Services
         private const int TemporaryFileLifetimeDays = 7;
 
         public static string CreateAndOpenEmail(
-            IEnumerable<Staff> staffMembers,
-            string subject,
-            string htmlBody)
+    IEnumerable<Staff> toStaffMembers,
+    IEnumerable<Staff> ccStaffMembers,
+    string subject,
+    string htmlBody)
         {
-            List<string> recipientAddresses =
-                GetRecipientAddresses(staffMembers);
+            ArgumentNullException.ThrowIfNull(
+                toStaffMembers);
 
-            if (recipientAddresses.Count == 0)
+            ArgumentNullException.ThrowIfNull(
+                ccStaffMembers);
+
+            List<string> toAddresses =
+                GetRecipientAddresses(
+                    toStaffMembers);
+
+            if (toAddresses.Count == 0)
             {
                 throw new InvalidOperationException(
-                    "No valid recipient email addresses were found.");
+                    "No valid To recipient email addresses were found.");
             }
+
+            List<string> ccAddresses =
+                GetRecipientAddresses(
+                    ccStaffMembers)
+                    .Where(ccAddress =>
+                        !toAddresses.Contains(
+                            ccAddress,
+                            StringComparer.OrdinalIgnoreCase))
+                    .ToList();
 
             string emailDirectory =
                 GetEmailDirectory();
 
-            DeleteOldEmailFiles(emailDirectory);
+            DeleteOldEmailFiles(
+                emailDirectory);
 
             string emlContent =
                 BuildEmlContent(
-                    recipientAddresses,
+                    toAddresses,
+                    ccAddresses,
                     subject,
                     htmlBody);
 
@@ -49,15 +68,17 @@ namespace Schedule_Creator_V2.Services
                 emlFilePath,
                 emlContent);
 
-            OpenEmlFile(emlFilePath);
+            OpenEmlFile(
+                emlFilePath);
 
             return emlFilePath;
         }
 
         private static string BuildEmlContent(
-            List<string> recipientAddresses,
-            string subject,
-            string htmlBody)
+    List<string> toAddresses,
+    List<string> ccAddresses,
+    string subject,
+    string htmlBody)
         {
             string boundary =
                 "ScheduleCreatorBoundary_" +
@@ -84,17 +105,40 @@ namespace Schedule_Creator_V2.Services
              * X-Unsent must be placed before the other headers.
              * Outlook uses this to identify the file as an unsent message.
              */
-            emlBuilder.Append("X-Unsent: 1\r\n");
+            emlBuilder.Append(
+                "X-Unsent: 1\r\n");
 
+            /*
+             * Primary recipients.
+             */
             emlBuilder.Append(
                 "To: ");
 
             emlBuilder.Append(
                 string.Join(
                     ", ",
-                    recipientAddresses));
+                    toAddresses));
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
+
+            /*
+             * Carbon-copy recipients.
+             * Do not write the header when no CC recipients were selected.
+             */
+            if (ccAddresses.Count > 0)
+            {
+                emlBuilder.Append(
+                    "Cc: ");
+
+                emlBuilder.Append(
+                    string.Join(
+                        ", ",
+                        ccAddresses));
+
+                emlBuilder.Append(
+                    "\r\n");
+            }
 
             emlBuilder.Append(
                 "Subject: ");
@@ -102,7 +146,8 @@ namespace Schedule_Creator_V2.Services
             emlBuilder.Append(
                 encodedSubject);
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             emlBuilder.Append(
                 "Date: ");
@@ -110,7 +155,8 @@ namespace Schedule_Creator_V2.Services
             emlBuilder.Append(
                 DateTimeOffset.Now.ToString("r"));
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             emlBuilder.Append(
                 "MIME-Version: 1.0\r\n");
@@ -121,7 +167,8 @@ namespace Schedule_Creator_V2.Services
             emlBuilder.Append(
                 $"boundary=\"{boundary}\"\r\n");
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             /*
              * Plain-text fallback.
@@ -135,15 +182,17 @@ namespace Schedule_Creator_V2.Services
             emlBuilder.Append(
                 "Content-Transfer-Encoding: base64\r\n");
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             emlBuilder.Append(
                 encodedPlainText);
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             /*
-             * Full HTML template.
+             * Full HTML email body.
              */
             emlBuilder.Append(
                 $"--{boundary}\r\n");
@@ -154,13 +203,18 @@ namespace Schedule_Creator_V2.Services
             emlBuilder.Append(
                 "Content-Transfer-Encoding: base64\r\n");
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
             emlBuilder.Append(
                 encodedHtml);
 
-            emlBuilder.Append("\r\n");
+            emlBuilder.Append(
+                "\r\n");
 
+            /*
+             * Close the MIME boundary.
+             */
             emlBuilder.Append(
                 $"--{boundary}--\r\n");
 

@@ -95,96 +95,256 @@
 
                         </Border>
 
-                        <!-- Staff Selection -->
-                        <Border Grid.Row="2"
-                                Padding="16"
-                                Background="#F9FAFB"
-                                BorderBrush="#E5E7EB"
-                                BorderThickness="1"
-                                CornerRadius="8">
+                        <!-- Staff recipient list -->
+                        <Border Grid.Row="4"
+        MinHeight="260"
+        Background="#FAFCFB"
+        BorderBrush="#DDE5E1"
+        BorderThickness="1"
+        CornerRadius="8"
+        ClipToBounds="True">
 
-                            <Grid>
+                            <DataGrid x:Name="StaffListBox"
+              ItemsSource="{Binding RecipientSelections}"
+              AutoGenerateColumns="False"
+              CanUserAddRows="False"
+              CanUserDeleteRows="False"
+              CanUserReorderColumns="False"
+              CanUserResizeColumns="False"
+              CanUserResizeRows="False"
+              HeadersVisibility="Column"
+              GridLinesVisibility="Horizontal"
+              HorizontalGridLinesBrush="#E1E8E4"
+              VerticalGridLinesBrush="Transparent"
+              RowHeaderWidth="0"
+              RowHeight="44"
+              ColumnHeaderHeight="38"
+              SelectionMode="Single"
+              SelectionUnit="FullRow"
+              IsReadOnly="False"
+              Background="White"
+              BorderThickness="0"
+              AlternatingRowBackground="#FAFCFB"
+              ScrollViewer.VerticalScrollBarVisibility="Auto"
+              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="10"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
+                                <DataGrid.Resources>
 
-                                <TextBlock Grid.Row="0"
-                                           Text="Select Staff"
-                                           FontSize="16"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                                    <Style TargetType="DataGridColumnHeader">
 
-                                <!-- Staff Selection Buttons -->
-                                <StackPanel Grid.Row="1"
-                                            Margin="0,8,0,0"
-                                            Orientation="Horizontal">
+                                        <Setter Property="Background"
+                        Value="#EAF2EE"/>
 
-                                    <Button x:Name="SelectAllStaffButton"
-                                            Padding="10,5"
-                                            Content="Select All"
-                                            Click="SelectAllStaffButton_Click"/>
+                                        <Setter Property="Foreground"
+                        Value="#315E4D"/>
 
-                                    <Button x:Name="ClearStaffSelectionButton"
-                                            Margin="8,0,0,0"
-                                            Padding="10,5"
-                                            Content="Clear"
-                                            Click="ClearStaffSelectionButton_Click"/>
+                                        <Setter Property="FontSize"
+                        Value="11"/>
 
-                                </StackPanel>
+                                        <Setter Property="FontWeight"
+                        Value="SemiBold"/>
 
-                                <!-- Staff List -->
-                                <Border Grid.Row="3"
-                                        Background="White"
-                                        BorderBrush="#D1D5DB"
-                                        BorderThickness="1"
-                                        CornerRadius="5">
+                                        <Setter Property="Padding"
+                        Value="12,7"/>
 
-                                    <ListBox x:Name="StaffListBox"
-                                             ItemsSource="{Binding StaffMembers}"
-                                             BorderThickness="0"
-                                             Background="Transparent"
-                                             SelectionMode="Multiple"
-                                             ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        <Setter Property="BorderBrush"
+                        Value="#D6E1DC"/>
 
-                                        <ListBox.ItemContainerStyle>
+                                        <Setter Property="BorderThickness"
+                        Value="0,0,0,1"/>
 
-                                            <Style TargetType="ListBoxItem">
+                                    </Style>
 
-                                                <Setter Property="HorizontalContentAlignment"
-                                                        Value="Stretch"/>
+                                    <Style TargetType="DataGridRow">
 
-                                                <Setter Property="Padding"
-                                                        Value="0"/>
+                                        <Setter Property="Background"
+                        Value="White"/>
+
+                                        <Setter Property="BorderThickness"
+                        Value="0"/>
+
+                                        <Style.Triggers>
+
+                                            <Trigger Property="AlternationIndex"
+                             Value="1">
+
+                                                <Setter Property="Background"
+                                Value="#FAFCFB"/>
+
+                                            </Trigger>
+
+                                            <Trigger Property="IsMouseOver"
+                             Value="True">
+
+                                                <Setter Property="Background"
+                                Value="#F0F7F3"/>
+
+                                            </Trigger>
+
+                                            <Trigger Property="IsSelected"
+                             Value="True">
+
+                                                <Setter Property="Background"
+                                Value="#E4F1EB"/>
+
+                                                <Setter Property="Foreground"
+                                Value="#1F2937"/>
+
+                                            </Trigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                    <Style TargetType="DataGridCell">
+
+                                        <Setter Property="Padding"
+                        Value="12,6"/>
+
+                                        <Setter Property="BorderThickness"
+                        Value="0"/>
+
+                                        <Setter Property="VerticalContentAlignment"
+                        Value="Center"/>
+
+                                        <Setter Property="FocusVisualStyle"
+                        Value="{x:Null}"/>
+
+                                    </Style>
+
+                                    <!-- Small centered recipient checkbox -->
+                                    <Style x:Key="RecipientCheckBoxStyle"
+                   TargetType="CheckBox">
+
+                                        <Setter Property="Width"
+                        Value="18"/>
+
+                                        <Setter Property="Height"
+                        Value="18"/>
+
+                                        <Setter Property="Margin"
+                        Value="0"/>
+
+                                        <Setter Property="Padding"
+                        Value="0"/>
+
+                                        <Setter Property="HorizontalAlignment"
+                        Value="Center"/>
+
+                                        <Setter Property="VerticalAlignment"
+                        Value="Center"/>
+
+                                        <Setter Property="HorizontalContentAlignment"
+                        Value="Center"/>
+
+                                        <Setter Property="VerticalContentAlignment"
+                        Value="Center"/>
+
+                                        <Setter Property="Cursor"
+                        Value="Hand"/>
+
+                                    </Style>
+
+                                </DataGrid.Resources>
+
+                                <DataGrid.Columns>
+
+                                    <!-- Staff name -->
+                                    <DataGridTextColumn Header="STAFF MEMBER"
+                                Width="*"
+                                MinWidth="150"
+                                IsReadOnly="True"
+                                Binding="{Binding Staff.displayName}">
+
+                                        <DataGridTextColumn.ElementStyle>
+
+                                            <Style TargetType="TextBlock">
+
+                                                <Setter Property="VerticalAlignment"
+                                Value="Center"/>
+
+                                                <Setter Property="FontSize"
+                                Value="13"/>
+
+                                                <Setter Property="Foreground"
+                                Value="#293A34"/>
+
+                                                <Setter Property="TextTrimming"
+                                Value="CharacterEllipsis"/>
 
                                             </Style>
 
-                                        </ListBox.ItemContainerStyle>
+                                        </DataGridTextColumn.ElementStyle>
 
-                                        <ListBox.ItemTemplate>
+                                    </DataGridTextColumn>
+
+                                    <!-- To recipient -->
+                                    <DataGridTemplateColumn Header="TO"
+                                    Width="58">
+
+                                        <DataGridTemplateColumn.HeaderStyle>
+
+                                            <Style TargetType="DataGridColumnHeader"
+                           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+
+                                                <Setter Property="HorizontalContentAlignment"
+                                Value="Center"/>
+
+                                            </Style>
+
+                                        </DataGridTemplateColumn.HeaderStyle>
+
+                                        <DataGridTemplateColumn.CellTemplate>
 
                                             <DataTemplate>
 
-                                                <CheckBox Margin="8,5"
-                                                          VerticalAlignment="Center"
-                                                          Content="{Binding displayName}"
-                                                          IsChecked="{Binding IsSelected,
-                                                              RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                              Mode=TwoWay}"/>
+                                                <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
+                                  ToolTip="Add as a primary recipient"
+                                  IsChecked="{Binding IsTo,
+                                      Mode=TwoWay,
+                                      UpdateSourceTrigger=PropertyChanged}"/>
 
                                             </DataTemplate>
 
-                                        </ListBox.ItemTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
 
-                                    </ListBox>
+                                    </DataGridTemplateColumn>
 
-                                </Border>
+                                    <!-- CC recipient -->
+                                    <DataGridTemplateColumn Header="CC"
+                                    Width="58">
 
-                            </Grid>
+                                        <DataGridTemplateColumn.HeaderStyle>
+
+                                            <Style TargetType="DataGridColumnHeader"
+                           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+
+                                                <Setter Property="HorizontalContentAlignment"
+                                Value="Center"/>
+
+                                            </Style>
+
+                                        </DataGridTemplateColumn.HeaderStyle>
+
+                                        <DataGridTemplateColumn.CellTemplate>
+
+                                            <DataTemplate>
+
+                                                <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
+                                  ToolTip="Add as a CC recipient"
+                                  IsChecked="{Binding IsCc,
+                                      Mode=TwoWay,
+                                      UpdateSourceTrigger=PropertyChanged}"/>
+
+                                            </DataTemplate>
+
+                                        </DataGridTemplateColumn.CellTemplate>
+
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
 
                         </Border>
 

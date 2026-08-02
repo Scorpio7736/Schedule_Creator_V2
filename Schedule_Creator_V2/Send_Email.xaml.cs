@@ -1,6 +1,8 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,16 +10,27 @@ namespace Schedule_Creator_V2
 {
     public partial class Send_Email : Page
     {
-        public List<Staff> StaffMembers { get; private set; }
+        public List<EmailRecipientSelection> RecipientSelections
+        {
+            get;
+            private set;
+        }
 
-        public List<EmailType> EmailTypes { get; private set; }
+        public List<EmailType> EmailTypes
+        {
+            get;
+            private set;
+        }
 
         public Send_Email()
         {
             InitializeComponent();
 
-            StaffMembers =
-                LoadStaffSafely();
+            RecipientSelections =
+                LoadStaffSafely()
+                    .Select(staff =>
+                        new EmailRecipientSelection(staff))
+                    .ToList();
 
             EmailTypes =
                 EmailTypeService.CreateEmailTypes();
@@ -57,25 +70,34 @@ namespace Schedule_Creator_V2
             object sender,
             RoutedEventArgs e)
         {
-            StaffListBox.SelectAll();
+            foreach (EmailRecipientSelection recipient
+                     in RecipientSelections)
+            {
+                recipient.IsTo = true;
+            }
         }
 
         private void ClearStaffSelectionButton_Click(
             object sender,
             RoutedEventArgs e)
         {
-            StaffListBox.UnselectAll();
+            foreach (EmailRecipientSelection recipient
+                     in RecipientSelections)
+            {
+                recipient.Clear();
+            }
         }
 
         private void PreviewEmailButton_Click(
-    object sender,
-    RoutedEventArgs e)
+            object sender,
+            RoutedEventArgs e)
         {
             bool hasValidData =
                 TryGetEmailData(
                     actionDescription: "previewing",
                     out EmailType selectedEmailType,
-                    out List<Staff> selectedStaff);
+                    out _,
+                    out _);
 
             if (!hasValidData)
             {
@@ -137,7 +159,8 @@ namespace Schedule_Creator_V2
                 TryGetEmailData(
                     actionDescription: "generating",
                     out EmailType selectedEmailType,
-                    out List<Staff> selectedStaff);
+                    out List<Staff> toRecipients,
+                    out List<Staff> ccRecipients);
 
             if (!hasValidData)
             {
@@ -179,7 +202,8 @@ namespace Schedule_Creator_V2
                         selectedEmailType);
 
                 EmlEmailService.CreateAndOpenEmail(
-                    selectedStaff,
+                    toRecipients,
+                    ccRecipients,
                     subject,
                     htmlBody);
             }
@@ -204,9 +228,13 @@ namespace Schedule_Creator_V2
         private bool TryGetEmailData(
             string actionDescription,
             out EmailType emailType,
-            out List<Staff> selectedStaff)
+            out List<Staff> toRecipients,
+            out List<Staff> ccRecipients)
         {
-            selectedStaff =
+            toRecipients =
+                new List<Staff>();
+
+            ccRecipients =
                 new List<Staff>();
 
             if (EmailTypeComboBox.SelectedItem
@@ -226,16 +254,28 @@ namespace Schedule_Creator_V2
                 return false;
             }
 
-            selectedStaff =
-                StaffListBox.SelectedItems
-                    .Cast<Staff>()
+            toRecipients =
+                RecipientSelections
+                    .Where(recipient =>
+                        recipient.IsTo)
+                    .Select(recipient =>
+                        recipient.Staff)
                     .ToList();
 
-            if (selectedStaff.Count == 0)
+            ccRecipients =
+                RecipientSelections
+                    .Where(recipient =>
+                        recipient.IsCc)
+                    .Select(recipient =>
+                        recipient.Staff)
+                    .ToList();
+
+            if (toRecipients.Count == 0)
             {
                 MessageBox.Show(
-                    $"Please select at least one staff member before {actionDescription} the email.",
-                    "No Staff Selected",
+                    $"Please select at least one To recipient before " +
+                    $"{actionDescription} the email.",
+                    "No To Recipients Selected",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
 
@@ -269,6 +309,94 @@ namespace Schedule_Creator_V2
 
                 return new List<Staff>();
             }
+        }
+    }
+
+    public sealed class EmailRecipientSelection :
+        INotifyPropertyChanged
+    {
+        private bool isTo;
+        private bool isCc;
+
+        public Staff Staff
+        {
+            get;
+        }
+
+        public bool IsTo
+        {
+            get => isTo;
+
+            set
+            {
+                if (isTo == value)
+                {
+                    return;
+                }
+
+                isTo = value;
+
+                OnPropertyChanged();
+
+                if (value && isCc)
+                {
+                    isCc = false;
+
+                    OnPropertyChanged(
+                        nameof(IsCc));
+                }
+            }
+        }
+
+        public bool IsCc
+        {
+            get => isCc;
+
+            set
+            {
+                if (isCc == value)
+                {
+                    return;
+                }
+
+                isCc = value;
+
+                OnPropertyChanged();
+
+                if (value && isTo)
+                {
+                    isTo = false;
+
+                    OnPropertyChanged(
+                        nameof(IsTo));
+                }
+            }
+        }
+
+        public EmailRecipientSelection(
+            Staff staff)
+        {
+            ArgumentNullException.ThrowIfNull(staff);
+
+            Staff = staff;
+        }
+
+        public void Clear()
+        {
+            IsTo = false;
+            IsCc = false;
+        }
+
+        public event PropertyChangedEventHandler?
+            PropertyChanged;
+
+        private void OnPropertyChanged(
+            [CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(
+                this,
+                new PropertyChangedEventArgs(
+                    propertyName));
         }
     }
 }
