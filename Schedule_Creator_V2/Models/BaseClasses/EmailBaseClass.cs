@@ -48,5 +48,12 @@
         public string Subject { get; set; }
         public bool IsFlagged { get; set; }
         public bool IsMarkedImportant { get; set; }
+
+        public void BuildBodySection(string recipientGreeting, string emailBody)
+        {
+
+        }
+
+        //REBUILD THE ENTIRE THING. I NEED TO BE DOING STRING BUILDING FOR THE HTML FILE. 
     }
 }
