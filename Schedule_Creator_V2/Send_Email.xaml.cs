@@ -68,8 +68,8 @@ namespace Schedule_Creator_V2
         }
 
         private void PreviewEmailButton_Click(
-            object sender,
-            RoutedEventArgs e)
+    object sender,
+    RoutedEventArgs e)
         {
             bool hasValidData =
                 TryGetEmailData(
@@ -95,25 +95,38 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            EmailInputFormService.ApplyInputValues(
-                EmailInputFieldsPanel);
+            try
+            {
+                EmailInputFormService.ApplyInputValues(
+                    EmailInputFieldsPanel);
 
-            string subject =
-                EmailContentService.BuildSubject(
-                    selectedEmailType);
+                string subject =
+                    EmailContentService.BuildSubject(
+                        selectedEmailType);
 
-            string htmlBody =
-                EmailContentService.BuildHtmlBody(
-                    selectedEmailType);
+                string htmlBody =
+                    EmailContentService.BuildHtmlBody(
+                        selectedEmailType);
 
-            MessageBox.Show(
-                $"Subject: {subject}\n" +
-                $"Selected staff: {selectedStaff.Count}\n" +
-                $"HTML length: {htmlBody.Length:N0} characters\n\n" +
-                "The HTML email is ready to generate.",
-                "Preview Email",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+                EmailPreviewWindow previewWindow =
+                    new EmailPreviewWindow(
+                        subject,
+                        htmlBody)
+                    {
+                        Owner = Window.GetWindow(this)
+                    };
+
+                previewWindow.Show();
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "The email preview could not be opened.\n\n" +
+                    exception.Message,
+                    "Email Preview Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
         }
 
         private void GenerateEmailButton_Click(
