@@ -905,27 +905,32 @@ namespace Schedule_Creator_V2.Services
         }
 
         private static string BuildHeaderSection(
-            EmailType emailType)
+    EmailType emailType)
         {
+            CustomHeaderInputs? headerInputs =
+                emailType.inputs?
+                    .OfType<CustomHeaderInputs>()
+                    .FirstOrDefault();
+
             string organizationLabel =
-                GetInputValue(
-                    emailType,
-                    "OrganizationName");
+                headerInputs?.OrganizationName
+                ?? string.Empty;
 
             string headerLabel =
-                GetInputValue(
-                    emailType,
-                    "HeaderLabel");
+                headerInputs?.HeaderLabel
+                ?? string.Empty;
 
             string emailHeading =
-                GetInputValue(
-                    emailType,
-                    "EmailHeading");
+                headerInputs?.EmailHeading
+                ?? string.Empty;
 
             string headerSubtitle =
-                GetInputValue(
-                    emailType,
-                    "HeaderSubtitle");
+                headerInputs?.HeaderSubtitle
+                ?? string.Empty;
+
+            string headerImageUrl =
+                headerInputs?.HeaderImageUrl
+                ?? EmailImageSources.Default_HeaderImage;
 
             return $$"""
                 <tr id="headerOrganizationSection">
@@ -983,7 +988,7 @@ namespace Schedule_Creator_V2.Services
 
                         <img
                             id="headerImage"
-                            src="{{EncodeAttribute(EmailImageSources.Default_HeaderImage)}}"
+                            src="{{EncodeAttribute(headerImageUrl)}}"
                             width="640"
                             alt="UWGB Climbing Tower"
                             style="

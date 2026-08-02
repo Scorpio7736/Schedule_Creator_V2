@@ -1,5 +1,6 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Constants;
+using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ namespace Schedule_Creator_V2.Services
                             OrganizationName: "UNIVERSITY RECREATION",
                             HeaderLabel: "TEST MESSAGE FOR TOWER TEAM",
                             EmailHeading: "THIS IS A TEST",
-                            HeaderSubtitle: "TESTING OF THE NEW FORMAT"
+                            HeaderSubtitle: "TESTING OF THE NEW FORMAT",
+                            CustomHeaderImageUrl: EmailImageSources.Default_HeaderImage
                         ),
 
                         new CustomBodyInputs(
@@ -34,7 +36,7 @@ namespace Schedule_Creator_V2.Services
                         new CustomSignatureInputs(
                             SignatureClosing: "Thanks,",
                             SenderName: "Jack London",
-                            SenderTitle: "UREC-O Climbing Tower Supervisor",
+                            SenderTitle: "Climbing Tower Supervisor",
                             SenderOrganization: "Urec Outdoors",
                             SenderEmail: "londjc22@uwgb.edu",
                             SenderPhone: "(414) 425 - 4022"
@@ -74,7 +76,7 @@ namespace Schedule_Creator_V2.Services
 
                     }
                 ),
-                /* WELCOME */new EmailType(
+                /* NR WELCOME */new EmailType(
                     displayName: "(No Request)Welcome to the Climbing Tower Team",
                     inputs: new List<IEmailInputs>
                     {
@@ -86,37 +88,22 @@ namespace Schedule_Creator_V2.Services
                             CustomHeaderImageUrl: EmailImageSources.WelcomToTheTowerTeamHeader
                         ),
                         new CustomBodyInputs(
-                                Greetings.Default_Greeting,
+                                EmailInputConstants.TowerTeamGreeting,
                                 "We are thrilled to welcome you to the Climbing Tower Team! Your dedication and enthusiasm are invaluable to our mission of providing a safe and enjoyable climbing experience for all. We look forward to working with you and seeing the positive impact you'll make on our team and the climbing community."
                         ),
+                        EmailInputDefaults.DefaultSignatureInputs,
                     }
                 ),
                 /* EVENTS */new EmailType(
                     displayName: "Upcoming Event",
                     inputs: new List<IEmailInputs>
                     {
-
-                    }
-                ),
-                /* MEMO */new EmailType(
-                    displayName: "Memo",
-                    inputs: new List<IEmailInputs>
-                    {
-
-                    }
-                ),
-                /* MISSED */new EmailType(
-                    displayName: "Missed Last In-Service",
-                    inputs: new List<IEmailInputs>
-                    {
-
-                    }
-                ),
-                /* IS Reminder */new EmailType(
-                    displayName: "In-Service Reminder",
-                    inputs: new List<IEmailInputs>
-                    {
-
+                        new CustomHeaderInputs(
+                            OrganizationName: "UNIVERSITY RECREATION",
+                            HeaderLabel: "Upcoming Event",
+                            EmailHeading: "Get Ready for our next event!",
+                            HeaderSubtitle: "Don't miss out on these exciting events!"
+                        ),
                     }
                 ),
             };

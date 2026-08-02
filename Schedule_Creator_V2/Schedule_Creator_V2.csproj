@@ -24,20 +24,21 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity"
-						  Version="1.21.0" />
+		<Content Include="Images\EmailImages\**\*">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-		<PackageReference Include="Extended.Wpf.Toolkit"
-						  Version="4.7.25104.5739" />
+	<ItemGroup>
+		<PackageReference Include="Azure.Identity" Version="1.21.0" />
 
-		<PackageReference Include="Microsoft.Data.SqlClient"
-						  Version="6.1.1" />
+		<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
 
-		<PackageReference Include="Microsoft.Graph"
-						  Version="5.91.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
 
-		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient"
-						  Version="3.13.2" />
+		<PackageReference Include="Microsoft.Graph" Version="5.91.0" />
+
+		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.13.2" />
 	</ItemGroup>
 
 	<ItemGroup>

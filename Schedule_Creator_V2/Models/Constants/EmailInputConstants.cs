@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Schedule_Creator_V2.Models.Constants
 {
-    internal class Greetings
+    public class EmailInputConstants
     {
-        public const string Default_Greeting = "Hey Tower Team,";
+        public const string TowerTeamGreeting = "Hey Tower Team,";
+        public const string OrganizationName = "UNIVERSITY RECREATION";
     }
 }
