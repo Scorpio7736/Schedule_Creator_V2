@@ -540,6 +540,7 @@ namespace Schedule_Creator_V2.Services
             string labelHtml =
                 hasLabel
                     ? $$"""
+                
                 <div
                     id="requestLabel"
                     class="text-brand-green"
@@ -619,7 +620,7 @@ namespace Schedule_Creator_V2.Services
                 bgcolor="#ffffff"
                 class="content-padding background-white"
                 style="
-                    padding-top:0;
+                    padding-top:34px;
                     padding-bottom:34px;
                     font-family:Arial,Helvetica,sans-serif;
                     background-color:#ffffff !important;
@@ -982,7 +983,7 @@ namespace Schedule_Creator_V2.Services
 
                         <img
                             id="headerImage"
-                            src="{{EncodeAttribute(EmailImageSources.HeaderImage)}}"
+                            src="{{EncodeAttribute(EmailImageSources.Default_HeaderImage)}}"
                             width="640"
                             alt="UWGB Climbing Tower"
                             style="
@@ -1128,7 +1129,7 @@ namespace Schedule_Creator_V2.Services
 
                         <img
                             id="footerLogo"
-                            src="{{EncodeAttribute(EmailImageSources.FooterImage)}}"
+                            src="{{EncodeAttribute(EmailImageSources.Default_FooterImage)}}"
                             width="145"
                             alt="UWGB UREC Outdoors"
                             style="

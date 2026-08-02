@@ -12,7 +12,7 @@ namespace Schedule_Creator_V2.Services
         {
             return new List<EmailType>
             {
-                new EmailType(
+                /* TEST */new EmailType(
                     displayName: "Test",
                     inputs: new List<IEmailInputs>
                     {
@@ -69,11 +69,56 @@ namespace Schedule_Creator_V2.Services
                                 FooterWebsiteLink: "https://www.uwgb.edu/urec/",
                                 FooterWebsiteUrl: "https://www.uwgb.edu/urec/",
                                 FooterText: "TESTING FOOTER TEXT",
-                                FooterLogoSource: EmailImageSources.FooterImage
+                                FooterLogoSource: EmailImageSources.Default_FooterImage
                         )
 
                     }
-                )
+                ),
+                /* WELCOME */new EmailType(
+                    displayName: "(No Request)Welcome to the Climbing Tower Team",
+                    inputs: new List<IEmailInputs>
+                    {
+                        new CustomHeaderInputs(
+                            OrganizationName: "UNIVERSITY RECREATION",
+                            HeaderLabel: "WELCOME TO THE CLIMBING TOWER TEAM",
+                            EmailHeading: "WELCOME TO THE CLIMBING TOWER TEAM",
+                            HeaderSubtitle: "WE ARE EXCITED TO HAVE YOU ON BOARD!",
+                            CustomHeaderImageUrl: EmailImageSources.WelcomToTheTowerTeamHeader
+                        ),
+                        new CustomBodyInputs(
+                                Greetings.Default_Greeting,
+                                "We are thrilled to welcome you to the Climbing Tower Team! Your dedication and enthusiasm are invaluable to our mission of providing a safe and enjoyable climbing experience for all. We look forward to working with you and seeing the positive impact you'll make on our team and the climbing community."
+                        ),
+                    }
+                ),
+                /* EVENTS */new EmailType(
+                    displayName: "Upcoming Event",
+                    inputs: new List<IEmailInputs>
+                    {
+
+                    }
+                ),
+                /* MEMO */new EmailType(
+                    displayName: "Memo",
+                    inputs: new List<IEmailInputs>
+                    {
+
+                    }
+                ),
+                /* MISSED */new EmailType(
+                    displayName: "Missed Last In-Service",
+                    inputs: new List<IEmailInputs>
+                    {
+
+                    }
+                ),
+                /* IS Reminder */new EmailType(
+                    displayName: "In-Service Reminder",
+                    inputs: new List<IEmailInputs>
+                    {
+
+                    }
+                ),
             };
         }
     }
