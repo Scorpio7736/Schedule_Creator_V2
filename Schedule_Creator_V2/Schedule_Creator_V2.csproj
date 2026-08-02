@@ -17,12 +17,29 @@
     <None Remove="Images\User_Blank.jpg" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
-    <PackageReference Include="Microsoft.Graph" Version="5.91.0" />
-    <PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.13.2" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="Models\Objects\Email.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.Identity" Version="1.21.0" />
+
+		<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+
+		<PackageReference Include="Microsoft.Graph" Version="5.91.0" />
+
+		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.13.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="Models\Objects\Email.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\Background.jpg" />

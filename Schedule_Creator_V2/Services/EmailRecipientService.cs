@@ -1,14 +1,13 @@
 ﻿using Schedule_Creator_V2.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Mail;
 using System.Reflection;
 
 namespace Schedule_Creator_V2.Services
 {
-    public static class OutlookEmailService
+    public static class EmailRecipientService
     {
         private static readonly string[] EmailMemberNames =
         {
@@ -25,48 +24,7 @@ namespace Schedule_Creator_V2.Services
             "firstName"
         };
 
-        public static void OpenNewEmail(
-            IEnumerable<Staff> staffMembers,
-            string subject,
-            string body)
-        {
-            List<string> recipientAddresses =
-                GetRecipientAddresses(staffMembers);
-
-            if (recipientAddresses.Count == 0)
-            {
-                throw new InvalidOperationException(
-                    "No valid recipient email addresses were found.");
-            }
-
-            string recipients =
-                string.Join(",", recipientAddresses);
-
-            string mailToUrl =
-                $"mailto:{recipients}" +
-                $"?subject={Uri.EscapeDataString(subject ?? string.Empty)}" +
-                $"&body={Uri.EscapeDataString(body ?? string.Empty)}";
-
-            try
-            {
-                Process.Start(
-                    new ProcessStartInfo
-                    {
-                        FileName = mailToUrl,
-                        UseShellExecute = true
-                    });
-            }
-            catch (Exception exception)
-            {
-                throw new InvalidOperationException(
-                    "The new Outlook compose window could not be opened.\n\n" +
-                    "Make sure Outlook (new) is assigned as the default " +
-                    "application for MAILTO links in Windows.",
-                    exception);
-            }
-        }
-
-        private static List<string> GetRecipientAddresses(
+        public static List<string> GetRecipientAddresses(
             IEnumerable<Staff> staffMembers)
         {
             List<string> validAddresses =

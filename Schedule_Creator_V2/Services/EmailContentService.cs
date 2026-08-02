@@ -1,85 +1,37 @@
-﻿using Schedule_Creator_V2.Models;
+﻿using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Records;
 using System;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Schedule_Creator_V2.Services
 {
-
     public static class EmailContentService
     {
-        public static string BuildPlainTextBody(
-    EmailType emailType)
-        {
-            string organizationName =
-                GetInputValue(
-                    emailType,
-                    "OrganizationName");
+        private const string HeaderMarker =
+            "<!-- HEADER -->";
 
-            string headerLabel =
-                GetInputValue(
-                    emailType,
-                    "HeaderLabel");
+        private const string BodyMarker =
+            "<!-- BODY -->";
 
-            string emailHeading =
-                GetInputValue(
-                    emailType,
-                    "EmailHeading");
+        private const string AnnouncementsMarker =
+            "<!-- ANNOUNCEMENTS -->";
 
-            string headerSubtitle =
-                GetInputValue(
-                    emailType,
-                    "HeaderSubtitle");
+        private const string RequestMarker =
+            "<!-- REQUEST -->";
 
-            string recipientGreeting =
-                GetInputValue(
-                    emailType,
-                    "RecipientGreeting");
+        private const string AttachmentsMarker =
+            "<!-- ATTACHMENTS -->";
 
-            string emailBody =
-                GetInputValue(
-                    emailType,
-                    "EmailBody");
+        private const string SignatureMarker =
+            "<!-- SIGNATURE -->";
 
-            List<string> sections =
-                new List<string>();
+        private const string FooterMarker =
+            "<!-- FOOTER -->";
 
-            if (!string.IsNullOrWhiteSpace(organizationName))
-            {
-                sections.Add(organizationName.Trim());
-            }
-
-            if (!string.IsNullOrWhiteSpace(headerLabel))
-            {
-                sections.Add(headerLabel.Trim());
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailHeading))
-            {
-                sections.Add(emailHeading.Trim());
-            }
-
-            if (!string.IsNullOrWhiteSpace(headerSubtitle))
-            {
-                sections.Add(headerSubtitle.Trim());
-            }
-
-            if (!string.IsNullOrWhiteSpace(recipientGreeting))
-            {
-                sections.Add(recipientGreeting.Trim());
-            }
-
-            if (!string.IsNullOrWhiteSpace(emailBody))
-            {
-                sections.Add(emailBody.Trim());
-            }
-
-            return string.Join(
-                Environment.NewLine + Environment.NewLine,
-                sections);
-        }
         public static string BuildSubject(
             EmailType emailType)
         {
@@ -99,7 +51,91 @@ namespace Schedule_Creator_V2.Services
         public static string BuildHtmlBody(
             EmailType emailType)
         {
-            string organizationName =
+            ArgumentNullException.ThrowIfNull(
+                emailType);
+
+            string html =
+                LoadEmailTemplate();
+
+            string subject =
+                BuildSubject(emailType);
+
+            html = ReplaceElementContent(
+                html,
+                "emailTitle",
+                Encode(subject));
+
+            html = ReplaceElementContent(
+                html,
+                "preheaderText",
+                Encode(subject));
+
+            html = ReplaceRequiredMarker(
+                html,
+                HeaderMarker,
+                BuildHeaderSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                BodyMarker,
+                BuildBodySection(emailType));
+
+            /*
+             * These sections will be populated when their input
+             * records are added to the selected email type.
+             */
+            html = ReplaceRequiredMarker(
+                html,
+                AnnouncementsMarker,
+                string.Empty);
+
+            html = ReplaceRequiredMarker(
+                html,
+                RequestMarker,
+                string.Empty);
+
+            html = ReplaceRequiredMarker(
+                html,
+                AttachmentsMarker,
+                string.Empty);
+
+            html = ReplaceRequiredMarker(
+                html,
+                SignatureMarker,
+                string.Empty);
+
+            html = ReplaceRequiredMarker(
+                html,
+                FooterMarker,
+                BuildFooterSection());
+
+            return html;
+        }
+
+        private static string LoadEmailTemplate()
+        {
+            string templatePath =
+                Path.Combine(
+                    AppContext.BaseDirectory,
+                    "Models",
+                    "Objects",
+                    "Email.html");
+
+            if (!File.Exists(templatePath))
+            {
+                throw new FileNotFoundException(
+                    "The HTML email template could not be found.",
+                    templatePath);
+            }
+
+            return File.ReadAllText(
+                templatePath);
+        }
+
+        private static string BuildHeaderSection(
+            EmailType emailType)
+        {
+            string organizationLabel =
                 GetInputValue(
                     emailType,
                     "OrganizationName");
@@ -119,6 +155,138 @@ namespace Schedule_Creator_V2.Services
                     emailType,
                     "HeaderSubtitle");
 
+            return $$"""
+                <tr id="headerOrganizationSection">
+                    <td
+                        bgcolor="#bfdbd4"
+                        class="content-padding background-mint"
+                        style="
+                            padding-top:20px;
+                            padding-bottom:18px;
+                            border-top:8px solid #0f5640;
+                            background-color:#bfdbd4 !important;
+                            background-image:linear-gradient(#bfdbd4,#bfdbd4) !important;">
+
+                        <div
+                            id="organizationLabel"
+                            class="text-brand-green"
+                            style="
+                                font-family:Arial,Helvetica,sans-serif;
+                                font-size:12px;
+                                line-height:16px;
+                                letter-spacing:1.5px;
+                                text-transform:uppercase;
+                                color:#0f5640 !important;
+                                -webkit-text-fill-color:#0f5640 !important;
+                                font-weight:bold;">
+
+                            {{Encode(organizationLabel)}}
+                        </div>
+
+                        <div
+                            id="organizationName"
+                            class="text-black"
+                            style="
+                                font-family:Arial,Helvetica,sans-serif;
+                                font-size:24px;
+                                line-height:29px;
+                                color:#111111 !important;
+                                -webkit-text-fill-color:#111111 !important;
+                                font-weight:bold;">
+
+                            UWGB Climbing Tower
+                        </div>
+                    </td>
+                </tr>
+
+                <tr id="headerImageSection">
+                    <td
+                        bgcolor="#0f5640"
+                        class="background-brand-green"
+                        style="
+                            padding:0;
+                            border-bottom:6px solid #f28c18;
+                            background-color:#0f5640 !important;
+                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+
+                        <img
+                            id="headerImage"
+                            src="{{EncodeAttribute(EmailImageSources.HeaderImage)}}"
+                            width="640"
+                            alt="UWGB Climbing Tower"
+                            style="
+                                display:block;
+                                width:100%;
+                                max-width:640px;
+                                height:auto;
+                                border:0;
+                                outline:none;
+                                text-decoration:none;">
+                    </td>
+                </tr>
+
+                <tr id="headerHeadingSection">
+                    <td
+                        bgcolor="#0f5640"
+                        class="content-padding background-brand-green text-white"
+                        style="
+                            padding-top:30px;
+                            padding-bottom:34px;
+                            font-family:Arial,Helvetica,sans-serif;
+                            color:#ffffff !important;
+                            -webkit-text-fill-color:#ffffff !important;
+                            background-color:#0f5640 !important;
+                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+
+                        <div
+                            id="headerLabel"
+                            class="text-mint"
+                            style="
+                                font-size:12px;
+                                line-height:17px;
+                                letter-spacing:1.7px;
+                                text-transform:uppercase;
+                                color:#bfdbd4 !important;
+                                -webkit-text-fill-color:#bfdbd4 !important;
+                                font-weight:bold;">
+
+                            {{Encode(headerLabel)}}
+                        </div>
+
+                        <div
+                            id="emailHeading"
+                            class="headline text-white"
+                            style="
+                                margin-top:9px;
+                                font-size:40px;
+                                line-height:46px;
+                                font-weight:800;
+                                color:#ffffff !important;
+                                -webkit-text-fill-color:#ffffff !important;">
+
+                            {{Encode(emailHeading)}}
+                        </div>
+
+                        <div
+                            id="headerSubtitle"
+                            class="text-header-light"
+                            style="
+                                margin-top:13px;
+                                font-size:17px;
+                                line-height:26px;
+                                color:#eef7f4 !important;
+                                -webkit-text-fill-color:#eef7f4 !important;">
+
+                            {{EncodeWithLineBreaks(headerSubtitle)}}
+                        </div>
+                    </td>
+                </tr>
+                """;
+        }
+
+        private static string BuildBodySection(
+            EmailType emailType)
+        {
             string recipientGreeting =
                 GetInputValue(
                     emailType,
@@ -130,149 +298,204 @@ namespace Schedule_Creator_V2.Services
                     "EmailBody");
 
             return $$"""
-                <!doctype html>
-                <html lang="en">
-                <head>
-                    <meta charset="utf-8">
-                    <meta name="viewport"
-                          content="width=device-width, initial-scale=1">
-                </head>
+                <tr id="bodySection">
+                    <td
+                        bgcolor="#ffffff"
+                        class="content-padding background-white text-body"
+                        style="
+                            padding-top:36px;
+                            padding-bottom:34px;
+                            font-family:Arial,Helvetica,sans-serif;
+                            color:#303936 !important;
+                            -webkit-text-fill-color:#303936 !important;
+                            background-color:#ffffff !important;
+                            background-image:linear-gradient(#ffffff,#ffffff) !important;">
 
-                <body style="
-                    margin:0;
-                    padding:0;
-                    background-color:#eef3f1;
-                    font-family:Arial, Helvetica, sans-serif;">
+                        <div
+                            id="recipientGreeting"
+                            class="text-body"
+                            style="
+                                font-size:17px;
+                                line-height:27px;
+                                color:#303936 !important;
+                                -webkit-text-fill-color:#303936 !important;">
 
-                    <table role="presentation"
-                           width="100%"
-                           cellpadding="0"
-                           cellspacing="0"
-                           border="0"
-                           style="background-color:#eef3f1;">
+                            {{EncodeWithLineBreaks(recipientGreeting)}}
+                        </div>
 
-                        <tr>
-                            <td align="center"
-                                style="padding:30px 15px;">
+                        <div
+                            id="emailBody"
+                            class="text-body"
+                            style="
+                                margin-top:18px;
+                                font-size:16px;
+                                line-height:27px;
+                                color:#303936 !important;
+                                -webkit-text-fill-color:#303936 !important;">
 
-                                <table role="presentation"
-                                       width="640"
-                                       cellpadding="0"
-                                       cellspacing="0"
-                                       border="0"
-                                       style="
-                                           width:100%;
-                                           max-width:640px;
-                                           background-color:#ffffff;
-                                           border-collapse:collapse;">
-
-                                    <tr>
-                                        <td style="
-                                            padding:20px 36px;
-                                            background-color:#bfdbd4;
-                                            border-top:8px solid #0f5640;">
-
-                                            <div style="
-                                                color:#0f5640;
-                                                font-size:12px;
-                                                font-weight:bold;
-                                                letter-spacing:1.5px;
-                                                text-transform:uppercase;">
-
-                                                {{Encode(organizationName)}}
-                                            </div>
-
-                                            <div style="
-                                                margin-top:4px;
-                                                color:#111111;
-                                                font-size:24px;
-                                                font-weight:bold;">
-
-                                                UWGB Climbing Tower
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td style="
-                                            padding:34px 36px;
-                                            background-color:#0f5640;
-                                            border-bottom:6px solid #f28c18;
-                                            color:#ffffff;">
-
-                                            <div style="
-                                                color:#bfdbd4;
-                                                font-size:13px;
-                                                font-weight:bold;
-                                                letter-spacing:2px;
-                                                text-transform:uppercase;">
-
-                                                {{Encode(headerLabel)}}
-                                            </div>
-
-                                            <div style="
-                                                margin-top:8px;
-                                                font-size:40px;
-                                                line-height:46px;
-                                                font-weight:800;">
-
-                                                {{Encode(emailHeading)}}
-                                            </div>
-
-                                            <div style="
-                                                margin-top:14px;
-                                                color:#eef7f4;
-                                                font-size:17px;
-                                                line-height:26px;">
-
-                                                {{Encode(headerSubtitle)}}
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td style="
-                                            padding:36px;
-                                            color:#303936;">
-
-                                            <div style="
-                                                font-size:17px;
-                                                line-height:27px;">
-
-                                                {{Encode(recipientGreeting)}}
-                                            </div>
-
-                                            <div style="
-                                                margin-top:18px;
-                                                font-size:16px;
-                                                line-height:27px;">
-
-                                                {{EncodeWithLineBreaks(emailBody)}}
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td align="center"
-                                            style="
-                                                padding:24px 36px;
-                                                background-color:#0f5640;
-                                                color:#bfdbd4;
-                                                font-size:12px;
-                                                line-height:18px;">
-
-                                            University of Wisconsin–Green Bay<br>
-                                            UWGB UREC Climbing Tower
-                                        </td>
-                                    </tr>
-
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </body>
-                </html>
+                            {{EncodeWithParagraphs(emailBody)}}
+                        </div>
+                    </td>
+                </tr>
                 """;
+        }
+
+        private static string BuildFooterSection()
+        {
+            return $$"""
+                <tr id="footerSection">
+                    <td
+                        align="center"
+                        bgcolor="#0f5640"
+                        class="content-padding background-brand-green"
+                        style="
+                            padding-top:30px;
+                            padding-bottom:24px;
+                            font-family:Arial,Helvetica,sans-serif;
+                            background-color:#0f5640 !important;
+                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+
+                        <img
+                            id="footerLogo"
+                            src="{{EncodeAttribute(EmailImageSources.FooterImage)}}"
+                            width="145"
+                            alt="UWGB UREC Outdoors"
+                            style="
+                                display:block;
+                                width:145px;
+                                max-width:145px;
+                                height:auto;
+                                margin:0 auto;
+                                border:0;
+                                outline:none;
+                                text-decoration:none;">
+
+                        <div
+                            id="footerOrganization"
+                            class="text-mint"
+                            style="
+                                margin-top:15px;
+                                font-size:13px;
+                                line-height:20px;
+                                color:#bfdbd4 !important;
+                                -webkit-text-fill-color:#bfdbd4 !important;">
+
+                            University of Wisconsin–Green Bay
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:2px;
+                                font-size:13px;
+                                line-height:20px;">
+
+                            <a
+                                id="footerWebsiteLink"
+                                href="https://urec.uwgb.edu/"
+                                class="text-white"
+                                style="
+                                    color:#ffffff !important;
+                                    -webkit-text-fill-color:#ffffff !important;
+                                    text-decoration:underline;">
+
+                                urec.uwgb.edu
+                            </a>
+                        </div>
+
+                        <div
+                            class="footer-divider"
+                            style="
+                                height:1px;
+                                margin:20px 0 15px 0;
+                                background-color:#397665 !important;
+                                background-image:linear-gradient(#397665,#397665) !important;">
+                        </div>
+
+                        <div
+                            id="footerText"
+                            class="text-mint"
+                            style="
+                                font-size:11px;
+                                line-height:17px;
+                                color:#bfdbd4 !important;
+                                -webkit-text-fill-color:#bfdbd4 !important;">
+
+                            You are receiving this message because you are
+                            affiliated with the UWGB Climbing Tower.
+                        </div>
+                    </td>
+                </tr>
+                """;
+        }
+
+        private static string ReplaceRequiredMarker(
+            string html,
+            string marker,
+            string replacement)
+        {
+            if (!html.Contains(
+                    marker,
+                    StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException(
+                    $"The email template is missing the marker: {marker}");
+            }
+
+            return html.Replace(
+                marker,
+                replacement,
+                StringComparison.Ordinal);
+        }
+
+        private static string ReplaceElementContent(
+            string html,
+            string elementId,
+            string replacementHtml)
+        {
+            string escapedElementId =
+                Regex.Escape(elementId);
+
+            string pattern =
+                $"""
+                (?<opening>
+                    <
+                    (?<tag>[a-zA-Z][a-zA-Z0-9]*)
+                    \b
+                    [^>]*
+                    \bid\s*=\s*["']{escapedElementId}["']
+                    [^>]*
+                    >
+                )
+                (?<content>.*?)
+                (?<closing>
+                    </\k<tag>\s*>
+                )
+                """;
+
+            Match match =
+                Regex.Match(
+                    html,
+                    pattern,
+                    RegexOptions.IgnoreCase |
+                    RegexOptions.Singleline |
+                    RegexOptions.IgnorePatternWhitespace);
+
+            if (!match.Success)
+            {
+                throw new InvalidOperationException(
+                    $"The email template does not contain an element with the ID '{elementId}'.");
+            }
+
+            return Regex.Replace(
+                html,
+                pattern,
+                currentMatch =>
+                    currentMatch.Groups["opening"].Value +
+                    replacementHtml +
+                    currentMatch.Groups["closing"].Value,
+                RegexOptions.IgnoreCase |
+                RegexOptions.Singleline |
+                RegexOptions.IgnorePatternWhitespace);
         }
 
         private static string GetInputValue(
@@ -319,19 +542,62 @@ namespace Schedule_Creator_V2.Services
                 value ?? string.Empty);
         }
 
+        private static string EncodeAttribute(
+            string value)
+        {
+            return WebUtility.HtmlEncode(
+                value?.Trim() ?? string.Empty);
+        }
+
         private static string EncodeWithLineBreaks(
             string value)
         {
-            string encodedValue =
-                Encode(value);
-
-            return encodedValue
+            return Encode(value)
                 .Replace(
                     "\r\n",
-                    "<br>")
+                    "<br>",
+                    StringComparison.Ordinal)
                 .Replace(
                     "\n",
-                    "<br>");
+                    "<br>",
+                    StringComparison.Ordinal);
+        }
+
+        private static string EncodeWithParagraphs(
+            string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return string.Empty;
+            }
+
+            string normalizedValue =
+                value
+                    .Replace(
+                        "\r\n",
+                        "\n",
+                        StringComparison.Ordinal)
+                    .Trim();
+
+            string[] paragraphs =
+                normalizedValue.Split(
+                    "\n\n",
+                    StringSplitOptions.RemoveEmptyEntries);
+
+            return string.Join(
+                Environment.NewLine,
+                paragraphs.Select(paragraph =>
+                    $$"""
+                    <p
+                        class="text-body"
+                        style="
+                            margin:0 0 16px 0;
+                            color:#303936 !important;
+                            -webkit-text-fill-color:#303936 !important;">
+
+                        {{EncodeWithLineBreaks(paragraph.Trim())}}
+                    </p>
+                    """));
         }
     }
 }

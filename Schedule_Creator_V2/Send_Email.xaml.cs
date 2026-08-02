@@ -105,10 +105,15 @@ namespace Schedule_Creator_V2
                 EmailContentService.BuildSubject(
                     selectedEmailType);
 
+            string htmlBody =
+                EmailContentService.BuildHtmlBody(
+                    selectedEmailType);
+
             MessageBox.Show(
                 $"Subject: {subject}\n" +
-                $"Selected staff: {selectedStaff.Count}\n\n" +
-                "The email is ready to generate.",
+                $"Selected staff: {selectedStaff.Count}\n" +
+                $"HTML length: {htmlBody.Length:N0} characters\n\n" +
+                "The HTML email is ready to generate.",
                 "Preview Email",
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
@@ -143,31 +148,46 @@ namespace Schedule_Creator_V2
             }
 
             EmailInputFormService.ApplyInputValues(
-    EmailInputFieldsPanel);
+                EmailInputFieldsPanel);
 
-            string subject =
-                EmailContentService.BuildSubject(
-                    selectedEmailType);
-
-            string emailBody =
-                EmailContentService.BuildPlainTextBody(
-                    selectedEmailType);
+            Button? generateButton =
+                sender as Button;
 
             try
             {
-                OutlookEmailService.OpenNewEmail(
+                if (generateButton is not null)
+                {
+                    generateButton.IsEnabled = false;
+                }
+
+                string subject =
+                    EmailContentService.BuildSubject(
+                        selectedEmailType);
+
+                string htmlBody =
+                    EmailContentService.BuildHtmlBody(
+                        selectedEmailType);
+
+                EmlEmailService.CreateAndOpenEmail(
                     selectedStaff,
                     subject,
-                    emailBody);
+                    htmlBody);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(
-                    $"The Outlook email could not be created.\n\n" +
+                    "The Outlook email could not be created.\n\n" +
                     exception.Message,
                     "Outlook Email Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (generateButton is not null)
+                {
+                    generateButton.IsEnabled = true;
+                }
             }
         }
 
@@ -231,7 +251,7 @@ namespace Schedule_Creator_V2
             catch (Exception exception)
             {
                 MessageBox.Show(
-                    $"The staff list could not be loaded.\n\n" +
+                    "The staff list could not be loaded.\n\n" +
                     exception.Message,
                     "Staff Loading Error",
                     MessageBoxButton.OK,
