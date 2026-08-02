@@ -33,19 +33,17 @@ namespace Schedule_Creator_V2.Services
             "<!-- FOOTER -->";
 
         public static string BuildSubject(
-            EmailType emailType)
+    EmailType emailType)
         {
-            string subject =
-                GetInputValue(
-                    emailType,
-                    "Subject");
+            ArgumentNullException.ThrowIfNull(emailType);
 
-            if (!string.IsNullOrWhiteSpace(subject))
-            {
-                return subject.Trim();
-            }
+            EmailDetailsInputs? emailDetails =
+                emailType.inputs?
+                    .OfType<EmailDetailsInputs>()
+                    .FirstOrDefault();
 
-            return emailType.displayName;
+            return emailDetails?.Subject?.Trim()
+                ?? string.Empty;
         }
 
         public static string BuildHtmlBody(

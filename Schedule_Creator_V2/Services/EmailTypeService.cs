@@ -76,10 +76,14 @@ namespace Schedule_Creator_V2.Services
                     }
                 ),
                 /* NR WELCOME */new EmailType(
-                    displayName: "(No Request)Welcome to the Climbing Tower Team",
-                    inputs: new List<IEmailInputs>
-                    {
-                        new CustomHeaderInputs(
+                        displayName: "(No Request)Welcome to the Climbing Tower Team",
+                        inputs: new List<IEmailInputs>
+                        {
+                            new EmailDetailsInputs(
+                                Subject: "Welcome to the Climbing Tower Team"
+                            ),
+
+                            new CustomHeaderInputs(
                             OrganizationName: "UNIVERSITY RECREATION",
                             HeaderLabel: "WELCOME TO THE CLIMBING TOWER TEAM",
                             EmailHeading: "WELCOME TO THE CLIMBING TOWER TEAM",
@@ -91,18 +95,6 @@ namespace Schedule_Creator_V2.Services
                                 "We are thrilled to welcome you to the Climbing Tower Team! Your dedication and enthusiasm are invaluable to our mission of providing a safe and enjoyable climbing experience for all. We look forward to working with you and seeing the positive impact you'll make on our team and the climbing community."
                         ),
                         EmailInputDefaults.DefaultSignatureInputs,
-                    }
-                ),
-                /* EVENTS */new EmailType(
-                    displayName: "Upcoming Event",
-                    inputs: new List<IEmailInputs>
-                    {
-                        new CustomHeaderInputs(
-                            OrganizationName: "UNIVERSITY RECREATION",
-                            HeaderLabel: "Upcoming Event",
-                            EmailHeading: "Get Ready for our next event!",
-                            HeaderSubtitle: "Don't miss out on these exciting events!"
-                        ),
                     }
                 ),
             };
