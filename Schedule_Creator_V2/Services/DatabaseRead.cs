@@ -53,7 +53,7 @@ namespace Schedule_Creator_V2.Services
                 {
                     returnList.Add(new ScheduleRow(
                         Enum.Parse<DayOfWeek>((string)reader["dayOfWeek"]),
-                        (int)reader["staffID"],
+                        reader["staffID"] is DBNull ? null : (int)reader["staffID"],
                         TimeOnly.FromTimeSpan((TimeSpan)reader["startTime"]),
                         TimeOnly.FromTimeSpan((TimeSpan)reader["endTime"]),
                         (string)reader["scheduleName"]

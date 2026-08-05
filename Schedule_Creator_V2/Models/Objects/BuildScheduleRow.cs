@@ -104,11 +104,12 @@ namespace Schedule_Creator_V2.Models
         }
 
         private static void AddSelectedShift(
-            List<DayOfWeekStaffPair> selectedShifts,
-            KeyValuePair<ComboBox, DayOfWeek> dayBox,
-            DateTime? selectedStartTime,
-            DateTime? selectedEndTime)
+    List<DayOfWeekStaffPair> selectedShifts,
+    KeyValuePair<ComboBox, DayOfWeek> dayBox,
+    DateTime? selectedStartTime,
+    DateTime? selectedEndTime)
         {
+            // Nothing was selected, so no shift should be saved.
             if (dayBox.Key.SelectedValue == null)
             {
                 return;
@@ -140,16 +141,22 @@ namespace Schedule_Creator_V2.Models
                     $"{startTime:h:mm tt} - {endTime:h:mm tt}.");
             }
 
-            int selectedStaffId =
+            int selectedValue =
                 Convert.ToInt32(dayBox.Key.SelectedValue);
 
-            Staff selectedStaff =
-                DatabaseRead.ReadStaffByID(selectedStaffId);
+            /*
+             * The ComboBox uses -1 for the UI option,
+             * but the database uses NULL for a missing employee.
+             */
+            int? staffID =
+                selectedValue == StaffNameAndAvail.MissingStaffId
+                    ? null
+                    : selectedValue;
 
             selectedShifts.Add(
                 new DayOfWeekStaffPair(
                     dayBox.Value,
-                    selectedStaff,
+                    staffID,
                     startTime,
                     endTime));
         }
@@ -164,10 +171,16 @@ namespace Schedule_Creator_V2.Models
 
         private static ComboBox BuildComboBoxForDay(DayOfWeek day)
         {
+            List<StaffNameAndAvail> staffOptions =
+                DatabaseRead.ReadStaffNamesAndAvailOnDay(day);
+
+            staffOptions.Insert(
+                0,
+                StaffNameAndAvail.MissingOption);
+
             return new ComboBox
             {
-                ItemsSource =
-                    DatabaseRead.ReadStaffNamesAndAvailOnDay(day),
+                ItemsSource = staffOptions,
 
                 DisplayMemberPath =
                     nameof(StaffNameAndAvail.displayName),

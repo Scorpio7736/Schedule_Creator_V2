@@ -13,7 +13,10 @@ namespace Schedule_Creator_V2.Services
             ExecuteNonQuery(
                 Queries.CreateSchedule,
                 new SqlParameter("@dayOfWeek", row.dayOfWeek.ToString()),
-                new SqlParameter("@staffID", row.staffID),
+                new SqlParameter("@staffID", SqlDbType.Int)
+                {
+                    Value = row.staffID.HasValue ? row.staffID.Value : DBNull.Value
+                },
                 new SqlParameter("@scheduleName", row.scheduleName),
                 new SqlParameter("@startTime", SqlDbType.Time) { Value = row.startTime.ToTimeSpan() },
                 new SqlParameter("@endTime", SqlDbType.Time) { Value = row.endTime.ToTimeSpan() }

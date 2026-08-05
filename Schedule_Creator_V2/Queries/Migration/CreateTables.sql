@@ -33,7 +33,7 @@ CREATE TABLE [UWGB].[Staff] (
 CREATE TABLE [UWGB].[Schedule]
 (
     [dayOfWeek]    NVARCHAR(50) NOT NULL,
-    [staffID]      INT          NOT NULL,
+    [staffID]      INT          NULL,
     [scheduleName] NVARCHAR(50) NOT NULL,
     [startTime]    TIME(2)      NOT NULL,
     [endTime]      TIME(2)      NOT NULL,
