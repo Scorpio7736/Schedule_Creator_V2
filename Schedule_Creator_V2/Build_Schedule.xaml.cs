@@ -62,13 +62,15 @@ namespace Schedule_Creator_V2
 
             foreach (BuildScheduleRow row in _rows)
             {
-                List<DayOfWeekStaffPair> selectedStaff = row.getSelectedStaff();
+                List<DayOfWeekStaffPair> selectedStaff = row.getSelectedStaff(TimeOnly.MinValue, TimeOnly.MinValue);
 
                 foreach (DayOfWeekStaffPair dayOfWeekStaffPair in selectedStaff)
                 {
                     DatabaseCreate.CreateSchedule(new ScheduleRow(
                         dayOfWeekStaffPair.day,
                         dayOfWeekStaffPair.staff.id,
+                        dayOfWeekStaffPair.startTime,
+                        dayOfWeekStaffPair.endTime,
                         scheduleName
                         ));
 

@@ -22,7 +22,9 @@ namespace Schedule_Creator_V2.Models.Records
             string HeaderSubtitle,
             string? HeaderImageUrl = null)
         {
-            this.OrganizationName = OrganizationName;
+            this.OrganizationName = string.IsNullOrWhiteSpace(OrganizationName)
+                ? EmailInputConstants.OrganizationName
+                : OrganizationName;
             this.HeaderLabel = HeaderLabel;
             this.EmailHeading = EmailHeading;
             this.HeaderSubtitle = HeaderSubtitle;

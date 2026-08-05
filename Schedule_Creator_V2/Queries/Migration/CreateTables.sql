@@ -17,12 +17,6 @@ CREATE TABLE [UWGB].[JobSettings] (
     [ClosingTime] TIME (2)      NOT NULL
 );
 
-CREATE TABLE [UWGB].[Schedule] (
-    [dayOfWeek]    NVARCHAR (50) NOT NULL,
-    [staffID]      INT           NOT NULL,
-    [scheduleName] NVARCHAR (50) NOT NULL
-);
-
 CREATE TABLE [UWGB].[Staff] (
     [id]          INT           IDENTITY (1, 1) NOT NULL,
     [fName]       NVARCHAR (50) NOT NULL,
@@ -34,4 +28,13 @@ CREATE TABLE [UWGB].[Staff] (
     [certifiedOn] DATE          NULL,
     [expiresOn]   DATE          NULL,
     PRIMARY KEY CLUSTERED ([id] ASC)
+);
+
+CREATE TABLE [UWGB].[Schedule]
+(
+    [dayOfWeek]    NVARCHAR(50) NOT NULL,
+    [staffID]      INT          NOT NULL,
+    [scheduleName] NVARCHAR(50) NOT NULL,
+    [startTime]    TIME(2)      NOT NULL,
+    [endTime]      TIME(2)      NOT NULL,
 );

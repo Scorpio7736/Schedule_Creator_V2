@@ -1,5 +1,5 @@
 ﻿INSERT INTO 
 	[UWGB].[Schedule] 
-	([dayOfWeek], staffID, scheduleName) 
+	([dayOfWeek], staffID, startTime, endTime, scheduleName) 
 VALUES 
-	(@dayOfWeek, @staffID, @scheduleName)
+	(@dayOfWeek, @staffID, @startTime, @endTime, @scheduleName)

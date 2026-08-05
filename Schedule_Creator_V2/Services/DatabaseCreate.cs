@@ -2,6 +2,7 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Enums;
 using Schedule_Creator_V2.Models.Records;
+using System.Data;
 
 namespace Schedule_Creator_V2.Services
 {
@@ -13,7 +14,10 @@ namespace Schedule_Creator_V2.Services
                 Queries.CreateSchedule,
                 new SqlParameter("@dayOfWeek", row.dayOfWeek.ToString()),
                 new SqlParameter("@staffID", row.staffID),
-                new SqlParameter("@scheduleName", row.scheduleName));
+                new SqlParameter("@scheduleName", row.scheduleName),
+                new SqlParameter("@startTime", SqlDbType.Time) { Value = row.startTime.ToTimeSpan() },
+                new SqlParameter("@endTime", SqlDbType.Time) { Value = row.endTime.ToTimeSpan() }
+            );
         }
 
         public static void CreateJobSettings(JobSettings settings)

@@ -5,7 +5,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
       d:DesignHeight="700"
-      d:DesignWidth="1150"
+      d:DesignWidth="1200"
       Title="View Schedule"
       Background="#F1F5F3"
       FontFamily="Segoe UI">
@@ -32,7 +32,6 @@
                     Value="22"/>
 
             <Setter Property="Effect">
-
                 <Setter.Value>
 
                     <DropShadowEffect BlurRadius="14"
@@ -42,7 +41,6 @@
                                       Color="#143D30"/>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -74,6 +72,80 @@
             <Setter Property="VerticalContentAlignment"
                     Value="Center"/>
 
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+
+                    <Setter Property="BorderBrush"
+                            Value="#849B90"/>
+
+                </Trigger>
+
+                <Trigger Property="IsKeyboardFocusWithin"
+                         Value="True">
+
+                    <Setter Property="BorderBrush"
+                            Value="#0F5640"/>
+
+                    <Setter Property="BorderThickness"
+                            Value="2"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+        <!-- Staff name -->
+        <Style x:Key="StaffNameStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="TextAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
+
+            <Setter Property="TextTrimming"
+                    Value="CharacterEllipsis"/>
+
+        </Style>
+
+        <!-- Shift time -->
+        <Style x:Key="ShiftTimeStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="VerticalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="FontSize"
+                    Value="12"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#315E4D"/>
+
         </Style>
 
         <!-- Schedule grid -->
@@ -87,6 +159,12 @@
 
             <Setter Property="BorderThickness"
                     Value="0"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
 
             <Setter Property="AutoGenerateColumns"
                     Value="False"/>
@@ -110,19 +188,19 @@
                     Value="Column"/>
 
             <Setter Property="GridLinesVisibility"
-                    Value="Horizontal"/>
+                    Value="All"/>
 
             <Setter Property="HorizontalGridLinesBrush"
                     Value="#E5EBE8"/>
 
             <Setter Property="VerticalGridLinesBrush"
-                    Value="Transparent"/>
+                    Value="#E5EBE8"/>
 
             <Setter Property="RowHeaderWidth"
                     Value="0"/>
 
             <Setter Property="RowHeight"
-                    Value="52"/>
+                    Value="96"/>
 
             <Setter Property="ColumnHeaderHeight"
                     Value="48"/>
@@ -164,6 +242,9 @@
             <Setter Property="HorizontalContentAlignment"
                     Value="Center"/>
 
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
             <Setter Property="BorderBrush"
                     Value="#D6E1DC"/>
 
@@ -179,6 +260,12 @@
 
             <Setter Property="BorderThickness"
                     Value="0"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Stretch"/>
 
             <Style.Triggers>
 
@@ -216,19 +303,19 @@
         <Style TargetType="DataGridCell">
 
             <Setter Property="Padding"
-                    Value="13,8"/>
+                    Value="9"/>
 
             <Setter Property="BorderBrush"
                     Value="#E5EBE8"/>
 
             <Setter Property="BorderThickness"
-                    Value="0,0,1,0"/>
+                    Value="0,0,1,1"/>
 
             <Setter Property="VerticalContentAlignment"
-                    Value="Center"/>
+                    Value="Stretch"/>
 
             <Setter Property="HorizontalContentAlignment"
-                    Value="Center"/>
+                    Value="Stretch"/>
 
             <Setter Property="FocusVisualStyle"
                     Value="{x:Null}"/>
@@ -278,8 +365,8 @@
                            Foreground="#1F2937"/>
 
                 <TextBlock Margin="0,5,0,0"
-                           MaxWidth="820"
-                           Text="Select a saved schedule to review staff assignments across the configured operating days."
+                           MaxWidth="850"
+                           Text="Select a saved schedule to review staff assignments and shift times across the configured operating days."
                            FontSize="14"
                            LineHeight="21"
                            TextWrapping="Wrap"
@@ -291,9 +378,10 @@
 
         <!-- Main schedule card -->
         <Border Grid.Row="2"
+                HorizontalAlignment="Stretch"
                 Style="{StaticResource CardStyle}">
 
-            <Grid>
+            <Grid HorizontalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -311,7 +399,7 @@
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel>
+                    <StackPanel Grid.Column="0">
 
                         <TextBlock Text="Saved Schedule"
                                    FontSize="19"
@@ -319,7 +407,7 @@
                                    Foreground="#1F2937"/>
 
                         <TextBlock Margin="0,5,0,0"
-                                   Text="Choose a schedule to display its weekly staff assignments."
+                                   Text="Choose a schedule to display its weekly staff assignments and shift times."
                                    FontSize="13"
                                    Foreground="#6B7280"/>
 
@@ -428,72 +516,478 @@
                 <!-- Schedule results -->
                 <Border Grid.Row="4"
                         MinHeight="340"
+                        HorizontalAlignment="Stretch"
                         Background="White"
                         BorderBrush="#DDE5E1"
                         BorderThickness="1"
                         CornerRadius="9"
                         ClipToBounds="True">
 
-                    <Grid>
+                    <DataGrid x:Name="ScheduleGrid"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              ColumnWidth="*">
 
-                        <DataGrid x:Name="ScheduleGrid">
+                        <DataGrid.Columns>
 
-                            <DataGrid.Columns>
-
-                                <DataGridTextColumn x:Name="MonCol"
+                            <!-- Monday -->
+                            <DataGridTemplateColumn x:Name="MonCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailMon}"
-                                                    Header="Monday"/>
+                                                    MinWidth="190"
+                                                    Header="Monday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="TueCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailMon}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding MonStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding MonEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Tuesday -->
+                            <DataGridTemplateColumn x:Name="TueCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailTue}"
-                                                    Header="Tuesday"/>
+                                                    MinWidth="190"
+                                                    Header="Tuesday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="WedCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailTue}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding TueStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding TueEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Wednesday -->
+                            <DataGridTemplateColumn x:Name="WedCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailWed}"
-                                                    Header="Wednesday"/>
+                                                    MinWidth="190"
+                                                    Header="Wednesday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="ThuCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailWed}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding WedStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding WedEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Thursday -->
+                            <DataGridTemplateColumn x:Name="ThuCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailThu}"
-                                                    Header="Thursday"/>
+                                                    MinWidth="190"
+                                                    Header="Thursday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="FriCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailThu}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding ThuStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding ThuEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Friday -->
+                            <DataGridTemplateColumn x:Name="FriCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailFri}"
-                                                    Header="Friday"/>
+                                                    MinWidth="190"
+                                                    Header="Friday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="SatCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailFri}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding FriStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding FriEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Saturday -->
+                            <DataGridTemplateColumn x:Name="SatCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailSat}"
-                                                    Header="Saturday"/>
+                                                    MinWidth="190"
+                                                    Header="Saturday"
+                                                    Visibility="Hidden">
 
-                                <DataGridTextColumn x:Name="SunCol"
+                                <DataGridTemplateColumn.CellTemplate>
+
+                                    <DataTemplate>
+
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailSat}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding SatStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding SatEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                            <!-- Sunday -->
+                            <DataGridTemplateColumn x:Name="SunCol"
                                                     Width="*"
-                                                    MinWidth="140"
-                                                    Visibility="Hidden"
-                                                    Binding="{Binding AvailSun}"
-                                                    Header="Sunday"/>
+                                                    MinWidth="190"
+                                                    Header="Sunday"
+                                                    Visibility="Hidden">
 
-                            </DataGrid.Columns>
+                                <DataGridTemplateColumn.CellTemplate>
 
-                        </DataGrid>
+                                    <DataTemplate>
 
-                    </Grid>
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0"
+                                                       Text="{Binding AvailSun}"
+                                                       Style="{StaticResource StaffNameStyle}"/>
+
+                                            <Border Grid.Row="1"
+                                                    Margin="0,8,0,0"
+                                                    Padding="8,5"
+                                                    HorizontalAlignment="Center"
+                                                    Background="#EAF2EE"
+                                                    BorderBrush="#D4E2DB"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+
+                                                <StackPanel Orientation="Horizontal">
+
+                                                    <TextBlock Margin="0,0,6,0"
+                                                               VerticalAlignment="Center"
+                                                               FontFamily="Segoe MDL2 Assets"
+                                                               FontSize="12"
+                                                               Foreground="#315E4D"
+                                                               Text="&#xE823;"/>
+
+                                                    <TextBlock Text="{Binding SunStartTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Margin="5,0"
+                                                               Text="–"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                    <TextBlock Text="{Binding SunEndTime,
+                                                                             StringFormat={}{0:h:mm tt}}"
+                                                               Style="{StaticResource ShiftTimeStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Border>
+
+                                        </Grid>
+
+                                    </DataTemplate>
+
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
 
                 </Border>
 

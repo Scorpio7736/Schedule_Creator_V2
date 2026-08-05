@@ -16,6 +16,28 @@ namespace Schedule_Creator_V2.Models
         public KeyValuePair<ComboBox, DayOfWeek> FriBox { get; }
         public KeyValuePair<ComboBox, DayOfWeek> SatBox { get; }
         public KeyValuePair<ComboBox, DayOfWeek> SunBox { get; }
+
+        public DateTime? MonStartTime { get; set; }
+        public DateTime? MonEndTime { get; set; }
+
+        public DateTime? TueStartTime { get; set; }
+        public DateTime? TueEndTime { get; set; }
+
+        public DateTime? WedStartTime { get; set; }
+        public DateTime? WedEndTime { get; set; }
+
+        public DateTime? ThuStartTime { get; set; }
+        public DateTime? ThuEndTime { get; set; }
+
+        public DateTime? FriStartTime { get; set; }
+        public DateTime? FriEndTime { get; set; }
+
+        public DateTime? SatStartTime { get; set; }
+        public DateTime? SatEndTime { get; set; }
+
+        public DateTime? SunStartTime { get; set; }
+        public DateTime? SunEndTime { get; set; }
+
         public Button DelBTN { get; }
 
         private Dictionary<ComboBox, DayOfWeek> DayBoxes { get; } 
@@ -44,7 +66,7 @@ namespace Schedule_Creator_V2.Models
             DelBTN = new Button { Content = "Delete" };
         }
 
-        public List<DayOfWeekStaffPair> getSelectedStaff()
+        public List<DayOfWeekStaffPair> getSelectedStaff(TimeOnly startTime, TimeOnly endTime)
         {
             List<DayOfWeekStaffPair> returnList = new List<DayOfWeekStaffPair>();
 
@@ -57,7 +79,7 @@ namespace Schedule_Creator_V2.Models
 
                     if (selectedStaff != null)
                     {
-                        returnList.Add(new DayOfWeekStaffPair(pair.Value, selectedStaff));
+                        returnList.Add(new DayOfWeekStaffPair(pair.Value, selectedStaff, TimeOnly.MinValue, TimeOnly.MinValue));
                     }
                 }
             }

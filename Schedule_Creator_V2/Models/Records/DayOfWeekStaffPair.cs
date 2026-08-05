@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Schedule_Creator_V2.Models.Records
 {
-    public record DayOfWeekStaffPair(DayOfWeek day, Staff staff);
+    public record DayOfWeekStaffPair(DayOfWeek day, Staff staff, TimeOnly startTime, TimeOnly endTime);
 }

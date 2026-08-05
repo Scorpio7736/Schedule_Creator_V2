@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
       mc:Ignorable="d"
       d:DesignHeight="700"
       d:DesignWidth="1200"
@@ -32,7 +33,6 @@
                     Value="22"/>
 
             <Setter Property="Effect">
-
                 <Setter.Value>
 
                     <DropShadowEffect BlurRadius="14"
@@ -42,19 +42,18 @@
                                       Color="#143D30"/>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
 
-        <!-- Dynamically generated staff selectors -->
+        <!-- Staff selector -->
         <Style TargetType="ComboBox">
 
             <Setter Property="MinHeight"
                     Value="38"/>
 
             <Setter Property="MinWidth"
-                    Value="130"/>
+                    Value="150"/>
 
             <Setter Property="Padding"
                     Value="9,5"/>
@@ -74,11 +73,77 @@
             <Setter Property="FontSize"
                     Value="13"/>
 
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"/>
+
             <Setter Property="VerticalContentAlignment"
                     Value="Center"/>
 
             <Setter Property="HorizontalContentAlignment"
                     Value="Left"/>
+
+        </Style>
+
+        <!-- Time selector -->
+        <Style x:Key="ShiftTimePickerStyle"
+               TargetType="{x:Type xctk:TimePicker}">
+
+            <Setter Property="Height"
+                    Value="34"/>
+
+            <Setter Property="MinWidth"
+                    Value="100"/>
+
+            <Setter Property="Padding"
+                    Value="7,3"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="12"/>
+
+            <Setter Property="Format"
+                    Value="Custom"/>
+
+            <Setter Property="FormatString"
+                    Value="h:mm tt"/>
+
+            <Setter Property="TimeInterval"
+                    Value="00:15:00"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+        <!-- Time field label -->
+        <Style x:Key="ShiftTimeLabelStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="Margin"
+                    Value="1,0,0,3"/>
+
+            <Setter Property="FontSize"
+                    Value="10"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Foreground"
+                    Value="#66736D"/>
 
         </Style>
 
@@ -168,7 +233,6 @@
                     Value="Hand"/>
 
             <Setter Property="Template">
-
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -223,7 +287,6 @@
                     </ControlTemplate>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -257,7 +320,6 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
-
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -303,7 +365,6 @@
                     </ControlTemplate>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -337,7 +398,6 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
-
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -383,7 +443,6 @@
                     </ControlTemplate>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -417,7 +476,6 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
-
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -463,7 +521,6 @@
                     </ControlTemplate>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -497,7 +554,6 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
-
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -543,7 +599,6 @@
                     </ControlTemplate>
 
                 </Setter.Value>
-
             </Setter>
 
         </Style>
@@ -560,14 +615,20 @@
             <Setter Property="BorderThickness"
                     Value="0"/>
 
+            <Setter Property="HorizontalAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
+
             <Setter Property="GridLinesVisibility"
-                    Value="Horizontal"/>
+                    Value="All"/>
 
             <Setter Property="HorizontalGridLinesBrush"
                     Value="#E5EBE8"/>
 
             <Setter Property="VerticalGridLinesBrush"
-                    Value="Transparent"/>
+                    Value="#E5EBE8"/>
 
             <Setter Property="HeadersVisibility"
                     Value="Column"/>
@@ -591,7 +652,7 @@
                     Value="0"/>
 
             <Setter Property="RowHeight"
-                    Value="58"/>
+                    Value="126"/>
 
             <Setter Property="ColumnHeaderHeight"
                     Value="48"/>
@@ -627,6 +688,9 @@
             <Setter Property="HorizontalContentAlignment"
                     Value="Center"/>
 
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
             <Setter Property="BorderBrush"
                     Value="#D6E1DC"/>
 
@@ -642,6 +706,12 @@
 
             <Setter Property="BorderThickness"
                     Value="0"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Stretch"/>
 
             <Style.Triggers>
 
@@ -679,16 +749,19 @@
         <Style TargetType="DataGridCell">
 
             <Setter Property="Padding"
-                    Value="7,8"/>
+                    Value="7"/>
 
             <Setter Property="BorderBrush"
                     Value="#E5EBE8"/>
 
             <Setter Property="BorderThickness"
-                    Value="0,0,1,0"/>
+                    Value="0,0,1,1"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Stretch"/>
 
             <Setter Property="VerticalContentAlignment"
-                    Value="Center"/>
+                    Value="Stretch"/>
 
             <Setter Property="FocusVisualStyle"
                     Value="{x:Null}"/>
@@ -738,8 +811,8 @@
                            Foreground="#1F2937"/>
 
                 <TextBlock Margin="0,5,0,0"
-                           MaxWidth="800"
-                           Text="Assign available staff members to each operating day, then save the completed schedule with a unique name."
+                           MaxWidth="850"
+                           Text="Assign a staff member and individual start and end time to every shift on each operating day."
                            FontSize="14"
                            LineHeight="21"
                            TextWrapping="Wrap"
@@ -751,9 +824,10 @@
 
         <!-- Main schedule card -->
         <Border Grid.Row="2"
+                HorizontalAlignment="Stretch"
                 Style="{StaticResource CardStyle}">
 
-            <Grid>
+            <Grid HorizontalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -775,7 +849,7 @@
 
                         <StackPanel Orientation="Horizontal">
 
-                            <TextBlock Text="Staff Assignments"
+                            <TextBlock Text="Shift Assignments"
                                        FontSize="19"
                                        FontWeight="SemiBold"
                                        Foreground="#1F2937"/>
@@ -792,9 +866,9 @@
 
                                     <ToolTip>
 
-                                        <TextBlock Width="280"
+                                        <TextBlock Width="300"
                                                    TextWrapping="Wrap"
-                                                   Text="Only days configured in Job Hour Settings are displayed. Update Job Hour Settings to change the visible schedule columns."/>
+                                                   Text="Each cell contains its own staff assignment, start time, and end time. Only days configured in Job Hour Settings are displayed."/>
 
                                     </ToolTip>
 
@@ -805,7 +879,7 @@
                         </StackPanel>
 
                         <TextBlock Margin="0,5,0,0"
-                                   Text="Each row represents one staff position across the available operating days."
+                                   Text="Each row represents one shift across the available operating days."
                                    FontSize="13"
                                    TextWrapping="Wrap"
                                    Foreground="#6B7280"/>
@@ -835,6 +909,7 @@
                 <!-- Schedule grid -->
                 <Border Grid.Row="2"
                         MinHeight="320"
+                        HorizontalAlignment="Stretch"
                         Background="White"
                         BorderBrush="#DDE5E1"
                         BorderThickness="1"
@@ -842,14 +917,18 @@
                         ClipToBounds="True">
 
                     <DataGrid x:Name="ScheduleGrid"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Stretch"
+                              ColumnWidth="*"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
 
                         <DataGrid.Columns>
 
+                            <!-- Monday -->
                             <DataGridTemplateColumn x:Name="MonCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Monday"
                                                     Visibility="Hidden">
 
@@ -857,9 +936,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding MonBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding MonBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="MonStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="MonEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -867,9 +993,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Tuesday -->
                             <DataGridTemplateColumn x:Name="TueCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Tuesday"
                                                     Visibility="Hidden">
 
@@ -877,9 +1004,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding TueBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding TueBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="TueStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="TueEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -887,9 +1061,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Wednesday -->
                             <DataGridTemplateColumn x:Name="WedCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Wednesday"
                                                     Visibility="Hidden">
 
@@ -897,9 +1072,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding WedBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding WedBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="WedStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="WedEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -907,9 +1129,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Thursday -->
                             <DataGridTemplateColumn x:Name="ThuCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Thursday"
                                                     Visibility="Hidden">
 
@@ -917,9 +1140,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding ThuBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding ThuBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="ThuStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="ThuEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -927,9 +1197,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Friday -->
                             <DataGridTemplateColumn x:Name="FriCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Friday"
                                                     Visibility="Hidden">
 
@@ -937,9 +1208,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding FriBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding FriBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="FriStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="FriEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -947,9 +1265,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Saturday -->
                             <DataGridTemplateColumn x:Name="SatCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Saturday"
                                                     Visibility="Hidden">
 
@@ -957,9 +1276,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding SatBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding SatBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="SatStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="SatEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -967,9 +1333,10 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Sunday -->
                             <DataGridTemplateColumn x:Name="SunCol"
                                                     Width="*"
-                                                    MinWidth="150"
+                                                    MinWidth="250"
                                                     Header="Sunday"
                                                     Visibility="Hidden">
 
@@ -977,9 +1344,56 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding SunBox.Key}"/>
+                                        <Grid Margin="2"
+                                              HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Center">
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <ContentControl Grid.Row="0"
+                                                            HorizontalAlignment="Stretch"
+                                                            HorizontalContentAlignment="Stretch"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding SunBox.Key}"/>
+
+                                            <Grid Grid.Row="1"
+                                                  Margin="0,8,0,0"
+                                                  HorizontalAlignment="Stretch">
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="10"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="START"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="SunStartTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="2"
+                                                            HorizontalAlignment="Stretch">
+
+                                                    <TextBlock Text="END"
+                                                               Style="{StaticResource ShiftTimeLabelStyle}"/>
+
+                                                    <xctk:TimePicker x:Name="SunEndTimePicker"
+                                                                     Style="{StaticResource ShiftTimePickerStyle}"/>
+
+                                                </StackPanel>
+
+                                            </Grid>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
@@ -987,8 +1401,11 @@
 
                             </DataGridTemplateColumn>
 
+                            <!-- Remove row -->
                             <DataGridTemplateColumn x:Name="DelCol"
-                                                    Width="95"
+                                                    Width="100"
+                                                    MinWidth="100"
+                                                    MaxWidth="100"
                                                     Header="Remove"
                                                     Visibility="Visible">
 
@@ -996,9 +1413,14 @@
 
                                     <DataTemplate>
 
-                                        <ContentControl HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center"
-                                                        Content="{Binding DelBTN}"/>
+                                        <Grid HorizontalAlignment="Stretch"
+                                              VerticalAlignment="Stretch">
+
+                                            <ContentControl HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Content="{Binding DelBTN}"/>
+
+                                        </Grid>
 
                                     </DataTemplate>
 
