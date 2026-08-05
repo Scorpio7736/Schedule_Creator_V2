@@ -32,6 +32,7 @@
                     Value="22"/>
 
             <Setter Property="Effect">
+
                 <Setter.Value>
 
                     <DropShadowEffect BlurRadius="14"
@@ -41,6 +42,7 @@
                                       Color="#143D30"/>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -327,18 +329,26 @@
     <Grid Margin="28">
 
         <Grid.RowDefinitions>
+
             <RowDefinition Height="Auto"/>
+
             <RowDefinition Height="20"/>
+
             <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <!-- Page heading -->
         <Grid Grid.Row="0">
 
             <Grid.ColumnDefinitions>
+
                 <ColumnDefinition Width="Auto"/>
+
                 <ColumnDefinition Width="16"/>
+
                 <ColumnDefinition Width="*"/>
+
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0"
@@ -384,19 +394,28 @@
             <Grid HorizontalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
+
                     <RowDefinition Height="Auto"/>
+
                     <RowDefinition Height="18"/>
+
                     <RowDefinition Height="Auto"/>
+
                     <RowDefinition Height="18"/>
+
                     <RowDefinition Height="*"/>
+
                 </Grid.RowDefinitions>
 
                 <!-- Card heading -->
                 <Grid Grid.Row="0">
 
                     <Grid.ColumnDefinitions>
+
                         <ColumnDefinition Width="*"/>
+
                         <ColumnDefinition Width="Auto"/>
+
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
@@ -453,9 +472,13 @@
                     <Grid>
 
                         <Grid.ColumnDefinitions>
+
                             <ColumnDefinition Width="*"/>
+
                             <ColumnDefinition Width="24"/>
+
                             <ColumnDefinition Width="340"/>
+
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
@@ -537,6 +560,30 @@
                                                     Header="Monday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailMon}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -545,8 +592,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -602,6 +652,30 @@
                                                     Header="Tuesday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailTue}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -610,8 +684,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -667,6 +744,30 @@
                                                     Header="Wednesday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailWed}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -675,8 +776,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -732,6 +836,30 @@
                                                     Header="Thursday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailThu}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -740,8 +868,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -797,6 +928,30 @@
                                                     Header="Friday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailFri}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -805,8 +960,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -862,6 +1020,30 @@
                                                     Header="Saturday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailSat}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -870,8 +1052,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"
@@ -927,6 +1112,30 @@
                                                     Header="Sunday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding AvailSun}"
+                                                         Value="Missing">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -935,8 +1144,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="*"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <TextBlock Grid.Row="0"

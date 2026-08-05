@@ -33,6 +33,7 @@
                     Value="22"/>
 
             <Setter Property="Effect">
+
                 <Setter.Value>
 
                     <DropShadowEffect BlurRadius="14"
@@ -42,6 +43,7 @@
                                       Color="#143D30"/>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -233,6 +235,7 @@
                     Value="Hand"/>
 
             <Setter Property="Template">
+
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -287,6 +290,7 @@
                     </ControlTemplate>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -320,6 +324,7 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
+
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -365,6 +370,7 @@
                     </ControlTemplate>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -398,6 +404,7 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
+
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -443,6 +450,7 @@
                     </ControlTemplate>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -476,6 +484,7 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
+
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -521,6 +530,7 @@
                     </ControlTemplate>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -554,6 +564,7 @@
                     Value="SemiBold"/>
 
             <Setter Property="Template">
+
                 <Setter.Value>
 
                     <ControlTemplate TargetType="Button">
@@ -599,6 +610,7 @@
                     </ControlTemplate>
 
                 </Setter.Value>
+
             </Setter>
 
         </Style>
@@ -699,6 +711,7 @@
 
         </Style>
 
+        <!-- Row hover and selection highlighting removed -->
         <Style TargetType="DataGridRow">
 
             <Setter Property="Background"
@@ -723,33 +736,18 @@
 
                 </Trigger>
 
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-
-                    <Setter Property="Background"
-                            Value="#F0F7F3"/>
-
-                </Trigger>
-
-                <Trigger Property="IsSelected"
-                         Value="True">
-
-                    <Setter Property="Background"
-                            Value="#DDEFE7"/>
-
-                    <Setter Property="Foreground"
-                            Value="#1F2937"/>
-
-                </Trigger>
-
             </Style.Triggers>
 
         </Style>
 
+        <!-- Prevent selected cells from receiving the default blue highlight -->
         <Style TargetType="DataGridCell">
 
             <Setter Property="Padding"
                     Value="7"/>
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
 
             <Setter Property="BorderBrush"
                     Value="#E5EBE8"/>
@@ -766,6 +764,21 @@
             <Setter Property="FocusVisualStyle"
                     Value="{x:Null}"/>
 
+            <Style.Triggers>
+
+                <Trigger Property="IsSelected"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="Transparent"/>
+
+                    <Setter Property="Foreground"
+                            Value="#1F2937"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
         </Style>
 
     </Page.Resources>
@@ -773,18 +786,26 @@
     <Grid Margin="28">
 
         <Grid.RowDefinitions>
+
             <RowDefinition Height="Auto"/>
+
             <RowDefinition Height="20"/>
+
             <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <!-- Page heading -->
         <Grid Grid.Row="0">
 
             <Grid.ColumnDefinitions>
+
                 <ColumnDefinition Width="Auto"/>
+
                 <ColumnDefinition Width="16"/>
+
                 <ColumnDefinition Width="*"/>
+
             </Grid.ColumnDefinitions>
 
             <Border Grid.Column="0"
@@ -830,19 +851,28 @@
             <Grid HorizontalAlignment="Stretch">
 
                 <Grid.RowDefinitions>
+
                     <RowDefinition Height="Auto"/>
+
                     <RowDefinition Height="16"/>
+
                     <RowDefinition Height="*"/>
+
                     <RowDefinition Height="18"/>
+
                     <RowDefinition Height="Auto"/>
+
                 </Grid.RowDefinitions>
 
                 <!-- Card heading -->
                 <Grid Grid.Row="0">
 
                     <Grid.ColumnDefinitions>
+
                         <ColumnDefinition Width="*"/>
+
                         <ColumnDefinition Width="Auto"/>
+
                     </Grid.ColumnDefinitions>
 
                     <StackPanel Grid.Column="0">
@@ -932,6 +962,30 @@
                                                     Header="Monday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding MonBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -941,8 +995,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -956,9 +1013,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1006,6 +1067,30 @@
                                                     Header="Tuesday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding TueBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1015,8 +1100,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1030,9 +1118,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1080,6 +1172,30 @@
                                                     Header="Wednesday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding WedBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1089,8 +1205,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1104,9 +1223,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1154,6 +1277,30 @@
                                                     Header="Thursday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding ThuBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1163,8 +1310,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1178,9 +1328,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1228,6 +1382,30 @@
                                                     Header="Friday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding FriBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1237,8 +1415,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1252,9 +1433,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1302,6 +1487,30 @@
                                                     Header="Saturday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding SatBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1311,8 +1520,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1326,9 +1538,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1376,6 +1592,30 @@
                                                     Header="Sunday"
                                                     Visibility="Hidden">
 
+                                <DataGridTemplateColumn.CellStyle>
+
+                                    <Style TargetType="DataGridCell"
+                                           BasedOn="{StaticResource {x:Type DataGridCell}}">
+
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding SunBox.Key.SelectedItem.isMissing}"
+                                                         Value="True">
+
+                                                <Setter Property="Background"
+                                                        Value="#FFF1F0"/>
+
+                                                <Setter Property="BorderBrush"
+                                                        Value="#E4AAA3"/>
+
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+
+                                    </Style>
+
+                                </DataGridTemplateColumn.CellStyle>
+
                                 <DataGridTemplateColumn.CellTemplate>
 
                                     <DataTemplate>
@@ -1385,8 +1625,11 @@
                                               VerticalAlignment="Center">
 
                                             <Grid.RowDefinitions>
+
                                                 <RowDefinition Height="Auto"/>
+
                                                 <RowDefinition Height="Auto"/>
+
                                             </Grid.RowDefinitions>
 
                                             <ContentControl Grid.Row="0"
@@ -1400,9 +1643,13 @@
                                                   HorizontalAlignment="Stretch">
 
                                                 <Grid.ColumnDefinitions>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                     <ColumnDefinition Width="10"/>
+
                                                     <ColumnDefinition Width="*"/>
+
                                                 </Grid.ColumnDefinitions>
 
                                                 <StackPanel Grid.Column="0"
@@ -1480,9 +1727,13 @@
                 <Grid Grid.Row="4">
 
                     <Grid.ColumnDefinitions>
+
                         <ColumnDefinition Width="360"/>
+
                         <ColumnDefinition Width="20"/>
+
                         <ColumnDefinition Width="*"/>
+
                     </Grid.ColumnDefinitions>
 
                     <!-- Schedule name -->
