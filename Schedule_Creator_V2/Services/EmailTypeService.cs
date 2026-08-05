@@ -1,9 +1,7 @@
-﻿using Schedule_Creator_V2.Models;
-using Schedule_Creator_V2.Models.Constants;
+﻿using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
-using System.Collections.Generic;
 
 namespace Schedule_Creator_V2.Services
 {
@@ -125,6 +123,74 @@ namespace Schedule_Creator_V2.Services
                                 "We are thrilled to welcome you to the Climbing Tower Team! Your dedication and enthusiasm are invaluable to our mission of providing a safe and enjoyable climbing experience for all. We look forward to working with you and seeing the positive impact you'll make on our team and the climbing community."
                         ),
                         EmailInputDefaults.DefaultSignatureInputs,
+                    }
+                ),
+                /* SCHEDULE ANNOUNCEMENT */
+                new EmailType(
+                    displayName: "Schedule Announcement",
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Climbing Tower Schedule: [SCHEDULE NAME]"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+                            HeaderLabel:
+                                "CLIMBING TOWER SCHEDULE",
+                            EmailHeading:
+                                "NEW SCHEDULE AVAILABLE",
+                            HeaderSubtitle:
+                                "[START DATE] THROUGH [END DATE]",
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+                            EmailBody: ""
+                        ),
+
+                        new CustomAnnouncementsInputs(
+                            AnnouncementsLabel:
+                                "SCHEDULE NOTES",
+                            AnnouncementsIntro:
+                                "Please keep the following expectations " +
+                                "in mind while reviewing the schedule.",
+                            AnnouncementsList:
+                            [
+                                "Review every assigned shift and report any conflicts as soon as possible.",
+
+                                "Cells marked in red are currently unfilled shifts that still need coverage.",
+
+                                "Contact a supervisor if you are able to cover an unfilled shift.",
+
+                                "Do not assume a shift trade or coverage change is approved until it has been confirmed by a supervisor.",
+
+                                "Keep an updated copy of the schedule available and arrive on time for every assigned shift."
+                            ]
+                        ),
+
+                        new CustomRequestInputs(
+                            RequestLabel:
+                                "SCHEDULE",
+                            RequestTitle:
+                                "Review the Full Schedule",
+                            RequestBody:
+                                "Use the button below to open the " +
+                                "current schedule. Please review the " +
+                                "entire schedule, including any shifts " +
+                                "that are currently marked as missing.",
+                            RequestButton:
+                                "View Schedule",
+                            RequestLink:
+                                ""
+                        ),
+
+                        EmailInputDefaults.DefaultSignatureInputs
                     }
                 ),
             };

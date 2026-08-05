@@ -132,7 +132,7 @@
 
         </Style>
 
-        <!-- Shift time -->
+        <!-- Shift time text -->
         <Style x:Key="ShiftTimeStyle"
                TargetType="TextBlock">
 
@@ -147,6 +147,54 @@
 
             <Setter Property="Foreground"
                     Value="#315E4D"/>
+
+        </Style>
+
+        <!--
+            Shift time container.
+
+            Each time Border places its start time in the Tag property.
+            When Tag is null, the entire clock/time container is collapsed.
+        -->
+        <Style x:Key="ShiftTimeBorderStyle"
+               TargetType="Border">
+
+            <Setter Property="Margin"
+                    Value="0,8,0,0"/>
+
+            <Setter Property="Padding"
+                    Value="8,5"/>
+
+            <Setter Property="HorizontalAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Background"
+                    Value="#EAF2EE"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#D4E2DB"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="CornerRadius"
+                    Value="5"/>
+
+            <Setter Property="Visibility"
+                    Value="Visible"/>
+
+            <Style.Triggers>
+
+                <DataTrigger Binding="{Binding Tag,
+                                              RelativeSource={RelativeSource Self}}"
+                             Value="{x:Null}">
+
+                    <Setter Property="Visibility"
+                            Value="Collapsed"/>
+
+                </DataTrigger>
+
+            </Style.Triggers>
 
         </Style>
 
@@ -604,13 +652,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding MonStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -696,13 +739,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding TueStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -788,13 +826,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding WedStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -880,13 +913,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding ThuStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -972,13 +1000,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding FriStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -1064,13 +1087,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding SatStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
@@ -1156,13 +1174,8 @@
                                                        Style="{StaticResource StaffNameStyle}"/>
 
                                             <Border Grid.Row="1"
-                                                    Margin="0,8,0,0"
-                                                    Padding="8,5"
-                                                    HorizontalAlignment="Center"
-                                                    Background="#EAF2EE"
-                                                    BorderBrush="#D4E2DB"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
+                                                    Tag="{Binding SunStartTime}"
+                                                    Style="{StaticResource ShiftTimeBorderStyle}">
 
                                                 <StackPanel Orientation="Horizontal">
 
