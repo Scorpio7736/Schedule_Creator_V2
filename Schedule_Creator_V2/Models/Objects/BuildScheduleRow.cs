@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
 using System.Windows;
@@ -40,66 +38,149 @@ namespace Schedule_Creator_V2.Models
 
         public Button DelBTN { get; }
 
-        private Dictionary<ComboBox, DayOfWeek> DayBoxes { get; } 
-
         public BuildScheduleRow()
         {
-            MonBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Monday), DayOfWeek.Monday);
-            TueBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Tuesday), DayOfWeek.Tuesday);
-            WedBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Wednesday), DayOfWeek.Wednesday);
-            ThuBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Thursday), DayOfWeek.Thursday);
-            FriBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Friday), DayOfWeek.Friday);
-            SatBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Saturday), DayOfWeek.Saturday);
-            SunBox = new KeyValuePair<ComboBox, DayOfWeek>(BuildComboBoxForDay(DayOfWeek.Sunday), DayOfWeek.Sunday);
-            
-            DayBoxes = new Dictionary<ComboBox, DayOfWeek>
+            MonBox = CreateDayBox(DayOfWeek.Monday);
+            TueBox = CreateDayBox(DayOfWeek.Tuesday);
+            WedBox = CreateDayBox(DayOfWeek.Wednesday);
+            ThuBox = CreateDayBox(DayOfWeek.Thursday);
+            FriBox = CreateDayBox(DayOfWeek.Friday);
+            SatBox = CreateDayBox(DayOfWeek.Saturday);
+            SunBox = CreateDayBox(DayOfWeek.Sunday);
+
+            DelBTN = new Button
             {
-                { MonBox.Key, DayOfWeek.Monday }, 
-                { TueBox.Key, DayOfWeek.Tuesday }, 
-                { WedBox.Key, DayOfWeek.Wednesday }, 
-                { ThuBox.Key, DayOfWeek.Thursday }, 
-                { FriBox.Key, DayOfWeek.Friday }, 
-                { SatBox.Key, DayOfWeek.Saturday },
-                { SunBox.Key, DayOfWeek.Sunday } 
+                Content = "Delete"
             };
-            
-            DelBTN = new Button { Content = "Delete" };
         }
 
-        public List<DayOfWeekStaffPair> getSelectedStaff(TimeOnly startTime, TimeOnly endTime)
+        public List<DayOfWeekStaffPair> getSelectedStaff()
         {
-            List<DayOfWeekStaffPair> returnList = new List<DayOfWeekStaffPair>();
+            List<DayOfWeekStaffPair> selectedShifts = new();
 
-            foreach (KeyValuePair<ComboBox, DayOfWeek> pair in DayBoxes)
+            AddSelectedShift(
+                selectedShifts,
+                MonBox,
+                MonStartTime,
+                MonEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                TueBox,
+                TueStartTime,
+                TueEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                WedBox,
+                WedStartTime,
+                WedEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                ThuBox,
+                ThuStartTime,
+                ThuEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                FriBox,
+                FriStartTime,
+                FriEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                SatBox,
+                SatStartTime,
+                SatEndTime);
+
+            AddSelectedShift(
+                selectedShifts,
+                SunBox,
+                SunStartTime,
+                SunEndTime);
+
+            return selectedShifts;
+        }
+
+        private static void AddSelectedShift(
+            List<DayOfWeekStaffPair> selectedShifts,
+            KeyValuePair<ComboBox, DayOfWeek> dayBox,
+            DateTime? selectedStartTime,
+            DateTime? selectedEndTime)
+        {
+            if (dayBox.Key.SelectedValue == null)
             {
-                if (pair.Key.SelectedValue != null)
-                {
-                    int selectedStaffId = (int)pair.Key.SelectedValue;
-                    Staff? selectedStaff = DatabaseRead.ReadStaffByID(selectedStaffId);
-
-                    if (selectedStaff != null)
-                    {
-                        returnList.Add(new DayOfWeekStaffPair(pair.Value, selectedStaff, TimeOnly.MinValue, TimeOnly.MinValue));
-                    }
-                }
+                return;
             }
 
-            return returnList;
+            if (!selectedStartTime.HasValue)
+            {
+                throw new InvalidOperationException(
+                    $"A start time is required for {dayBox.Value}.");
+            }
+
+            if (!selectedEndTime.HasValue)
+            {
+                throw new InvalidOperationException(
+                    $"An end time is required for {dayBox.Value}.");
+            }
+
+            TimeOnly startTime =
+                TimeOnly.FromDateTime(selectedStartTime.Value);
+
+            TimeOnly endTime =
+                TimeOnly.FromDateTime(selectedEndTime.Value);
+
+            if (endTime <= startTime)
+            {
+                throw new InvalidOperationException(
+                    $"The end time must be later than the start time for " +
+                    $"{dayBox.Value}. Selected time: " +
+                    $"{startTime:h:mm tt} - {endTime:h:mm tt}.");
+            }
+
+            int selectedStaffId =
+                Convert.ToInt32(dayBox.Key.SelectedValue);
+
+            Staff selectedStaff =
+                DatabaseRead.ReadStaffByID(selectedStaffId);
+
+            selectedShifts.Add(
+                new DayOfWeekStaffPair(
+                    dayBox.Value,
+                    selectedStaff,
+                    startTime,
+                    endTime));
         }
 
+        private static KeyValuePair<ComboBox, DayOfWeek> CreateDayBox(
+            DayOfWeek day)
+        {
+            return new KeyValuePair<ComboBox, DayOfWeek>(
+                BuildComboBoxForDay(day),
+                day);
+        }
 
         private static ComboBox BuildComboBoxForDay(DayOfWeek day)
         {
-            ComboBox comboBox = new ComboBox
+            return new ComboBox
             {
-                ItemsSource = DatabaseRead.ReadStaffNamesAndAvailOnDay(day),
-                DisplayMemberPath = nameof(StaffNameAndAvail.displayName),
-                SelectedValuePath = nameof(Staff.id),
-                HorizontalContentAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(4, 0, 4, 0)
-            };
+                ItemsSource =
+                    DatabaseRead.ReadStaffNamesAndAvailOnDay(day),
 
-            return comboBox;
+                DisplayMemberPath =
+                    nameof(StaffNameAndAvail.displayName),
+
+                SelectedValuePath =
+                    nameof(StaffNameAndAvail.id),
+
+                HorizontalContentAlignment =
+                    HorizontalAlignment.Left,
+
+                Margin =
+                    new Thickness(4, 0, 4, 0)
+            };
         }
     }
 }

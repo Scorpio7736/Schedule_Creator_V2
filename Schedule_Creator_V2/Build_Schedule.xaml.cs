@@ -49,50 +49,85 @@ namespace Schedule_Creator_V2
         }
 
 
-        private void SaveSchedule_Click(object sender, RoutedEventArgs e)
+        private void SaveSchedule_Click(
+    object sender,
+    RoutedEventArgs e)
         {
             if (ErrorChecker())
             {
                 return;
             }
 
-            string scheduleName = ScheduleNameBox.Text;
+            string scheduleName =
+                ScheduleNameBox.Text.Trim();
 
-            int createdRowsCount = 0;
+            List<ScheduleRow> rowsToSave = new();
 
-            foreach (BuildScheduleRow row in _rows)
+            try
             {
-                List<DayOfWeekStaffPair> selectedStaff = row.getSelectedStaff(TimeOnly.MinValue, TimeOnly.MinValue);
-
-                foreach (DayOfWeekStaffPair dayOfWeekStaffPair in selectedStaff)
+                /*
+                 * Read all UI values and validate every shift
+                 * before inserting anything into SQL Server.
+                 */
+                foreach (BuildScheduleRow buildRow in _rows)
                 {
-                    DatabaseCreate.CreateSchedule(new ScheduleRow(
-                        dayOfWeekStaffPair.day,
-                        dayOfWeekStaffPair.staff.id,
-                        dayOfWeekStaffPair.startTime,
-                        dayOfWeekStaffPair.endTime,
-                        scheduleName
-                        ));
+                    List<DayOfWeekStaffPair> selectedShifts =
+                        buildRow.getSelectedStaff();
 
-                    createdRowsCount++;
+                    foreach (DayOfWeekStaffPair shift in selectedShifts)
+                    {
+                        rowsToSave.Add(
+                            new ScheduleRow(
+                                shift.day,
+                                shift.staff.id,
+                                shift.startTime,
+                                shift.endTime,
+                                scheduleName));
+                    }
                 }
             }
-
-            if (createdRowsCount == 0)
+            catch (InvalidOperationException exception)
             {
-                Messages.Display(new Error(
-                    1003,
-                    "Cannot save an empty schedule."
-                    ));
+                Messages.Display(
+                    new Error(
+                        1004,
+                        exception.Message));
 
                 return;
             }
 
-            Messages.Display(new Message(
-                "Schedule Saved Successfully!", 
-                "Success"
-                ));
+            if (rowsToSave.Count == 0)
+            {
+                Messages.Display(
+                    new Error(
+                        1003,
+                        "Cannot save an empty schedule."));
 
+                return;
+            }
+
+            try
+            {
+                foreach (ScheduleRow scheduleRow in rowsToSave)
+                {
+                    DatabaseCreate.CreateSchedule(scheduleRow);
+                }
+            }
+            catch (Exception exception)
+            {
+                Messages.Display(
+                    new Error(
+                        1005,
+                        $"The schedule could not be saved: {exception.Message}"));
+
+                return;
+            }
+
+            Messages.Display(
+                new Message(
+                    $"Schedule saved successfully with " +
+                    $"{rowsToSave.Count} shift(s)!",
+                    "Success"));
         }
 
         private void SetColVis(List<DayOfWeek> openDays)

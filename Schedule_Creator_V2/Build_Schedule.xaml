@@ -968,6 +968,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="MonStartTimePicker"
+                                                                     Value="{Binding MonStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -979,6 +982,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="MonEndTimePicker"
+                                                                     Value="{Binding MonEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1036,6 +1042,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="TueStartTimePicker"
+                                                                     Value="{Binding TueStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1047,6 +1056,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="TueEndTimePicker"
+                                                                     Value="{Binding TueEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1104,6 +1116,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="WedStartTimePicker"
+                                                                     Value="{Binding WedStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1115,6 +1130,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="WedEndTimePicker"
+                                                                     Value="{Binding WedEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1172,6 +1190,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="ThuStartTimePicker"
+                                                                     Value="{Binding ThuStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1183,6 +1204,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="ThuEndTimePicker"
+                                                                     Value="{Binding ThuEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1240,6 +1264,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="FriStartTimePicker"
+                                                                     Value="{Binding FriStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1251,6 +1278,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="FriEndTimePicker"
+                                                                     Value="{Binding FriEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1308,6 +1338,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="SatStartTimePicker"
+                                                                     Value="{Binding SatStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1319,6 +1352,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="SatEndTimePicker"
+                                                                     Value="{Binding SatEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1376,6 +1412,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="SunStartTimePicker"
+                                                                     Value="{Binding SunStartTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
@@ -1387,6 +1426,9 @@
                                                                Style="{StaticResource ShiftTimeLabelStyle}"/>
 
                                                     <xctk:TimePicker x:Name="SunEndTimePicker"
+                                                                     Value="{Binding SunEndTime,
+                                                                                     Mode=TwoWay,
+                                                                                     UpdateSourceTrigger=PropertyChanged}"
                                                                      Style="{StaticResource ShiftTimePickerStyle}"/>
 
                                                 </StackPanel>
