@@ -17,6 +17,9 @@ namespace Schedule_Creator_V2.Services
         private const string BodyMarker =
             "<!-- BODY -->";
 
+        private const string ImageMarker =
+            "<!-- IMAGE -->";
+
         private const string AnnouncementsMarker =
             "<!-- ANNOUNCEMENTS -->";
 
@@ -31,6 +34,7 @@ namespace Schedule_Creator_V2.Services
 
         private const string FooterMarker =
             "<!-- FOOTER -->";
+
 
         public static string BuildSubject(
     EmailType emailType)
@@ -85,6 +89,11 @@ namespace Schedule_Creator_V2.Services
 
             html = ReplaceRequiredMarker(
                 html,
+                ImageMarker,
+                BuildImageSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
                 RequestMarker,
                 BuildRequestSection(emailType));
 
@@ -124,6 +133,193 @@ namespace Schedule_Creator_V2.Services
 
             return File.ReadAllText(
                 templatePath);
+        }
+
+        private static string BuildImageSection(
+    EmailType emailType)
+        {
+            CustomImageInputs? imageInputs =
+                emailType.inputs?
+                    .OfType<CustomImageInputs>()
+                    .FirstOrDefault();
+
+            if (imageInputs is null)
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(
+                    imageInputs.ImageSource))
+            {
+                return string.Empty;
+            }
+
+            string resolvedImageSource =
+                ResolveImageSource(
+                    imageInputs.ImageSource);
+
+            string imageAltText =
+                string.IsNullOrWhiteSpace(
+                    imageInputs.ImageAltText)
+                    ? "Email image"
+                    : imageInputs.ImageAltText.Trim();
+
+            return $$"""
+        <tr id="imageSection">
+            <td
+                align="center"
+                bgcolor="#ffffff"
+                class="content-padding background-white"
+                style="
+                    padding-top:10px;
+                    padding-bottom:34px;
+                    background-color:#ffffff !important;
+                    background-image:linear-gradient(
+                        #ffffff,
+                        #ffffff) !important;">
+
+                <img
+                    id="contentImage"
+                    src="{{EncodeAttribute(resolvedImageSource)}}"
+                    width="564"
+                    alt="{{EncodeAttribute(imageAltText)}}"
+                    style="
+                        display:block;
+                        width:100%;
+                        max-width:564px;
+                        height:auto;
+                        margin:0 auto;
+                        border:0;
+                        outline:none;
+                        text-decoration:none;
+                        border-radius:6px;">
+            </td>
+        </tr>
+        """;
+        }
+
+        private static string ResolveImageSource(
+            string imageSource)
+        {
+            string trimmedSource =
+                imageSource?.Trim()
+                ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(
+                    trimmedSource))
+            {
+                return string.Empty;
+            }
+
+            /*
+             * Already-converted Base64 image.
+             */
+            if (trimmedSource.StartsWith(
+                    "data:image/",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return trimmedSource;
+            }
+
+            /*
+             * Local image file.
+             */
+            if (File.Exists(trimmedSource))
+            {
+                return ConvertImageFileToDataUri(
+                    trimmedSource);
+            }
+
+            /*
+             * Fully qualified web URL.
+             */
+            if (Uri.TryCreate(
+                    trimmedSource,
+                    UriKind.Absolute,
+                    out Uri? absoluteUri))
+            {
+                bool isWebImage =
+                    absoluteUri.Scheme.Equals(
+                        Uri.UriSchemeHttp,
+                        StringComparison.OrdinalIgnoreCase) ||
+                    absoluteUri.Scheme.Equals(
+                        Uri.UriSchemeHttps,
+                        StringComparison.OrdinalIgnoreCase);
+
+                if (!isWebImage)
+                {
+                    throw new InvalidOperationException(
+                        "The image URL must use HTTP or HTTPS.");
+                }
+
+                return absoluteUri.AbsoluteUri;
+            }
+
+            /*
+             * Allow www.example.com/image.jpg without requiring
+             * the user to enter https://.
+             */
+            string sourceWithScheme =
+                "https://" + trimmedSource;
+
+            if (Uri.TryCreate(
+                    sourceWithScheme,
+                    UriKind.Absolute,
+                    out Uri? webUri))
+            {
+                return webUri.AbsoluteUri;
+            }
+
+            throw new InvalidOperationException(
+                "The image source is invalid. Enter a valid local " +
+                "image file path, HTTPS image URL, or Base64 image.");
+        }
+
+        private static string ConvertImageFileToDataUri(
+            string imageFilePath)
+        {
+            if (!File.Exists(imageFilePath))
+            {
+                throw new FileNotFoundException(
+                    "The selected image file could not be found.",
+                    imageFilePath);
+            }
+
+            string mimeType =
+                GetImageMimeType(
+                    imageFilePath);
+
+            byte[] imageBytes =
+                File.ReadAllBytes(
+                    imageFilePath);
+
+            string base64Image =
+                Convert.ToBase64String(
+                    imageBytes);
+
+            return
+                $"data:{mimeType};base64,{base64Image}";
+        }
+
+        private static string GetImageMimeType(
+            string imageFilePath)
+        {
+            string extension =
+                Path.GetExtension(imageFilePath)
+                    .ToLowerInvariant();
+
+            return extension switch
+            {
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                ".bmp" => "image/bmp",
+
+                _ => throw new InvalidOperationException(
+                    "Unsupported image format. Use JPG, JPEG, PNG, " +
+                    "GIF, or BMP.")
+            };
         }
 
         private static string BuildAttachmentsSection(

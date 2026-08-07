@@ -154,24 +154,9 @@ namespace Schedule_Creator_V2.Services
                             EmailBody: ""
                         ),
 
-                        new CustomAnnouncementsInputs(
-                            AnnouncementsLabel:
-                                "SCHEDULE NOTES",
-                            AnnouncementsIntro:
-                                "Please keep the following expectations " +
-                                "in mind while reviewing the schedule.",
-                            AnnouncementsList:
-                            [
-                                "Review every assigned shift and report any conflicts as soon as possible.",
-
-                                "Cells marked in red are currently unfilled shifts that still need coverage.",
-
-                                "Contact a supervisor if you are able to cover an unfilled shift.",
-
-                                "Do not assume a shift trade or coverage change is approved until it has been confirmed by a supervisor.",
-
-                                "Keep an updated copy of the schedule available and arrive on time for every assigned shift."
-                            ]
+                        new CustomImageInputs(
+                            ImageSource: "",
+                            ImageAltText: ""
                         ),
 
                         new CustomRequestInputs(
