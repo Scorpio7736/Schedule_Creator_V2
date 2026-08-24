@@ -9,7 +9,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class EmlEmailService
     {

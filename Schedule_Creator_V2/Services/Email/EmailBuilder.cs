@@ -3,7 +3,7 @@ using Schedule_Creator_V2.Models.Records;
 using System.IO;
 using System.Net;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     internal class EmailBuilder
     {

@@ -3,7 +3,7 @@ using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class EmailTypeService
     {

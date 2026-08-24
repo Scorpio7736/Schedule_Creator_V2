@@ -2,20 +2,9 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
 using Schedule_Creator_V2.Services.Database;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Schedule_Creator_V2
 {
@@ -41,7 +30,6 @@ namespace Schedule_Creator_V2
             label.Foreground = new SolidColorBrush(Colors.Black);
             label.FontWeight = FontWeights.Normal;
         }
-        
 
         private void SaveBtnClick(object sender, RoutedEventArgs e)
         {
@@ -49,66 +37,90 @@ namespace Schedule_Creator_V2
             ResetLabel(StartDateLabel);
             ResetLabel(EndDateLabel);
 
+            bool hasStaff = StaffComboBox.HasValue();
+            bool hasStartDate = StartDatePicker.HasValue();
+            bool hasEndDate = EndDatePicker.HasValue();
+
+            DateOnly? startDate = hasStartDate
+                ? DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value)
+                : null;
+
+            DateOnly? endDate = hasEndDate
+                ? DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
+                : null;
+
+            bool validDateRange =
+                startDate.HasValue
+                &&
+                endDate.HasValue
+                &&
+                startDate.Value.StartIsBeforeEnd(endDate.Value);
+
             if (
-                StaffComboBox.HasValue()
+                hasStaff
                 &&
-                StartDatePicker.HasValue()
+                hasStartDate
                 &&
-                EndDatePicker.HasValue()
+                hasEndDate
                 &&
-                UniFunc.StartIsBeforeEnd(
-                    DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value),
-                    DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
-                    )
+                validDateRange
                )
             {
-
                 int id = ((Staff)StaffComboBox.SelectedItem).id;
-                DateOnly startDate = DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value);
-                DateOnly endtDate = DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
-                List<DateOnly> DateList = UniFunc.GetRangeOfDates(startDate, endtDate);
 
+                List<DateOnly> dateList =
+                    startDate.Value.GetRangeOfDates(endDate.Value);
 
-                DatabaseDelete.DeleteDaysOff(id, DateList);
+                DatabaseDelete.DeleteDaysOff(id, dateList);
 
-                Messages.Display(new Message("Removed day(s) off", "Deletion made!"));
-
+                Messages.Display(
+                    new Message("Removed day(s) off", "Deletion made!")
+                );
             }
             else
             {
                 List<string> errors = new List<string>();
-                if (StaffComboBox.HasValue() == false)
+
+                if (!hasStaff)
                 {
                     ErrorLabel(StaffMemberLabel);
                     errors.Add("Staff member");
                 }
-                if (StartDatePicker.HasValue() == false)
+
+                if (!hasStartDate)
                 {
                     ErrorLabel(StartDateLabel);
                     errors.Add("Start date");
                 }
-                if (EndDatePicker.HasValue() == false)
+
+                if (!hasEndDate)
                 {
                     ErrorLabel(EndDateLabel);
                     errors.Add("End date");
                 }
-                if (StartDatePicker.HasValue()
+
+                if (
+                    hasStartDate
                     &&
-                    EndDatePicker.HasValue()
+                    hasEndDate
                     &&
-                    UniFunc.StartIsBeforeEnd(
-                    DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value),
-                    DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
-                    ) == false)
+                    !validDateRange
+                   )
                 {
                     ErrorLabel(StartDateLabel);
                     ErrorLabel(EndDateLabel);
                     errors.Add("Start date is after end date");
                 }
-                string errorString = $"Missing inputs: {string.Join(", ", errors)}";
-                Messages.Display(new Error(1000, errorString));
+
+                string errorString =
+                    $"Invalid inputs: {string.Join(", ", errors)}";
+
+                Messages.Display(
+                    new Error(1000, errorString)
+                );
             }
         }
+
         private void CancelBtnClick(object sender, RoutedEventArgs e)
         {
             StaffComboBox.SelectedItem = null;

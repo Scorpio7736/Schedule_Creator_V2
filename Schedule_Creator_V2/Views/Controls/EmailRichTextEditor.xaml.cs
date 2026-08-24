@@ -1,5 +1,5 @@
 ﻿using System.Windows.Controls;
-using Schedule_Creator_V2.Services;
+using Schedule_Creator_V2.Services.Email;
 
 namespace Schedule_Creator_V2
 {

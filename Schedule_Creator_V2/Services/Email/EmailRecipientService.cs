@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Reflection;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class EmailRecipientService
     {

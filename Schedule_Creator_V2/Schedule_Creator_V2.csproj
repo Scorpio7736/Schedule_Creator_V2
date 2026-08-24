@@ -80,8 +80,4 @@
 		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Services\Email\" />
-	</ItemGroup>
-
 </Project>

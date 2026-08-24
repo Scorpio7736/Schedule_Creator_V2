@@ -10,7 +10,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class EmailContentService
     {

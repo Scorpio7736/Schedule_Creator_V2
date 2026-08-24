@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class RichTextHtmlConverter
     {

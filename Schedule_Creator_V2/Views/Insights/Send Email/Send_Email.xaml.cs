@@ -3,7 +3,7 @@ using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
-using Schedule_Creator_V2.Services;
+using Schedule_Creator_V2.Services.Email;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;

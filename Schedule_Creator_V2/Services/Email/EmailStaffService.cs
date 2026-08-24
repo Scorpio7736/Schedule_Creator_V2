@@ -2,7 +2,7 @@
 using Schedule_Creator_V2.Services.Database;
 using System.Collections.Generic;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Email
 {
     public static class EmailStaffService
     {

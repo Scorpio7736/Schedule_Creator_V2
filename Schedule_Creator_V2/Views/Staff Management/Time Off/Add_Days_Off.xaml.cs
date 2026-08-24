@@ -1,6 +1,7 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services;
 using Schedule_Creator_V2.Services.Database;
+using Schedule_Creator_V2.ExtensionMethods;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -44,23 +45,30 @@ namespace Schedule_Creator_V2
             if (
                 inputsAndLabels.CheckIfNulls()
                 &&
-                UniFunc.StartIsBeforeEnd(
-                    DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value),
-                    DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
-               ))
+                DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value)
+                    .StartIsBeforeEnd(
+                        DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value)
+                    )
+               )
             {
                 int id = ((Staff)StaffComboBox.SelectedItem).id;
-                DateOnly startDate = DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value);
-                DateOnly endtDate = DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
-                List<DateOnly> DateList = UniFunc.GetRangeOfDates(startDate, endtDate);
+
+                DateOnly startDate =
+                    DateOnly.FromDateTime(StartDatePicker.SelectedDate.Value);
+
+                DateOnly endDate =
+                    DateOnly.FromDateTime(EndDatePicker.SelectedDate.Value);
+
+                List<DateOnly> dateList = startDate.GetRangeOfDates(endDate);
+
                 string reason = ReasonBox.Text;
 
+                DatabaseDelete.DeleteDaysOff(id, dateList);
+                DatabaseCreate.CreateDaysOff(id, dateList, reason);
 
-                DatabaseDelete.DeleteDaysOff(id, DateList);
-                DatabaseCreate.CreateDaysOff(id, DateList, reason);
-
-                Messages.Display(new Message("Requested day(s) off", "Request made!"));
-
+                Messages.Display(
+                    new Message("Requested day(s) off", "Request made!")
+                );
             }
             else
             {
