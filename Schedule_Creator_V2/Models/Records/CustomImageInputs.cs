@@ -9,7 +9,7 @@ namespace Schedule_Creator_V2.Models.Records
     {
         public string GetEmailTypeName()
         {
-            return "Image";
+            return "Custom Image";
         }
     }
 }

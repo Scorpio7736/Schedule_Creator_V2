@@ -1,8 +1,7 @@
 ﻿using Schedule_Creator_V2.Models.Constants;
+using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Records;
-using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -84,13 +83,13 @@ namespace Schedule_Creator_V2.Services
 
             html = ReplaceRequiredMarker(
                 html,
-                AnnouncementsMarker,
-                BuildAnnouncementsSection(emailType));
+                ImageMarker,
+                BuildImageSection(emailType));
 
             html = ReplaceRequiredMarker(
                 html,
-                ImageMarker,
-                BuildImageSection(emailType));
+                AnnouncementsMarker,
+                BuildAnnouncementsSection(emailType));
 
             html = ReplaceRequiredMarker(
                 html,
@@ -110,7 +109,7 @@ namespace Schedule_Creator_V2.Services
             html = ReplaceRequiredMarker(
                 html,
                 FooterMarker,
-                BuildFooterSection());
+                BuildFooterSection(emailType));
 
             return html;
         }
@@ -143,12 +142,8 @@ namespace Schedule_Creator_V2.Services
                     .OfType<CustomImageInputs>()
                     .FirstOrDefault();
 
-            if (imageInputs is null)
-            {
-                return string.Empty;
-            }
-
-            if (string.IsNullOrWhiteSpace(
+            if (imageInputs is null ||
+                string.IsNullOrWhiteSpace(
                     imageInputs.ImageSource))
             {
                 return string.Empty;
@@ -542,44 +537,44 @@ namespace Schedule_Creator_V2.Services
         }
         private static string BuildAnnouncementsSection(
     EmailType emailType)
-{
-    CustomAnnouncementsInputs? announcementsInputs =
-        emailType.inputs?
-            .OfType<CustomAnnouncementsInputs>()
-            .FirstOrDefault();
+        {
+            CustomAnnouncementsInputs? announcementsInputs =
+                emailType.inputs?
+                    .OfType<CustomAnnouncementsInputs>()
+                    .FirstOrDefault();
 
-    if (announcementsInputs is null)
-    {
-        return string.Empty;
-    }
+            if (announcementsInputs is null)
+            {
+                return string.Empty;
+            }
 
-    List<string> announcements =
-        announcementsInputs.AnnouncementsList?
-            .Where(announcement =>
-                !string.IsNullOrWhiteSpace(announcement))
-            .Select(announcement =>
-                announcement.Trim())
-            .ToList()
-        ?? new List<string>();
+            List<string> announcements =
+                announcementsInputs.AnnouncementsList?
+                    .Where(announcement =>
+                        !string.IsNullOrWhiteSpace(announcement))
+                    .Select(announcement =>
+                        announcement.Trim())
+                    .ToList()
+                ?? new List<string>();
 
-    bool hasLabel =
-        !string.IsNullOrWhiteSpace(
-            announcementsInputs.AnnouncementsLabel);
+            bool hasLabel =
+                !string.IsNullOrWhiteSpace(
+                    announcementsInputs.AnnouncementsLabel);
 
-    bool hasIntro =
-        !string.IsNullOrWhiteSpace(
-            announcementsInputs.AnnouncementsIntro);
+            bool hasIntro =
+                !string.IsNullOrWhiteSpace(
+                    announcementsInputs.AnnouncementsIntro);
 
-    if (!hasLabel &&
-        !hasIntro &&
-        announcements.Count == 0)
-    {
-        return string.Empty;
-    }
+            if (!hasLabel &&
+                !hasIntro &&
+                announcements.Count == 0)
+            {
+                return string.Empty;
+            }
 
-    string labelHtml =
-        hasLabel
-            ? $$"""
+            string labelHtml =
+                hasLabel
+                    ? $$"""
                 <div
                     id="announcementsLabel"
                     class="text-brand-green"
@@ -594,16 +589,16 @@ namespace Schedule_Creator_V2.Services
                         font-weight:bold;">
 
                     {{Encode(
-                        announcementsInputs
-                            .AnnouncementsLabel
-                            .Trim())}}
+                                announcementsInputs
+                                    .AnnouncementsLabel
+                                    .Trim())}}
                 </div>
                 """
-            : string.Empty;
+                    : string.Empty;
 
-    string introHtml =
-        hasIntro
-            ? $$"""
+            string introHtml =
+                hasIntro
+                    ? $$"""
                 <div
                     id="announcementsIntro"
                     class="text-body"
@@ -616,19 +611,19 @@ namespace Schedule_Creator_V2.Services
                         -webkit-text-fill-color:#303936 !important;">
 
                     {{EncodeWithLineBreaks(
-                        announcementsInputs
-                            .AnnouncementsIntro
-                            .Trim())}}
+                                announcementsInputs
+                                    .AnnouncementsIntro
+                                    .Trim())}}
                 </div>
                 """
-            : string.Empty;
+                    : string.Empty;
 
-    string announcementItemsHtml =
-        string.Join(
-            Environment.NewLine,
-            announcements.Select(
-                (announcement, index) =>
-                    $$"""
+            string announcementItemsHtml =
+                string.Join(
+                    Environment.NewLine,
+                    announcements.Select(
+                        (announcement, index) =>
+                            $$"""
                     <li
                         id="announcementItem{{index + 1}}"
                         bgcolor="#ffffff"
@@ -651,10 +646,10 @@ namespace Schedule_Creator_V2.Services
                     </li>
                     """));
 
-    string listHtml =
-        announcements.Count == 0
-            ? string.Empty
-            : $$"""
+            string listHtml =
+                announcements.Count == 0
+                    ? string.Empty
+                    : $$"""
                 <ul
                     id="announcementsList"
                     style="
@@ -666,7 +661,7 @@ namespace Schedule_Creator_V2.Services
                 </ul>
                 """;
 
-    return $$"""
+            return $$"""
         <tr id="announcementsSection">
             <td
                 bgcolor="#f5f7f6"
@@ -688,7 +683,7 @@ namespace Schedule_Creator_V2.Services
             </td>
         </tr>
         """;
-}
+        }
         private static string BuildRequestSection(
     EmailType emailType)
         {
@@ -1313,8 +1308,15 @@ namespace Schedule_Creator_V2.Services
                 """;
         }
 
-        private static string BuildFooterSection()
+        private static string BuildFooterSection(
+    EmailType emailType)
         {
+            CustomFooterInputs footerInputs =
+                emailType.inputs
+                    .OfType<CustomFooterInputs>()
+                    .FirstOrDefault()
+                ?? EmailInputDefaults.DefaultFooterInputs;
+
             return $$"""
                 <tr id="footerSection">
                     <td

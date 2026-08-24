@@ -11,67 +11,35 @@ namespace Schedule_Creator_V2.Services
         {
             return new List<EmailType>
             {
-                /* TEST */new EmailType(
-                    displayName: "Test",
+                /* CUSTOM */new EmailType(
+                    displayName: "Custom",
                     inputs: new List<IEmailInputs>
                     {
                         new EmailDetailsInputs(
-                            Subject: "Test Email"
+                            Subject: ""
                         ),
 
                         new CustomHeaderInputs(
-                            OrganizationName: "UNIVERSITY RECREATION",
-                            HeaderLabel: "TEST MESSAGE FOR TOWER TEAM",
-                            EmailHeading: "THIS IS A TEST",
-                            HeaderSubtitle: "TESTING OF THE NEW FORMAT"
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+                            HeaderLabel: "",
+                            EmailHeading: "",
+                            HeaderSubtitle: "",
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
                         ),
 
                         new CustomBodyInputs(
-                            RecipientGreeting: "Hello,",
-                            EmailBody: "Please ignore this."
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+                            EmailBody: ""
                         ),
-                        new CustomSignatureInputs(
-                            SignatureClosing: "Thanks,",
-                            SenderName: "Jack London",
-                            SenderTitle: "Climbing Tower Supervisor",
-                            SenderOrganization: "Urec Outdoors",
-                            SenderEmail: "londjc22@uwgb.edu",
-                            SenderPhone: "(414) 425 - 4022"
-                        ),
-                        new CustomAnnouncementsInputs(
-                            AnnouncementsLabel: " ANNOUNCEMENTS lbl",
-                            AnnouncementsIntro: "TESTING ANNOUNCEMENTS INTRO",
-                            AnnouncementsList: [
-                                "TEST 1",
-                                "TEST 2",
-                                "TEST 3"
-                                ]
-                        ),
-                        new CustomRequestInputs(
-                            RequestLabel: " REQUESTS lbl",
-                            RequestTitle: "TESTING REQUESTS TITLE",
-                            RequestBody: "TESTING REQUESTS BODY",
-                            RequestButton: "Testing request button",
-                            RequestLink: "https://www.uwgb.edu/urec/adventure/climbing/"
-                        ),
-                        new CustomAttachmentsInputs(
-                            AttachmentsLabel: " ATTACHMENTS lbl",
-                            AttachmentsIntro: "TESTING ATTACHMENTS INTRO",
-                            AttachmentsList: [
-                                "TEST 1",
-                                "TEST 2",
-                                "TEST 3"
-                                ]
-                        ),
-                        new CustomFooterInputs(
-                                FooterOrganization: "UNIVERSITY RECREATION",
-                                FooterWebsiteLink: "https://www.uwgb.edu/urec/",
-                                FooterWebsiteUrl: "https://www.uwgb.edu/urec/",
-                                FooterText: "TESTING FOOTER TEXT",
-                                FooterLogoSource: EmailImageSources.Default_FooterImage
-                        )
 
-                    }
+                        EmailInputDefaults.DefaultSignatureInputs,
+
+                        EmailInputDefaults.DefaultFooterInputs
+                    },
+                    allowSectionEditing: true
                 ),
                 /* ANNOUNCEMENTS */new EmailType(
                     displayName: "Announcements",

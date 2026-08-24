@@ -1,4 +1,7 @@
 ﻿using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Constants;
+using Schedule_Creator_V2.Models.Defaults;
+using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
 using System.ComponentModel;
@@ -10,13 +13,82 @@ namespace Schedule_Creator_V2
 {
     public partial class Send_Email : Page
     {
-        public List<EmailRecipientSelection> RecipientSelections
+        private EmailType? currentEmailType;
+        private static readonly List<EmailSectionOption>
+            OptionalEmailSections =
+            new List<EmailSectionOption>
+            {
+                new EmailSectionOption(
+                    DisplayName: "Image",
+                    InputType:
+                        typeof(CustomImageInputs),
+                    CreateInput: () =>
+                        new CustomImageInputs(
+                            ImageSource:
+                                "",
+                            ImageAltText:
+                                ""
+                        )
+                ),
+                new EmailSectionOption(
+                    DisplayName: "Announcements",
+                    InputType:
+                        typeof(CustomAnnouncementsInputs),
+                    CreateInput: () =>
+                        new CustomAnnouncementsInputs(
+                            AnnouncementsLabel:
+                                "ANNOUNCEMENTS",
+                            AnnouncementsIntro:
+                                "",
+                            AnnouncementsList:
+                                new List<string>()
+                        )
+                ),
+
+                new EmailSectionOption(
+                    DisplayName: "Request",
+                    InputType:
+                        typeof(CustomRequestInputs),
+                    CreateInput: () =>
+                        new CustomRequestInputs(
+                            RequestLabel:
+                                "REQUEST",
+                            RequestTitle:
+                                "",
+                            RequestBody:
+                                "",
+                            RequestButton:
+                                "",
+                            RequestLink:
+                                ""
+                        )
+                ),
+
+                new EmailSectionOption(
+                    DisplayName: "Attachments",
+                    InputType:
+                        typeof(CustomAttachmentsInputs),
+                    CreateInput: () =>
+                        new CustomAttachmentsInputs(
+                            AttachmentsLabel:
+                                "ATTACHMENTS",
+                            AttachmentsIntro:
+                                "",
+                            AttachmentsList:
+                                new List<string>()
+                        )
+                )
+            };
+
+        public List<EmailRecipientSelection>
+            RecipientSelections
         {
             get;
             private set;
         }
 
-        public List<EmailType> EmailTypes
+        public List<EmailType>
+            EmailTypes
         {
             get;
             private set;
@@ -29,18 +101,28 @@ namespace Schedule_Creator_V2
             RecipientSelections =
                 LoadStaffSafely()
                     .Select(staff =>
-                        new EmailRecipientSelection(staff))
+                        new EmailRecipientSelection(
+                            staff))
                     .ToList();
 
             EmailTypes =
-                EmailTypeService.CreateEmailTypes();
+                EmailTypeService
+                    .CreateEmailTypes();
 
-            DataContext = this;
+            DataContext =
+                this;
+
+            EmailSectionManagerBorder.Visibility =
+                Visibility.Collapsed;
 
             EmailInputFormService
                 .ShowNoEmailTypeSelectedMessage(
                     EmailInputFieldsPanel);
         }
+
+        // =========================================================
+        // EMAIL TYPE SELECTION
+        // =========================================================
 
         private void EmailTypeComboBox_SelectionChanged(
             object sender,
@@ -51,9 +133,25 @@ namespace Schedule_Creator_V2
                 return;
             }
 
+            /*
+             * Save changes made to the previous email type
+             * before replacing the generated controls.
+             */
+            if (currentEmailType is not null)
+            {
+                EmailInputFormService.ApplyInputValues(
+                    EmailInputFieldsPanel);
+            }
+
             if (EmailTypeComboBox.SelectedItem
                 is not EmailType selectedEmailType)
             {
+                currentEmailType =
+                    null;
+
+                EmailSectionManagerBorder.Visibility =
+                    Visibility.Collapsed;
+
                 EmailInputFormService
                     .ShowNoEmailTypeSelectedMessage(
                         EmailInputFieldsPanel);
@@ -61,10 +159,467 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            EmailInputFormService.BuildEmailInputControls(
-                EmailInputFieldsPanel,
-                selectedEmailType);
+            currentEmailType =
+                selectedEmailType;
+
+            if (IsCustomEmailType(
+                    currentEmailType))
+            {
+                EnsureRequiredCustomSections(
+                    currentEmailType);
+            }
+
+            RebuildEmailEditor();
         }
+
+        // =========================================================
+        // CUSTOM EMAIL SECTION MANAGER
+        // =========================================================
+
+        private void RebuildEmailEditor()
+        {
+            if (currentEmailType is null)
+            {
+                EmailSectionManagerBorder.Visibility =
+                    Visibility.Collapsed;
+
+                EmailInputFormService
+                    .ShowNoEmailTypeSelectedMessage(
+                        EmailInputFieldsPanel);
+
+                return;
+            }
+
+            SortEmailSections(
+                currentEmailType);
+
+            EmailInputFormService
+                .BuildEmailInputControls(
+                    EmailInputFieldsPanel,
+                    currentEmailType);
+
+            bool isCustomEmail =
+                IsCustomEmailType(
+                    currentEmailType);
+
+            EmailSectionManagerBorder.Visibility =
+                isCustomEmail
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+
+            if (isCustomEmail)
+            {
+                RefreshSectionManager();
+            }
+            else
+            {
+                EmailSectionComboBox.ItemsSource =
+                    null;
+
+                RemoveEmailSectionComboBox.ItemsSource =
+                    null;
+            }
+        }
+
+        private void RefreshSectionManager()
+        {
+            if (currentEmailType is null ||
+                !IsCustomEmailType(
+                    currentEmailType))
+            {
+                EmailSectionComboBox.ItemsSource =
+                    null;
+
+                RemoveEmailSectionComboBox.ItemsSource =
+                    null;
+
+                AddEmailSectionButton.IsEnabled =
+                    false;
+
+                RemoveEmailSectionButton.IsEnabled =
+                    false;
+
+                return;
+            }
+
+            // ---------------------------------------------
+            // Sections that are not currently in the email
+            // ---------------------------------------------
+
+            List<EmailSectionOption>
+                availableSections =
+                    OptionalEmailSections
+                        .Where(option =>
+                            !currentEmailType.inputs
+                                .Any(input =>
+                                    option.InputType
+                                        .IsInstanceOfType(
+                                            input)))
+                        .ToList();
+
+            EmailSectionComboBox.ItemsSource =
+                availableSections;
+
+            EmailSectionComboBox.SelectedIndex =
+                availableSections.Count > 0
+                    ? 0
+                    : -1;
+
+            AddEmailSectionButton.IsEnabled =
+                availableSections.Count > 0;
+
+            // ---------------------------------------------
+            // Sections that may currently be removed
+            // ---------------------------------------------
+
+            List<ActiveEmailSection>
+                removableSections =
+                    currentEmailType.inputs
+                        .Where(IsRemovableSection)
+                        .Select(input =>
+                            new ActiveEmailSection(
+                                GetSectionDisplayName(
+                                    input),
+                                input))
+                        .ToList();
+
+            RemoveEmailSectionComboBox.ItemsSource =
+                removableSections;
+
+            RemoveEmailSectionComboBox.SelectedIndex =
+                removableSections.Count > 0
+                    ? 0
+                    : -1;
+
+            RemoveEmailSectionButton.IsEnabled =
+                removableSections.Count > 0;
+        }
+
+        private void AddEmailSectionButton_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (currentEmailType is null ||
+                !IsCustomEmailType(
+                    currentEmailType))
+            {
+                return;
+            }
+
+            if (EmailSectionComboBox.SelectedItem
+                is not EmailSectionOption selectedSection)
+            {
+                return;
+            }
+
+            /*
+             * Save everything the user already typed before
+             * destroying and rebuilding the form controls.
+             */
+            EmailInputFormService.ApplyInputValues(
+                EmailInputFieldsPanel);
+
+            bool alreadyExists =
+                currentEmailType.inputs
+                    .Any(input =>
+                        selectedSection
+                            .InputType
+                            .IsInstanceOfType(
+                                input));
+
+            if (alreadyExists)
+            {
+                MessageBox.Show(
+                    "That section is already included in this email.",
+                    "Section Already Added",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                RefreshSectionManager();
+
+                return;
+            }
+
+            IEmailInputs newSection =
+                selectedSection
+                    .CreateInput();
+
+            currentEmailType.inputs.Add(
+                newSection);
+
+            SortEmailSections(
+                currentEmailType);
+
+            RebuildEmailEditor();
+        }
+
+        private void RemoveEmailSectionButton_Click(
+            object sender,
+            RoutedEventArgs e)
+        {
+            if (currentEmailType is null ||
+                !IsCustomEmailType(
+                    currentEmailType))
+            {
+                return;
+            }
+
+            if (RemoveEmailSectionComboBox.SelectedItem
+                is not ActiveEmailSection selectedSection)
+            {
+                return;
+            }
+
+            /*
+             * Save current form values before rebuilding
+             * the dynamic controls.
+             */
+            EmailInputFormService.ApplyInputValues(
+                EmailInputFieldsPanel);
+
+            if (!IsRemovableSection(
+                    selectedSection.Input))
+            {
+                MessageBox.Show(
+                    "Header, body, signature, and footer " +
+                    "cannot be removed.",
+                    "Required Email Section",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+
+                return;
+            }
+
+            currentEmailType.inputs.Remove(
+                selectedSection.Input);
+
+            SortEmailSections(
+                currentEmailType);
+
+            RebuildEmailEditor();
+        }
+
+        // =========================================================
+        // REQUIRED CUSTOM SECTIONS
+        // =========================================================
+
+        private static void EnsureRequiredCustomSections(
+            EmailType emailType)
+        {
+            ArgumentNullException.ThrowIfNull(
+                emailType);
+
+            /*
+             * Email Details is kept because the subject field
+             * belongs to the overall email rather than being an
+             * optional content section.
+             */
+            if (!emailType.inputs
+                    .OfType<EmailDetailsInputs>()
+                    .Any())
+            {
+                emailType.inputs.Insert(
+                    0,
+                    new EmailDetailsInputs(
+                        Subject: ""));
+            }
+
+            // Header
+            if (!emailType.inputs
+                    .OfType<CustomHeaderInputs>()
+                    .Any())
+            {
+                emailType.inputs.Add(
+                    new CustomHeaderInputs(
+                        OrganizationName:
+                            EmailInputConstants
+                                .OrganizationName,
+
+                        HeaderLabel:
+                            "",
+
+                        EmailHeading:
+                            "",
+
+                        HeaderSubtitle:
+                            "",
+
+                        HeaderImageUrl:
+                            EmailImageSources
+                                .Default_HeaderImage
+                    ));
+            }
+
+            // Body
+            if (!emailType.inputs
+                    .OfType<CustomBodyInputs>()
+                    .Any())
+            {
+                emailType.inputs.Add(
+                    new CustomBodyInputs(
+                        RecipientGreeting:
+                            EmailInputConstants
+                                .TowerTeamGreeting,
+
+                        EmailBody:
+                            ""
+                    ));
+            }
+
+            // Signature
+            if (!emailType.inputs
+                    .OfType<CustomSignatureInputs>()
+                    .Any())
+            {
+                emailType.inputs.Add(
+                    EmailInputDefaults
+                        .DefaultSignatureInputs);
+            }
+
+            // Footer
+            if (!emailType.inputs
+                    .OfType<CustomFooterInputs>()
+                    .Any())
+            {
+                emailType.inputs.Add(
+                    CreateDefaultFooterInputs());
+            }
+
+            SortEmailSections(
+                emailType);
+        }
+
+        private static CustomFooterInputs
+            CreateDefaultFooterInputs()
+        {
+            return new CustomFooterInputs(
+                FooterOrganization:
+                    EmailInputConstants
+                        .OrganizationName,
+
+                FooterWebsiteLink:
+                    "https://www.uwgb.edu/urec/",
+
+                FooterWebsiteUrl:
+                    "https://www.uwgb.edu/urec/",
+
+                FooterText:
+                    "University Recreation",
+
+                FooterLogoSource:
+                    EmailImageSources
+                        .Default_FooterImage
+            );
+        }
+
+        // =========================================================
+        // SECTION RULES
+        // =========================================================
+
+        private static bool IsCustomEmailType(
+            EmailType emailType)
+        {
+            return string.Equals(
+                emailType.displayName,
+                "Custom",
+                StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsRemovableSection(IEmailInputs input)
+        {
+            return input is
+                CustomImageInputs or
+                CustomAnnouncementsInputs or
+                CustomRequestInputs or
+                CustomAttachmentsInputs;
+        }
+
+        private static string GetSectionDisplayName(
+    IEmailInputs input)
+        {
+            return input switch
+            {
+                CustomImageInputs =>
+                    "Image",
+
+                CustomAnnouncementsInputs =>
+                    "Announcements",
+
+                CustomRequestInputs =>
+                    "Request",
+
+                CustomAttachmentsInputs =>
+                    "Attachments",
+
+                CustomHeaderInputs =>
+                    "Header",
+
+                CustomBodyInputs =>
+                    "Body",
+
+                CustomSignatureInputs =>
+                    "Signature",
+
+                CustomFooterInputs =>
+                    "Footer",
+
+                EmailDetailsInputs =>
+                    "Email Details",
+
+                _ =>
+                    input.GetEmailTypeName()
+            };
+        }
+
+        private static void SortEmailSections(
+            EmailType emailType)
+        {
+            emailType.inputs.Sort(
+                (left, right) =>
+                    GetSectionOrder(left)
+                        .CompareTo(
+                            GetSectionOrder(right)));
+        }
+
+        private static int GetSectionOrder(IEmailInputs input)
+        {
+            return input switch
+            {
+                EmailDetailsInputs =>
+                    0,
+
+                CustomHeaderInputs =>
+                    10,
+
+                CustomBodyInputs =>
+                    20,
+
+                CustomImageInputs =>
+                    30,
+
+                CustomAnnouncementsInputs =>
+                    40,
+
+                CustomRequestInputs =>
+                    50,
+
+                CustomAttachmentsInputs =>
+                    60,
+
+                CustomSignatureInputs =>
+                    70,
+
+                CustomFooterInputs =>
+                    80,
+
+                _ =>
+                    100
+            };
+        }
+
+        // =========================================================
+        // RECIPIENT CONTROLS
+        // =========================================================
 
         private void SelectAllStaffButton_Click(
             object sender,
@@ -73,7 +628,8 @@ namespace Schedule_Creator_V2
             foreach (EmailRecipientSelection recipient
                      in RecipientSelections)
             {
-                recipient.IsTo = true;
+                recipient.IsTo =
+                    true;
             }
         }
 
@@ -88,13 +644,19 @@ namespace Schedule_Creator_V2
             }
         }
 
+        // =========================================================
+        // PREVIEW
+        // =========================================================
+
         private void PreviewEmailButton_Click(
             object sender,
             RoutedEventArgs e)
         {
             bool hasValidData =
                 TryGetEmailData(
-                    actionDescription: "previewing",
+                    actionDescription:
+                        "previewing",
+
                     out EmailType selectedEmailType,
                     out _,
                     out _);
@@ -104,9 +666,10 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            if (!EmailValidationService.ValidateRequiredFields(
-                    EmailInputFieldsPanel,
-                    out string validationMessage))
+            if (!EmailValidationService
+                    .ValidateRequiredFields(
+                        EmailInputFieldsPanel,
+                        out string validationMessage))
             {
                 MessageBox.Show(
                     validationMessage,
@@ -119,23 +682,28 @@ namespace Schedule_Creator_V2
 
             try
             {
-                EmailInputFormService.ApplyInputValues(
-                    EmailInputFieldsPanel);
+                EmailInputFormService
+                    .ApplyInputValues(
+                        EmailInputFieldsPanel);
 
                 string subject =
-                    EmailContentService.BuildSubject(
-                        selectedEmailType);
+                    EmailContentService
+                        .BuildSubject(
+                            selectedEmailType);
 
                 string htmlBody =
-                    EmailContentService.BuildHtmlBody(
-                        selectedEmailType);
+                    EmailContentService
+                        .BuildHtmlBody(
+                            selectedEmailType);
 
                 EmailPreviewWindow previewWindow =
                     new EmailPreviewWindow(
                         subject,
                         htmlBody)
                     {
-                        Owner = Window.GetWindow(this)
+                        Owner =
+                            Window.GetWindow(
+                                this)
                     };
 
                 previewWindow.Show();
@@ -151,13 +719,19 @@ namespace Schedule_Creator_V2
             }
         }
 
+        // =========================================================
+        // GENERATE EMAIL
+        // =========================================================
+
         private void GenerateEmailButton_Click(
             object sender,
             RoutedEventArgs e)
         {
             bool hasValidData =
                 TryGetEmailData(
-                    actionDescription: "generating",
+                    actionDescription:
+                        "generating",
+
                     out EmailType selectedEmailType,
                     out List<Staff> toRecipients,
                     out List<Staff> ccRecipients);
@@ -167,9 +741,10 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            if (!EmailValidationService.ValidateRequiredFields(
-                    EmailInputFieldsPanel,
-                    out string validationMessage))
+            if (!EmailValidationService
+                    .ValidateRequiredFields(
+                        EmailInputFieldsPanel,
+                        out string validationMessage))
             {
                 MessageBox.Show(
                     validationMessage,
@@ -180,8 +755,9 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            EmailInputFormService.ApplyInputValues(
-                EmailInputFieldsPanel);
+            EmailInputFormService
+                .ApplyInputValues(
+                    EmailInputFieldsPanel);
 
             Button? generateButton =
                 sender as Button;
@@ -190,22 +766,26 @@ namespace Schedule_Creator_V2
             {
                 if (generateButton is not null)
                 {
-                    generateButton.IsEnabled = false;
+                    generateButton.IsEnabled =
+                        false;
                 }
 
                 string subject =
-                    EmailContentService.BuildSubject(
-                        selectedEmailType);
+                    EmailContentService
+                        .BuildSubject(
+                            selectedEmailType);
 
                 string htmlBody =
-                    EmailContentService.BuildHtmlBody(
-                        selectedEmailType);
+                    EmailContentService
+                        .BuildHtmlBody(
+                            selectedEmailType);
 
-                EmlEmailService.CreateAndOpenEmail(
-                    toRecipients,
-                    ccRecipients,
-                    subject,
-                    htmlBody);
+                EmlEmailService
+                    .CreateAndOpenEmail(
+                        toRecipients,
+                        ccRecipients,
+                        subject,
+                        htmlBody);
             }
             catch (Exception exception)
             {
@@ -220,10 +800,15 @@ namespace Schedule_Creator_V2
             {
                 if (generateButton is not null)
                 {
-                    generateButton.IsEnabled = true;
+                    generateButton.IsEnabled =
+                        true;
                 }
             }
         }
+
+        // =========================================================
+        // EMAIL DATA / VALIDATION
+        // =========================================================
 
         private bool TryGetEmailData(
             string actionDescription,
@@ -247,9 +832,12 @@ namespace Schedule_Creator_V2
                     MessageBoxImage.Warning);
 
                 EmailTypeComboBox.Focus();
-                EmailTypeComboBox.IsDropDownOpen = true;
 
-                emailType = null!;
+                EmailTypeComboBox.IsDropDownOpen =
+                    true;
+
+                emailType =
+                    null!;
 
                 return false;
             }
@@ -281,7 +869,8 @@ namespace Schedule_Creator_V2
 
                 StaffListBox.Focus();
 
-                emailType = null!;
+                emailType =
+                    null!;
 
                 return false;
             }
@@ -292,11 +881,17 @@ namespace Schedule_Creator_V2
             return true;
         }
 
-        private static List<Staff> LoadStaffSafely()
+        // =========================================================
+        // STAFF
+        // =========================================================
+
+        private static List<Staff>
+            LoadStaffSafely()
         {
             try
             {
-                return EmailStaffService.LoadStaff();
+                return EmailStaffService
+                    .LoadStaff();
             }
             catch (Exception exception)
             {
@@ -310,7 +905,26 @@ namespace Schedule_Creator_V2
                 return new List<Staff>();
             }
         }
+
+        // =========================================================
+        // INTERNAL SECTION MODELS
+        // =========================================================
+
+        private sealed record EmailSectionOption(
+            string DisplayName,
+            Type InputType,
+            Func<IEmailInputs> CreateInput
+        );
+
+        private sealed record ActiveEmailSection(
+            string DisplayName,
+            IEmailInputs Input
+        );
     }
+
+    // =============================================================
+    // RECIPIENT SELECTION MODEL
+    // =============================================================
 
     public sealed class EmailRecipientSelection :
         INotifyPropertyChanged
@@ -334,13 +948,16 @@ namespace Schedule_Creator_V2
                     return;
                 }
 
-                isTo = value;
+                isTo =
+                    value;
 
                 OnPropertyChanged();
 
-                if (value && isCc)
+                if (value &&
+                    isCc)
                 {
-                    isCc = false;
+                    isCc =
+                        false;
 
                     OnPropertyChanged(
                         nameof(IsCc));
@@ -359,13 +976,16 @@ namespace Schedule_Creator_V2
                     return;
                 }
 
-                isCc = value;
+                isCc =
+                    value;
 
                 OnPropertyChanged();
 
-                if (value && isTo)
+                if (value &&
+                    isTo)
                 {
-                    isTo = false;
+                    isTo =
+                        false;
 
                     OnPropertyChanged(
                         nameof(IsTo));
@@ -376,22 +996,28 @@ namespace Schedule_Creator_V2
         public EmailRecipientSelection(
             Staff staff)
         {
-            ArgumentNullException.ThrowIfNull(staff);
+            ArgumentNullException.ThrowIfNull(
+                staff);
 
-            Staff = staff;
+            Staff =
+                staff;
         }
 
         public void Clear()
         {
-            IsTo = false;
-            IsCc = false;
+            IsTo =
+                false;
+
+            IsCc =
+                false;
         }
 
         public event PropertyChangedEventHandler?
             PropertyChanged;
 
         private void OnPropertyChanged(
-            [CallerMemberName] string? propertyName = null)
+            [CallerMemberName]
+            string? propertyName = null)
         {
             PropertyChanged?.Invoke(
                 this,

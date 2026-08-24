@@ -30,7 +30,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Page Header -->
+                <!-- PAGE HEADER -->
                 <StackPanel Grid.Row="0">
 
                     <TextBlock Text="Create Email"
@@ -39,13 +39,13 @@
                                Foreground="#1F2937"/>
 
                     <TextBlock Margin="0,5,0,0"
-                               Text="Select an email type, choose the recipients, and complete the required fields."
+                               Text="Select an email type, choose the recipients, and complete the email information."
                                FontSize="14"
                                Foreground="#6B7280"/>
 
                 </StackPanel>
 
-                <!-- Main Content -->
+                <!-- MAIN CONTENT -->
                 <Grid Grid.Row="2">
 
                     <Grid.ColumnDefinitions>
@@ -54,7 +54,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- Left Column -->
+                    <!-- ===================================================== -->
+                    <!-- LEFT COLUMN                                           -->
+                    <!-- ===================================================== -->
+
                     <Grid Grid.Column="0">
 
                         <Grid.RowDefinitions>
@@ -63,7 +66,7 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Email Type Selection -->
+                        <!-- EMAIL TYPE -->
                         <Border Grid.Row="0"
                                 Padding="16"
                                 Background="#F9FAFB"
@@ -95,262 +98,322 @@
 
                         </Border>
 
-                        <!-- Staff recipient list -->
-                        <Border Grid.Row="4"
-        MinHeight="260"
-        Background="#FAFCFB"
-        BorderBrush="#DDE5E1"
-        BorderThickness="1"
-        CornerRadius="8"
-        ClipToBounds="True">
+                        <!-- RECIPIENTS -->
+                        <Border Grid.Row="2"
+                                MinHeight="260"
+                                Background="#FAFCFB"
+                                BorderBrush="#DDE5E1"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                ClipToBounds="True">
+
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- Recipient heading -->
+                                <Border Grid.Row="0"
+                                        Padding="12"
+                                        Background="#F9FAFB"
+                                        BorderBrush="#E5E7EB"
+                                        BorderThickness="0,0,0,1">
+
+                                    <Grid>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="8"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0"
+                                                   Text="Recipients"
+                                                   FontSize="15"
+                                                   FontWeight="SemiBold"
+                                                   Foreground="#1F2937"/>
+
+                                        <Grid Grid.Row="2">
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="8"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Button Grid.Column="0"
+                                                    Height="30"
+                                                    Padding="8,3"
+                                                    Content="Select All"
+                                                    Click="SelectAllStaffButton_Click"/>
+
+                                            <Button Grid.Column="2"
+                                                    Height="30"
+                                                    Padding="8,3"
+                                                    Content="Clear"
+                                                    Click="ClearStaffSelectionButton_Click"/>
 
-                            <DataGrid x:Name="StaffListBox"
-              ItemsSource="{Binding RecipientSelections}"
-              AutoGenerateColumns="False"
-              CanUserAddRows="False"
-              CanUserDeleteRows="False"
-              CanUserReorderColumns="False"
-              CanUserResizeColumns="False"
-              CanUserResizeRows="False"
-              HeadersVisibility="Column"
-              GridLinesVisibility="Horizontal"
-              HorizontalGridLinesBrush="#E1E8E4"
-              VerticalGridLinesBrush="Transparent"
-              RowHeaderWidth="0"
-              RowHeight="44"
-              ColumnHeaderHeight="38"
-              SelectionMode="Single"
-              SelectionUnit="FullRow"
-              IsReadOnly="False"
-              Background="White"
-              BorderThickness="0"
-              AlternatingRowBackground="#FAFCFB"
-              ScrollViewer.VerticalScrollBarVisibility="Auto"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                        </Grid>
 
-                                <DataGrid.Resources>
+                                    </Grid>
 
-                                    <Style TargetType="DataGridColumnHeader">
+                                </Border>
 
-                                        <Setter Property="Background"
-                        Value="#EAF2EE"/>
+                                <!-- Recipient list -->
+                                <DataGrid x:Name="StaffListBox"
+                                          Grid.Row="1"
+                                          ItemsSource="{Binding RecipientSelections}"
+                                          AutoGenerateColumns="False"
+                                          CanUserAddRows="False"
+                                          CanUserDeleteRows="False"
+                                          CanUserReorderColumns="False"
+                                          CanUserResizeColumns="False"
+                                          CanUserResizeRows="False"
+                                          HeadersVisibility="Column"
+                                          GridLinesVisibility="Horizontal"
+                                          HorizontalGridLinesBrush="#E1E8E4"
+                                          VerticalGridLinesBrush="Transparent"
+                                          RowHeaderWidth="0"
+                                          RowHeight="44"
+                                          ColumnHeaderHeight="38"
+                                          SelectionMode="Single"
+                                          SelectionUnit="FullRow"
+                                          IsReadOnly="False"
+                                          Background="White"
+                                          BorderThickness="0"
+                                          AlternatingRowBackground="#FAFCFB"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                                        <Setter Property="Foreground"
-                        Value="#315E4D"/>
+                                    <DataGrid.Resources>
 
-                                        <Setter Property="FontSize"
-                        Value="11"/>
+                                        <Style TargetType="DataGridColumnHeader">
 
-                                        <Setter Property="FontWeight"
-                        Value="SemiBold"/>
+                                            <Setter Property="Background"
+                                                    Value="#EAF2EE"/>
 
-                                        <Setter Property="Padding"
-                        Value="12,7"/>
+                                            <Setter Property="Foreground"
+                                                    Value="#315E4D"/>
 
-                                        <Setter Property="BorderBrush"
-                        Value="#D6E1DC"/>
+                                            <Setter Property="FontSize"
+                                                    Value="11"/>
 
-                                        <Setter Property="BorderThickness"
-                        Value="0,0,0,1"/>
+                                            <Setter Property="FontWeight"
+                                                    Value="SemiBold"/>
 
-                                    </Style>
+                                            <Setter Property="Padding"
+                                                    Value="12,7"/>
 
-                                    <Style TargetType="DataGridRow">
+                                            <Setter Property="BorderBrush"
+                                                    Value="#D6E1DC"/>
 
-                                        <Setter Property="Background"
-                        Value="White"/>
+                                            <Setter Property="BorderThickness"
+                                                    Value="0,0,0,1"/>
 
-                                        <Setter Property="BorderThickness"
-                        Value="0"/>
+                                        </Style>
 
-                                        <Style.Triggers>
+                                        <Style TargetType="DataGridRow">
 
-                                            <Trigger Property="AlternationIndex"
-                             Value="1">
+                                            <Setter Property="Background"
+                                                    Value="White"/>
 
-                                                <Setter Property="Background"
-                                Value="#FAFCFB"/>
+                                            <Setter Property="BorderThickness"
+                                                    Value="0"/>
 
-                                            </Trigger>
+                                            <Style.Triggers>
 
-                                            <Trigger Property="IsMouseOver"
-                             Value="True">
+                                                <Trigger Property="AlternationIndex"
+                                                         Value="1">
 
-                                                <Setter Property="Background"
-                                Value="#F0F7F3"/>
+                                                    <Setter Property="Background"
+                                                            Value="#FAFCFB"/>
 
-                                            </Trigger>
+                                                </Trigger>
 
-                                            <Trigger Property="IsSelected"
-                             Value="True">
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
 
-                                                <Setter Property="Background"
-                                Value="#E4F1EB"/>
+                                                    <Setter Property="Background"
+                                                            Value="#F0F7F3"/>
 
-                                                <Setter Property="Foreground"
-                                Value="#1F2937"/>
+                                                </Trigger>
 
-                                            </Trigger>
+                                                <Trigger Property="IsSelected"
+                                                         Value="True">
 
-                                        </Style.Triggers>
+                                                    <Setter Property="Background"
+                                                            Value="#E4F1EB"/>
 
-                                    </Style>
+                                                    <Setter Property="Foreground"
+                                                            Value="#1F2937"/>
 
-                                    <Style TargetType="DataGridCell">
+                                                </Trigger>
 
-                                        <Setter Property="Padding"
-                        Value="12,6"/>
+                                            </Style.Triggers>
 
-                                        <Setter Property="BorderThickness"
-                        Value="0"/>
+                                        </Style>
 
-                                        <Setter Property="VerticalContentAlignment"
-                        Value="Center"/>
+                                        <Style TargetType="DataGridCell">
 
-                                        <Setter Property="FocusVisualStyle"
-                        Value="{x:Null}"/>
+                                            <Setter Property="Padding"
+                                                    Value="12,6"/>
 
-                                    </Style>
+                                            <Setter Property="BorderThickness"
+                                                    Value="0"/>
 
-                                    <!-- Small centered recipient checkbox -->
-                                    <Style x:Key="RecipientCheckBoxStyle"
-                   TargetType="CheckBox">
+                                            <Setter Property="VerticalContentAlignment"
+                                                    Value="Center"/>
 
-                                        <Setter Property="Width"
-                        Value="18"/>
+                                            <Setter Property="FocusVisualStyle"
+                                                    Value="{x:Null}"/>
 
-                                        <Setter Property="Height"
-                        Value="18"/>
+                                        </Style>
 
-                                        <Setter Property="Margin"
-                        Value="0"/>
+                                        <Style x:Key="RecipientCheckBoxStyle"
+                                               TargetType="CheckBox">
 
-                                        <Setter Property="Padding"
-                        Value="0"/>
+                                            <Setter Property="Width"
+                                                    Value="18"/>
 
-                                        <Setter Property="HorizontalAlignment"
-                        Value="Center"/>
+                                            <Setter Property="Height"
+                                                    Value="18"/>
 
-                                        <Setter Property="VerticalAlignment"
-                        Value="Center"/>
+                                            <Setter Property="Margin"
+                                                    Value="0"/>
 
-                                        <Setter Property="HorizontalContentAlignment"
-                        Value="Center"/>
+                                            <Setter Property="Padding"
+                                                    Value="0"/>
 
-                                        <Setter Property="VerticalContentAlignment"
-                        Value="Center"/>
+                                            <Setter Property="HorizontalAlignment"
+                                                    Value="Center"/>
 
-                                        <Setter Property="Cursor"
-                        Value="Hand"/>
+                                            <Setter Property="VerticalAlignment"
+                                                    Value="Center"/>
 
-                                    </Style>
+                                            <Setter Property="HorizontalContentAlignment"
+                                                    Value="Center"/>
 
-                                </DataGrid.Resources>
+                                            <Setter Property="VerticalContentAlignment"
+                                                    Value="Center"/>
 
-                                <DataGrid.Columns>
+                                            <Setter Property="Cursor"
+                                                    Value="Hand"/>
 
-                                    <!-- Staff name -->
-                                    <DataGridTextColumn Header="STAFF MEMBER"
-                                Width="*"
-                                MinWidth="150"
-                                IsReadOnly="True"
-                                Binding="{Binding Staff.displayName}">
+                                        </Style>
 
-                                        <DataGridTextColumn.ElementStyle>
+                                    </DataGrid.Resources>
 
-                                            <Style TargetType="TextBlock">
+                                    <DataGrid.Columns>
 
-                                                <Setter Property="VerticalAlignment"
-                                Value="Center"/>
+                                        <!-- STAFF NAME -->
+                                        <DataGridTextColumn Header="STAFF MEMBER"
+                                                            Width="*"
+                                                            MinWidth="150"
+                                                            IsReadOnly="True"
+                                                            Binding="{Binding Staff.displayName}">
 
-                                                <Setter Property="FontSize"
-                                Value="13"/>
+                                            <DataGridTextColumn.ElementStyle>
 
-                                                <Setter Property="Foreground"
-                                Value="#293A34"/>
+                                                <Style TargetType="TextBlock">
 
-                                                <Setter Property="TextTrimming"
-                                Value="CharacterEllipsis"/>
+                                                    <Setter Property="VerticalAlignment"
+                                                            Value="Center"/>
 
-                                            </Style>
+                                                    <Setter Property="FontSize"
+                                                            Value="13"/>
 
-                                        </DataGridTextColumn.ElementStyle>
+                                                    <Setter Property="Foreground"
+                                                            Value="#293A34"/>
 
-                                    </DataGridTextColumn>
+                                                    <Setter Property="TextTrimming"
+                                                            Value="CharacterEllipsis"/>
 
-                                    <!-- To recipient -->
-                                    <DataGridTemplateColumn Header="TO"
-                                    Width="58">
+                                                </Style>
 
-                                        <DataGridTemplateColumn.HeaderStyle>
+                                            </DataGridTextColumn.ElementStyle>
 
-                                            <Style TargetType="DataGridColumnHeader"
-                           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                        </DataGridTextColumn>
 
-                                                <Setter Property="HorizontalContentAlignment"
-                                Value="Center"/>
+                                        <!-- TO -->
+                                        <DataGridTemplateColumn Header="TO"
+                                                                Width="58">
 
-                                            </Style>
+                                            <DataGridTemplateColumn.HeaderStyle>
 
-                                        </DataGridTemplateColumn.HeaderStyle>
+                                                <Style TargetType="DataGridColumnHeader"
+                                                       BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
 
-                                        <DataGridTemplateColumn.CellTemplate>
+                                                    <Setter Property="HorizontalContentAlignment"
+                                                            Value="Center"/>
 
-                                            <DataTemplate>
+                                                </Style>
 
-                                                <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
-                                  ToolTip="Add as a primary recipient"
-                                  IsChecked="{Binding IsTo,
-                                      Mode=TwoWay,
-                                      UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataGridTemplateColumn.HeaderStyle>
 
-                                            </DataTemplate>
+                                            <DataGridTemplateColumn.CellTemplate>
 
-                                        </DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
 
-                                    </DataGridTemplateColumn>
+                                                    <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
+                                                              ToolTip="Add as a primary recipient"
+                                                              IsChecked="{Binding IsTo,
+                                                                  Mode=TwoWay,
+                                                                  UpdateSourceTrigger=PropertyChanged}"/>
 
-                                    <!-- CC recipient -->
-                                    <DataGridTemplateColumn Header="CC"
-                                    Width="58">
+                                                </DataTemplate>
 
-                                        <DataGridTemplateColumn.HeaderStyle>
+                                            </DataGridTemplateColumn.CellTemplate>
 
-                                            <Style TargetType="DataGridColumnHeader"
-                           BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                                        </DataGridTemplateColumn>
 
-                                                <Setter Property="HorizontalContentAlignment"
-                                Value="Center"/>
+                                        <!-- CC -->
+                                        <DataGridTemplateColumn Header="CC"
+                                                                Width="58">
 
-                                            </Style>
+                                            <DataGridTemplateColumn.HeaderStyle>
 
-                                        </DataGridTemplateColumn.HeaderStyle>
+                                                <Style TargetType="DataGridColumnHeader"
+                                                       BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
 
-                                        <DataGridTemplateColumn.CellTemplate>
+                                                    <Setter Property="HorizontalContentAlignment"
+                                                            Value="Center"/>
 
-                                            <DataTemplate>
+                                                </Style>
 
-                                                <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
-                                  ToolTip="Add as a CC recipient"
-                                  IsChecked="{Binding IsCc,
-                                      Mode=TwoWay,
-                                      UpdateSourceTrigger=PropertyChanged}"/>
+                                            </DataGridTemplateColumn.HeaderStyle>
 
-                                            </DataTemplate>
+                                            <DataGridTemplateColumn.CellTemplate>
 
-                                        </DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
 
-                                    </DataGridTemplateColumn>
+                                                    <CheckBox Style="{StaticResource RecipientCheckBoxStyle}"
+                                                              ToolTip="Add as a CC recipient"
+                                                              IsChecked="{Binding IsCc,
+                                                                  Mode=TwoWay,
+                                                                  UpdateSourceTrigger=PropertyChanged}"/>
 
-                                </DataGrid.Columns>
+                                                </DataTemplate>
 
-                            </DataGrid>
+                                            </DataGridTemplateColumn.CellTemplate>
+
+                                        </DataGridTemplateColumn>
+
+                                    </DataGrid.Columns>
+
+                                </DataGrid>
+
+                            </Grid>
 
                         </Border>
 
                     </Grid>
 
-                    <!-- Dynamic Email Input Area -->
+                    <!-- ===================================================== -->
+                    <!-- RIGHT COLUMN                                          -->
+                    <!-- ===================================================== -->
+
                     <Border Grid.Column="2"
                             Padding="20"
                             Background="#F9FAFB"
@@ -362,10 +425,13 @@
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="12"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="12"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
+                            <!-- EMAIL INFORMATION HEADER -->
                             <StackPanel Grid.Row="0">
 
                                 <TextBlock Text="Email Information"
@@ -374,17 +440,132 @@
                                            Foreground="#1F2937"/>
 
                                 <TextBlock Margin="0,4,0,0"
-                                           Text="The required input fields will appear below after an email type is selected."
+                                           Text="Complete the fields below. Custom emails can add or remove optional sections."
                                            TextWrapping="Wrap"
                                            Foreground="#6B7280"/>
 
                             </StackPanel>
 
-                            <ScrollViewer Grid.Row="2"
+                            <!-- ================================================= -->
+                            <!-- CUSTOM EMAIL SECTION MANAGER                      -->
+                            <!-- ================================================= -->
+
+                            <Border x:Name="EmailSectionManagerBorder"
+                                    Grid.Row="2"
+                                    Padding="14"
+                                    Visibility="Collapsed"
+                                    Background="#EEF6F2"
+                                    BorderBrush="#C7DED3"
+                                    BorderThickness="1"
+                                    CornerRadius="7">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Customize Sections"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               Foreground="#244C3D"/>
+
+                                    <TextBlock Margin="0,3,0,12"
+                                               Text="Header, body, signature, and footer are required. Optional sections can be added or removed."
+                                               TextWrapping="Wrap"
+                                               FontSize="12"
+                                               Foreground="#5D746B"/>
+
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="16"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- ADD SECTION -->
+                                        <StackPanel Grid.Column="0">
+
+                                            <TextBlock Margin="0,0,0,5"
+                                                       Text="Add Section"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#374151"/>
+
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="8"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ComboBox x:Name="EmailSectionComboBox"
+                                                          Grid.Column="0"
+                                                          Height="34"
+                                                          Padding="7,3"
+                                                          DisplayMemberPath="DisplayName"
+                                                          VerticalContentAlignment="Center"/>
+
+                                                <Button x:Name="AddEmailSectionButton"
+                                                        Grid.Column="2"
+                                                        MinWidth="65"
+                                                        Height="34"
+                                                        Padding="10,3"
+                                                        Background="#006633"
+                                                        BorderBrush="#006633"
+                                                        Foreground="White"
+                                                        Content="Add"
+                                                        Click="AddEmailSectionButton_Click"/>
+
+                                            </Grid>
+
+                                        </StackPanel>
+
+                                        <!-- REMOVE SECTION -->
+                                        <StackPanel Grid.Column="2">
+
+                                            <TextBlock Margin="0,0,0,5"
+                                                       Text="Remove Section"
+                                                       FontSize="12"
+                                                       FontWeight="SemiBold"
+                                                       Foreground="#374151"/>
+
+                                            <Grid>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="8"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <ComboBox x:Name="RemoveEmailSectionComboBox"
+                                                          Grid.Column="0"
+                                                          Height="34"
+                                                          Padding="7,3"
+                                                          DisplayMemberPath="DisplayName"
+                                                          VerticalContentAlignment="Center"/>
+
+                                                <Button x:Name="RemoveEmailSectionButton"
+                                                        Grid.Column="2"
+                                                        MinWidth="75"
+                                                        Height="34"
+                                                        Padding="10,3"
+                                                        Content="Remove"
+                                                        Click="RemoveEmailSectionButton_Click"/>
+
+                                            </Grid>
+
+                                        </StackPanel>
+
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </Border>
+
+                            <!-- GENERATED INPUT CONTROLS -->
+                            <ScrollViewer Grid.Row="4"
                                           VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
 
-                                <!-- Controls are generated here -->
                                 <StackPanel x:Name="EmailInputFieldsPanel"/>
 
                             </ScrollViewer>
@@ -395,7 +576,10 @@
 
                 </Grid>
 
-                <!-- Bottom Buttons -->
+                <!-- ========================================================= -->
+                <!-- BOTTOM BUTTONS                                            -->
+                <!-- ========================================================= -->
+
                 <Grid Grid.Row="4">
 
                     <Grid.ColumnDefinitions>
@@ -405,7 +589,7 @@
 
                     <TextBlock Grid.Column="0"
                                VerticalAlignment="Center"
-                               Text="Complete the email information before generating or sending the email."
+                               Text="Complete the email information before generating the email."
                                Foreground="#6B7280"/>
 
                     <StackPanel Grid.Column="1"

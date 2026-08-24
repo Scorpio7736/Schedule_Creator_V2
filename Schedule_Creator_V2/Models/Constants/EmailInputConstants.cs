@@ -10,5 +10,6 @@ namespace Schedule_Creator_V2.Models.Constants
     {
         public const string TowerTeamGreeting = "Hey Tower Team,";
         public const string OrganizationName = "UNIVERSITY RECREATION";
+        
     }
 }
