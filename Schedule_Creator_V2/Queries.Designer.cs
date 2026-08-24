@@ -120,15 +120,11 @@ namespace Schedule_Creator_V2 {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DELETE FROM
-        ///    [UWGB].[Schedule]
-        ///WHERE
-        ///    scheduleName = @scheduleName
-        ///INSERT INTO
-        ///    [UWGB].[Schedule]
-        ///    ([dayOfWeek], staffID, scheduleName)
-        ///VALUES
-        ///    (@dayOfWeek, @staffID, @scheduleName).
+        ///   Looks up a localized string similar to INSERT INTO 
+        ///	[UWGB].[Schedule] 
+        ///	([dayOfWeek], staffID, startTime, endTime, scheduleName) 
+        ///VALUES 
+        ///	(@dayOfWeek, @staffID, @startTime, @endTime, @scheduleName).
         /// </summary>
         internal static string CreateSchedule {
             get {
@@ -173,9 +169,9 @@ namespace Schedule_Creator_V2 {
         ///);
         ///
         ///CREATE TABLE [UWGB].[JobSettings] (
-        ///    [DayOfWeek]   NVARCHAR (50) NOT NULL,
+        ///    [DayOfWeek]   NVARCHAR (50) NOT NULL PRIMARY KEY,
         ///    [OpeningTime] TIME (2)      NOT NULL,
-        ///    [ClosingTime] TIME (2)      NOT NU [rest of string was truncated]&quot;;.
+        ///    [ClosingTime] TIME (2) [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CreateTables {
             get {
@@ -413,11 +409,8 @@ namespace Schedule_Creator_V2 {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT DISTINCT
-        ///    a.id,
-        ///    a.dayOfTheWeek,
-        ///    a.startTime,
-        ///    a.endTime,
+        ///   Looks up a localized string similar to SELECT
+        ///    s.id,
         ///    s.fName,
         ///    s.mName,
         ///    s.lName,
@@ -426,9 +419,13 @@ namespace Schedule_Creator_V2 {
         ///    s.belayCert,
         ///    s.certifiedOn,
         ///    s.expiresOn
-        ///FROM UWGB.Availability AS a
-        ///INNER JOIN UWGB.Staff AS s
-        ///    ON a.id = s.id;.
+        ///FROM UWGB.Staff AS s
+        ///WHERE NOT EXISTS (
+        ///    SELECT 1
+        ///    FROM UWGB.Availability AS a
+        ///    WHERE a.id = s.id
+        ///);
+        ///.
         /// </summary>
         internal static string ReadStaffWithNoAvail {
             get {
