@@ -3,6 +3,7 @@ using Schedule_Creator_V2.Services;
 using Schedule_Creator_V2.ExtensionMethods;
 using System.Windows;
 using System.Windows.Controls;
+using Schedule_Creator_V2.Services.Database;
 
 namespace Schedule_Creator_V2
 {

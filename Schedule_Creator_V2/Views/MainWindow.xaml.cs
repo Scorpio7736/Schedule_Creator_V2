@@ -1,4 +1,4 @@
-﻿using Schedule_Creator_V2.Services;
+﻿using Schedule_Creator_V2.Services.Database;
 using System;
 using System.Windows;
 using System.Windows.Controls;

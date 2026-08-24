@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace Schedule_Creator_V2.Services
+namespace Schedule_Creator_V2.Services.Database
 {
     internal class DatabaseDelete : Database
     {

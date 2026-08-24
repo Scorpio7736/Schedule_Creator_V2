@@ -1,10 +1,14 @@
 ﻿using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Records;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Schedule_Creator_V2.Services
 {
@@ -34,11 +38,21 @@ namespace Schedule_Creator_V2.Services
         private const string FooterMarker =
             "<!-- FOOTER -->";
 
+        /*
+         * Optional marker used by the rich-text editor.
+         *
+         * The renderer also detects supported raw rich-text HTML,
+         * so the marker is not strictly required.
+         */
+        private const string RichTextPrefix =
+            "[[RICH_TEXT_HTML]]";
+
 
         public static string BuildSubject(
-    EmailType emailType)
+            EmailType emailType)
         {
-            ArgumentNullException.ThrowIfNull(emailType);
+            ArgumentNullException.ThrowIfNull(
+                emailType);
 
             EmailDetailsInputs? emailDetails =
                 emailType.inputs?
@@ -49,8 +63,9 @@ namespace Schedule_Creator_V2.Services
                 ?? string.Empty;
         }
 
+
         public static string BuildHtmlBody(
-    EmailType emailType)
+            EmailType emailType)
         {
             ArgumentNullException.ThrowIfNull(
                 emailType);
@@ -97,9 +112,9 @@ namespace Schedule_Creator_V2.Services
                 BuildRequestSection(emailType));
 
             html = ReplaceRequiredMarker(
-                    html,
-                    AttachmentsMarker,
-                    BuildAttachmentsSection(emailType));
+                html,
+                AttachmentsMarker,
+                BuildAttachmentsSection(emailType));
 
             html = ReplaceRequiredMarker(
                 html,
@@ -113,6 +128,7 @@ namespace Schedule_Creator_V2.Services
 
             return html;
         }
+
 
         private static string LoadEmailTemplate()
         {
@@ -134,8 +150,13 @@ namespace Schedule_Creator_V2.Services
                 templatePath);
         }
 
+
+        // =========================================================
+        // IMAGE
+        // =========================================================
+
         private static string BuildImageSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomImageInputs? imageInputs =
                 emailType.inputs?
@@ -193,6 +214,7 @@ namespace Schedule_Creator_V2.Services
         """;
         }
 
+
         private static string ResolveImageSource(
             string imageSource)
         {
@@ -206,9 +228,6 @@ namespace Schedule_Creator_V2.Services
                 return string.Empty;
             }
 
-            /*
-             * Already-converted Base64 image.
-             */
             if (trimmedSource.StartsWith(
                     "data:image/",
                     StringComparison.OrdinalIgnoreCase))
@@ -216,18 +235,12 @@ namespace Schedule_Creator_V2.Services
                 return trimmedSource;
             }
 
-            /*
-             * Local image file.
-             */
             if (File.Exists(trimmedSource))
             {
                 return ConvertImageFileToDataUri(
                     trimmedSource);
             }
 
-            /*
-             * Fully qualified web URL.
-             */
             if (Uri.TryCreate(
                     trimmedSource,
                     UriKind.Absolute,
@@ -250,10 +263,6 @@ namespace Schedule_Creator_V2.Services
                 return absoluteUri.AbsoluteUri;
             }
 
-            /*
-             * Allow www.example.com/image.jpg without requiring
-             * the user to enter https://.
-             */
             string sourceWithScheme =
                 "https://" + trimmedSource;
 
@@ -269,6 +278,7 @@ namespace Schedule_Creator_V2.Services
                 "The image source is invalid. Enter a valid local " +
                 "image file path, HTTPS image URL, or Base64 image.");
         }
+
 
         private static string ConvertImageFileToDataUri(
             string imageFilePath)
@@ -296,6 +306,7 @@ namespace Schedule_Creator_V2.Services
                 $"data:{mimeType};base64,{base64Image}";
         }
 
+
         private static string GetImageMimeType(
             string imageFilePath)
         {
@@ -317,8 +328,13 @@ namespace Schedule_Creator_V2.Services
             };
         }
 
+
+        // =========================================================
+        // ATTACHMENTS
+        // =========================================================
+
         private static string BuildAttachmentsSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomAttachmentsInputs? attachmentsInputs =
                 emailType.inputs?
@@ -371,9 +387,9 @@ namespace Schedule_Creator_V2.Services
                         font-weight:bold;">
 
                     {{Encode(
-                                attachmentsInputs
-                                    .AttachmentsLabel
-                                    .Trim())}}
+                        attachmentsInputs
+                            .AttachmentsLabel
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -392,10 +408,10 @@ namespace Schedule_Creator_V2.Services
                         color:#303936 !important;
                         -webkit-text-fill-color:#303936 !important;">
 
-                    {{EncodeWithLineBreaks(
-                                attachmentsInputs
-                                    .AttachmentsIntro
-                                    .Trim())}}
+                    {{RenderRichText(
+                        attachmentsInputs
+                            .AttachmentsIntro
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -509,8 +525,10 @@ namespace Schedule_Creator_V2.Services
         </tr>
         """;
         }
+
+
         private static string GetAttachmentDisplayName(
-    string attachment)
+            string attachment)
         {
             if (string.IsNullOrWhiteSpace(attachment))
             {
@@ -535,8 +553,14 @@ namespace Schedule_Creator_V2.Services
                 return trimmedAttachment;
             }
         }
+
+
+        // =========================================================
+        // ANNOUNCEMENTS
+        // =========================================================
+
         private static string BuildAnnouncementsSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomAnnouncementsInputs? announcementsInputs =
                 emailType.inputs?
@@ -589,9 +613,9 @@ namespace Schedule_Creator_V2.Services
                         font-weight:bold;">
 
                     {{Encode(
-                                announcementsInputs
-                                    .AnnouncementsLabel
-                                    .Trim())}}
+                        announcementsInputs
+                            .AnnouncementsLabel
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -610,10 +634,10 @@ namespace Schedule_Creator_V2.Services
                         color:#303936 !important;
                         -webkit-text-fill-color:#303936 !important;">
 
-                    {{EncodeWithLineBreaks(
-                                announcementsInputs
-                                    .AnnouncementsIntro
-                                    .Trim())}}
+                    {{RenderRichText(
+                        announcementsInputs
+                            .AnnouncementsIntro
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -684,8 +708,14 @@ namespace Schedule_Creator_V2.Services
         </tr>
         """;
         }
+
+
+        // =========================================================
+        // REQUEST
+        // =========================================================
+
         private static string BuildRequestSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomRequestInputs? requestInputs =
                 emailType.inputs?
@@ -729,7 +759,6 @@ namespace Schedule_Creator_V2.Services
             string labelHtml =
                 hasLabel
                     ? $$"""
-                
                 <div
                     id="requestLabel"
                     class="text-brand-green"
@@ -744,9 +773,9 @@ namespace Schedule_Creator_V2.Services
                         font-weight:bold;">
 
                     {{Encode(
-                                requestInputs
-                                    .RequestLabel
-                                    .Trim())}}
+                        requestInputs
+                            .RequestLabel
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -767,9 +796,9 @@ namespace Schedule_Creator_V2.Services
                         font-weight:bold;">
 
                     {{Encode(
-                                requestInputs
-                                    .RequestTitle
-                                    .Trim())}}
+                        requestInputs
+                            .RequestTitle
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -788,10 +817,10 @@ namespace Schedule_Creator_V2.Services
                         color:#4b5551 !important;
                         -webkit-text-fill-color:#4b5551 !important;">
 
-                    {{EncodeWithLineBreaks(
-                                requestInputs
-                                    .RequestBody
-                                    .Trim())}}
+                    {{RenderRichText(
+                        requestInputs
+                            .RequestBody
+                            .Trim())}}
                 </div>
                 """
                     : string.Empty;
@@ -854,9 +883,10 @@ namespace Schedule_Creator_V2.Services
         """;
         }
 
+
         private static string BuildRequestButton(
-    string buttonText,
-    string requestLink)
+            string buttonText,
+            string requestLink)
         {
             string normalizedLink =
                 NormalizeRequestLink(
@@ -906,8 +936,9 @@ namespace Schedule_Creator_V2.Services
         """;
         }
 
+
         private static string NormalizeRequestLink(
-    string requestLink)
+            string requestLink)
         {
             string trimmedLink =
                 requestLink?.Trim()
@@ -918,15 +949,6 @@ namespace Schedule_Creator_V2.Services
                 return string.Empty;
             }
 
-            /*
-             * Allow users to enter:
-             *
-             * www.example.com
-             *
-             * instead of requiring:
-             *
-             * https://www.example.com
-             */
             if (!trimmedLink.Contains(
                     "://",
                     StringComparison.Ordinal) &&
@@ -967,8 +989,13 @@ namespace Schedule_Creator_V2.Services
             return parsedUri.AbsoluteUri;
         }
 
+
+        // =========================================================
+        // SIGNATURE
+        // =========================================================
+
         private static string BuildSignatureSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomSignatureInputs? signatureInputs =
                 emailType.inputs?
@@ -1033,7 +1060,9 @@ namespace Schedule_Creator_V2.Services
                     padding-bottom:30px;
                     font-family:Arial,Helvetica,sans-serif;
                     background-color:#ffffff !important;
-                    background-image:linear-gradient(#ffffff,#ffffff) !important;">
+                    background-image:linear-gradient(
+                        #ffffff,
+                        #ffffff) !important;">
 
                 <div
                     id="signatureClosing"
@@ -1044,7 +1073,8 @@ namespace Schedule_Creator_V2.Services
                         color:#26312d !important;
                         -webkit-text-fill-color:#26312d !important;">
 
-                    {{EncodeWithLineBreaks(signatureInputs.SignatureClosing)}}
+                    {{RenderRichText(
+                        signatureInputs.SignatureClosing)}}
                 </div>
 
                 <div
@@ -1093,8 +1123,13 @@ namespace Schedule_Creator_V2.Services
         """;
         }
 
+
+        // =========================================================
+        // HEADER
+        // =========================================================
+
         private static string BuildHeaderSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomHeaderInputs? headerInputs =
                 emailType.inputs?
@@ -1118,10 +1153,10 @@ namespace Schedule_Creator_V2.Services
                 ?? string.Empty;
 
             string headerImageUrl =
-    string.IsNullOrWhiteSpace(
-        headerInputs?.HeaderImageUrl)
-            ? EmailImageSources.Default_HeaderImage
-            : headerInputs.HeaderImageUrl;
+                string.IsNullOrWhiteSpace(
+                    headerInputs?.HeaderImageUrl)
+                    ? EmailImageSources.Default_HeaderImage
+                    : headerInputs.HeaderImageUrl;
 
             return $$"""
                 <tr id="headerOrganizationSection">
@@ -1133,7 +1168,9 @@ namespace Schedule_Creator_V2.Services
                             padding-bottom:18px;
                             border-top:8px solid #0f5640;
                             background-color:#bfdbd4 !important;
-                            background-image:linear-gradient(#bfdbd4,#bfdbd4) !important;">
+                            background-image:linear-gradient(
+                                #bfdbd4,
+                                #bfdbd4) !important;">
 
                         <div
                             id="organizationLabel"
@@ -1175,7 +1212,9 @@ namespace Schedule_Creator_V2.Services
                             padding:0;
                             border-bottom:6px solid #f28c18;
                             background-color:#0f5640 !important;
-                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+                            background-image:linear-gradient(
+                                #0f5640,
+                                #0f5640) !important;">
 
                         <img
                             id="headerImage"
@@ -1204,7 +1243,9 @@ namespace Schedule_Creator_V2.Services
                             color:#ffffff !important;
                             -webkit-text-fill-color:#ffffff !important;
                             background-color:#0f5640 !important;
-                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+                            background-image:linear-gradient(
+                                #0f5640,
+                                #0f5640) !important;">
 
                         <div
                             id="headerLabel"
@@ -1245,12 +1286,17 @@ namespace Schedule_Creator_V2.Services
                                 color:#eef7f4 !important;
                                 -webkit-text-fill-color:#eef7f4 !important;">
 
-                            {{EncodeWithLineBreaks(headerSubtitle)}}
+                            {{RenderRichText(headerSubtitle)}}
                         </div>
                     </td>
                 </tr>
                 """;
         }
+
+
+        // =========================================================
+        // BODY
+        // =========================================================
 
         private static string BuildBodySection(
             EmailType emailType)
@@ -1277,7 +1323,9 @@ namespace Schedule_Creator_V2.Services
                             color:#303936 !important;
                             -webkit-text-fill-color:#303936 !important;
                             background-color:#ffffff !important;
-                            background-image:linear-gradient(#ffffff,#ffffff) !important;">
+                            background-image:linear-gradient(
+                                #ffffff,
+                                #ffffff) !important;">
 
                         <div
                             id="recipientGreeting"
@@ -1288,7 +1336,8 @@ namespace Schedule_Creator_V2.Services
                                 color:#303936 !important;
                                 -webkit-text-fill-color:#303936 !important;">
 
-                            {{EncodeWithLineBreaks(recipientGreeting)}}
+                            {{EncodeWithLineBreaks(
+                                recipientGreeting)}}
                         </div>
 
                         <div
@@ -1301,15 +1350,22 @@ namespace Schedule_Creator_V2.Services
                                 color:#303936 !important;
                                 -webkit-text-fill-color:#303936 !important;">
 
-                            {{EncodeWithParagraphs(emailBody)}}
+                            {{RenderRichText(
+                                emailBody,
+                                useParagraphsForPlainText: true)}}
                         </div>
                     </td>
                 </tr>
                 """;
         }
 
+
+        // =========================================================
+        // FOOTER
+        // =========================================================
+
         private static string BuildFooterSection(
-    EmailType emailType)
+            EmailType emailType)
         {
             CustomFooterInputs footerInputs =
                 emailType.inputs
@@ -1328,11 +1384,14 @@ namespace Schedule_Creator_V2.Services
                             padding-bottom:24px;
                             font-family:Arial,Helvetica,sans-serif;
                             background-color:#0f5640 !important;
-                            background-image:linear-gradient(#0f5640,#0f5640) !important;">
+                            background-image:linear-gradient(
+                                #0f5640,
+                                #0f5640) !important;">
 
                         <img
                             id="footerLogo"
-                            src="{{EncodeAttribute(EmailImageSources.Default_FooterImage)}}"
+                            src="{{EncodeAttribute(
+                                EmailImageSources.Default_FooterImage)}}"
                             width="145"
                             alt="UWGB UREC Outdoors"
                             style="
@@ -1383,7 +1442,9 @@ namespace Schedule_Creator_V2.Services
                                 height:1px;
                                 margin:20px 0 15px 0;
                                 background-color:#397665 !important;
-                                background-image:linear-gradient(#397665,#397665) !important;">
+                                background-image:linear-gradient(
+                                    #397665,
+                                    #397665) !important;">
                         </div>
 
                         <div
@@ -1403,6 +1464,11 @@ namespace Schedule_Creator_V2.Services
                 """;
         }
 
+
+        // =========================================================
+        // TEMPLATE HELPERS
+        // =========================================================
+
         private static string ReplaceRequiredMarker(
             string html,
             string marker,
@@ -1421,6 +1487,7 @@ namespace Schedule_Creator_V2.Services
                 replacement,
                 StringComparison.Ordinal);
         }
+
 
         private static string ReplaceElementContent(
             string html,
@@ -1458,7 +1525,8 @@ namespace Schedule_Creator_V2.Services
             if (!match.Success)
             {
                 throw new InvalidOperationException(
-                    $"The email template does not contain an element with the ID '{elementId}'.");
+                    $"The email template does not contain an element " +
+                    $"with the ID '{elementId}'.");
             }
 
             return Regex.Replace(
@@ -1472,6 +1540,7 @@ namespace Schedule_Creator_V2.Services
                 RegexOptions.Singleline |
                 RegexOptions.IgnorePatternWhitespace);
         }
+
 
         private static string GetInputValue(
             EmailType emailType,
@@ -1510,6 +1579,226 @@ namespace Schedule_Creator_V2.Services
             return string.Empty;
         }
 
+
+        // =========================================================
+        // RICH TEXT
+        // =========================================================
+
+        /// <summary>
+        /// Renders content produced by the RichTextBox.
+        ///
+        /// If the value contains supported rich-text HTML,
+        /// it is sanitized and inserted as HTML.
+        ///
+        /// Normal text is HTML encoded as before.
+        /// </summary>
+        private static string RenderRichText(
+            string value,
+            bool useParagraphsForPlainText = false)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return string.Empty;
+            }
+
+            string content =
+                value.Trim();
+
+            /*
+             * Remove our internal rich-text marker if present.
+             */
+            if (content.StartsWith(
+                    RichTextPrefix,
+                    StringComparison.Ordinal))
+            {
+                content =
+                    content.Substring(
+                        RichTextPrefix.Length);
+
+                return SanitizeRichTextHtml(
+                    content);
+            }
+
+            /*
+             * RichTextHtmlConverter may be returning HTML
+             * without the marker.
+             *
+             * Detect only the specific tags that our editor
+             * knows how to produce.
+             */
+            if (LooksLikeRichTextHtml(content))
+            {
+                return SanitizeRichTextHtml(
+                    content);
+            }
+
+            /*
+             * Otherwise this is normal text.
+             */
+            return useParagraphsForPlainText
+                ? EncodeWithParagraphs(content)
+                : EncodeWithLineBreaks(content);
+        }
+
+
+        private static bool LooksLikeRichTextHtml(
+            string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return false;
+            }
+
+            return Regex.IsMatch(
+                value,
+                @"<\s*/?\s*(p|strong|b|em|i|u|ul|ol|li|br)\b",
+                RegexOptions.IgnoreCase);
+        }
+
+
+        /// <summary>
+        /// Parses rich-text HTML and reconstructs only the
+        /// tags that the email editor is allowed to create.
+        /// </summary>
+        private static string SanitizeRichTextHtml(
+            string html)
+        {
+            if (string.IsNullOrWhiteSpace(html))
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                XElement root =
+                    XElement.Parse(
+                        $"<root>{html}</root>",
+                        LoadOptions.PreserveWhitespace);
+
+                return string.Concat(
+                    root.Nodes()
+                        .Select(
+                            SanitizeRichTextNode));
+            }
+            catch
+            {
+                /*
+                 * Never inject malformed HTML.
+                 *
+                 * If parsing fails, display the content
+                 * safely as plain text.
+                 */
+                return EncodeWithParagraphs(
+                    html);
+            }
+        }
+
+
+        private static string SanitizeRichTextNode(
+            XNode node)
+        {
+            /*
+             * Plain text inside rich HTML must still
+             * always be HTML encoded.
+             */
+            if (node is XText text)
+            {
+                return Encode(
+                    text.Value);
+            }
+
+            if (node is not XElement element)
+            {
+                return string.Empty;
+            }
+
+            string tag =
+                element.Name.LocalName
+                    .ToLowerInvariant();
+
+            /*
+             * BR contains no child nodes.
+             */
+            if (tag == "br")
+            {
+                return "<br>";
+            }
+
+            string content =
+                string.Concat(
+                    element.Nodes()
+                        .Select(
+                            SanitizeRichTextNode));
+
+            return tag switch
+            {
+                "p" =>
+                    $$"""
+                    <p
+                        class="text-body"
+                        style="
+                            margin:0 0 16px 0;
+                            color:inherit;">
+
+                        {{content}}
+                    </p>
+                    """,
+
+                "strong" or "b" =>
+                    $"<strong>{content}</strong>",
+
+                "em" or "i" =>
+                    $"<em>{content}</em>",
+
+                "u" =>
+                    $"<u>{content}</u>",
+
+                "ul" =>
+                    $$"""
+                    <ul
+                        style="
+                            margin:8px 0 16px 22px;
+                            padding:0;">
+
+                        {{content}}
+                    </ul>
+                    """,
+
+                "ol" =>
+                    $$"""
+                    <ol
+                        style="
+                            margin:8px 0 16px 22px;
+                            padding:0;">
+
+                        {{content}}
+                    </ol>
+                    """,
+
+                "li" =>
+                    $$"""
+                    <li
+                        style="
+                            margin:0 0 7px 0;
+                            padding:0;">
+
+                        {{content}}
+                    </li>
+                    """,
+
+                /*
+                 * Unknown elements are stripped while
+                 * retaining any safe child text.
+                 */
+                _ => content
+            };
+        }
+
+
+        // =========================================================
+        // ENCODING
+        // =========================================================
+
         private static string Encode(
             string value)
         {
@@ -1517,12 +1806,15 @@ namespace Schedule_Creator_V2.Services
                 value ?? string.Empty);
         }
 
+
         private static string EncodeAttribute(
             string value)
         {
             return WebUtility.HtmlEncode(
-                value?.Trim() ?? string.Empty);
+                value?.Trim()
+                ?? string.Empty);
         }
+
 
         private static string EncodeWithLineBreaks(
             string value)
@@ -1537,6 +1829,7 @@ namespace Schedule_Creator_V2.Services
                     "<br>",
                     StringComparison.Ordinal);
         }
+
 
         private static string EncodeWithParagraphs(
             string value)
@@ -1570,7 +1863,8 @@ namespace Schedule_Creator_V2.Services
                             color:#303936 !important;
                             -webkit-text-fill-color:#303936 !important;">
 
-                        {{EncodeWithLineBreaks(paragraph.Trim())}}
+                        {{EncodeWithLineBreaks(
+                            paragraph.Trim())}}
                     </p>
                     """));
         }
