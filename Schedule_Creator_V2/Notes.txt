@@ -1,12 +1,123 @@
-﻿List of Pages (* if not added yet):
+﻿Remaining work
+Finish ScheduleService
+Remove direct DatabaseRead / DatabaseCreate calls from Build_Schedule.xaml.cs
+Remove direct database calls from View_Schedule.xaml.cs
+Later make SaveSchedule() transactional
+Refactor BuildScheduleRow
+This is probably the biggest schedule cleanup left.
+Right now it is simultaneously:
+a model
+a WPF control factory
+a database consumer
+a validation class
 
-- Remove Staff
-- 
--
--
--
+Replace it with something closer to:
 
+BuildScheduleRowViewModel
+└── ShiftEditorViewModel
+WPF ComboBox/Button objects should live in XAML, not the model.
+Split EmailInputFormService
+Currently ~84 KB and doing too much.
 
-Error List
-- 1000: Null values
-- 1002: Non-working function
+Extract at least:
+
+EmailImageInputService / Factory
+EmailRichTextInputService / Factory
+EmailInputBinder
+Leave EmailInputFormService as the coordinator.
+Consolidate rich-text code
+
+Right now there is overlap between:
+
+EmailInputFormService
+RichTextHtmlConverter
+EmailRichTextEditor
+
+Ideally use:
+
+EmailRichTextEditor
+    ↓
+RichTextHtmlConverter
+Remove the duplicate parsing/serialization code from EmailInputFormService.
+Split EmailContentService
+Currently ~61 KB.
+
+Separate rendering into:
+
+HeaderSectionRenderer
+BodySectionRenderer
+ImageSectionRenderer
+AnnouncementsSectionRenderer
+RequestSectionRenderer
+AttachmentsSectionRenderer
+SignatureSectionRenderer
+FooterSectionRenderer
+
+Also extract image-source resolution into something like:
+
+EmailImageSourceService
+Clean up email-template creation
+
+EmailTypeService.CreateEmailTypes() can become:
+
+CreateCustomEmail()
+CreateAnnouncementsEmail()
+CreateWelcomeEmail()
+CreateScheduleAnnouncementEmail()
+Not urgent, but it makes template definitions easier to maintain.
+
+Audit dead/legacy code
+Main suspects:
+
+EmailBuilder.cs
+BuildNewScheduleRow.cs
+possibly unused portions of EmailRichTextEditor
+old helpers with no references
+
+EmailBuilder.cs in particular is suspicious because it is several MB and doesn't appear to be part of the active pipeline.
+
+Reduce duplicated schedule XAML
+Monday–Sunday cells repeat a lot of nearly identical markup.
+
+Reusable controls/templates could shrink:
+
+Build_Schedule.xaml
+View_Schedule.xaml
+I'd do this late because the view-model refactor will make it easier.
+
+Final naming/folder cleanup
+Once behavior is stable:
+
+Models/
+ViewModels/
+Services/
+    Email/
+    Scheduling/
+    Database/
+Views/
+
+And clean up inconsistent names like:
+
+emailSectionOption.cs
+getSelectedStaff()
+SetAvailCol()
+SetColVis()
+Recommended order from here
+
+I would do:
+
+Step 3  ScheduleService
+   ↓
+Step 4  BuildScheduleRow refactor
+   ↓
+Step 5  EmailInputFormService split
+   ↓
+Step 6  Rich-text consolidation
+   ↓
+Step 7  EmailContentService split
+   ↓
+Step 8  Dead-code audit
+   ↓
+Step 9  XAML + naming cleanup
+
+The most important remaining structural change is BuildScheduleRow. Once ScheduleService is in place, that is where I would go next.
