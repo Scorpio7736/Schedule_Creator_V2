@@ -9,21 +9,44 @@ namespace Schedule_Creator_V2.Services.Email
     public static class EmailValidationService
     {
         private static readonly SolidColorBrush
-            DefaultBorderBrush =
-                new SolidColorBrush(
-                    Color.FromRgb(
-                        171,
-                        173,
-                        179));
+    DefaultBorderBrush =
+        CreateFrozenBrush(
+            Color.FromRgb(
+                171,
+                173,
+                179));
 
         private static readonly SolidColorBrush
             ErrorBorderBrush =
-                new SolidColorBrush(
+                CreateFrozenBrush(
                     Color.FromRgb(
                         220,
                         38,
                         38));
 
+
+        // =========================================================
+        // BRUSH CREATION
+        // =========================================================
+
+        private static SolidColorBrush CreateFrozenBrush(
+            Color color)
+        {
+            SolidColorBrush brush =
+                new SolidColorBrush(
+                    color);
+
+            /*
+             * SolidColorBrush derives from Freezable.
+             *
+             * Freezing the brush removes its thread affinity,
+             * allowing these shared static brushes to be safely
+             * used by WPF controls created on different STA threads.
+             */
+            brush.Freeze();
+
+            return brush;
+        }
 
         // =========================================================
         // REQUIRED FIELD ATTACHED PROPERTY

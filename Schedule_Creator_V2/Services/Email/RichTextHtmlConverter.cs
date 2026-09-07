@@ -327,24 +327,60 @@ namespace Schedule_Creator_V2.Services.Email
             return result;
         }
 
+        // =========================================================
+        // LOCAL FORMATTING DETECTION
+        // =========================================================
+
         private static bool IsBold(
             Inline inline)
         {
+            object localValue =
+                inline.ReadLocalValue(
+                    TextElement.FontWeightProperty);
+
+            if (localValue ==
+                DependencyProperty.UnsetValue)
+            {
+                return false;
+            }
+
             return inline.FontWeight ==
                    FontWeights.Bold;
         }
 
+
         private static bool IsItalic(
             Inline inline)
         {
+            object localValue =
+                inline.ReadLocalValue(
+                    TextElement.FontStyleProperty);
+
+            if (localValue ==
+                DependencyProperty.UnsetValue)
+            {
+                return false;
+            }
+
             return inline.FontStyle ==
                    FontStyles.Italic;
         }
 
+
         private static bool IsUnderlined(
             Inline inline)
         {
-            if (inline.TextDecorations == null)
+            object localValue =
+                inline.ReadLocalValue(
+                    Inline.TextDecorationsProperty);
+
+            if (localValue ==
+                DependencyProperty.UnsetValue)
+            {
+                return false;
+            }
+
+            if (inline.TextDecorations is null)
             {
                 return false;
             }

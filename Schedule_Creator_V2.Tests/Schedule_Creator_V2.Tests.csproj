@@ -25,6 +25,13 @@
     <ProjectReference Include="..\Schedule_Creator_V2\Schedule_Creator_V2.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Include="..\Schedule_Creator_V2\Models\Objects\Email.html">
+			<Link>Models\Objects\Email.html</Link>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
