@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Records;
-using Schedule_Creator_V2.Services.Database;
 using Schedule_Creator_V2.Services.Scheduling;
 using System.IO;
 using System.Windows;
@@ -21,8 +20,7 @@ namespace Schedule_Creator_V2
         {
             InitializeComponent();
 
-            ScheduleComboBox.ItemsSource =
-                DatabaseRead.ReadAllScheduleNames();
+            ScheduleComboBox.ItemsSource = ScheduleService.GetScheduleNames();
 
             HideAllScheduleColumns();
         }
@@ -113,8 +111,9 @@ namespace Schedule_Creator_V2
             }
 
             List<ScheduleRow> savedShifts =
-                DatabaseRead.ReadScheduleByScheduleName(
-                    scheduleName);
+    ScheduleService
+        .GetSchedule(
+            scheduleName);
 
             if (savedShifts.Count == 0)
             {
@@ -378,15 +377,7 @@ namespace Schedule_Creator_V2
                 return cachedName;
             }
 
-            Staff staff =
-                DatabaseRead.ReadStaffByID(
-                    staffId);
-
-            string displayName =
-                string.IsNullOrWhiteSpace(
-                    staff.displayName)
-                    ? $"Staff ID: {staffId}"
-                    : staff.displayName;
+            string displayName = ScheduleService.GetStaffDisplayName(staffId);
 
             _staffNameCache[staffId] =
                 displayName;

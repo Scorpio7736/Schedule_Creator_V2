@@ -1,7 +1,7 @@
 using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services;
-using Schedule_Creator_V2.Services.Database;
+using Schedule_Creator_V2.Services.Scheduling;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +28,8 @@ namespace Schedule_Creator_V2
         {
             string scheduleName = ScheduleNameBox.Text;
 
-            if (scheduleName == null || scheduleName == "")
+            if (string.IsNullOrWhiteSpace(
+        scheduleName))
             {
                 Messages.Display(new Error(
                     1001,
@@ -37,7 +38,9 @@ namespace Schedule_Creator_V2
                 return true;
             }
 
-            if (DatabaseRead.ReadAllScheduleNames().Contains(scheduleName))
+            if (ScheduleService
+        .ScheduleNameExists(
+            scheduleName))
             {
                 Messages.Display(new Error(
                     1002,
@@ -110,10 +113,7 @@ namespace Schedule_Creator_V2
 
             try
             {
-                foreach (ScheduleRow scheduleRow in rowsToSave)
-                {
-                    DatabaseCreate.CreateSchedule(scheduleRow);
-                }
+                ScheduleService.SaveSchedule(rowsToSave);
             }
             catch (Exception exception)
             {
@@ -191,7 +191,7 @@ namespace Schedule_Creator_V2
 
         private void SetAvailCol()
         {
-            List<DayOfWeek> jobSettingDays = DatabaseRead.ReadJobSettingsDays();
+            List<DayOfWeek> jobSettingDays = ScheduleService.GetConfiguredScheduleDays();
 
             if (jobSettingDays.Count > 0)
             {
