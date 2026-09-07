@@ -29,15 +29,16 @@ namespace Schedule_Creator_V2
             ScheduleComboBox.ItemsSource =
                 DatabaseRead.ReadAllScheduleNames();
 
-            SetVisibility();
+            HideAllScheduleColumns();
         }
 
-        private void SetVisibility()
+        /// <summary>
+        /// Hides all schedule columns.
+        /// Columns will be shown based on the days that actually
+        /// exist in the selected saved schedule.
+        /// </summary>
+        private void HideAllScheduleColumns()
         {
-            /*
-             * Reset every column first in case the job settings
-             * have changed since the page was last loaded.
-             */
             MonCol.Visibility = Visibility.Hidden;
             TueCol.Visibility = Visibility.Hidden;
             WedCol.Visibility = Visibility.Hidden;
@@ -45,11 +46,18 @@ namespace Schedule_Creator_V2
             FriCol.Visibility = Visibility.Hidden;
             SatCol.Visibility = Visibility.Hidden;
             SunCol.Visibility = Visibility.Hidden;
+        }
 
-            List<DayOfWeek> jobDays =
-                DatabaseRead.ReadJobSettingsDays();
+        /// <summary>
+        /// Shows only the columns for days contained in the
+        /// selected saved schedule.
+        /// </summary>
+        private void SetVisibility(
+            IEnumerable<DayOfWeek> scheduleDays)
+        {
+            HideAllScheduleColumns();
 
-            foreach (DayOfWeek day in jobDays)
+            foreach (DayOfWeek day in scheduleDays.Distinct())
             {
                 switch (day)
                 {
@@ -102,6 +110,8 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.ItemsSource =
                     Array.Empty<ViewScheduleRow>();
 
+                HideAllScheduleColumns();
+
                 return;
             }
 
@@ -114,8 +124,19 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.ItemsSource =
                     Array.Empty<ViewScheduleRow>();
 
+                HideAllScheduleColumns();
+
                 return;
             }
+
+            /*
+             * Determine which columns should be visible from
+             * the selected schedule itself instead of the
+             * current JobSettings table.
+             */
+            SetVisibility(
+                savedShifts.Select(
+                    shift => shift.dayOfWeek));
 
             /*
              * Group the shifts by day.
@@ -127,22 +148,26 @@ namespace Schedule_Creator_V2
             Dictionary<DayOfWeek, List<ScheduleRow>>
                 shiftsByDay =
                     savedShifts
-                        .GroupBy(shift =>
-                            shift.dayOfWeek)
+                        .GroupBy(
+                            shift => shift.dayOfWeek)
                         .ToDictionary(
                             group => group.Key,
                             group => group
-                                .OrderBy(shift =>
-                                    shift.startTime)
-                                .ThenBy(shift =>
-                                    shift.endTime)
-                                .ThenBy(shift =>
-                                    shift.staffID)
+                                .OrderBy(
+                                    shift =>
+                                        shift.startTime)
+                                .ThenBy(
+                                    shift =>
+                                        shift.endTime)
+                                .ThenBy(
+                                    shift =>
+                                        shift.staffID)
                                 .ToList());
 
             int displayRowCount =
                 shiftsByDay.Values
-                    .Max(shifts => shifts.Count);
+                    .Max(
+                        shifts => shifts.Count);
 
             List<ViewScheduleRow> displayRows =
                 new();
@@ -210,7 +235,8 @@ namespace Schedule_Creator_V2
                         DayOfWeek.Sunday,
                         rowIndex));
 
-                displayRows.Add(displayRow);
+                displayRows.Add(
+                    displayRow);
             }
 
             ScheduleGrid.ItemsSource =
@@ -375,6 +401,7 @@ namespace Schedule_Creator_V2
                     MessageBoxImage.Warning);
 
                 ScheduleComboBox.Focus();
+
                 ScheduleComboBox.IsDropDownOpen =
                     true;
 
@@ -446,29 +473,37 @@ namespace Schedule_Creator_V2
             bool originalColumnVirtualization =
                 ScheduleGrid.EnableColumnVirtualization;
 
-            ScrollBarVisibility originalHorizontalScrollBarVisibility =
-                ScheduleGrid.HorizontalScrollBarVisibility;
+            ScrollBarVisibility
+                originalHorizontalScrollBarVisibility =
+                    ScheduleGrid
+                        .HorizontalScrollBarVisibility;
 
-            ScrollBarVisibility originalVerticalScrollBarVisibility =
-                ScheduleGrid.VerticalScrollBarVisibility;
+            ScrollBarVisibility
+                originalVerticalScrollBarVisibility =
+                    ScheduleGrid
+                        .VerticalScrollBarVisibility;
 
             object? originalSelectedItem =
                 ScheduleGrid.SelectedItem;
 
             List<DataGridColumn> excludedColumns =
                 ScheduleGrid.Columns
-                    .Where(IsExportExcludedColumn)
+                    .Where(
+                        IsExportExcludedColumn)
                     .ToList();
 
             Dictionary<DataGridColumn, Visibility>
                 originalColumnVisibilities =
                     excludedColumns.ToDictionary(
                         column => column,
-                        column => column.Visibility);
+                        column =>
+                            column.Visibility);
 
             try
             {
-                foreach (DataGridColumn column in excludedColumns)
+                foreach (
+                    DataGridColumn column
+                    in excludedColumns)
                 {
                     column.Visibility =
                         Visibility.Collapsed;
@@ -482,11 +517,13 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.EnableColumnVirtualization =
                     false;
 
-                ScheduleGrid.HorizontalScrollBarVisibility =
-                    ScrollBarVisibility.Disabled;
+                ScheduleGrid
+                    .HorizontalScrollBarVisibility =
+                        ScrollBarVisibility.Disabled;
 
-                ScheduleGrid.VerticalScrollBarVisibility =
-                    ScrollBarVisibility.Disabled;
+                ScheduleGrid
+                    .VerticalScrollBarVisibility =
+                        ScrollBarVisibility.Disabled;
 
                 ScheduleGrid.UpdateLayout();
 
@@ -494,8 +531,9 @@ namespace Schedule_Creator_V2
                     CalculateScheduleImageHeight();
 
                 /*
-                 * Keep the grid at its current displayed width while rendering.
-                 * The extra scrollbar gutter will be cropped afterward.
+                 * Keep the grid at its current displayed width
+                 * while rendering. The extra scrollbar gutter
+                 * will be cropped afterward.
                  */
                 double renderWidth =
                     Math.Max(
@@ -529,16 +567,19 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.UpdateLayout();
 
                 /*
-                 * Only include the combined width of visible columns.
-                 * This removes the blank scrollbar/delete-column gutter.
+                 * Only include the combined width of visible
+                 * columns. This removes the blank scrollbar/
+                 * delete-column gutter.
                  */
                 double visibleColumnsWidth =
                     ScheduleGrid.Columns
-                        .Where(column =>
-                            column.Visibility ==
-                            Visibility.Visible)
-                        .Sum(column =>
-                            column.ActualWidth);
+                        .Where(
+                            column =>
+                                column.Visibility ==
+                                Visibility.Visible)
+                        .Sum(
+                            column =>
+                                column.ActualWidth);
 
                 DpiScale dpi =
                     VisualTreeHelper.GetDpi(
@@ -614,7 +655,9 @@ namespace Schedule_Creator_V2
             finally
             {
                 foreach (
-                    KeyValuePair<DataGridColumn, Visibility>
+                    KeyValuePair<
+                        DataGridColumn,
+                        Visibility>
                         columnVisibility
                     in originalColumnVisibilities)
                 {
@@ -640,11 +683,13 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.EnableColumnVirtualization =
                     originalColumnVirtualization;
 
-                ScheduleGrid.HorizontalScrollBarVisibility =
-                    originalHorizontalScrollBarVisibility;
+                ScheduleGrid
+                    .HorizontalScrollBarVisibility =
+                        originalHorizontalScrollBarVisibility;
 
-                ScheduleGrid.VerticalScrollBarVisibility =
-                    originalVerticalScrollBarVisibility;
+                ScheduleGrid
+                    .VerticalScrollBarVisibility =
+                        originalVerticalScrollBarVisibility;
 
                 if (originalSelectedItem is not null &&
                     ScheduleGrid.Items.Contains(
@@ -664,13 +709,15 @@ namespace Schedule_Creator_V2
         {
             double visibleColumnsWidth =
                 ScheduleGrid.Columns
-                    .Where(column =>
-                        column.Visibility ==
-                        Visibility.Visible)
-                    .Sum(column =>
-                        Math.Max(
-                            column.ActualWidth,
-                            column.MinWidth));
+                    .Where(
+                        column =>
+                            column.Visibility ==
+                            Visibility.Visible)
+                    .Sum(
+                        column =>
+                            Math.Max(
+                                column.ActualWidth,
+                                column.MinWidth));
 
             /*
              * The additional pixels prevent the final cell
@@ -683,7 +730,7 @@ namespace Schedule_Creator_V2
         }
 
         private static bool IsExportExcludedColumn(
-    DataGridColumn column)
+            DataGridColumn column)
         {
             string header =
                 column.Header?
