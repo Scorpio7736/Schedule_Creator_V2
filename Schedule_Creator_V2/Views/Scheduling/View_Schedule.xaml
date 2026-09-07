@@ -12,36 +12,36 @@
 
     <Page.Resources>
 
-        <!-- Copy schedule image button -->
-        <Style x:Key="CopyScheduleButtonStyle"
-       TargetType="Button">
+        <!-- Download schedule image button -->
+        <Style x:Key="DownloadScheduleButtonStyle"
+               TargetType="Button">
 
             <Setter Property="Height"
-            Value="38"/>
+                    Value="38"/>
 
             <Setter Property="Padding"
-            Value="14,6"/>
+                    Value="14,6"/>
 
             <Setter Property="Background"
-            Value="#0F5640"/>
+                    Value="#0F5640"/>
 
             <Setter Property="BorderBrush"
-            Value="#0F5640"/>
+                    Value="#0F5640"/>
 
             <Setter Property="BorderThickness"
-            Value="1"/>
+                    Value="1"/>
 
             <Setter Property="Foreground"
-            Value="White"/>
+                    Value="White"/>
 
             <Setter Property="FontSize"
-            Value="12"/>
+                    Value="12"/>
 
             <Setter Property="FontWeight"
-            Value="SemiBold"/>
+                    Value="SemiBold"/>
 
             <Setter Property="Cursor"
-            Value="Hand"/>
+                    Value="Hand"/>
 
             <Setter Property="Template">
 
@@ -50,47 +50,47 @@
                     <ControlTemplate TargetType="Button">
 
                         <Border x:Name="ButtonBorder"
-                        Padding="{TemplateBinding Padding}"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="6">
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
 
                             <ContentPresenter HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"/>
+                                              VerticalAlignment="Center"/>
 
                         </Border>
 
                         <ControlTemplate.Triggers>
 
                             <Trigger Property="IsMouseOver"
-                             Value="True">
+                                     Value="True">
 
                                 <Setter TargetName="ButtonBorder"
-                                Property="Background"
-                                Value="#174E3D"/>
+                                        Property="Background"
+                                        Value="#174E3D"/>
 
                                 <Setter TargetName="ButtonBorder"
-                                Property="BorderBrush"
-                                Value="#174E3D"/>
+                                        Property="BorderBrush"
+                                        Value="#174E3D"/>
 
                             </Trigger>
 
                             <Trigger Property="IsPressed"
-                             Value="True">
+                                     Value="True">
 
                                 <Setter TargetName="ButtonBorder"
-                                Property="Background"
-                                Value="#0A3E2E"/>
+                                        Property="Background"
+                                        Value="#0A3E2E"/>
 
                             </Trigger>
 
                             <Trigger Property="IsEnabled"
-                             Value="False">
+                                     Value="False">
 
                                 <Setter TargetName="ButtonBorder"
-                                Property="Opacity"
-                                Value="0.5"/>
+                                        Property="Opacity"
+                                        Value="0.5"/>
 
                             </Trigger>
 
@@ -561,62 +561,62 @@
                     <StackPanel Grid.Column="0">
 
                         <TextBlock Text="Saved Schedule"
-                   FontSize="19"
-                   FontWeight="SemiBold"
-                   Foreground="#1F2937"/>
+                                   FontSize="19"
+                                   FontWeight="SemiBold"
+                                   Foreground="#1F2937"/>
 
                         <TextBlock Margin="0,5,0,0"
-                   Text="Choose a schedule to display its weekly staff assignments and shift times."
-                   FontSize="13"
-                   Foreground="#6B7280"/>
+                                   Text="Choose a schedule to display its weekly staff assignments and shift times."
+                                   FontSize="13"
+                                   Foreground="#6B7280"/>
 
                     </StackPanel>
 
                     <StackPanel Grid.Column="1"
-                VerticalAlignment="Center"
-                Orientation="Horizontal">
+                                VerticalAlignment="Center"
+                                Orientation="Horizontal">
 
-                        <Button x:Name="CopyScheduleBase64Button"
-                Style="{StaticResource CopyScheduleButtonStyle}"
-                Click="CopyScheduleBase64Button_Click">
+                        <Button x:Name="DownloadScheduleImageButton"
+                                Style="{StaticResource DownloadScheduleButtonStyle}"
+                                Click="DownloadScheduleImageButton_Click">
 
                             <StackPanel Orientation="Horizontal">
 
                                 <TextBlock Margin="0,0,7,0"
-                           VerticalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
-                           FontSize="14"
-                           Text="&#xE8C8;"/>
+                                           VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="14"
+                                           Text="&#xE896;"/>
 
                                 <TextBlock VerticalAlignment="Center"
-                           Text="Copy Schedule Image"/>
+                                           Text="Download Schedule Image"/>
 
                             </StackPanel>
 
                         </Button>
 
                         <Border Margin="10,0,0,0"
-                Padding="11,6"
-                VerticalAlignment="Center"
-                Background="#EAF2EE"
-                BorderBrush="#D4E2DB"
-                BorderThickness="1"
-                CornerRadius="6">
+                                Padding="11,6"
+                                VerticalAlignment="Center"
+                                Background="#EAF2EE"
+                                BorderBrush="#D4E2DB"
+                                BorderThickness="1"
+                                CornerRadius="6">
 
                             <StackPanel Orientation="Horizontal">
 
                                 <TextBlock VerticalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
-                           FontSize="13"
-                           Foreground="#315E4D"
-                           Text="&#xE8A5;"/>
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="13"
+                                           Foreground="#315E4D"
+                                           Text="&#xE8A5;"/>
 
                                 <TextBlock Margin="6,0,0,0"
-                           VerticalAlignment="Center"
-                           FontSize="11"
-                           FontWeight="SemiBold"
-                           Foreground="#315E4D"
-                           Text="SAVED SCHEDULES"/>
+                                           VerticalAlignment="Center"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Foreground="#315E4D"
+                                           Text="SAVED SCHEDULES"/>
 
                             </StackPanel>
 

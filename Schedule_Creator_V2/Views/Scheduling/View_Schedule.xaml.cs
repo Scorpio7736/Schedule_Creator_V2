@@ -1,12 +1,11 @@
-﻿using Schedule_Creator_V2.Models;
+﻿using Microsoft.Win32;
+using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Models.Records;
 using Schedule_Creator_V2.Services.Database;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -57,7 +56,8 @@ namespace Schedule_Creator_V2
         {
             HideAllScheduleColumns();
 
-            foreach (DayOfWeek day in scheduleDays.Distinct())
+            foreach (DayOfWeek day
+                     in scheduleDays.Distinct())
             {
                 switch (day)
                 {
@@ -105,7 +105,8 @@ namespace Schedule_Creator_V2
         {
             if (ScheduleComboBox.SelectedItem
                     is not string scheduleName ||
-                string.IsNullOrWhiteSpace(scheduleName))
+                string.IsNullOrWhiteSpace(
+                    scheduleName))
             {
                 ScheduleGrid.ItemsSource =
                     Array.Empty<ViewScheduleRow>();
@@ -136,7 +137,8 @@ namespace Schedule_Creator_V2
              */
             SetVisibility(
                 savedShifts.Select(
-                    shift => shift.dayOfWeek));
+                    shift =>
+                        shift.dayOfWeek));
 
             /*
              * Group the shifts by day.
@@ -149,25 +151,30 @@ namespace Schedule_Creator_V2
                 shiftsByDay =
                     savedShifts
                         .GroupBy(
-                            shift => shift.dayOfWeek)
+                            shift =>
+                                shift.dayOfWeek)
                         .ToDictionary(
-                            group => group.Key,
-                            group => group
-                                .OrderBy(
-                                    shift =>
-                                        shift.startTime)
-                                .ThenBy(
-                                    shift =>
-                                        shift.endTime)
-                                .ThenBy(
-                                    shift =>
-                                        shift.staffID)
-                                .ToList());
+                            group =>
+                                group.Key,
+
+                            group =>
+                                group
+                                    .OrderBy(
+                                        shift =>
+                                            shift.startTime)
+                                    .ThenBy(
+                                        shift =>
+                                            shift.endTime)
+                                    .ThenBy(
+                                        shift =>
+                                            shift.staffID)
+                                    .ToList());
 
             int displayRowCount =
                 shiftsByDay.Values
                     .Max(
-                        shifts => shifts.Count);
+                        shifts =>
+                            shifts.Count);
 
             List<ViewScheduleRow> displayRows =
                 new();
@@ -243,11 +250,14 @@ namespace Schedule_Creator_V2
                 displayRows;
         }
 
-        private static ScheduleRow? GetShiftAtIndex(
-            Dictionary<DayOfWeek, List<ScheduleRow>>
-                shiftsByDay,
-            DayOfWeek day,
-            int index)
+        private static ScheduleRow?
+            GetShiftAtIndex(
+                Dictionary<
+                    DayOfWeek,
+                    List<ScheduleRow>>
+                    shiftsByDay,
+                DayOfWeek day,
+                int index)
         {
             if (!shiftsByDay.TryGetValue(
                     day,
@@ -388,14 +398,18 @@ namespace Schedule_Creator_V2
             return displayName;
         }
 
-        private void CopyScheduleBase64Button_Click(
+        // =========================================================
+        // DOWNLOAD SCHEDULE IMAGE
+        // =========================================================
+
+        private void DownloadScheduleImageButton_Click(
             object sender,
             RoutedEventArgs e)
         {
             if (ScheduleGrid.Items.Count == 0)
             {
                 MessageBox.Show(
-                    "Select a schedule before copying its image.",
+                    "Select a schedule before downloading its image.",
                     "No Schedule Selected",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -408,36 +422,61 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            Button? copyButton =
+            SaveFileDialog saveDialog =
+                new SaveFileDialog
+                {
+                    Title =
+                        "Save Schedule Image",
+
+                    Filter =
+                        "PNG Image (*.png)|*.png",
+
+                    DefaultExt =
+                        ".png",
+
+                    AddExtension =
+                        true,
+
+                    FileName =
+                        BuildScheduleImageFileName()
+                };
+
+            if (saveDialog.ShowDialog() !=
+                true)
+            {
+                return;
+            }
+
+            Button? downloadButton =
                 sender as Button;
 
             try
             {
-                if (copyButton is not null)
+                if (downloadButton
+                    is not null)
                 {
-                    copyButton.IsEnabled =
+                    downloadButton.IsEnabled =
                         false;
                 }
 
-                string imageDataUri =
-                    CreateScheduleGridPngDataUri();
+                byte[] imageBytes =
+                    CreateScheduleGridPngBytes();
 
-                CopyTextToClipboard(
-                    imageDataUri);
+                File.WriteAllBytes(
+                    saveDialog.FileName,
+                    imageBytes);
 
                 MessageBox.Show(
-                    "The schedule image was converted to PNG " +
-                    "Base64 and copied to the clipboard.\n\n" +
-                    "You can paste it directly into an email " +
-                    "image source field.",
-                    "Schedule Image Copied",
+                    "The schedule image was saved successfully.\n\n" +
+                    saveDialog.FileName,
+                    "Schedule Image Saved",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
             catch (Exception exception)
             {
                 MessageBox.Show(
-                    "The schedule image could not be copied.\n\n" +
+                    "The schedule image could not be saved.\n\n" +
                     exception.Message,
                     "Schedule Image Error",
                     MessageBoxButton.OK,
@@ -445,15 +484,50 @@ namespace Schedule_Creator_V2
             }
             finally
             {
-                if (copyButton is not null)
+                if (downloadButton
+                    is not null)
                 {
-                    copyButton.IsEnabled =
+                    downloadButton.IsEnabled =
                         true;
                 }
             }
         }
 
-        private string CreateScheduleGridPngDataUri()
+        private string BuildScheduleImageFileName()
+        {
+            string scheduleName =
+                ScheduleComboBox.SelectedItem
+                    as string
+                ?? "Schedule";
+
+            scheduleName =
+                scheduleName.Trim();
+
+            foreach (char invalidCharacter
+                     in Path.GetInvalidFileNameChars())
+            {
+                scheduleName =
+                    scheduleName.Replace(
+                        invalidCharacter,
+                        '_');
+            }
+
+            if (string.IsNullOrWhiteSpace(
+                    scheduleName))
+            {
+                scheduleName =
+                    "Schedule";
+            }
+
+            return
+                scheduleName + ".png";
+        }
+
+        // =========================================================
+        // CREATE PNG
+        // =========================================================
+
+        private byte[] CreateScheduleGridPngBytes()
         {
             double originalWidth =
                 ScheduleGrid.Width;
@@ -468,10 +542,12 @@ namespace Schedule_Creator_V2
                 ScheduleGrid.MaxHeight;
 
             bool originalRowVirtualization =
-                ScheduleGrid.EnableRowVirtualization;
+                ScheduleGrid
+                    .EnableRowVirtualization;
 
             bool originalColumnVirtualization =
-                ScheduleGrid.EnableColumnVirtualization;
+                ScheduleGrid
+                    .EnableColumnVirtualization;
 
             ScrollBarVisibility
                 originalHorizontalScrollBarVisibility =
@@ -492,10 +568,14 @@ namespace Schedule_Creator_V2
                         IsExportExcludedColumn)
                     .ToList();
 
-            Dictionary<DataGridColumn, Visibility>
+            Dictionary<
+                DataGridColumn,
+                Visibility>
                 originalColumnVisibilities =
                     excludedColumns.ToDictionary(
-                        column => column,
+                        column =>
+                            column,
+
                         column =>
                             column.Visibility);
 
@@ -532,8 +612,8 @@ namespace Schedule_Creator_V2
 
                 /*
                  * Keep the grid at its current displayed width
-                 * while rendering. The extra scrollbar gutter
-                 * will be cropped afterward.
+                 * while rendering. Any unused scrollbar gutter
+                 * is cropped afterward.
                  */
                 double renderWidth =
                     Math.Max(
@@ -568,8 +648,7 @@ namespace Schedule_Creator_V2
 
                 /*
                  * Only include the combined width of visible
-                 * columns. This removes the blank scrollbar/
-                 * delete-column gutter.
+                 * schedule columns.
                  */
                 double visibleColumnsWidth =
                     ScheduleGrid.Columns
@@ -644,13 +723,8 @@ namespace Schedule_Creator_V2
                 encoder.Save(
                     stream);
 
-                string base64 =
-                    Convert.ToBase64String(
-                        stream.ToArray());
-
                 return
-                    "data:image/png;base64," +
-                    base64;
+                    stream.ToArray();
             }
             finally
             {
@@ -661,8 +735,11 @@ namespace Schedule_Creator_V2
                         columnVisibility
                     in originalColumnVisibilities)
                 {
-                    columnVisibility.Key.Visibility =
-                        columnVisibility.Value;
+                    columnVisibility
+                        .Key
+                        .Visibility =
+                            columnVisibility
+                                .Value;
                 }
 
                 ScheduleGrid.Width =
@@ -691,7 +768,8 @@ namespace Schedule_Creator_V2
                     .VerticalScrollBarVisibility =
                         originalVerticalScrollBarVisibility;
 
-                if (originalSelectedItem is not null &&
+                if (originalSelectedItem
+                        is not null &&
                     ScheduleGrid.Items.Contains(
                         originalSelectedItem))
                 {
@@ -752,19 +830,24 @@ namespace Schedule_Creator_V2
             double rowHeight =
                 ScheduleGrid.RowHeight;
 
-            if (double.IsNaN(rowHeight) ||
+            if (double.IsNaN(
+                    rowHeight) ||
                 rowHeight <= 0)
             {
-                rowHeight = 96;
+                rowHeight =
+                    96;
             }
 
             double headerHeight =
-                ScheduleGrid.ColumnHeaderHeight;
+                ScheduleGrid
+                    .ColumnHeaderHeight;
 
-            if (double.IsNaN(headerHeight) ||
+            if (double.IsNaN(
+                    headerHeight) ||
                 headerHeight <= 0)
             {
-                headerHeight = 48;
+                headerHeight =
+                    48;
             }
 
             double calculatedHeight =
@@ -777,38 +860,6 @@ namespace Schedule_Creator_V2
                 Math.Max(
                     calculatedHeight,
                     ScheduleGrid.ActualHeight));
-        }
-
-        private static void CopyTextToClipboard(
-            string text)
-        {
-            const int maximumAttempts = 5;
-
-            for (int attempt = 1;
-                 attempt <= maximumAttempts;
-                 attempt++)
-            {
-                try
-                {
-                    Clipboard.SetDataObject(
-                        text,
-                        true);
-
-                    return;
-                }
-                catch (COMException)
-                    when (attempt < maximumAttempts)
-                {
-                    /*
-                     * Another application can briefly lock
-                     * the Windows clipboard.
-                     */
-                    Thread.Sleep(75);
-                }
-            }
-
-            throw new InvalidOperationException(
-                "Windows did not allow access to the clipboard.");
         }
     }
 }

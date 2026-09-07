@@ -485,6 +485,21 @@ namespace Schedule_Creator_V2.Services.Email
                         TextWrapping.NoWrap
                 };
 
+            /*
+ * HeaderImageUrl has a configured default image,
+ * so the user does not need to provide a value.
+ */
+            bool requiresUserImage =
+                !property.Name.Equals(
+                    nameof(
+                        CustomHeaderInputs
+                            .HeaderImageUrl),
+                    StringComparison.OrdinalIgnoreCase);
+
+            EmailValidationService.SetIsRequired(
+                imageSourceTextBox,
+                requiresUserImage);
+
             Button browseButton =
                 new Button
                 {
