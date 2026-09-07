@@ -9,6 +9,153 @@
       d:DesignWidth="1000"
       Title="Send Email">
 
+    <!-- ========================================================= -->
+    <!-- PAGE RESOURCES                                            -->
+    <!-- ========================================================= -->
+
+    <Page.Resources>
+
+        <!-- ===================================================== -->
+        <!-- IMAGE PICKER PATH TEXTBOX                             -->
+        <!-- ===================================================== -->
+
+        <Style x:Key="EmailImagePathTextBoxStyle"
+               TargetType="TextBox">
+
+            <Setter Property="Height"
+                    Value="38"/>
+
+            <Setter Property="Padding"
+                    Value="10,5"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#D1D5DB"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="ToolTip"
+                    Value="Local image path, image URL, or Base64 image source"/>
+
+        </Style>
+
+
+        <!-- ===================================================== -->
+        <!-- IMAGE PICKER BROWSE BUTTON                            -->
+        <!-- ===================================================== -->
+
+        <Style x:Key="EmailImageBrowseButtonStyle"
+               TargetType="Button">
+
+            <Setter Property="MinWidth"
+                    Value="100"/>
+
+            <Setter Property="Height"
+                    Value="38"/>
+
+            <Setter Property="Padding"
+                    Value="14,5"/>
+
+            <Setter Property="Margin"
+                    Value="8,0,0,0"/>
+
+            <Setter Property="Background"
+                    Value="#006633"/>
+
+            <Setter Property="Foreground"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#006633"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Center"/>
+
+            <Style.Triggers>
+
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#00552B"/>
+
+                    <Setter Property="BorderBrush"
+                            Value="#00552B"/>
+
+                </Trigger>
+
+                <Trigger Property="IsPressed"
+                         Value="True">
+
+                    <Setter Property="Background"
+                            Value="#004421"/>
+
+                    <Setter Property="BorderBrush"
+                            Value="#004421"/>
+
+                </Trigger>
+
+                <Trigger Property="IsEnabled"
+                         Value="False">
+
+                    <Setter Property="Opacity"
+                            Value="0.55"/>
+
+                </Trigger>
+
+            </Style.Triggers>
+
+        </Style>
+
+
+        <!-- ===================================================== -->
+        <!-- IMAGE PICKER STATUS TEXT                              -->
+        <!-- ===================================================== -->
+
+        <Style x:Key="EmailImageStatusTextStyle"
+               TargetType="TextBlock">
+
+            <Setter Property="FontSize"
+                    Value="12"/>
+
+            <Setter Property="Foreground"
+                    Value="#5D746B"/>
+
+            <Setter Property="Margin"
+                    Value="0,6,0,14"/>
+
+            <Setter Property="TextWrapping"
+                    Value="Wrap"/>
+
+        </Style>
+
+    </Page.Resources>
+
+
     <Grid>
 
         <Border Margin="20"
@@ -30,7 +177,11 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- PAGE HEADER -->
+
+                <!-- ===================================================== -->
+                <!-- PAGE HEADER                                           -->
+                <!-- ===================================================== -->
+
                 <StackPanel Grid.Row="0">
 
                     <TextBlock Text="Create Email"
@@ -45,7 +196,11 @@
 
                 </StackPanel>
 
-                <!-- MAIN CONTENT -->
+
+                <!-- ===================================================== -->
+                <!-- MAIN CONTENT                                          -->
+                <!-- ===================================================== -->
+
                 <Grid Grid.Row="2">
 
                     <Grid.ColumnDefinitions>
@@ -54,9 +209,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- ===================================================== -->
-                    <!-- LEFT COLUMN                                           -->
-                    <!-- ===================================================== -->
+
+                    <!-- ================================================= -->
+                    <!-- LEFT COLUMN                                       -->
+                    <!-- ================================================= -->
 
                     <Grid Grid.Column="0">
 
@@ -66,7 +222,11 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- EMAIL TYPE -->
+
+                        <!-- ============================================= -->
+                        <!-- EMAIL TYPE                                    -->
+                        <!-- ============================================= -->
+
                         <Border Grid.Row="0"
                                 Padding="16"
                                 Background="#F9FAFB"
@@ -98,7 +258,11 @@
 
                         </Border>
 
-                        <!-- RECIPIENTS -->
+
+                        <!-- ============================================= -->
+                        <!-- RECIPIENTS                                    -->
+                        <!-- ============================================= -->
+
                         <Border Grid.Row="2"
                                 MinHeight="260"
                                 Background="#FAFCFB"
@@ -114,7 +278,9 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
+
                                 <!-- Recipient heading -->
+
                                 <Border Grid.Row="0"
                                         Padding="12"
                                         Background="#F9FAFB"
@@ -161,7 +327,9 @@
 
                                 </Border>
 
+
                                 <!-- Recipient list -->
+
                                 <DataGrid x:Name="StaffListBox"
                                           Grid.Row="1"
                                           ItemsSource="{Binding RecipientSelections}"
@@ -214,6 +382,7 @@
 
                                         </Style>
 
+
                                         <Style TargetType="DataGridRow">
 
                                             <Setter Property="Background"
@@ -255,6 +424,7 @@
 
                                         </Style>
 
+
                                         <Style TargetType="DataGridCell">
 
                                             <Setter Property="Padding"
@@ -270,6 +440,7 @@
                                                     Value="{x:Null}"/>
 
                                         </Style>
+
 
                                         <Style x:Key="RecipientCheckBoxStyle"
                                                TargetType="CheckBox">
@@ -305,9 +476,12 @@
 
                                     </DataGrid.Resources>
 
+
                                     <DataGrid.Columns>
 
+
                                         <!-- STAFF NAME -->
+
                                         <DataGridTextColumn Header="STAFF MEMBER"
                                                             Width="*"
                                                             MinWidth="150"
@@ -336,7 +510,9 @@
 
                                         </DataGridTextColumn>
 
+
                                         <!-- TO -->
+
                                         <DataGridTemplateColumn Header="TO"
                                                                 Width="58">
 
@@ -368,7 +544,9 @@
 
                                         </DataGridTemplateColumn>
 
+
                                         <!-- CC -->
+
                                         <DataGridTemplateColumn Header="CC"
                                                                 Width="58">
 
@@ -410,9 +588,10 @@
 
                     </Grid>
 
-                    <!-- ===================================================== -->
-                    <!-- RIGHT COLUMN                                          -->
-                    <!-- ===================================================== -->
+
+                    <!-- ================================================= -->
+                    <!-- RIGHT COLUMN                                      -->
+                    <!-- ================================================= -->
 
                     <Border Grid.Column="2"
                             Padding="20"
@@ -431,7 +610,11 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
-                            <!-- EMAIL INFORMATION HEADER -->
+
+                            <!-- ========================================= -->
+                            <!-- EMAIL INFORMATION HEADER                  -->
+                            <!-- ========================================= -->
+
                             <StackPanel Grid.Row="0">
 
                                 <TextBlock Text="Email Information"
@@ -440,15 +623,16 @@
                                            Foreground="#1F2937"/>
 
                                 <TextBlock Margin="0,4,0,0"
-                                           Text="Complete the fields below. Custom emails can add or remove optional sections."
+                                           Text="Complete the fields below. Custom emails can add optional sections, including images selected directly from your computer."
                                            TextWrapping="Wrap"
                                            Foreground="#6B7280"/>
 
                             </StackPanel>
 
-                            <!-- ================================================= -->
-                            <!-- CUSTOM EMAIL SECTION MANAGER                      -->
-                            <!-- ================================================= -->
+
+                            <!-- ========================================= -->
+                            <!-- CUSTOM EMAIL SECTION MANAGER              -->
+                            <!-- ========================================= -->
 
                             <Border x:Name="EmailSectionManagerBorder"
                                     Grid.Row="2"
@@ -467,7 +651,7 @@
                                                Foreground="#244C3D"/>
 
                                     <TextBlock Margin="0,3,0,12"
-                                               Text="Header, body, signature, and footer are required. Optional sections can be added or removed."
+                                               Text="Header, body, signature, and footer are required. Optional sections such as images can be added or removed."
                                                TextWrapping="Wrap"
                                                FontSize="12"
                                                Foreground="#5D746B"/>
@@ -480,7 +664,11 @@
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
 
-                                        <!-- ADD SECTION -->
+
+                                        <!-- ================================= -->
+                                        <!-- ADD SECTION                       -->
+                                        <!-- ================================= -->
+
                                         <StackPanel Grid.Column="0">
 
                                             <TextBlock Margin="0,0,0,5"
@@ -519,7 +707,11 @@
 
                                         </StackPanel>
 
-                                        <!-- REMOVE SECTION -->
+
+                                        <!-- ================================= -->
+                                        <!-- REMOVE SECTION                    -->
+                                        <!-- ================================= -->
+
                                         <StackPanel Grid.Column="2">
 
                                             <TextBlock Margin="0,0,0,5"
@@ -561,7 +753,11 @@
 
                             </Border>
 
-                            <!-- GENERATED INPUT CONTROLS -->
+
+                            <!-- ========================================= -->
+                            <!-- GENERATED INPUT CONTROLS                  -->
+                            <!-- ========================================= -->
+
                             <ScrollViewer Grid.Row="4"
                                           VerticalScrollBarVisibility="Auto"
                                           HorizontalScrollBarVisibility="Disabled">
@@ -576,9 +772,10 @@
 
                 </Grid>
 
-                <!-- ========================================================= -->
-                <!-- BOTTOM BUTTONS                                            -->
-                <!-- ========================================================= -->
+
+                <!-- ===================================================== -->
+                <!-- BOTTOM BUTTONS                                        -->
+                <!-- ===================================================== -->
 
                 <Grid Grid.Row="4">
 

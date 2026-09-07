@@ -1,11 +1,15 @@
-﻿using Schedule_Creator_V2.Models;
+﻿using Microsoft.Win32;
+using Schedule_Creator_V2.Models;
+using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Interfaces;
 using Schedule_Creator_V2.Models.Records;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -22,17 +26,39 @@ namespace Schedule_Creator_V2.Services.Email
         private const string RichTextPrefix =
             "[[RICH_TEXT_HTML]]";
 
-        private static readonly HashSet<string> RichTextPropertyNames =
-            new HashSet<string>(
-                StringComparer.OrdinalIgnoreCase)
-            {
-                "EmailBody",
-                "RequestBody",
-                "AnnouncementsIntro",
-                "AttachmentsIntro",
-                "HeaderSubtitle",
-                "SignatureClosing"
-            };
+        /*
+         * Stores the original configured header/footer image
+         * for each input object.
+         *
+         * This is important because some email types use a
+         * specialized header instead of the generic default.
+         *
+         * If the form is rebuilt after the user has selected
+         * a custom image, the original default is still
+         * remembered.
+         */
+        private static readonly ConditionalWeakTable<
+            object,
+            Dictionary<string, ImagePickerState>>
+            ImagePickerStates = new();
+
+        private static readonly HashSet<string>
+            RichTextPropertyNames =
+                new HashSet<string>(
+                    StringComparer.OrdinalIgnoreCase)
+                {
+                    "EmailBody",
+                    "RequestBody",
+                    "AnnouncementsIntro",
+                    "AttachmentsIntro",
+                    "HeaderSubtitle",
+                    "SignatureClosing"
+                };
+
+
+        // =========================================================
+        // FORM BUILDING
+        // =========================================================
 
         public static void BuildEmailInputControls(
             StackPanel container,
@@ -43,35 +69,66 @@ namespace Schedule_Creator_V2.Services.Email
             if (emailType.inputs == null ||
                 emailType.inputs.Count == 0)
             {
-                ShowNoInputsConfiguredMessage(container);
+                ShowNoInputsConfiguredMessage(
+                    container);
+
                 return;
             }
 
-            foreach (IEmailInputs inputGroup in emailType.inputs)
+            foreach (IEmailInputs inputGroup
+                     in emailType.inputs)
             {
                 Border inputGroupControl =
-                    CreateInputGroup(inputGroup);
+                    CreateInputGroup(
+                        inputGroup);
 
-                container.Children.Add(inputGroupControl);
+                container.Children.Add(
+                    inputGroupControl);
             }
         }
+
+
+        // =========================================================
+        // APPLY VALUES
+        // =========================================================
 
         public static void ApplyInputValues(
             StackPanel container)
         {
             foreach (Border border in
-                     container.Children.OfType<Border>())
+                     container.Children
+                         .OfType<Border>())
             {
-                if (border.Child is not Panel groupPanel)
+                if (border.Child
+                    is not Panel groupPanel)
                 {
                     continue;
                 }
 
                 foreach (FrameworkElement element in
-                         EnumerateInputElements(groupPanel))
+                         EnumerateInputElements(
+                             groupPanel))
                 {
+                    /*
+                     * Image fields use their own control info
+                     * because header/footer default handling is
+                     * different from a normal TextBox.
+                     */
+                    if (element is TextBox imageTextBox &&
+                        element.Tag is
+                            EmailImageControlInfo
+                            imageControlInfo)
+                    {
+                        ApplyImageTextValue(
+                            imageTextBox.Text,
+                            imageControlInfo);
+
+                        continue;
+                    }
+
                     if (element.Tag is not
-                        EmailInputControlInfo controlInfo)
+                        EmailInputControlInfo
+                        controlInfo)
                     {
                         continue;
                     }
@@ -85,10 +142,12 @@ namespace Schedule_Creator_V2.Services.Email
                         continue;
                     }
 
-                    if (element is RichTextBox richTextBox)
+                    if (element is
+                        RichTextBox richTextBox)
                     {
                         string richTextValue =
-                            GetRichTextValue(richTextBox);
+                            GetRichTextValue(
+                                richTextBox);
 
                         SetPropertyValue(
                             controlInfo,
@@ -98,25 +157,39 @@ namespace Schedule_Creator_V2.Services.Email
             }
         }
 
-        public static void ShowNoEmailTypeSelectedMessage(
-            StackPanel container)
+
+        // =========================================================
+        // PLACEHOLDERS
+        // =========================================================
+
+        public static void
+            ShowNoEmailTypeSelectedMessage(
+                StackPanel container)
         {
             ShowPlaceholderMessage(
                 container,
-                heading: "No Email Type Selected",
+                heading:
+                    "No Email Type Selected",
                 message:
-                "Select an email type to display its input fields.");
+                    "Select an email type to display its input fields.");
         }
 
-        private static void ShowNoInputsConfiguredMessage(
-            StackPanel container)
+        private static void
+            ShowNoInputsConfiguredMessage(
+                StackPanel container)
         {
             ShowPlaceholderMessage(
                 container,
-                heading: "No Inputs Configured",
+                heading:
+                    "No Inputs Configured",
                 message:
-                "This email type does not contain any input sections.");
+                    "This email type does not contain any input sections.");
         }
+
+
+        // =========================================================
+        // INPUT GROUP
+        // =========================================================
 
         private static Border CreateInputGroup(
             IEmailInputs inputGroup)
@@ -127,32 +200,53 @@ namespace Schedule_Creator_V2.Services.Email
             TextBlock groupHeading =
                 new TextBlock
                 {
-                    Text = inputGroup.GetEmailTypeName(),
+                    Text =
+                        inputGroup
+                            .GetEmailTypeName(),
+
                     FontSize = 17,
-                    FontWeight = FontWeights.SemiBold,
-                    Foreground = CreateBrush(31, 41, 55),
-                    Margin = new Thickness(0, 0, 0, 12)
+
+                    FontWeight =
+                        FontWeights.SemiBold,
+
+                    Foreground =
+                        CreateBrush(
+                            31,
+                            41,
+                            55),
+
+                    Margin =
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            12)
                 };
 
-            groupPanel.Children.Add(groupHeading);
+            groupPanel.Children.Add(
+                groupHeading);
 
-            PropertyInfo[] properties = inputGroup
-                .GetType()
-                .GetProperties(
-                    BindingFlags.Public |
-                    BindingFlags.Instance);
+            PropertyInfo[] properties =
+                inputGroup
+                    .GetType()
+                    .GetProperties(
+                        BindingFlags.Public |
+                        BindingFlags.Instance);
 
-            foreach (PropertyInfo property in properties)
+            foreach (PropertyInfo property
+                     in properties)
             {
-                if (property.PropertyType == typeof(string))
+                if (property.PropertyType ==
+                    typeof(string))
                 {
                     AddStringInput(
                         groupPanel,
                         inputGroup,
                         property);
                 }
-                else if (property.PropertyType ==
-                         typeof(List<string>))
+                else if (
+                    property.PropertyType ==
+                    typeof(List<string>))
                 {
                     AddStringListInput(
                         groupPanel,
@@ -163,22 +257,63 @@ namespace Schedule_Creator_V2.Services.Email
 
             return new Border
             {
-                Margin = new Thickness(0, 0, 0, 16),
-                Padding = new Thickness(16),
-                Background = Brushes.White,
-                BorderBrush = CreateBrush(209, 213, 219),
-                BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(6),
-                Child = groupPanel
+                Margin =
+                    new Thickness(
+                        0,
+                        0,
+                        0,
+                        16),
+
+                Padding =
+                    new Thickness(16),
+
+                Background =
+                    Brushes.White,
+
+                BorderBrush =
+                    CreateBrush(
+                        209,
+                        213,
+                        219),
+
+                BorderThickness =
+                    new Thickness(1),
+
+                CornerRadius =
+                    new CornerRadius(6),
+
+                Child =
+                    groupPanel
             };
         }
+
+
+        // =========================================================
+        // STRING INPUT
+        // =========================================================
 
         private static void AddStringInput(
             Panel parent,
             IEmailInputs inputGroup,
             PropertyInfo property)
         {
-            if (ShouldUseRichTextEditor(property.Name))
+            /*
+             * These three properties receive the custom image
+             * picker instead of a regular TextBox.
+             */
+            if (IsImageSourceProperty(
+                    property.Name))
+            {
+                AddImageSourceInput(
+                    parent,
+                    inputGroup,
+                    property);
+
+                return;
+            }
+
+            if (ShouldUseRichTextEditor(
+                    property.Name))
             {
                 AddRichTextInput(
                     parent,
@@ -189,44 +324,1156 @@ namespace Schedule_Creator_V2.Services.Email
             }
 
             bool isMultiline =
-                ShouldUseMultilineTextBox(property.Name);
+                ShouldUseMultilineTextBox(
+                    property.Name);
 
             TextBlock label =
-                CreateLabel(property.Name);
+                CreateLabel(
+                    property.Name);
 
             string currentValue =
-                property.GetValue(inputGroup)?.ToString()
+                property
+                    .GetValue(inputGroup)?
+                    .ToString()
                 ?? string.Empty;
 
             TextBox textBox =
                 new TextBox
                 {
-                    Text = currentValue,
-                    MinHeight = isMultiline ? 100 : 36,
-                    Margin = new Thickness(0, 0, 0, 14),
-                    Padding = new Thickness(8),
-                    AcceptsReturn = isMultiline,
+                    Text =
+                        currentValue,
 
-                    TextWrapping = isMultiline
-                        ? TextWrapping.Wrap
-                        : TextWrapping.NoWrap,
+                    MinHeight =
+                        isMultiline
+                            ? 100
+                            : 36,
 
-                    VerticalContentAlignment = isMultiline
-                        ? VerticalAlignment.Top
-                        : VerticalAlignment.Center,
+                    Margin =
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            14),
 
-                    VerticalScrollBarVisibility = isMultiline
-                        ? ScrollBarVisibility.Auto
-                        : ScrollBarVisibility.Disabled,
+                    Padding =
+                        new Thickness(8),
 
-                    Tag = new EmailInputControlInfo(
-                        inputGroup,
-                        property)
+                    AcceptsReturn =
+                        isMultiline,
+
+                    TextWrapping =
+                        isMultiline
+                            ? TextWrapping.Wrap
+                            : TextWrapping.NoWrap,
+
+                    VerticalContentAlignment =
+                        isMultiline
+                            ? VerticalAlignment.Top
+                            : VerticalAlignment.Center,
+
+                    VerticalScrollBarVisibility =
+                        isMultiline
+                            ? ScrollBarVisibility.Auto
+                            : ScrollBarVisibility.Disabled,
+
+                    Tag =
+                        new EmailInputControlInfo(
+                            inputGroup,
+                            property)
                 };
 
-            parent.Children.Add(label);
-            parent.Children.Add(textBox);
+            parent.Children.Add(
+                label);
+
+            parent.Children.Add(
+                textBox);
         }
+
+
+        // =========================================================
+        // IMAGE INPUT
+        // =========================================================
+
+        private static void AddImageSourceInput(
+            Panel parent,
+            IEmailInputs inputGroup,
+            PropertyInfo property)
+        {
+            bool hasDefaultImage =
+                IsDefaultImageProperty(
+                    property.Name);
+
+            ImagePickerState state =
+                GetImagePickerState(
+                    inputGroup,
+                    property);
+
+            string currentValue =
+                property
+                    .GetValue(inputGroup)?
+                    .ToString()
+                ?? string.Empty;
+
+            bool usingDefault =
+                hasDefaultImage &&
+                string.Equals(
+                    currentValue,
+                    state.DefaultValue,
+                    StringComparison.Ordinal);
+
+            TextBlock label =
+                CreateLabel(
+                    property.Name);
+
+            TextBlock instructions =
+                new TextBlock
+                {
+                    Text =
+                        GetImageInstructions(
+                            property.Name),
+
+                    FontSize = 12,
+
+                    Foreground =
+                        CreateBrush(
+                            107,
+                            114,
+                            128),
+
+                    Margin =
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            6),
+
+                    TextWrapping =
+                        TextWrapping.Wrap
+                };
+
+            /*
+             * Do not display a giant Base64 default image
+             * inside the TextBox.
+             */
+            string displayedValue =
+                usingDefault
+                    ? string.Empty
+                    : state.DisplayValue;
+
+            TextBox imageSourceTextBox =
+                new TextBox
+                {
+                    Text =
+                        displayedValue,
+
+                    Height = 38,
+
+                    Padding =
+                        new Thickness(
+                            10,
+                            5,
+                            10,
+                            5),
+
+                    VerticalContentAlignment =
+                        VerticalAlignment.Center,
+
+                    HorizontalScrollBarVisibility =
+                        ScrollBarVisibility.Auto,
+
+                    TextWrapping =
+                        TextWrapping.NoWrap
+                };
+
+            Button browseButton =
+                new Button
+                {
+                    Content =
+                        "Browse...",
+
+                    MinWidth = 100,
+
+                    Height = 38,
+
+                    Margin =
+                        new Thickness(
+                            8,
+                            0,
+                            0,
+                            0),
+
+                    Padding =
+                        new Thickness(
+                            14,
+                            5,
+                            14,
+                            5),
+
+                    Background =
+                        CreateBrush(
+                            0,
+                            102,
+                            51),
+
+                    Foreground =
+                        Brushes.White,
+
+                    BorderBrush =
+                        CreateBrush(
+                            0,
+                            102,
+                            51),
+
+                    FontWeight =
+                        FontWeights.SemiBold,
+
+                    Cursor =
+                        Cursors.Hand
+                };
+
+            Button? useDefaultButton =
+                null;
+
+            if (hasDefaultImage)
+            {
+                useDefaultButton =
+                    new Button
+                    {
+                        Content =
+                            "Use Default",
+
+                        MinWidth = 100,
+
+                        Height = 38,
+
+                        Margin =
+                            new Thickness(
+                                8,
+                                0,
+                                0,
+                                0),
+
+                        Padding =
+                            new Thickness(
+                                12,
+                                5,
+                                12,
+                                5),
+
+                        Background =
+                            CreateBrush(
+                                249,
+                                250,
+                                251),
+
+                        Foreground =
+                            CreateBrush(
+                                55,
+                                65,
+                                81),
+
+                        BorderBrush =
+                            CreateBrush(
+                                209,
+                                213,
+                                219),
+
+                        Cursor =
+                            Cursors.Hand,
+
+                        IsEnabled =
+                            !usingDefault
+                    };
+            }
+
+            TextBlock statusText =
+                new TextBlock
+                {
+                    FontSize = 12,
+
+                    Foreground =
+                        CreateBrush(
+                            93,
+                            116,
+                            107),
+
+                    Margin =
+                        new Thickness(
+                            0,
+                            6,
+                            0,
+                            14),
+
+                    TextWrapping =
+                        TextWrapping.Wrap
+                };
+
+
+            // -----------------------------------------------------
+            // GRID
+            // -----------------------------------------------------
+
+            Grid inputGrid =
+                new Grid();
+
+            inputGrid.ColumnDefinitions.Add(
+                new ColumnDefinition
+                {
+                    Width =
+                        new GridLength(
+                            1,
+                            GridUnitType.Star)
+                });
+
+            inputGrid.ColumnDefinitions.Add(
+                new ColumnDefinition
+                {
+                    Width =
+                        GridLength.Auto
+                });
+
+            if (hasDefaultImage)
+            {
+                inputGrid.ColumnDefinitions.Add(
+                    new ColumnDefinition
+                    {
+                        Width =
+                            GridLength.Auto
+                    });
+            }
+
+            Grid.SetColumn(
+                imageSourceTextBox,
+                0);
+
+            Grid.SetColumn(
+                browseButton,
+                1);
+
+            inputGrid.Children.Add(
+                imageSourceTextBox);
+
+            inputGrid.Children.Add(
+                browseButton);
+
+            if (useDefaultButton
+                is not null)
+            {
+                Grid.SetColumn(
+                    useDefaultButton,
+                    2);
+
+                inputGrid.Children.Add(
+                    useDefaultButton);
+            }
+
+
+            // -----------------------------------------------------
+            // IMAGE CONTROL INFO
+            // -----------------------------------------------------
+
+            EmailImageControlInfo
+                imageControlInfo =
+                    new EmailImageControlInfo(
+                        inputGroup,
+                        property,
+                        state,
+                        hasDefaultImage);
+
+            imageSourceTextBox.Tag =
+                imageControlInfo;
+
+
+            // -----------------------------------------------------
+            // INITIAL STATUS
+            // -----------------------------------------------------
+
+            UpdateImagePickerStatus(
+                statusText,
+                useDefaultButton,
+                property.Name,
+                currentValue,
+                state,
+                hasDefaultImage);
+
+
+            // -----------------------------------------------------
+            // MANUAL TEXT ENTRY
+            // -----------------------------------------------------
+
+            imageSourceTextBox.TextChanged +=
+                (_, _) =>
+                {
+                    /*
+                     * If header/footer text is cleared,
+                     * immediately return to the configured
+                     * default.
+                     */
+                    string text =
+                        imageSourceTextBox
+                            .Text
+                            .Trim();
+
+                    state.DisplayValue =
+                        text;
+
+                    if (hasDefaultImage &&
+                        string.IsNullOrWhiteSpace(
+                            text))
+                    {
+                        property.SetValue(
+                            inputGroup,
+                            state.DefaultValue);
+
+                        UpdateImagePickerStatus(
+                            statusText,
+                            useDefaultButton,
+                            property.Name,
+                            state.DefaultValue,
+                            state,
+                            hasDefaultImage);
+
+                        return;
+                    }
+
+                    /*
+                     * Content images may be completely empty.
+                     */
+                    if (!hasDefaultImage &&
+                        string.IsNullOrWhiteSpace(
+                            text))
+                    {
+                        property.SetValue(
+                            inputGroup,
+                            string.Empty);
+
+                        UpdateImagePickerStatus(
+                            statusText,
+                            useDefaultButton,
+                            property.Name,
+                            string.Empty,
+                            state,
+                            hasDefaultImage);
+
+                        return;
+                    }
+
+                    /*
+                     * URLs and manually pasted Base64 can be
+                     * written directly to the model.
+                     *
+                     * Local paths are converted when the form
+                     * values are applied or focus leaves the
+                     * field.
+                     */
+                    property.SetValue(
+                        inputGroup,
+                        text);
+
+                    UpdateImagePickerStatus(
+                        statusText,
+                        useDefaultButton,
+                        property.Name,
+                        text,
+                        state,
+                        hasDefaultImage);
+                };
+
+
+            // -----------------------------------------------------
+            // LOCAL PATH ENTERED MANUALLY
+            // -----------------------------------------------------
+
+            imageSourceTextBox.LostFocus +=
+                (_, _) =>
+                {
+                    try
+                    {
+                        ApplyImageTextValue(
+                            imageSourceTextBox.Text,
+                            imageControlInfo);
+
+                        string resolvedValue =
+                            property
+                                .GetValue(inputGroup)?
+                                .ToString()
+                            ?? string.Empty;
+
+                        UpdateImagePickerStatus(
+                            statusText,
+                            useDefaultButton,
+                            property.Name,
+                            resolvedValue,
+                            state,
+                            hasDefaultImage);
+                    }
+                    catch (Exception exception)
+                    {
+                        statusText.Text =
+                            exception.Message;
+
+                        statusText.Foreground =
+                            CreateBrush(
+                                185,
+                                28,
+                                28);
+                    }
+                };
+
+
+            // -----------------------------------------------------
+            // BROWSE
+            // -----------------------------------------------------
+
+            browseButton.Click +=
+                (_, _) =>
+                {
+                    OpenFileDialog dialog =
+                        new OpenFileDialog
+                        {
+                            Title =
+                                GetImageDialogTitle(
+                                    property.Name),
+
+                            Filter =
+                                "Image Files|" +
+                                "*.jpg;*.jpeg;*.png;*.gif;*.bmp|" +
+                                "JPEG Images|*.jpg;*.jpeg|" +
+                                "PNG Images|*.png|" +
+                                "GIF Images|*.gif|" +
+                                "Bitmap Images|*.bmp",
+
+                            CheckFileExists =
+                                true,
+
+                            Multiselect =
+                                false
+                        };
+
+                    /*
+                     * Reopen the picker in the directory of
+                     * the most recently selected local image.
+                     */
+                    if (File.Exists(
+                            state.DisplayValue))
+                    {
+                        string? directory =
+                            Path.GetDirectoryName(
+                                state.DisplayValue);
+
+                        if (!string.IsNullOrWhiteSpace(
+                                directory))
+                        {
+                            dialog.InitialDirectory =
+                                directory;
+                        }
+                    }
+
+                    if (dialog.ShowDialog() !=
+                        true)
+                    {
+                        return;
+                    }
+
+                    try
+                    {
+                        string dataUri =
+                            ConvertImageFileToDataUri(
+                                dialog.FileName);
+
+                        /*
+                         * Store the Base64 data URI internally
+                         * so all current email renderers can use
+                         * the image without needing a raw local
+                         * Windows path.
+                         */
+                        property.SetValue(
+                            inputGroup,
+                            dataUri);
+
+                        state.DisplayValue =
+                            dialog.FileName;
+
+                        imageSourceTextBox.Text =
+                            dialog.FileName;
+
+                        UpdateImagePickerStatus(
+                            statusText,
+                            useDefaultButton,
+                            property.Name,
+                            dataUri,
+                            state,
+                            hasDefaultImage);
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageBox.Show(
+                            exception.Message,
+                            "Image Selection Error",
+                            MessageBoxButton.OK,
+                            MessageBoxImage.Error);
+                    }
+                };
+
+
+            // -----------------------------------------------------
+            // USE DEFAULT
+            // -----------------------------------------------------
+
+            if (useDefaultButton
+                is not null)
+            {
+                useDefaultButton.Click +=
+                    (_, _) =>
+                    {
+                        property.SetValue(
+                            inputGroup,
+                            state.DefaultValue);
+
+                        state.DisplayValue =
+                            string.Empty;
+
+                        imageSourceTextBox.Text =
+                            string.Empty;
+
+                        UpdateImagePickerStatus(
+                            statusText,
+                            useDefaultButton,
+                            property.Name,
+                            state.DefaultValue,
+                            state,
+                            hasDefaultImage);
+                    };
+            }
+
+
+            // -----------------------------------------------------
+            // APPLY PAGE-LEVEL XAML STYLES WHEN AVAILABLE
+            // -----------------------------------------------------
+
+            ApplyNamedStyleWhenLoaded(
+                imageSourceTextBox,
+                "EmailImagePathTextBoxStyle");
+
+            ApplyNamedStyleWhenLoaded(
+                browseButton,
+                "EmailImageBrowseButtonStyle");
+
+            ApplyNamedStyleWhenLoaded(
+                statusText,
+                "EmailImageStatusTextStyle");
+
+
+            // -----------------------------------------------------
+            // ADD CONTROLS
+            // -----------------------------------------------------
+
+            parent.Children.Add(
+                label);
+
+            parent.Children.Add(
+                instructions);
+
+            parent.Children.Add(
+                inputGrid);
+
+            parent.Children.Add(
+                statusText);
+        }
+
+
+        // =========================================================
+        // IMAGE HELPERS
+        // =========================================================
+
+        private static bool IsImageSourceProperty(
+            string propertyName)
+        {
+            return propertyName.Equals(
+                       nameof(
+                           CustomImageInputs
+                               .ImageSource),
+                       StringComparison.OrdinalIgnoreCase) ||
+
+                   propertyName.Equals(
+                       nameof(
+                           CustomHeaderInputs
+                               .HeaderImageUrl),
+                       StringComparison.OrdinalIgnoreCase) ||
+
+                   propertyName.Equals(
+                       nameof(
+                           CustomFooterInputs
+                               .FooterLogoSource),
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsDefaultImageProperty(
+            string propertyName)
+        {
+            return propertyName.Equals(
+                       nameof(
+                           CustomHeaderInputs
+                               .HeaderImageUrl),
+                       StringComparison.OrdinalIgnoreCase) ||
+
+                   propertyName.Equals(
+                       nameof(
+                           CustomFooterInputs
+                               .FooterLogoSource),
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static ImagePickerState
+            GetImagePickerState(
+                IEmailInputs inputGroup,
+                PropertyInfo property)
+        {
+            Dictionary<string, ImagePickerState>
+                states =
+                    ImagePickerStates
+                        .GetOrCreateValue(
+                            inputGroup);
+
+            if (states.TryGetValue(
+                    property.Name,
+                    out ImagePickerState? state))
+            {
+                return state;
+            }
+
+            string currentValue =
+                property
+                    .GetValue(inputGroup)?
+                    .ToString()
+                ?? string.Empty;
+
+            string defaultValue =
+                string.Empty;
+
+            if (property.Name.Equals(
+                    nameof(
+                        CustomHeaderInputs
+                            .HeaderImageUrl),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                /*
+                 * Preserve the header already assigned to this
+                 * specific email type.
+                 *
+                 * Examples:
+                 * - default header
+                 * - upcoming class header
+                 * - welcome-to-team header
+                 */
+                defaultValue =
+                    string.IsNullOrWhiteSpace(
+                        currentValue)
+                        ? EmailImageSources
+                            .Default_HeaderImage
+                        : currentValue;
+            }
+            else if (property.Name.Equals(
+                         nameof(
+                             CustomFooterInputs
+                                 .FooterLogoSource),
+                         StringComparison.OrdinalIgnoreCase))
+            {
+                defaultValue =
+                    string.IsNullOrWhiteSpace(
+                        currentValue)
+                        ? EmailImageSources
+                            .Default_FooterImage
+                        : currentValue;
+            }
+
+            if (IsDefaultImageProperty(
+                    property.Name) &&
+                string.IsNullOrWhiteSpace(
+                    currentValue))
+            {
+                property.SetValue(
+                    inputGroup,
+                    defaultValue);
+
+                currentValue =
+                    defaultValue;
+            }
+
+            string displayValue =
+                IsDefaultImageProperty(
+                    property.Name)
+                    ? string.Empty
+                    : GetSafeImageDisplayValue(
+                        currentValue);
+
+            state =
+                new ImagePickerState(
+                    defaultValue,
+                    displayValue);
+
+            states[property.Name] =
+                state;
+
+            return state;
+        }
+
+        private static void ApplyImageTextValue(
+            string text,
+            EmailImageControlInfo controlInfo)
+        {
+            string trimmedValue =
+                text?.Trim()
+                ?? string.Empty;
+
+            if (controlInfo.HasDefaultImage &&
+                string.IsNullOrWhiteSpace(
+                    trimmedValue))
+            {
+                controlInfo.Property.SetValue(
+                    controlInfo.InputGroup,
+                    controlInfo.State
+                        .DefaultValue);
+
+                controlInfo.State.DisplayValue =
+                    string.Empty;
+
+                return;
+            }
+
+            if (!controlInfo.HasDefaultImage &&
+                string.IsNullOrWhiteSpace(
+                    trimmedValue))
+            {
+                controlInfo.Property.SetValue(
+                    controlInfo.InputGroup,
+                    string.Empty);
+
+                controlInfo.State.DisplayValue =
+                    string.Empty;
+
+                return;
+            }
+
+            controlInfo.State.DisplayValue =
+                trimmedValue;
+
+            /*
+             * If a path was manually entered instead of
+             * selected through Browse, convert it here.
+             */
+            if (File.Exists(
+                    trimmedValue))
+            {
+                string dataUri =
+                    ConvertImageFileToDataUri(
+                        trimmedValue);
+
+                controlInfo.Property.SetValue(
+                    controlInfo.InputGroup,
+                    dataUri);
+
+                return;
+            }
+
+            /*
+             * URL/Base64 values remain unchanged.
+             */
+            controlInfo.Property.SetValue(
+                controlInfo.InputGroup,
+                trimmedValue);
+        }
+
+        private static string
+            ConvertImageFileToDataUri(
+                string imageFilePath)
+        {
+            if (!File.Exists(
+                    imageFilePath))
+            {
+                throw new FileNotFoundException(
+                    "The selected image file could not be found.",
+                    imageFilePath);
+            }
+
+            string mimeType =
+                GetImageMimeType(
+                    imageFilePath);
+
+            byte[] imageBytes =
+                File.ReadAllBytes(
+                    imageFilePath);
+
+            string base64 =
+                Convert.ToBase64String(
+                    imageBytes);
+
+            return
+                $"data:{mimeType};base64,{base64}";
+        }
+
+        private static string GetImageMimeType(
+            string imageFilePath)
+        {
+            string extension =
+                Path.GetExtension(
+                        imageFilePath)
+                    .ToLowerInvariant();
+
+            return extension switch
+            {
+                ".jpg" =>
+                    "image/jpeg",
+
+                ".jpeg" =>
+                    "image/jpeg",
+
+                ".png" =>
+                    "image/png",
+
+                ".gif" =>
+                    "image/gif",
+
+                ".bmp" =>
+                    "image/bmp",
+
+                _ =>
+                    throw new
+                        InvalidOperationException(
+                            "Unsupported image format. " +
+                            "Use JPG, JPEG, PNG, GIF, or BMP.")
+            };
+        }
+
+        private static string GetImageInstructions(
+            string propertyName)
+        {
+            if (propertyName.Equals(
+                    nameof(
+                        CustomHeaderInputs
+                            .HeaderImageUrl),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "The configured header image is used by default. " +
+                    "Choose a replacement image from your computer, " +
+                    "or paste an image URL/Base64 source.";
+            }
+
+            if (propertyName.Equals(
+                    nameof(
+                        CustomFooterInputs
+                            .FooterLogoSource),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "The configured footer logo is used by default. " +
+                    "Choose a replacement image from your computer, " +
+                    "or paste an image URL/Base64 source.";
+            }
+
+            return
+                "Choose a JPG, PNG, GIF, or BMP image from your " +
+                "computer, or paste an image URL/Base64 source.";
+        }
+
+        private static string GetImageDialogTitle(
+            string propertyName)
+        {
+            if (propertyName.Equals(
+                    nameof(
+                        CustomHeaderInputs
+                            .HeaderImageUrl),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "Select Header Image";
+            }
+
+            if (propertyName.Equals(
+                    nameof(
+                        CustomFooterInputs
+                            .FooterLogoSource),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "Select Footer Logo";
+            }
+
+            return
+                "Select Email Image";
+        }
+
+        private static void
+            UpdateImagePickerStatus(
+                TextBlock statusText,
+                Button? useDefaultButton,
+                string propertyName,
+                string currentValue,
+                ImagePickerState state,
+                bool hasDefaultImage)
+        {
+            bool usingDefault =
+                hasDefaultImage &&
+                string.Equals(
+                    currentValue,
+                    state.DefaultValue,
+                    StringComparison.Ordinal);
+
+            if (usingDefault)
+            {
+                if (propertyName.Equals(
+                        nameof(
+                            CustomHeaderInputs
+                                .HeaderImageUrl),
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    statusText.Text =
+                        "Using the configured default header image.";
+                }
+                else
+                {
+                    statusText.Text =
+                        "Using the configured default footer logo.";
+                }
+
+                statusText.Foreground =
+                    CreateBrush(
+                        93,
+                        116,
+                        107);
+
+                if (useDefaultButton
+                    is not null)
+                {
+                    useDefaultButton.IsEnabled =
+                        false;
+                }
+
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(
+                    currentValue))
+            {
+                statusText.Text =
+                    "No image selected.";
+
+                statusText.Foreground =
+                    CreateBrush(
+                        107,
+                        114,
+                        128);
+
+                if (useDefaultButton
+                    is not null)
+                {
+                    useDefaultButton.IsEnabled =
+                        true;
+                }
+
+                return;
+            }
+
+            if (!string.IsNullOrWhiteSpace(
+                    state.DisplayValue) &&
+                File.Exists(
+                    state.DisplayValue))
+            {
+                statusText.Text =
+                    "Selected: " +
+                    Path.GetFileName(
+                        state.DisplayValue);
+            }
+            else if (
+                currentValue.StartsWith(
+                    "data:image/",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                statusText.Text =
+                    "Using a custom embedded image.";
+            }
+            else if (
+                Uri.TryCreate(
+                    currentValue,
+                    UriKind.Absolute,
+                    out Uri? imageUri) &&
+                (imageUri.Scheme.Equals(
+                     Uri.UriSchemeHttp,
+                     StringComparison.OrdinalIgnoreCase) ||
+                 imageUri.Scheme.Equals(
+                     Uri.UriSchemeHttps,
+                     StringComparison.OrdinalIgnoreCase)))
+            {
+                statusText.Text =
+                    "Using a custom image URL.";
+            }
+            else
+            {
+                statusText.Text =
+                    "Custom image source entered.";
+            }
+
+            statusText.Foreground =
+                CreateBrush(
+                    15,
+                    86,
+                    64);
+
+            if (useDefaultButton
+                is not null)
+            {
+                useDefaultButton.IsEnabled =
+                    true;
+            }
+        }
+
+        private static string
+            GetSafeImageDisplayValue(
+                string value)
+        {
+            if (string.IsNullOrWhiteSpace(
+                    value))
+            {
+                return string.Empty;
+            }
+
+            /*
+             * Never show giant embedded Base64 strings
+             * automatically in the UI.
+             */
+            if (value.StartsWith(
+                    "data:image/",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Empty;
+            }
+
+            return value;
+        }
+
+        private static void
+            ApplyNamedStyleWhenLoaded(
+                FrameworkElement element,
+                string resourceKey)
+        {
+            element.Loaded +=
+                (_, _) =>
+                {
+                    if (element.TryFindResource(
+                            resourceKey)
+                        is Style style)
+                    {
+                        element.Style =
+                            style;
+                    }
+                };
+        }
+
+
+        // =========================================================
+        // RICH TEXT
+        // =========================================================
 
         private static void AddRichTextInput(
             Panel parent,
@@ -234,31 +1481,55 @@ namespace Schedule_Creator_V2.Services.Email
             PropertyInfo property)
         {
             TextBlock label =
-                CreateLabel(property.Name);
+                CreateLabel(
+                    property.Name);
 
             TextBlock instructions =
                 new TextBlock
                 {
                     Text =
                         "Select text and use the formatting toolbar.",
+
                     FontSize = 12,
-                    Foreground = CreateBrush(107, 114, 128),
-                    Margin = new Thickness(0, 0, 0, 5)
+
+                    Foreground =
+                        CreateBrush(
+                            107,
+                            114,
+                            128),
+
+                    Margin =
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            5)
                 };
 
             RichTextBox editor =
                 new RichTextBox
                 {
                     MinHeight = 130,
-                    Padding = new Thickness(8),
-                    BorderThickness = new Thickness(0),
-                    AcceptsReturn = true,
+
+                    Padding =
+                        new Thickness(8),
+
+                    BorderThickness =
+                        new Thickness(0),
+
+                    AcceptsReturn =
+                        true,
+
                     VerticalScrollBarVisibility =
                         ScrollBarVisibility.Auto,
-                    Background = Brushes.White,
-                    Tag = new EmailInputControlInfo(
-                        inputGroup,
-                        property)
+
+                    Background =
+                        Brushes.White,
+
+                    Tag =
+                        new EmailInputControlInfo(
+                            inputGroup,
+                            property)
                 };
 
             SpellCheck.SetIsEnabled(
@@ -266,7 +1537,9 @@ namespace Schedule_Creator_V2.Services.Email
                 true);
 
             string currentValue =
-                property.GetValue(inputGroup)?.ToString()
+                property
+                    .GetValue(inputGroup)?
+                    .ToString()
                 ?? string.Empty;
 
             LoadRichTextValue(
@@ -286,7 +1559,11 @@ namespace Schedule_Creator_V2.Services.Email
                     "Bold",
                     EditingCommands.ToggleBold,
                     editor,
-                    new Thickness(0, 0, 4, 0)));
+                    new Thickness(
+                        0,
+                        0,
+                        4,
+                        0)));
 
             toolbar.Children.Add(
                 CreateFormatButton(
@@ -294,7 +1571,11 @@ namespace Schedule_Creator_V2.Services.Email
                     "Italic",
                     EditingCommands.ToggleItalic,
                     editor,
-                    new Thickness(0, 0, 4, 0)));
+                    new Thickness(
+                        0,
+                        0,
+                        4,
+                        0)));
 
             toolbar.Children.Add(
                 CreateFormatButton(
@@ -302,7 +1583,11 @@ namespace Schedule_Creator_V2.Services.Email
                     "Underline",
                     EditingCommands.ToggleUnderline,
                     editor,
-                    new Thickness(0, 0, 12, 0)));
+                    new Thickness(
+                        0,
+                        0,
+                        12,
+                        0)));
 
             toolbar.Children.Add(
                 CreateFormatButton(
@@ -310,8 +1595,13 @@ namespace Schedule_Creator_V2.Services.Email
                     "Bulleted List",
                     EditingCommands.ToggleBullets,
                     editor,
-                    new Thickness(0, 0, 4, 0),
-                    minWidth: 58));
+                    new Thickness(
+                        0,
+                        0,
+                        4,
+                        0),
+                    minWidth:
+                        58));
 
             toolbar.Children.Add(
                 CreateFormatButton(
@@ -320,19 +1610,36 @@ namespace Schedule_Creator_V2.Services.Email
                     EditingCommands.ToggleNumbering,
                     editor,
                     new Thickness(0),
-                    minWidth: 64));
+                    minWidth:
+                        64));
 
             Border toolbarBorder =
                 new Border
                 {
-                    Padding = new Thickness(6),
+                    Padding =
+                        new Thickness(6),
+
                     Background =
-                        CreateBrush(249, 250, 251),
+                        CreateBrush(
+                            249,
+                            250,
+                            251),
+
                     BorderBrush =
-                        CreateBrush(229, 231, 235),
+                        CreateBrush(
+                            229,
+                            231,
+                            235),
+
                     BorderThickness =
-                        new Thickness(0, 0, 0, 1),
-                    Child = toolbar
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            1),
+
+                    Child =
+                        toolbar
                 };
 
             Grid editorGrid =
@@ -341,7 +1648,8 @@ namespace Schedule_Creator_V2.Services.Email
             editorGrid.RowDefinitions.Add(
                 new RowDefinition
                 {
-                    Height = GridLength.Auto
+                    Height =
+                        GridLength.Auto
                 });
 
             editorGrid.RowDefinitions.Add(
@@ -361,29 +1669,58 @@ namespace Schedule_Creator_V2.Services.Email
                 editor,
                 1);
 
-            editorGrid.Children.Add(toolbarBorder);
-            editorGrid.Children.Add(editor);
+            editorGrid.Children.Add(
+                toolbarBorder);
+
+            editorGrid.Children.Add(
+                editor);
 
             Border editorBorder =
                 new Border
                 {
                     Margin =
-                        new Thickness(0, 0, 0, 14),
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            14),
+
                     BorderBrush =
-                        CreateBrush(209, 213, 219),
+                        CreateBrush(
+                            209,
+                            213,
+                            219),
+
                     BorderThickness =
                         new Thickness(1),
+
                     CornerRadius =
                         new CornerRadius(4),
-                    Background = Brushes.White,
-                    ClipToBounds = true,
-                    Child = editorGrid
+
+                    Background =
+                        Brushes.White,
+
+                    ClipToBounds =
+                        true,
+
+                    Child =
+                        editorGrid
                 };
 
-            parent.Children.Add(label);
-            parent.Children.Add(instructions);
-            parent.Children.Add(editorBorder);
+            parent.Children.Add(
+                label);
+
+            parent.Children.Add(
+                instructions);
+
+            parent.Children.Add(
+                editorBorder);
         }
+
+
+        // =========================================================
+        // FORMAT BUTTONS
+        // =========================================================
 
         private static Button CreateFormatButton(
             object content,
@@ -395,49 +1732,88 @@ namespace Schedule_Creator_V2.Services.Email
         {
             return new Button
             {
-                Content = content,
-                ToolTip = toolTip,
-                Command = command,
-                CommandTarget = commandTarget,
-                Focusable = false,
-                MinWidth = minWidth,
-                Height = 28,
-                Padding = new Thickness(7, 2, 7, 2),
-                Margin = margin,
+                Content =
+                    content,
+
+                ToolTip =
+                    toolTip,
+
+                Command =
+                    command,
+
+                CommandTarget =
+                    commandTarget,
+
+                Focusable =
+                    false,
+
+                MinWidth =
+                    minWidth,
+
+                Height =
+                    28,
+
+                Padding =
+                    new Thickness(
+                        7,
+                        2,
+                        7,
+                        2),
+
+                Margin =
+                    margin,
+
                 VerticalContentAlignment =
                     VerticalAlignment.Center,
+
                 HorizontalContentAlignment =
                     HorizontalAlignment.Center
             };
         }
 
-        private static TextBlock CreateBoldButtonContent()
+        private static TextBlock
+            CreateBoldButtonContent()
         {
             return new TextBlock
             {
-                Text = "B",
-                FontWeight = FontWeights.Bold
+                Text =
+                    "B",
+
+                FontWeight =
+                    FontWeights.Bold
             };
         }
 
-        private static TextBlock CreateItalicButtonContent()
+        private static TextBlock
+            CreateItalicButtonContent()
         {
             return new TextBlock
             {
-                Text = "I",
-                FontStyle = FontStyles.Italic
+                Text =
+                    "I",
+
+                FontStyle =
+                    FontStyles.Italic
             };
         }
 
-        private static TextBlock CreateUnderlineButtonContent()
+        private static TextBlock
+            CreateUnderlineButtonContent()
         {
             return new TextBlock
             {
-                Text = "U",
+                Text =
+                    "U",
+
                 TextDecorations =
                     TextDecorations.Underline
             };
         }
+
+
+        // =========================================================
+        // STRING LIST INPUT
+        // =========================================================
 
         private static void AddStringListInput(
             Panel parent,
@@ -445,72 +1821,129 @@ namespace Schedule_Creator_V2.Services.Email
             PropertyInfo property)
         {
             TextBlock label =
-                CreateLabel(property.Name);
+                CreateLabel(
+                    property.Name);
 
             TextBlock instructions =
                 new TextBlock
                 {
-                    Text = "Enter one item per line.",
-                    FontSize = 12,
+                    Text =
+                        "Enter one item per line.",
+
+                    FontSize =
+                        12,
+
                     Foreground =
-                        CreateBrush(107, 114, 128),
+                        CreateBrush(
+                            107,
+                            114,
+                            128),
+
                     Margin =
-                        new Thickness(0, 0, 0, 5)
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            5)
                 };
 
             List<string> currentItems =
-                property.GetValue(inputGroup)
+                property
+                    .GetValue(inputGroup)
                     as List<string>
                 ?? new List<string>();
 
             TextBox textBox =
                 new TextBox
                 {
-                    Text = string.Join(
-                        Environment.NewLine,
-                        currentItems),
+                    Text =
+                        string.Join(
+                            Environment.NewLine,
+                            currentItems),
 
-                    MinHeight = 120,
+                    MinHeight =
+                        120,
+
                     Margin =
-                        new Thickness(0, 0, 0, 14),
-                    Padding = new Thickness(8),
-                    AcceptsReturn = true,
-                    TextWrapping = TextWrapping.Wrap,
+                        new Thickness(
+                            0,
+                            0,
+                            0,
+                            14),
+
+                    Padding =
+                        new Thickness(8),
+
+                    AcceptsReturn =
+                        true,
+
+                    TextWrapping =
+                        TextWrapping.Wrap,
+
                     VerticalContentAlignment =
                         VerticalAlignment.Top,
+
                     VerticalScrollBarVisibility =
                         ScrollBarVisibility.Auto,
 
-                    Tag = new EmailInputControlInfo(
-                        inputGroup,
-                        property)
+                    Tag =
+                        new EmailInputControlInfo(
+                            inputGroup,
+                            property)
                 };
 
-            parent.Children.Add(label);
-            parent.Children.Add(instructions);
-            parent.Children.Add(textBox);
+            parent.Children.Add(
+                label);
+
+            parent.Children.Add(
+                instructions);
+
+            parent.Children.Add(
+                textBox);
         }
+
+
+        // =========================================================
+        // LABELS
+        // =========================================================
 
         private static TextBlock CreateLabel(
             string propertyName)
         {
             return new TextBlock
             {
-                Text = ConvertPropertyNameToLabel(
-                    propertyName),
+                Text =
+                    ConvertPropertyNameToLabel(
+                        propertyName),
 
-                FontWeight = FontWeights.SemiBold,
+                FontWeight =
+                    FontWeights.SemiBold,
+
                 Foreground =
-                    CreateBrush(55, 65, 81),
+                    CreateBrush(
+                        55,
+                        65,
+                        81),
+
                 Margin =
-                    new Thickness(0, 0, 0, 5)
+                    new Thickness(
+                        0,
+                        0,
+                        0,
+                        5)
             };
         }
 
-        private static void ShowPlaceholderMessage(
-            StackPanel container,
-            string heading,
-            string message)
+
+        // =========================================================
+        // PLACEHOLDER
+        // =========================================================
+
+        private static void
+            ShowPlaceholderMessage(
+                StackPanel container,
+                string heading,
+                string message)
         {
             container.Children.Clear();
 
@@ -524,12 +1957,21 @@ namespace Schedule_Creator_V2.Services.Email
             TextBlock headingText =
                 new TextBlock
                 {
-                    Text = heading,
-                    FontSize = 18,
+                    Text =
+                        heading,
+
+                    FontSize =
+                        18,
+
                     FontWeight =
                         FontWeights.SemiBold,
+
                     Foreground =
-                        CreateBrush(75, 85, 99),
+                        CreateBrush(
+                            75,
+                            85,
+                            99),
+
                     HorizontalAlignment =
                         HorizontalAlignment.Center
                 };
@@ -537,96 +1979,160 @@ namespace Schedule_Creator_V2.Services.Email
             TextBlock messageText =
                 new TextBlock
                 {
-                    Text = message,
+                    Text =
+                        message,
+
                     Margin =
-                        new Thickness(0, 8, 0, 0),
+                        new Thickness(
+                            0,
+                            8,
+                            0,
+                            0),
+
                     TextAlignment =
                         TextAlignment.Center,
+
                     TextWrapping =
                         TextWrapping.Wrap,
+
                     Foreground =
-                        CreateBrush(107, 114, 128),
+                        CreateBrush(
+                            107,
+                            114,
+                            128),
+
                     HorizontalAlignment =
                         HorizontalAlignment.Center
                 };
 
-            messagePanel.Children.Add(headingText);
-            messagePanel.Children.Add(messageText);
+            messagePanel.Children.Add(
+                headingText);
+
+            messagePanel.Children.Add(
+                messageText);
 
             Border placeholder =
                 new Border
                 {
-                    Padding = new Thickness(30),
+                    Padding =
+                        new Thickness(30),
+
                     HorizontalAlignment =
                         HorizontalAlignment.Stretch,
-                    Background = Brushes.White,
+
+                    Background =
+                        Brushes.White,
+
                     BorderBrush =
-                        CreateBrush(209, 213, 219),
+                        CreateBrush(
+                            209,
+                            213,
+                            219),
+
                     BorderThickness =
                         new Thickness(1),
+
                     CornerRadius =
                         new CornerRadius(6),
-                    Child = messagePanel
+
+                    Child =
+                        messagePanel
                 };
 
-            container.Children.Add(placeholder);
+            container.Children.Add(
+                placeholder);
         }
+
+
+        // =========================================================
+        // SET PROPERTY
+        // =========================================================
 
         private static void SetPropertyValue(
             EmailInputControlInfo controlInfo,
             string text)
         {
-            if (!controlInfo.Property.CanWrite)
+            if (!controlInfo
+                .Property
+                .CanWrite)
             {
                 return;
             }
 
-            if (controlInfo.Property.PropertyType ==
+            if (controlInfo
+                    .Property
+                    .PropertyType ==
                 typeof(string))
             {
-                controlInfo.Property.SetValue(
-                    controlInfo.InputGroup,
-                    text);
+                controlInfo
+                    .Property
+                    .SetValue(
+                        controlInfo.InputGroup,
+                        text);
 
                 return;
             }
 
-            if (controlInfo.Property.PropertyType ==
+            if (controlInfo
+                    .Property
+                    .PropertyType ==
                 typeof(List<string>))
             {
-                List<string> values = text
-                    .Replace("\r\n", "\n")
-                    .Split(
-                        '\n',
-                        StringSplitOptions.RemoveEmptyEntries)
-                    .Select(value => value.Trim())
-                    .Where(value =>
-                        !string.IsNullOrWhiteSpace(value))
-                    .ToList();
+                List<string> values =
+                    text
+                        .Replace(
+                            "\r\n",
+                            "\n")
+                        .Split(
+                            '\n',
+                            StringSplitOptions
+                                .RemoveEmptyEntries)
+                        .Select(
+                            value =>
+                                value.Trim())
+                        .Where(
+                            value =>
+                                !string
+                                    .IsNullOrWhiteSpace(
+                                        value))
+                        .ToList();
 
-                controlInfo.Property.SetValue(
-                    controlInfo.InputGroup,
-                    values);
+                controlInfo
+                    .Property
+                    .SetValue(
+                        controlInfo.InputGroup,
+                        values);
             }
         }
 
-        private static IEnumerable<FrameworkElement>
+
+        // =========================================================
+        // CONTROL ENUMERATION
+        // =========================================================
+
+        private static
+            IEnumerable<FrameworkElement>
             EnumerateInputElements(
                 DependencyObject root)
         {
-            if (root is FrameworkElement element)
+            if (root is
+                FrameworkElement element)
             {
                 yield return element;
             }
 
             if (root is Panel panel)
             {
-                foreach (UIElement child in panel.Children)
+                foreach (UIElement child
+                         in panel.Children)
                 {
-                    foreach (FrameworkElement descendant in
-                             EnumerateInputElements(child))
+                    foreach (
+                        FrameworkElement descendant
+                        in EnumerateInputElements(
+                            child))
                     {
-                        yield return descendant;
+                        yield return
+                            descendant;
                     }
                 }
 
@@ -636,20 +2142,30 @@ namespace Schedule_Creator_V2.Services.Email
             if (root is Border border &&
                 border.Child is not null)
             {
-                foreach (FrameworkElement descendant in
-                         EnumerateInputElements(
-                             border.Child))
+                foreach (
+                    FrameworkElement descendant
+                    in EnumerateInputElements(
+                        border.Child))
                 {
-                    yield return descendant;
+                    yield return
+                        descendant;
                 }
             }
         }
 
-        private static bool ShouldUseRichTextEditor(
-            string propertyName)
+
+        // =========================================================
+        // RICH TEXT HELPERS
+        // =========================================================
+
+        private static bool
+            ShouldUseRichTextEditor(
+                string propertyName)
         {
-            return RichTextPropertyNames.Contains(
-                propertyName);
+            return
+                RichTextPropertyNames
+                    .Contains(
+                        propertyName);
         }
 
         private static string GetRichTextValue(
@@ -657,8 +2173,11 @@ namespace Schedule_Creator_V2.Services.Email
         {
             TextRange textRange =
                 new TextRange(
-                    editor.Document.ContentStart,
-                    editor.Document.ContentEnd);
+                    editor.Document
+                        .ContentStart,
+
+                    editor.Document
+                        .ContentEnd);
 
             if (string.IsNullOrWhiteSpace(
                     textRange.Text))
@@ -666,21 +2185,25 @@ namespace Schedule_Creator_V2.Services.Email
                 return string.Empty;
             }
 
-            return RichTextPrefix +
-                   SerializeFlowDocument(
-                       editor.Document);
+            return
+                RichTextPrefix +
+                SerializeFlowDocument(
+                    editor.Document);
         }
 
-        private static string SerializeFlowDocument(
-            FlowDocument document)
+        private static string
+            SerializeFlowDocument(
+                FlowDocument document)
         {
             StringBuilder html =
                 new StringBuilder();
 
-            foreach (Block block in document.Blocks)
+            foreach (Block block
+                     in document.Blocks)
             {
                 html.Append(
-                    SerializeBlock(block));
+                    SerializeBlock(
+                        block));
             }
 
             return html.ToString();
@@ -689,16 +2212,21 @@ namespace Schedule_Creator_V2.Services.Email
         private static string SerializeBlock(
             Block block)
         {
-            if (block is Paragraph paragraph)
+            if (block is
+                Paragraph paragraph)
             {
                 string content =
                     string.Concat(
-                        paragraph.Inlines
-                            .Select(SerializeInline));
+                        paragraph
+                            .Inlines
+                            .Select(
+                                SerializeInline));
 
-                if (string.IsNullOrEmpty(content))
+                if (string.IsNullOrEmpty(
+                        content))
                 {
-                    content = "<br>";
+                    content =
+                        "<br>";
                 }
 
                 content =
@@ -711,10 +2239,12 @@ namespace Schedule_Creator_V2.Services.Email
             }
 
             if (block is
-                System.Windows.Documents.List list)
+                System.Windows.Documents.List
+                list)
             {
                 string tag =
-                    IsOrderedList(list)
+                    IsOrderedList(
+                        list)
                         ? "ol"
                         : "ul";
 
@@ -725,26 +2255,30 @@ namespace Schedule_Creator_V2.Services.Email
                     .Append(tag)
                     .Append('>');
 
-                foreach (ListItem listItem in
-                         list.ListItems)
+                foreach (ListItem listItem
+                         in list.ListItems)
                 {
-                    html.Append("<li>");
+                    html.Append(
+                        "<li>");
 
-                    foreach (Block itemBlock in
-                             listItem.Blocks)
+                    foreach (Block itemBlock
+                             in listItem.Blocks)
                     {
                         html.Append(
-                            SerializeBlock(itemBlock));
+                            SerializeBlock(
+                                itemBlock));
                     }
 
-                    html.Append("</li>");
+                    html.Append(
+                        "</li>");
                 }
 
                 html.Append("</")
                     .Append(tag)
                     .Append('>');
 
-                return html.ToString();
+                return
+                    html.ToString();
             }
 
             return string.Empty;
@@ -764,32 +2298,41 @@ namespace Schedule_Creator_V2.Services.Email
                     WebUtility.HtmlEncode(
                         run.Text);
 
-                return ApplyTextElementFormatting(
-                    content,
-                    run);
+                return
+                    ApplyTextElementFormatting(
+                        content,
+                        run);
             }
 
             if (inline is Span span)
             {
                 string content =
                     string.Concat(
-                        span.Inlines
-                            .Select(SerializeInline));
+                        span
+                            .Inlines
+                            .Select(
+                                SerializeInline));
 
-                return ApplyTextElementFormatting(
-                    content,
-                    span);
+                return
+                    ApplyTextElementFormatting(
+                        content,
+                        span);
             }
 
             return string.Empty;
         }
 
-        private static string ApplyTextElementFormatting(
-            string content,
-            TextElement element)
+        private static string
+            ApplyTextElementFormatting(
+                string content,
+                TextElement element)
         {
-            if (element.FontWeight.ToOpenTypeWeight() >=
-                FontWeights.Bold.ToOpenTypeWeight())
+            if (element
+                    .FontWeight
+                    .ToOpenTypeWeight() >=
+                FontWeights
+                    .Bold
+                    .ToOpenTypeWeight())
             {
                 content =
                     $"<strong>{content}</strong>";
@@ -803,7 +2346,8 @@ namespace Schedule_Creator_V2.Services.Email
             }
 
             if (element is Inline inline &&
-                HasUnderline(inline))
+                HasUnderline(
+                    inline))
             {
                 content =
                     $"<u>{content}</u>";
@@ -815,42 +2359,62 @@ namespace Schedule_Creator_V2.Services.Email
         private static bool HasUnderline(
             Inline inline)
         {
-            if (inline.TextDecorations is null)
+            if (inline.TextDecorations
+                is null)
             {
                 return false;
             }
 
-            return inline.TextDecorations.Any(
-                decoration =>
-                    decoration.Location ==
-                    TextDecorationLocation.Underline);
+            return
+                inline
+                    .TextDecorations
+                    .Any(
+                        decoration =>
+                            decoration.Location ==
+                            TextDecorationLocation
+                                .Underline);
         }
 
         private static bool IsOrderedList(
             System.Windows.Documents.List list)
         {
-            return list.MarkerStyle ==
-                   TextMarkerStyle.Decimal ||
-                   list.MarkerStyle ==
-                   TextMarkerStyle.LowerLatin ||
-                   list.MarkerStyle ==
-                   TextMarkerStyle.UpperLatin ||
-                   list.MarkerStyle ==
-                   TextMarkerStyle.LowerRoman ||
-                   list.MarkerStyle ==
-                   TextMarkerStyle.UpperRoman;
+            return
+                list.MarkerStyle ==
+                    TextMarkerStyle.Decimal ||
+
+                list.MarkerStyle ==
+                    TextMarkerStyle.LowerLatin ||
+
+                list.MarkerStyle ==
+                    TextMarkerStyle.UpperLatin ||
+
+                list.MarkerStyle ==
+                    TextMarkerStyle.LowerRoman ||
+
+                list.MarkerStyle ==
+                    TextMarkerStyle.UpperRoman;
         }
+
+
+        // =========================================================
+        // LOAD RICH TEXT
+        // =========================================================
 
         private static void LoadRichTextValue(
             RichTextBox editor,
             string value)
         {
-            editor.Document.Blocks.Clear();
+            editor.Document
+                .Blocks
+                .Clear();
 
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrWhiteSpace(
+                    value))
             {
-                editor.Document.Blocks.Add(
-                    new Paragraph());
+                editor.Document
+                    .Blocks
+                    .Add(
+                        new Paragraph());
 
                 return;
             }
@@ -883,10 +2447,15 @@ namespace Schedule_Creator_V2.Services.Email
                     html);
             }
 
-            if (editor.Document.Blocks.Count == 0)
+            if (editor.Document
+                    .Blocks
+                    .Count ==
+                0)
             {
-                editor.Document.Blocks.Add(
-                    new Paragraph());
+                editor.Document
+                    .Blocks
+                    .Add(
+                        new Paragraph());
             }
         }
 
@@ -897,19 +2466,18 @@ namespace Schedule_Creator_V2.Services.Email
             document.Blocks.Clear();
 
             string normalizedValue =
-                value
-                    .Replace(
-                        "\r\n",
-                        "\n",
-                        StringComparison.Ordinal);
+                value.Replace(
+                    "\r\n",
+                    "\n",
+                    StringComparison.Ordinal);
 
             string[] paragraphs =
                 normalizedValue.Split(
                     "\n\n",
                     StringSplitOptions.None);
 
-            foreach (string paragraphText in
-                     paragraphs)
+            foreach (string paragraphText
+                     in paragraphs)
             {
                 Paragraph paragraph =
                     new Paragraph();
@@ -924,21 +2492,34 @@ namespace Schedule_Creator_V2.Services.Email
                 {
                     if (index > 0)
                     {
-                        paragraph.Inlines.Add(
-                            new LineBreak());
+                        paragraph
+                            .Inlines
+                            .Add(
+                                new LineBreak());
                     }
 
-                    paragraph.Inlines.Add(
-                        new Run(lines[index]));
+                    paragraph
+                        .Inlines
+                        .Add(
+                            new Run(
+                                lines[index]));
                 }
 
-                document.Blocks.Add(paragraph);
+                document
+                    .Blocks
+                    .Add(
+                        paragraph);
             }
 
-            if (document.Blocks.Count == 0)
+            if (document
+                    .Blocks
+                    .Count ==
+                0)
             {
-                document.Blocks.Add(
-                    new Paragraph());
+                document
+                    .Blocks
+                    .Add(
+                        new Paragraph());
             }
         }
 
@@ -951,9 +2532,11 @@ namespace Schedule_Creator_V2.Services.Email
             XElement root =
                 XElement.Parse(
                     $"<root>{html}</root>",
-                    LoadOptions.PreserveWhitespace);
+                    LoadOptions
+                        .PreserveWhitespace);
 
-            foreach (XNode node in root.Nodes())
+            foreach (XNode node
+                     in root.Nodes())
             {
                 if (node is XElement element)
                 {
@@ -963,7 +2546,10 @@ namespace Schedule_Creator_V2.Services.Email
 
                     if (block is not null)
                     {
-                        document.Blocks.Add(block);
+                        document
+                            .Blocks
+                            .Add(
+                                block);
                     }
 
                     continue;
@@ -973,61 +2559,82 @@ namespace Schedule_Creator_V2.Services.Email
                     !string.IsNullOrWhiteSpace(
                         text.Value))
                 {
-                    document.Blocks.Add(
-                        new Paragraph(
-                            new Run(text.Value)));
+                    document
+                        .Blocks
+                        .Add(
+                            new Paragraph(
+                                new Run(
+                                    text.Value)));
                 }
             }
         }
 
-        private static Block? CreateBlockFromHtmlElement(
-            XElement element)
+
+        // =========================================================
+        // HTML -> FLOW DOCUMENT
+        // =========================================================
+
+        private static Block?
+            CreateBlockFromHtmlElement(
+                XElement element)
         {
             string tag =
-                element.Name.LocalName
+                element
+                    .Name
+                    .LocalName
                     .ToLowerInvariant();
 
             if (tag == "p")
             {
-                return CreateParagraph(
-                    element.Nodes());
+                return
+                    CreateParagraph(
+                        element.Nodes());
             }
 
             if (tag == "ul" ||
                 tag == "ol")
             {
-                return CreateList(
-                    element,
-                    ordered: tag == "ol");
+                return
+                    CreateList(
+                        element,
+                        ordered:
+                            tag == "ol");
             }
 
             Paragraph fallbackParagraph =
                 CreateParagraph(
                     element.Nodes());
 
-            return fallbackParagraph;
+            return
+                fallbackParagraph;
         }
 
-        private static Paragraph CreateParagraph(
-            IEnumerable<XNode> nodes)
+        private static Paragraph
+            CreateParagraph(
+                IEnumerable<XNode> nodes)
         {
             Paragraph paragraph =
                 new Paragraph();
 
-            foreach (XNode node in nodes)
+            foreach (XNode node
+                     in nodes)
             {
                 foreach (Inline inline in
                          CreateInlinesFromHtmlNode(
                              node))
                 {
-                    paragraph.Inlines.Add(inline);
+                    paragraph
+                        .Inlines
+                        .Add(
+                            inline);
                 }
             }
 
             return paragraph;
         }
 
-        private static System.Windows.Documents.List
+        private static
+            System.Windows.Documents.List
             CreateList(
                 XElement element,
                 bool ordered)
@@ -1035,34 +2642,46 @@ namespace Schedule_Creator_V2.Services.Email
             System.Windows.Documents.List list =
                 new System.Windows.Documents.List
                 {
-                    MarkerStyle = ordered
-                        ? TextMarkerStyle.Decimal
-                        : TextMarkerStyle.Disc
+                    MarkerStyle =
+                        ordered
+                            ? TextMarkerStyle.Decimal
+                            : TextMarkerStyle.Disc
                 };
 
             foreach (XElement itemElement in
-                     element.Elements()
-                         .Where(currentElement =>
-                             string.Equals(
-                                 currentElement.Name.LocalName,
-                                 "li",
-                                 StringComparison.OrdinalIgnoreCase)))
+                     element
+                         .Elements()
+                         .Where(
+                             currentElement =>
+                                 string.Equals(
+                                     currentElement
+                                         .Name
+                                         .LocalName,
+
+                                     "li",
+
+                                     StringComparison
+                                         .OrdinalIgnoreCase)))
             {
                 ListItem listItem =
                     new ListItem();
 
                 List<XElement> blockElements =
-                    itemElement.Elements()
-                        .Where(currentElement =>
-                            IsBlockHtmlElement(
-                                currentElement.Name
-                                    .LocalName))
+                    itemElement
+                        .Elements()
+                        .Where(
+                            currentElement =>
+                                IsBlockHtmlElement(
+                                    currentElement
+                                        .Name
+                                        .LocalName))
                         .ToList();
 
                 if (blockElements.Count > 0)
                 {
-                    foreach (XElement blockElement in
-                             blockElements)
+                    foreach (
+                        XElement blockElement
+                        in blockElements)
                     {
                         Block? block =
                             CreateBlockFromHtmlElement(
@@ -1070,24 +2689,36 @@ namespace Schedule_Creator_V2.Services.Email
 
                         if (block is not null)
                         {
-                            listItem.Blocks.Add(block);
+                            listItem
+                                .Blocks
+                                .Add(
+                                    block);
                         }
                     }
                 }
                 else
                 {
-                    listItem.Blocks.Add(
-                        CreateParagraph(
-                            itemElement.Nodes()));
+                    listItem
+                        .Blocks
+                        .Add(
+                            CreateParagraph(
+                                itemElement
+                                    .Nodes()));
                 }
 
-                if (listItem.Blocks.Count == 0)
+                if (listItem
+                        .Blocks
+                        .Count ==
+                    0)
                 {
-                    listItem.Blocks.Add(
-                        new Paragraph());
+                    listItem
+                        .Blocks
+                        .Add(
+                            new Paragraph());
                 }
 
-                list.ListItems.Add(listItem);
+                list.ListItems.Add(
+                    listItem);
             }
 
             return list;
@@ -1100,23 +2731,29 @@ namespace Schedule_Creator_V2.Services.Email
             if (node is XText text)
             {
                 yield return
-                    new Run(text.Value);
+                    new Run(
+                        text.Value);
 
                 yield break;
             }
 
-            if (node is not XElement element)
+            if (node is not
+                XElement element)
             {
                 yield break;
             }
 
             string tag =
-                element.Name.LocalName
+                element
+                    .Name
+                    .LocalName
                     .ToLowerInvariant();
 
             if (tag == "br")
             {
-                yield return new LineBreak();
+                yield return
+                    new LineBreak();
+
                 yield break;
             }
 
@@ -1143,41 +2780,84 @@ namespace Schedule_Creator_V2.Services.Email
                     TextDecorations.Underline;
             }
 
-            foreach (XNode childNode in
-                     element.Nodes())
+            foreach (XNode childNode
+                     in element.Nodes())
             {
                 foreach (Inline childInline in
                          CreateInlinesFromHtmlNode(
                              childNode))
                 {
-                    span.Inlines.Add(childInline);
+                    span
+                        .Inlines
+                        .Add(
+                            childInline);
                 }
             }
 
             yield return span;
         }
 
-        private static bool IsBlockHtmlElement(
-            string tagName)
+        private static bool
+            IsBlockHtmlElement(
+                string tagName)
         {
-            return tagName.Equals(
-                       "p",
-                       StringComparison.OrdinalIgnoreCase) ||
-                   tagName.Equals(
-                       "ul",
-                       StringComparison.OrdinalIgnoreCase) ||
-                   tagName.Equals(
-                       "ol",
-                       StringComparison.OrdinalIgnoreCase);
+            return
+                tagName.Equals(
+                    "p",
+                    StringComparison.OrdinalIgnoreCase) ||
+
+                tagName.Equals(
+                    "ul",
+                    StringComparison.OrdinalIgnoreCase) ||
+
+                tagName.Equals(
+                    "ol",
+                    StringComparison.OrdinalIgnoreCase);
         }
 
-        private static string ConvertPropertyNameToLabel(
-            string propertyName)
+
+        // =========================================================
+        // PROPERTY LABEL
+        // =========================================================
+
+        private static string
+            ConvertPropertyNameToLabel(
+                string propertyName)
         {
             if (string.IsNullOrWhiteSpace(
                     propertyName))
             {
                 return string.Empty;
+            }
+
+            if (propertyName.Equals(
+                    nameof(
+                        CustomImageInputs
+                            .ImageSource),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "Image";
+            }
+
+            if (propertyName.Equals(
+                    nameof(
+                        CustomHeaderInputs
+                            .HeaderImageUrl),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "Header Image";
+            }
+
+            if (propertyName.Equals(
+                    nameof(
+                        CustomFooterInputs
+                            .FooterLogoSource),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return
+                    "Footer Logo";
             }
 
             string label =
@@ -1186,13 +2866,20 @@ namespace Schedule_Creator_V2.Services.Email
                     "([a-z0-9])([A-Z])",
                     "$1 $2");
 
-            return label.Replace(
-                "_",
-                " ");
+            return
+                label.Replace(
+                    "_",
+                    " ");
         }
 
-        private static bool ShouldUseMultilineTextBox(
-            string propertyName)
+
+        // =========================================================
+        // MULTILINE
+        // =========================================================
+
+        private static bool
+            ShouldUseMultilineTextBox(
+                string propertyName)
         {
             string[] multilinePropertyWords =
             {
@@ -1203,27 +2890,78 @@ namespace Schedule_Creator_V2.Services.Email
                 "Message"
             };
 
-            return multilinePropertyWords.Any(word =>
-                propertyName.Contains(
-                    word,
-                    StringComparison.OrdinalIgnoreCase));
+            return
+                multilinePropertyWords
+                    .Any(
+                        word =>
+                            propertyName.Contains(
+                                word,
+                                StringComparison
+                                    .OrdinalIgnoreCase));
         }
 
-        private static SolidColorBrush CreateBrush(
-            byte red,
-            byte green,
-            byte blue)
+
+        // =========================================================
+        // BRUSH
+        // =========================================================
+
+        private static SolidColorBrush
+            CreateBrush(
+                byte red,
+                byte green,
+                byte blue)
         {
-            return new SolidColorBrush(
-                Color.FromRgb(
-                    red,
-                    green,
-                    blue));
+            return
+                new SolidColorBrush(
+                    Color.FromRgb(
+                        red,
+                        green,
+                        blue));
         }
 
-        private sealed record EmailInputControlInfo(
-            IEmailInputs InputGroup,
-            PropertyInfo Property
-        );
+
+        // =========================================================
+        // INTERNAL CONTROL STATE
+        // =========================================================
+
+        private sealed record
+            EmailInputControlInfo(
+                IEmailInputs InputGroup,
+                PropertyInfo Property
+            );
+
+        private sealed record
+            EmailImageControlInfo(
+                IEmailInputs InputGroup,
+                PropertyInfo Property,
+                ImagePickerState State,
+                bool HasDefaultImage
+            );
+
+        private sealed class
+            ImagePickerState
+        {
+            public string DefaultValue
+            {
+                get;
+            }
+
+            public string DisplayValue
+            {
+                get;
+                set;
+            }
+
+            public ImagePickerState(
+                string defaultValue,
+                string displayValue)
+            {
+                DefaultValue =
+                    defaultValue;
+
+                DisplayValue =
+                    displayValue;
+            }
+        }
     }
 }
