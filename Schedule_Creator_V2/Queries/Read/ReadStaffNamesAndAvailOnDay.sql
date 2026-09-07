@@ -1,11 +1,15 @@
 ﻿SELECT
-    s.id, s.fName, s.lName, a.dayOfTheWeek, a.startTime, a.endTime
+    s.id,
+    s.fName,
+    s.lName,
+    a.dayOfTheWeek,
+    a.startTime,
+    a.endTime
 FROM
-    [UWGB].[Staff] s
-RIGHT JOIN
-    [UWGB].[Availability] a
+    [UWGB].[Staff] AS s
+INNER JOIN
+    [UWGB].[Availability] AS a
 ON
-
     s.id = a.id
 WHERE
-    a.dayOfTheWeek = @day
+    a.dayOfTheWeek = @day;

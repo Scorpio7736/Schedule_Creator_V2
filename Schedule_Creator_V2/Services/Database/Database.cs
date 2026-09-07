@@ -5,6 +5,48 @@ namespace Schedule_Creator_V2.Services.Database
 {
     internal class Database
     {
+
+        private static string? _connectionStringOverride;
+
+
+        internal static void SetConnectionString(
+            string? connectionString)
+        {
+            _connectionStringOverride =
+                connectionString;
+        }
+
+
+        private static string GetConnectionString()
+        {
+            if (!string.IsNullOrWhiteSpace(
+                    _connectionStringOverride))
+            {
+                return _connectionStringOverride;
+            }
+
+            ConnectionStringSettings? settings =
+                ConfigurationManager
+                    .ConnectionStrings[
+                        "LocalDbConnection"];
+
+            if (settings is null ||
+                string.IsNullOrWhiteSpace(
+                    settings.ConnectionString))
+            {
+                throw new InvalidOperationException(
+                    "The LocalDbConnection connection string " +
+                    "could not be found.");
+            }
+
+            return settings.ConnectionString;
+        }
+
+
+
+
+
+
         /// <summary>
         /// Executes a non query command in the database. Primary use is going to be for INSERT INTO statements.
         /// </summary>
@@ -73,7 +115,7 @@ namespace Schedule_Creator_V2.Services.Database
         /// </returns>
         private static SqlCommand GetNewSqlCommand()
         {
-            SqlConnection sqlConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["LocalDbConnection"].ConnectionString);
+            SqlConnection sqlConnection = new SqlConnection(GetConnectionString());
             sqlConnection.Open();
             SqlCommand sqlCommand = sqlConnection.CreateCommand();
             return sqlCommand;
