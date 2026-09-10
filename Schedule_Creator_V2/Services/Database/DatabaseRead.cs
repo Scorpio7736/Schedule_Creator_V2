@@ -6,7 +6,25 @@ using Schedule_Creator_V2.Models.Records;
 namespace Schedule_Creator_V2.Services.Database
 {
     internal class DatabaseRead : Database
-    {
+    {   
+        public static List<AutoGenScheduleRow> ReadAutoGenScheduleData()
+        {
+            var returnList = new List<AutoGenScheduleRow>();
+
+            using (var reader = ExecuteReader(Queries.ReadAutoGenScheduleData))
+            while (reader.Read())
+                {
+                    returnList.Add(new AutoGenScheduleRow(
+                        (int)reader["id"],
+                        (Positions)reader["position"],
+                        (DayOfWeek)reader["dayOfTheWeek"],
+                        (TimeOnly)reader["startTime"],
+                        (TimeOnly)reader["endTime"]
+                    ));
+                }
+
+            return returnList;
+        }
 
         public static List<Staff> ReadStaffWithNoAvail()
         {

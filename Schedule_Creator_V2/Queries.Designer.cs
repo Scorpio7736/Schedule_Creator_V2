@@ -239,6 +239,39 @@ namespace Schedule_Creator_V2 {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USE Schedule_Creator_V2
+        ///
+        ///SELECT
+        ///	s.id,
+        ///	s.position,
+        ///	CASE a.dayOfTheWeek
+        ///    WHEN 1 THEN &apos;Monday&apos;
+        ///    WHEN 2 THEN &apos;Tuesday&apos;
+        ///    WHEN 3 THEN &apos;Wednesday&apos;
+        ///    WHEN 4 THEN &apos;Thursday&apos;
+        ///    WHEN 5 THEN &apos;Friday&apos;
+        ///    WHEN 6 THEN &apos;Saturday&apos;
+        ///    WHEN 7 THEN &apos;Sunday&apos;
+        ///    ELSE &apos;Unknown&apos;
+        ///END as dayOfTheWeek,
+        ///	a.startTime,
+        ///	a.endTime
+        ///FROM
+        ///	[UWGB].[Staff] as s
+        ///JOIN
+        ///	[UWGB].[Availability] as a
+        ///	on
+        ///	s.id = a.id
+        ///WHERE
+        ///	belayCert = &apos;True&apos;.
+        /// </summary>
+        internal static string ReadAutoGenScheduleData {
+            get {
+                return ResourceManager.GetString("ReadAutoGenScheduleData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT 
         ///	* 
         ///FROM 
@@ -391,16 +424,20 @@ namespace Schedule_Creator_V2 {
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT
-        ///    s.id, s.fName, s.lName, a.dayOfTheWeek, a.startTime, a.endTime
+        ///    s.id,
+        ///    s.fName,
+        ///    s.lName,
+        ///    a.dayOfTheWeek,
+        ///    a.startTime,
+        ///    a.endTime
         ///FROM
-        ///    [UWGB].[Staff] s
-        ///RIGHT JOIN
-        ///    [UWGB].[Availability] a
+        ///    [UWGB].[Staff] AS s
+        ///INNER JOIN
+        ///    [UWGB].[Availability] AS a
         ///ON
-        ///
         ///    s.id = a.id
         ///WHERE
-        ///    a.dayOfTheWeek = @day.
+        ///    a.dayOfTheWeek = @day;.
         /// </summary>
         internal static string ReadStaffNamesAndAvailOnDay {
             get {

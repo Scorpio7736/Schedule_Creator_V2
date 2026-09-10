@@ -157,6 +157,9 @@
   <data name="ReadAllScheduleNames" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Queries\Read\ReadAllScheduleNames.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="ReadAutoGenScheduleData" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Queries\Read\ReadAutoGenScheduleData.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="ReadAvailByID" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Queries\Read\ReadAvailByID.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
