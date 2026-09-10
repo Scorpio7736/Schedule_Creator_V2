@@ -6,22 +6,33 @@ using Schedule_Creator_V2.Models.Records;
 namespace Schedule_Creator_V2.Services.Database
 {
     internal class DatabaseRead : Database
-    {   
+    {
         public static List<AutoGenScheduleRow> ReadAutoGenScheduleData()
         {
             var returnList = new List<AutoGenScheduleRow>();
 
             using (var reader = ExecuteReader(Queries.ReadAutoGenScheduleData))
-            while (reader.Read())
+            {
+                while (reader.Read())
                 {
-                    returnList.Add(new AutoGenScheduleRow(
-                        (int)reader["id"],
-                        (Positions)reader["position"],
-                        (DayOfWeek)reader["dayOfTheWeek"],
-                        (TimeOnly)reader["startTime"],
-                        (TimeOnly)reader["endTime"]
-                    ));
+                    returnList.Add(
+                        new AutoGenScheduleRow(
+                            (int)reader["id"],
+
+                            Enum.Parse<Positions>(
+                                (string)reader["position"]),
+
+                            Enum.Parse<DayOfWeek>(
+                                (string)reader["dayOfTheWeek"]),
+
+                            TimeOnly.FromTimeSpan(
+                                (TimeSpan)reader["startTime"]),
+
+                            TimeOnly.FromTimeSpan(
+                                (TimeSpan)reader["endTime"])
+                        ));
                 }
+            }
 
             return returnList;
         }
