@@ -7,31 +7,33 @@ namespace Schedule_Creator_V2.Services
 {
     public static class ScheduleGeneratorService
     {
-        private record GeneratedInterval(
+        // =========================================================
+        // INTERNAL SHIFT REPRESENTATION
+        // =========================================================
+
+        private record GeneratedShift(
             DayOfWeek Day,
-            int StaffId,
+            int? StaffId,
             TimeOnly Start,
-            TimeOnly End
+            TimeOnly End,
+            AutoGenShiftType ShiftType
         );
 
-        /// <summary>
-        /// Automatically generates a weekly schedule.
-        ///
-        /// Rules:
-        /// - Only schedules employees within their availability.
-        /// - Excluded employees are never scheduled.
-        /// - Keeps the requested number of staff working at all times.
-        /// - Requires a leadership-qualified employee at all times when
-        ///   requireLeadership is true.
-        /// - Tries to keep employees on continuous shifts.
-        /// - Tries to distribute hours fairly.
-        /// - Merges consecutive coverage intervals into full shifts.
-        /// </summary>
+        private record EffectiveShiftTemplate(
+            int TemplateIndex,
+            TimeOnly Start,
+            TimeOnly End,
+            AutoGenShiftType ShiftType
+        );
+
+        // =========================================================
+        // AUTO GENERATE
+        // =========================================================
+
         public static List<ScheduleRow> AutoGenerateSchedule(
             string scheduleName,
-            int staffRequired,
-            HashSet<int>? excludedStaffIds = null,
-            bool requireLeadership = true)
+            IReadOnlyCollection<AutoGenShiftTemplate> shiftTemplates,
+            HashSet<int>? excludedStaffIds = null)
         {
             if (string.IsNullOrWhiteSpace(scheduleName))
             {
@@ -40,14 +42,20 @@ namespace Schedule_Creator_V2.Services
                     nameof(scheduleName));
             }
 
-            if (staffRequired < 1)
+            if (shiftTemplates == null ||
+                shiftTemplates.Count == 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(staffRequired),
-                    "At least one staff member must be required.");
+                throw new ArgumentException(
+                    "At least one shift template is required.",
+                    nameof(shiftTemplates));
             }
 
-            excludedStaffIds ??= new HashSet<int>();
+            excludedStaffIds ??=
+                new HashSet<int>();
+
+            // -----------------------------------------------------
+            // LOAD DATA
+            // -----------------------------------------------------
 
             List<AutoGenScheduleRow> staffData =
                 DatabaseRead.ReadAutoGenScheduleData();
@@ -61,49 +69,133 @@ namespace Schedule_Creator_V2.Services
                     "No job settings were found.");
             }
 
-            /*
-             * Tracks how many minutes each employee has been assigned
-             * throughout the generated schedule.
-             *
-             * This allows us to prefer employees with fewer scheduled
-             * hours when several employees are equally valid choices.
-             */
-            Dictionary<int, int> assignedMinutes = new();
+            // -----------------------------------------------------
+            // NORMALIZE STAFF TIMES
+            // -----------------------------------------------------
+
+            staffData =
+                staffData
+                    .Select(x =>
+                        x with
+                        {
+                            startTime =
+                                NormalizeTime(x.startTime),
+
+                            endTime =
+                                NormalizeTime(x.endTime)
+                        })
+                    .Where(x =>
+                        x.endTime >
+                        x.startTime)
+                    .ToList();
+
+            // -----------------------------------------------------
+            // NORMALIZE JOB SETTINGS
+            // -----------------------------------------------------
+
+            jobSettings =
+                jobSettings
+                    .Select(x =>
+                        new JobSettings(
+                            x.dayOfWeek,
+                            NormalizeTime(
+                                x.openingTime),
+                            NormalizeTime(
+                                x.closingTime)))
+                    .Where(x =>
+                        x.closingTime >
+                        x.openingTime)
+                    .ToList();
+
+            // -----------------------------------------------------
+            // NORMALIZE TEMPLATES
+            // -----------------------------------------------------
+
+            List<AutoGenShiftTemplate> templates =
+                shiftTemplates
+                    .Select(x =>
+                        new AutoGenShiftTemplate(
+                            NormalizeTime(
+                                x.startTime),
+                            NormalizeTime(
+                                x.endTime),
+                            x.shiftType))
+                    .Where(x =>
+                        x.endTime >
+                        x.startTime)
+                    .ToList();
+
+            if (templates.Count == 0)
+            {
+                throw new InvalidOperationException(
+                    "No valid shift templates were provided.");
+            }
+
+            // -----------------------------------------------------
+            // FAIRNESS TRACKING
+            // -----------------------------------------------------
+
+            Dictionary<int, int> assignedMinutes =
+                new();
 
             /*
-             * Temporary interval assignments.
+             * Globally tracks anyone who has already appeared on
+             * the schedule.
              *
-             * Example:
-             *
-             * Jack  Monday 2:45 - 4:45
-             * Jack  Monday 4:45 - 5:30
-             * Jack  Monday 5:30 - 6:15
-             *
-             * These will later be merged into:
-             *
-             * Jack  Monday 2:45 - 6:15
+             * Unused staff receive priority.
              */
-            List<GeneratedInterval> assignments = new();
+            HashSet<int> scheduledStaffIds =
+                new();
 
-            foreach (JobSettings jobSetting in jobSettings)
+            List<GeneratedShift> assignments =
+                new();
+
+            // -----------------------------------------------------
+            // BUILD EACH DAY
+            // -----------------------------------------------------
+
+            foreach (
+                JobSettings jobSetting
+                in jobSettings
+                    .OrderBy(x =>
+                        GetDaySortOrder(
+                            x.dayOfWeek)))
             {
                 GenerateDay(
                     jobSetting,
+                    templates,
                     staffData,
-                    staffRequired,
                     excludedStaffIds,
-                    requireLeadership,
                     assignedMinutes,
+                    scheduledStaffIds,
                     assignments);
             }
 
-            List<GeneratedInterval> mergedAssignments =
-                MergeAssignments(assignments);
+            // -----------------------------------------------------
+            // RETURN FINAL ROWS
+            // -----------------------------------------------------
 
-            return mergedAssignments
-                .OrderBy(x => GetDaySortOrder(x.Day))
-                .ThenBy(x => x.Start)
-                .ThenBy(x => x.StaffId)
+            return assignments
+                .Where(x =>
+                    x.End > x.Start)
+
+                .OrderBy(x =>
+                    GetDaySortOrder(
+                        x.Day))
+
+                .ThenBy(x =>
+                    x.Start)
+
+                .ThenBy(x =>
+                    x.ShiftType ==
+                    AutoGenShiftType.Leadership
+                        ? 0
+                        : 1)
+
+                .ThenBy(x =>
+                    x.StaffId ??
+                    int.MaxValue)
+
                 .Select(x =>
                     new ScheduleRow(
                         x.Day,
@@ -111,333 +203,371 @@ namespace Schedule_Creator_V2.Services
                         x.Start,
                         x.End,
                         scheduleName.Trim()))
+
                 .ToList();
         }
 
-        /// <summary>
-        /// Generates all required coverage for a single day.
-        /// </summary>
+        // =========================================================
+        // GENERATE DAY
+        // =========================================================
+
         private static void GenerateDay(
             JobSettings jobSetting,
+            List<AutoGenShiftTemplate> templates,
             List<AutoGenScheduleRow> allStaffData,
-            int staffRequired,
             HashSet<int> excludedStaffIds,
-            bool requireLeadership,
             Dictionary<int, int> assignedMinutes,
-            List<GeneratedInterval> assignments)
+            HashSet<int> scheduledStaffIds,
+            List<GeneratedShift> assignments)
         {
-            if (jobSetting.closingTime <= jobSetting.openingTime)
-            {
-                throw new InvalidOperationException(
-                    $"Invalid operating hours for {jobSetting.dayOfWeek}: " +
-                    $"{jobSetting.openingTime:h:mm tt} - " +
-                    $"{jobSetting.closingTime:h:mm tt}.");
-            }
+            // -----------------------------------------------------
+            // STAFF FOR DAY
+            // -----------------------------------------------------
 
-            /*
-             * Get everyone who:
-             *
-             * 1. Has availability on this day.
-             * 2. Has not been excluded.
-             * 3. Has at least some availability during operating hours.
-             */
             List<AutoGenScheduleRow> dayStaff =
                 allStaffData
                     .Where(x =>
-                        x.dayOfWeek == jobSetting.dayOfWeek)
+                        x.dayOfWeek ==
+                        jobSetting.dayOfWeek)
+
                     .Where(x =>
-                        !excludedStaffIds.Contains(x.id))
-                    .Where(x =>
-                        x.startTime < jobSetting.closingTime &&
-                        x.endTime > jobSetting.openingTime)
+                        !excludedStaffIds.Contains(
+                            x.id))
+
                     .ToList();
 
-            if (dayStaff.Count == 0)
+            // -----------------------------------------------------
+            // BUILD EFFECTIVE SHIFTS
+            // -----------------------------------------------------
+
+            List<EffectiveShiftTemplate> dayShifts =
+                new();
+
+            for (int i = 0;
+                 i < templates.Count;
+                 i++)
             {
-                throw new InvalidOperationException(
-                    $"No eligible staff are available on " +
-                    $"{jobSetting.dayOfWeek}.");
-            }
+                AutoGenShiftTemplate template =
+                    templates[i];
 
-            /*
-             * Build every point in time where staffing availability changes.
-             *
-             * Example:
-             *
-             * Open:      2:45
-             * Jack:      2:45 - 8:15
-             * Sara:      2:45 - 6:15
-             * Owen:      4:45 - 8:15
-             *
-             * Boundaries:
-             *
-             * 2:45
-             * 4:45
-             * 6:15
-             * 8:15
-             */
-            List<TimeOnly> boundaries =
-                GetTimeBoundaries(
-                    jobSetting,
-                    dayStaff);
+                /*
+                 * Never schedule outside configured operating hours.
+                 *
+                 * If a template extends beyond opening/closing,
+                 * trim it to the actual operating day.
+                 */
+                TimeOnly effectiveStart =
+                    template.startTime <
+                    jobSetting.openingTime
+                        ? jobSetting.openingTime
+                        : template.startTime;
 
-            /*
-             * Schedule each interval between boundaries.
-             */
-            for (int i = 0; i < boundaries.Count - 1; i++)
-            {
-                TimeOnly intervalStart = boundaries[i];
-                TimeOnly intervalEnd = boundaries[i + 1];
+                TimeOnly effectiveEnd =
+                    template.endTime >
+                    jobSetting.closingTime
+                        ? jobSetting.closingTime
+                        : template.endTime;
 
-                if (intervalEnd <= intervalStart)
+                if (effectiveEnd <=
+                    effectiveStart)
                 {
                     continue;
                 }
 
-                /*
-                 * An employee must be available for the ENTIRE interval.
-                 */
-                List<AutoGenScheduleRow> candidates =
-                    dayStaff
-                        .Where(x =>
-                            x.startTime <= intervalStart &&
-                            x.endTime >= intervalEnd)
-                        /*
-                         * Prevent duplicate employee entries in case an
-                         * employee has overlapping availability rows.
-                         */
-                        .GroupBy(x => x.id)
-                        .Select(group => group.First())
-                        .ToList();
+                dayShifts.Add(
+                    new EffectiveShiftTemplate(
+                        i,
+                        effectiveStart,
+                        effectiveEnd,
+                        template.shiftType));
+            }
 
-                if (candidates.Count < staffRequired)
-                {
-                    throw new InvalidOperationException(
-                        $"Not enough staff are available on " +
-                        $"{jobSetting.dayOfWeek} from " +
-                        $"{intervalStart:h:mm tt} to " +
-                        $"{intervalEnd:h:mm tt}. " +
-                        $"Required: {staffRequired}. " +
-                        $"Available: {candidates.Count}.");
-                }
+            /*
+             * Leadership is assigned first.
+             *
+             * This prevents an overlapping Any Staff shift from
+             * consuming the only available leader.
+             *
+             * Within each type, fill the shifts with the fewest
+             * possible candidates first.
+             */
+            dayShifts =
+                dayShifts
+                    .OrderBy(x =>
+                        x.ShiftType ==
+                        AutoGenShiftType.Leadership
+                            ? 0
+                            : 1)
 
-                /*
-                 * Find employees who were working immediately before this
-                 * interval. They will receive a strong preference so the
-                 * generator produces longer continuous shifts.
-                 */
-                HashSet<int> currentlyWorking =
-                    assignments
-                        .Where(x =>
-                            x.Day == jobSetting.dayOfWeek &&
-                            x.End == intervalStart)
-                        .Select(x => x.StaffId)
-                        .ToHashSet();
+                    .ThenBy(x =>
+                        CountPotentialCandidates(
+                            dayStaff,
+                            x))
 
-                List<AutoGenScheduleRow> selected =
-                    SelectStaffForInterval(
-                        candidates,
-                        staffRequired,
-                        requireLeadership,
-                        currentlyWorking,
+                    .ThenBy(x =>
+                        x.Start)
+
+                    .ThenBy(x =>
+                        x.End)
+
+                    .ThenBy(x =>
+                        x.TemplateIndex)
+
+                    .ToList();
+
+            // -----------------------------------------------------
+            // FILL EACH SHIFT
+            // -----------------------------------------------------
+
+            foreach (
+                EffectiveShiftTemplate shift
+                in dayShifts)
+            {
+                AutoGenScheduleRow? employee =
+                    FindBestEmployeeForShift(
+                        jobSetting.dayOfWeek,
+                        shift,
+                        dayShifts,
+                        dayStaff,
+                        assignments,
                         assignedMinutes,
-                        intervalEnd);
+                        scheduledStaffIds);
 
-                int intervalMinutes =
-                    GetMinutesBetween(
-                        intervalStart,
-                        intervalEnd);
+                // -------------------------------------------------
+                // MISSING
+                // -------------------------------------------------
 
-                foreach (AutoGenScheduleRow employee in selected)
+                if (employee == null)
                 {
                     assignments.Add(
-                        new GeneratedInterval(
+                        new GeneratedShift(
                             jobSetting.dayOfWeek,
+                            null,
+                            shift.Start,
+                            shift.End,
+                            shift.ShiftType));
+
+                    continue;
+                }
+
+                // -------------------------------------------------
+                // REAL STAFF
+                // -------------------------------------------------
+
+                assignments.Add(
+                    new GeneratedShift(
+                        jobSetting.dayOfWeek,
+                        employee.id,
+                        shift.Start,
+                        shift.End,
+                        shift.ShiftType));
+
+                scheduledStaffIds.Add(
+                    employee.id);
+
+                int minutes =
+                    GetMinutesBetween(
+                        shift.Start,
+                        shift.End);
+
+                assignedMinutes[employee.id] =
+                    assignedMinutes
+                        .GetValueOrDefault(
                             employee.id,
-                            intervalStart,
-                            intervalEnd));
-
-                    if (!assignedMinutes.ContainsKey(employee.id))
-                    {
-                        assignedMinutes[employee.id] = 0;
-                    }
-
-                    assignedMinutes[employee.id] +=
-                        intervalMinutes;
-                }
+                            0)
+                    + minutes;
             }
         }
 
-        /// <summary>
-        /// Creates all time points where employee availability changes.
-        /// </summary>
-        private static List<TimeOnly> GetTimeBoundaries(
-            JobSettings jobSetting,
-            List<AutoGenScheduleRow> dayStaff)
+        // =========================================================
+        // FIND BEST EMPLOYEE
+        // =========================================================
+
+        private static AutoGenScheduleRow?
+            FindBestEmployeeForShift(
+                DayOfWeek day,
+                EffectiveShiftTemplate shift,
+                List<EffectiveShiftTemplate> allDayShifts,
+                List<AutoGenScheduleRow> dayStaff,
+                List<GeneratedShift> existingAssignments,
+                Dictionary<int, int> assignedMinutes,
+                HashSet<int> scheduledStaffIds)
         {
-            SortedSet<TimeOnly> boundaries = new()
+            List<AutoGenScheduleRow> candidates =
+                dayStaff
+
+                    /*
+                     * Must cover the entire shift.
+                     */
+                    .Where(employee =>
+                        employee.startTime <=
+                        shift.Start &&
+                        employee.endTime >=
+                        shift.End)
+
+                    /*
+                     * Must meet shift qualification.
+                     */
+                    .Where(employee =>
+                        CanFillShiftType(
+                            employee.position,
+                            shift.ShiftType))
+
+                    /*
+                     * One employee cannot work two overlapping
+                     * template shifts.
+                     */
+                    .Where(employee =>
+                        !HasOverlappingAssignment(
+                            employee.id,
+                            day,
+                            shift.Start,
+                            shift.End,
+                            existingAssignments))
+
+                    /*
+                     * An employee may have multiple availability
+                     * rows. Only consider them once.
+                     */
+                    .GroupBy(employee =>
+                        employee.id)
+
+                    .Select(group =>
+                        group.First())
+
+                    .ToList();
+
+            if (candidates.Count == 0)
             {
-                jobSetting.openingTime,
-                jobSetting.closingTime
-            };
-
-            foreach (AutoGenScheduleRow employee in dayStaff)
-            {
-                TimeOnly effectiveStart =
-                    employee.startTime < jobSetting.openingTime
-                        ? jobSetting.openingTime
-                        : employee.startTime;
-
-                TimeOnly effectiveEnd =
-                    employee.endTime > jobSetting.closingTime
-                        ? jobSetting.closingTime
-                        : employee.endTime;
-
-                if (effectiveStart >
-                    jobSetting.openingTime &&
-                    effectiveStart <
-                    jobSetting.closingTime)
-                {
-                    boundaries.Add(effectiveStart);
-                }
-
-                if (effectiveEnd >
-                    jobSetting.openingTime &&
-                    effectiveEnd <
-                    jobSetting.closingTime)
-                {
-                    boundaries.Add(effectiveEnd);
-                }
+                return null;
             }
 
-            return boundaries.ToList();
+            return candidates
+
+                /*
+                 * PRIORITY #1:
+                 *
+                 * Include staff who have not appeared anywhere
+                 * on the weekly schedule.
+                 */
+                .OrderBy(employee =>
+                    scheduledStaffIds.Contains(
+                        employee.id)
+                            ? 1
+                            : 0)
+
+                /*
+                 * PRIORITY #2:
+                 *
+                 * Prefer staff with fewer opportunities to fit
+                 * one of today's template shifts.
+                 */
+                .ThenBy(employee =>
+                    CountCompatibleShifts(
+                        employee,
+                        allDayShifts))
+
+                /*
+                 * PRIORITY #3:
+                 *
+                 * Balance overall scheduled minutes.
+                 */
+                .ThenBy(employee =>
+                    assignedMinutes
+                        .GetValueOrDefault(
+                            employee.id,
+                            0))
+
+                /*
+                 * PRIORITY #4:
+                 *
+                 * Prefer the more constrained availability.
+                 */
+                .ThenBy(employee =>
+                    GetMinutesBetween(
+                        employee.startTime,
+                        employee.endTime))
+
+                .ThenBy(employee =>
+                    employee.endTime)
+
+                .ThenBy(employee =>
+                    employee.id)
+
+                .First();
         }
 
-        /// <summary>
-        /// Chooses the employees who should work a particular interval.
-        /// </summary>
-        private static List<AutoGenScheduleRow> SelectStaffForInterval(
-            List<AutoGenScheduleRow> candidates,
-            int staffRequired,
-            bool requireLeadership,
-            HashSet<int> currentlyWorking,
-            Dictionary<int, int> assignedMinutes,
-            TimeOnly intervalEnd)
+        // =========================================================
+        // COUNT POTENTIAL CANDIDATES
+        // =========================================================
+
+        private static int CountPotentialCandidates(
+            List<AutoGenScheduleRow> dayStaff,
+            EffectiveShiftTemplate shift)
         {
-            List<AutoGenScheduleRow> selected = new();
+            return dayStaff
 
-            /*
-             * Leadership gets selected first so we know every interval
-             * contains at least one qualified leader.
-             */
-            if (requireLeadership)
-            {
-                List<AutoGenScheduleRow> leaders =
-                    candidates
-                        .Where(x =>
-                            IsLeadership(x.position))
-                        .ToList();
+                .Where(employee =>
+                    employee.startTime <=
+                    shift.Start &&
+                    employee.endTime >=
+                    shift.End)
 
-                if (leaders.Count == 0)
-                {
-                    throw new InvalidOperationException(
-                        "Leadership coverage is required, but no " +
-                        "leadership-qualified employee is available " +
-                        $"through {intervalEnd:h:mm tt}.");
-                }
+                .Where(employee =>
+                    CanFillShiftType(
+                        employee.position,
+                        shift.ShiftType))
 
-                AutoGenScheduleRow selectedLeader =
-                    leaders
-                        .OrderBy(x =>
-                            GetCandidateScore(
-                                x,
-                                currentlyWorking,
-                                assignedMinutes))
-                        .ThenByDescending(x =>
-                            GetMinutesBetween(
-                                intervalEnd,
-                                x.endTime))
-                        .First();
+                .Select(employee =>
+                    employee.id)
 
-                selected.Add(selectedLeader);
-            }
+                .Distinct()
 
-            /*
-             * Fill all remaining positions.
-             */
-            while (selected.Count < staffRequired)
-            {
-                AutoGenScheduleRow? nextEmployee =
-                    candidates
-                        .Where(candidate =>
-                            selected.All(selectedEmployee =>
-                                selectedEmployee.id != candidate.id))
-                        .OrderBy(candidate =>
-                            GetCandidateScore(
-                                candidate,
-                                currentlyWorking,
-                                assignedMinutes))
-                        /*
-                         * If two employees have equal scores, prefer the
-                         * employee who remains available longer.
-                         */
-                        .ThenByDescending(candidate =>
-                            GetMinutesBetween(
-                                intervalEnd,
-                                candidate.endTime))
-                        .FirstOrDefault();
-
-                if (nextEmployee == null)
-                {
-                    throw new InvalidOperationException(
-                        "Unable to find enough eligible staff " +
-                        "for this scheduling interval.");
-                }
-
-                selected.Add(nextEmployee);
-            }
-
-            return selected;
+                .Count();
         }
 
-        /// <summary>
-        /// Produces a scheduling priority score.
-        ///
-        /// Lower scores are preferred.
-        /// </summary>
-        private static int GetCandidateScore(
+        // =========================================================
+        // COUNT COMPATIBLE SHIFTS
+        // =========================================================
+
+        private static int CountCompatibleShifts(
             AutoGenScheduleRow employee,
-            HashSet<int> currentlyWorking,
-            Dictionary<int, int> assignedMinutes)
+            List<EffectiveShiftTemplate> shifts)
         {
-            int score =
-                assignedMinutes.GetValueOrDefault(
-                    employee.id,
-                    0);
+            return shifts.Count(
+                shift =>
+                    employee.startTime <=
+                    shift.Start &&
 
-            /*
-             * Strongly prefer employees who are already working.
-             *
-             * This prevents schedules such as:
-             *
-             * Jack 2:45-3:00
-             * Sara 3:00-3:15
-             * Jack 3:15-3:30
-             *
-             * and instead creates longer shifts.
-             */
-            if (currentlyWorking.Contains(employee.id))
-            {
-                score -= 100_000;
-            }
+                    employee.endTime >=
+                    shift.End &&
 
-            return score;
+                    CanFillShiftType(
+                        employee.position,
+                        shift.ShiftType));
         }
 
-        /// <summary>
-        /// Determines whether a position can satisfy the leadership
-        /// requirement.
-        /// </summary>
+        // =========================================================
+        // SHIFT TYPE
+        // =========================================================
+
+        private static bool CanFillShiftType(
+            Positions position,
+            AutoGenShiftType shiftType)
+        {
+            return shiftType switch
+            {
+                AutoGenShiftType.AnyStaff =>
+                    true,
+
+                AutoGenShiftType.Leadership =>
+                    IsLeadership(position),
+
+                _ =>
+                    false
+            };
+        }
+
         private static bool IsLeadership(
             Positions position)
         {
@@ -449,74 +579,61 @@ namespace Schedule_Creator_V2.Services
                 Positions.Shift_Lead;
         }
 
-        /// <summary>
-        /// Combines consecutive intervals belonging to the same employee.
-        /// </summary>
-        private static List<GeneratedInterval> MergeAssignments(
-            List<GeneratedInterval> assignments)
+        // =========================================================
+        // OVERLAP
+        // =========================================================
+
+        private static bool HasOverlappingAssignment(
+            int staffId,
+            DayOfWeek day,
+            TimeOnly start,
+            TimeOnly end,
+            List<GeneratedShift> assignments)
         {
-            List<GeneratedInterval> merged = new();
+            return assignments.Any(
+                existing =>
+                    existing.Day == day &&
 
-            var groups =
-                assignments
-                    .GroupBy(x =>
-                        new
-                        {
-                            x.Day,
-                            x.StaffId
-                        });
+                    existing.StaffId ==
+                    staffId &&
 
-            foreach (var group in groups)
-            {
-                List<GeneratedInterval> employeeIntervals =
-                    group
-                        .OrderBy(x => x.Start)
-                        .ToList();
-
-                if (employeeIntervals.Count == 0)
-                {
-                    continue;
-                }
-
-                GeneratedInterval current =
-                    employeeIntervals[0];
-
-                for (int i = 1;
-                     i < employeeIntervals.Count;
-                     i++)
-                {
-                    GeneratedInterval next =
-                        employeeIntervals[i];
-
-                    /*
-                     * The next interval starts exactly where the current
-                     * one ends, so they form one continuous shift.
-                     */
-                    if (current.End == next.Start)
-                    {
-                        current =
-                            current with
-                            {
-                                End = next.End
-                            };
-                    }
-                    else
-                    {
-                        merged.Add(current);
-
-                        current = next;
-                    }
-                }
-
-                merged.Add(current);
-            }
-
-            return merged;
+                    TimesOverlap(
+                        start,
+                        end,
+                        existing.Start,
+                        existing.End));
         }
 
-        /// <summary>
-        /// Returns the number of minutes between two TimeOnly values.
-        /// </summary>
+        private static bool TimesOverlap(
+            TimeOnly start1,
+            TimeOnly end1,
+            TimeOnly start2,
+            TimeOnly end2)
+        {
+            /*
+             * Adjacent shifts are allowed.
+             *
+             * 2:45-5:45
+             * 5:45-8:15
+             *
+             * do not overlap.
+             */
+            return start1 < end2 &&
+                   end1 > start2;
+        }
+
+        // =========================================================
+        // TIME HELPERS
+        // =========================================================
+
+        private static TimeOnly NormalizeTime(
+            TimeOnly time)
+        {
+            return new TimeOnly(
+                time.Hour,
+                time.Minute);
+        }
+
         private static int GetMinutesBetween(
             TimeOnly start,
             TimeOnly end)
@@ -526,16 +643,16 @@ namespace Schedule_Creator_V2.Services
                 return 0;
             }
 
-            TimeSpan difference =
+            return (int)(
                 end.ToTimeSpan() -
-                start.ToTimeSpan();
-
-            return (int)difference.TotalMinutes;
+                start.ToTimeSpan())
+                .TotalMinutes;
         }
 
-        /// <summary>
-        /// Makes Monday the first day when sorting schedules.
-        /// </summary>
+        // =========================================================
+        // DAY ORDER
+        // =========================================================
+
         private static int GetDaySortOrder(
             DayOfWeek day)
         {

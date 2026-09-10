@@ -1,12 +1,14 @@
 <Window x:Class="Schedule_Creator_V2.Auto_Generate_Options"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:enums="clr-namespace:Schedule_Creator_V2.Models.Enums"
         Title="Auto Generate Schedule"
-        Width="560"
-        Height="680"
-        MinWidth="500"
-        MinHeight="560"
-        MaxHeight="850"
+        Width="760"
+        Height="800"
+        MinWidth="700"
+        MinHeight="650"
+        MaxHeight="950"
         ResizeMode="CanResize"
         WindowStartupLocation="CenterOwner"
         Background="#F1F5F3"
@@ -49,14 +51,17 @@
 
         </Style>
 
-        <!-- Staff count TextBox -->
-        <Style TargetType="TextBox">
+        <!-- Time picker -->
+        <Style TargetType="{x:Type xctk:TimePicker}">
 
             <Setter Property="Height"
-                    Value="42"/>
+                    Value="34"/>
+
+            <Setter Property="MinWidth"
+                    Value="105"/>
 
             <Setter Property="Padding"
-                    Value="12,7"/>
+                    Value="7,3"/>
 
             <Setter Property="Background"
                     Value="White"/>
@@ -71,14 +76,46 @@
                     Value="1"/>
 
             <Setter Property="FontSize"
-                    Value="15"/>
+                    Value="12"/>
+
+            <Setter Property="Format"
+                    Value="Custom"/>
+
+            <Setter Property="FormatString"
+                    Value="h:mm tt"/>
+
+            <Setter Property="TimeInterval"
+                    Value="00:15:00"/>
+
+        </Style>
+
+        <!-- ComboBox -->
+        <Style TargetType="ComboBox">
+
+            <Setter Property="Height"
+                    Value="34"/>
+
+            <Setter Property="Padding"
+                    Value="8,3"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="Foreground"
+                    Value="#1F2937"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
 
             <Setter Property="VerticalContentAlignment"
                     Value="Center"/>
 
         </Style>
 
-        <!-- Staff exclusion checkbox -->
+        <!-- Checkbox -->
         <Style TargetType="CheckBox">
 
             <Setter Property="Foreground"
@@ -126,65 +163,6 @@
             <Setter Property="Cursor"
                     Value="Hand"/>
 
-            <Setter Property="Template">
-
-                <Setter.Value>
-
-                    <ControlTemplate TargetType="Button">
-
-                        <Border x:Name="ButtonBorder"
-                                Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="7">
-
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="Background"
-                                        Value="#174E3D"/>
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="BorderBrush"
-                                        Value="#174E3D"/>
-
-                            </Trigger>
-
-                            <Trigger Property="IsPressed"
-                                     Value="True">
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="Background"
-                                        Value="#0A3E2E"/>
-
-                            </Trigger>
-
-                            <Trigger Property="IsEnabled"
-                                     Value="False">
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="Opacity"
-                                        Value="0.50"/>
-
-                            </Trigger>
-
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-
-                </Setter.Value>
-
-            </Setter>
-
         </Style>
 
         <!-- Secondary button -->
@@ -218,63 +196,35 @@
             <Setter Property="Cursor"
                     Value="Hand"/>
 
-            <Setter Property="Template">
-
-                <Setter.Value>
-
-                    <ControlTemplate TargetType="Button">
-
-                        <Border x:Name="ButtonBorder"
-                                Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="7">
-
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-
-                        </Border>
-
-                        <ControlTemplate.Triggers>
-
-                            <Trigger Property="IsMouseOver"
-                                     Value="True">
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="Background"
-                                        Value="#F1F5F3"/>
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="BorderBrush"
-                                        Value="#849B90"/>
-
-                            </Trigger>
-
-                            <Trigger Property="IsPressed"
-                                     Value="True">
-
-                                <Setter TargetName="ButtonBorder"
-                                        Property="Background"
-                                        Value="#E5ECE8"/>
-
-                            </Trigger>
-
-                        </ControlTemplate.Triggers>
-
-                    </ControlTemplate>
-
-                </Setter.Value>
-
-            </Setter>
-
         </Style>
 
-        <!-- ScrollBar -->
-        <Style TargetType="ScrollBar">
+        <!-- Small button -->
+        <Style x:Key="SmallButtonStyle"
+               TargetType="Button">
 
-            <Setter Property="Width"
-                    Value="12"/>
+            <Setter Property="Height"
+                    Value="32"/>
+
+            <Setter Property="Padding"
+                    Value="12,4"/>
+
+            <Setter Property="Background"
+                    Value="White"/>
+
+            <Setter Property="BorderBrush"
+                    Value="#BFCBC5"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="Foreground"
+                    Value="#374151"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
 
         </Style>
 
@@ -325,7 +275,7 @@
                                Foreground="White"/>
 
                     <TextBlock Margin="0,4,0,0"
-                               Text="Choose the schedule size and optional exclusions."
+                               Text="Define the shifts AutoGen should fill and optionally exclude staff."
                                FontSize="13"
                                Foreground="#D5E9E2"/>
 
@@ -342,54 +292,189 @@
 
             <StackPanel Margin="24">
 
-                <!-- Staff per day -->
+                <!-- Shift templates -->
                 <Border Style="{StaticResource CardStyle}">
 
                     <Grid>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="100"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="16"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-                        <StackPanel Grid.Column="0">
+                        <!-- Heading -->
+                        <Grid Grid.Row="0">
 
-                            <TextBlock Text="Staff Per Day"
-                                       FontSize="17"
-                                       FontWeight="SemiBold"
-                                       Foreground="#1F2937"/>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                            <TextBlock Margin="0,5,0,0"
-                                       Text="Enter the requested number of staff members to assign to each operating day."
-                                       FontSize="13"
-                                       LineHeight="19"
-                                       TextWrapping="Wrap"
-                                       Foreground="#6B7280"/>
+                            <StackPanel>
 
-                        </StackPanel>
+                                <TextBlock Text="Shifts to Follow"
+                                           FontSize="17"
+                                           FontWeight="SemiBold"
+                                           Foreground="#1F2937"/>
 
-                        <StackPanel Grid.Column="2"
-                                    VerticalAlignment="Center">
+                                <TextBlock Margin="0,5,15,0"
+                                           Text="Each row represents one shift AutoGen will attempt to fill on every configured operating day."
+                                           FontSize="13"
+                                           LineHeight="19"
+                                           TextWrapping="Wrap"
+                                           Foreground="#6B7280"/>
 
-                            <TextBlock Margin="0,0,0,7"
-                                       HorizontalAlignment="Center"
-                                       FontSize="11"
-                                       FontWeight="SemiBold"
-                                       Foreground="#627069"
-                                       Text="STAFF COUNT"/>
+                            </StackPanel>
 
-                            <TextBox x:Name="StaffPerDayBox"
-                                     HorizontalContentAlignment="Center"
-                                     Text="3"/>
+                            <Button Grid.Column="1"
+                                    Style="{StaticResource SmallButtonStyle}"
+                                    Click="AddShift_Click"
+                                    Content="+ Add Shift"/>
 
-                        </StackPanel>
+                        </Grid>
+
+                        <!-- Shift grid -->
+                        <DataGrid x:Name="ShiftGrid"
+                                  Grid.Row="2"
+                                  Height="270"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  CanUserResizeRows="False"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#E1E8E4"
+                                  BorderBrush="#DDE5E1"
+                                  BorderThickness="1"
+                                  Background="White"
+                                  RowHeight="52">
+
+                            <DataGrid.Columns>
+
+                                <!-- Start -->
+                                <DataGridTemplateColumn Header="Start"
+                                                        Width="*">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+
+                                        <DataTemplate>
+
+                                            <xctk:TimePicker Margin="6"
+                                                             Value="{Binding StartTime,
+                                                                             Mode=TwoWay,
+                                                                             UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </DataTemplate>
+
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                                <!-- End -->
+                                <DataGridTemplateColumn Header="End"
+                                                        Width="*">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+
+                                        <DataTemplate>
+
+                                            <xctk:TimePicker Margin="6"
+                                                             Value="{Binding EndTime,
+                                                                             Mode=TwoWay,
+                                                                             UpdateSourceTrigger=PropertyChanged}"/>
+
+                                        </DataTemplate>
+
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                                <!-- Type -->
+                                <DataGridTemplateColumn Header="Shift Type"
+                                                        Width="170">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+
+                                        <DataTemplate>
+
+                                            <ComboBox Margin="6"
+                                                      SelectedValue="{Binding ShiftType,
+                                                                              Mode=TwoWay,
+                                                                              UpdateSourceTrigger=PropertyChanged}"
+                                                      SelectedValuePath="Tag">
+
+                                                <ComboBoxItem Content="Any Staff"
+                                                              Tag="{x:Static enums:AutoGenShiftType.AnyStaff}"/>
+
+                                                <ComboBoxItem Content="Leadership"
+                                                              Tag="{x:Static enums:AutoGenShiftType.Leadership}"/>
+
+                                            </ComboBox>
+
+                                        </DataTemplate>
+
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                                <!-- Delete -->
+                                <DataGridTemplateColumn Header=""
+                                                        Width="90">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+
+                                        <DataTemplate>
+
+                                            <Button Margin="6"
+                                                    Height="32"
+                                                    Padding="10,3"
+                                                    Background="#FFF1EF"
+                                                    BorderBrush="#EDC0BA"
+                                                    Foreground="#B42318"
+                                                    Content="Delete"
+                                                    Click="DeleteShift_Click"/>
+
+                                        </DataTemplate>
+
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
 
                     </Grid>
 
                 </Border>
 
-                <!-- Exclusion list -->
+                <!-- Type explanation -->
+                <Border Margin="0,14,0,0"
+                        Padding="14"
+                        Background="#EEF5FA"
+                        BorderBrush="#C9DBE8"
+                        BorderThickness="1"
+                        CornerRadius="8">
+
+                    <StackPanel>
+
+                        <TextBlock Text="Shift Types"
+                                   FontWeight="SemiBold"
+                                   Foreground="#365B70"/>
+
+                        <TextBlock Margin="0,5,0,0"
+                                   Text="Leadership: only leadership-qualified staff may fill the shift.  Any Staff: any eligible staff member may fill the shift, including leadership."
+                                   FontSize="12"
+                                   LineHeight="18"
+                                   TextWrapping="Wrap"
+                                   Foreground="#536D7D"/>
+
+                    </StackPanel>
+
+                </Border>
+
+                <!-- Exclusions -->
                 <Border Margin="0,18,0,0"
                         Style="{StaticResource CardStyle}">
 
@@ -401,64 +486,23 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <!-- Exclusion heading -->
-                        <Grid Grid.Row="0">
+                        <StackPanel Grid.Row="0">
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Exclude Staff"
+                                       FontSize="17"
+                                       FontWeight="SemiBold"
+                                       Foreground="#1F2937"/>
 
-                            <StackPanel>
+                            <TextBlock Margin="0,5,0,0"
+                                       Text="Selected staff members will not be considered by AutoGen."
+                                       FontSize="13"
+                                       Foreground="#6B7280"/>
 
-                                <TextBlock Text="Exclude Staff"
-                                           FontSize="17"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                        </StackPanel>
 
-                                <TextBlock Margin="0,5,0,0"
-                                           Text="Selected staff members will not be included in the generated schedule."
-                                           FontSize="13"
-                                           LineHeight="19"
-                                           TextWrapping="Wrap"
-                                           Foreground="#6B7280"/>
-
-                            </StackPanel>
-
-                            <Border Grid.Column="1"
-                                    Margin="15,0,0,0"
-                                    Padding="10,6"
-                                    VerticalAlignment="Center"
-                                    Background="#FFF8E8"
-                                    BorderBrush="#ECD9A7"
-                                    BorderThickness="1"
-                                    CornerRadius="6">
-
-                                <StackPanel Orientation="Horizontal">
-
-                                    <TextBlock VerticalAlignment="Center"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="13"
-                                               Foreground="#A16617"
-                                               Text="&#xE7BA;"/>
-
-                                    <TextBlock Margin="6,0,0,0"
-                                               VerticalAlignment="Center"
-                                               FontSize="11"
-                                               FontWeight="SemiBold"
-                                               Foreground="#73501D"
-                                               Text="OPTIONAL"/>
-
-                                </StackPanel>
-
-                            </Border>
-
-                        </Grid>
-
-                        <!-- Staff list -->
                         <Border Grid.Row="2"
-                                MinHeight="220"
-                                MaxHeight="330"
+                                MinHeight="180"
+                                MaxHeight="260"
                                 Background="#FAFCFB"
                                 BorderBrush="#DDE5E1"
                                 BorderThickness="1"
@@ -466,8 +510,7 @@
                                 ClipToBounds="True">
 
                             <ScrollViewer Padding="10"
-                                          VerticalScrollBarVisibility="Auto"
-                                          HorizontalScrollBarVisibility="Disabled">
+                                          VerticalScrollBarVisibility="Auto">
 
                                 <ItemsControl x:Name="StaffCheckboxList">
 
@@ -501,45 +544,11 @@
 
                 </Border>
 
-                <!-- Information -->
-                <Border Margin="0,18,0,0"
-                        Padding="14"
-                        Background="#EEF5FA"
-                        BorderBrush="#C9DBE8"
-                        BorderThickness="1"
-                        CornerRadius="8">
-
-                    <Grid>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0"
-                                   VerticalAlignment="Top"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="17"
-                                   Foreground="#426E89"
-                                   Text="&#xE946;"/>
-
-                        <TextBlock Grid.Column="2"
-                                   Text="The generated assignments should still be reviewed before the schedule is saved."
-                                   FontSize="12"
-                                   LineHeight="18"
-                                   TextWrapping="Wrap"
-                                   Foreground="#536D7D"/>
-
-                    </Grid>
-
-                </Border>
-
             </StackPanel>
 
         </ScrollViewer>
 
-        <!-- Footer buttons -->
+        <!-- Footer -->
         <Border Grid.Row="2"
                 Padding="20,16"
                 Background="White"
@@ -556,20 +565,8 @@
                 <Button Margin="10,0,0,0"
                         Style="{StaticResource PrimaryButtonStyle}"
                         Click="Generate_Click"
-                        IsDefault="True">
-
-                    <StackPanel Orientation="Horizontal">
-
-                        <TextBlock Margin="0,0,7,0"
-                                   FontFamily="Segoe MDL2 Assets"
-                                   FontSize="14"
-                                   Text="&#xE895;"/>
-
-                        <TextBlock Text="Generate Schedule"/>
-
-                    </StackPanel>
-
-                </Button>
+                        IsDefault="True"
+                        Content="Generate Schedule"/>
 
             </StackPanel>
 

@@ -78,8 +78,13 @@ namespace Schedule_Creator_V2
                 {
                     DatabaseCreate.CreateJobSettings(new JobSettings(
                         (DayOfWeek)item.dayOfTheWeek.SelectedItem,
-                        TimeOnly.FromDateTime(item.startTimePicker.Value.Value),
-                        TimeOnly.FromDateTime(item.endTimePicker.Value.Value)
+                        new TimeOnly(
+                            item.startTimePicker.Value.Value.Hour,
+                            item.startTimePicker.Value.Value.Minute),
+
+                        new TimeOnly(
+                            item.endTimePicker.Value.Value.Hour,
+                            item.endTimePicker.Value.Value.Minute)
                     ));
                 }
                 else
