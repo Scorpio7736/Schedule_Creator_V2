@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="color-scheme" content="light only">
+    <meta name="supported-color-schemes" content="light only">
+
+    <title id="emailTitle">Let&apos;s Glow | UREC Outdoors</title>
+
+    <style>
+        :root {
+            color-scheme: light only;
+            supported-color-schemes: light;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            background-color: #080615 !important;
+        }
+
+        body {
+            color: #f7f8ff !important;
+            -webkit-text-fill-color: #f7f8ff;
+        }
+
+        table,
+        td {
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+        }
+
+        img {
+            display: block;
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .email-container {
+            width: 100%;
+            max-width: 640px;
+            text-align: left;
+        }
+
+        .content-padding {
+            padding-left: 38px;
+            padding-right: 38px;
+        }
+
+        /* =========================================================
+           LET'S GLOW PALETTE
+           ========================================================= */
+        .bg-night {
+            background-color: #080615 !important;
+            background-image: linear-gradient(#080615, #080615) !important;
+        }
+
+        .bg-panel {
+            background-color: #11102b !important;
+            background-image: linear-gradient(#11102b, #11102b) !important;
+        }
+
+        .bg-panel-alt {
+            background-color: #17133b !important;
+            background-image: linear-gradient(#17133b, #17133b) !important;
+        }
+
+        .bg-white {
+            background-color: #ffffff !important;
+            background-image: linear-gradient(#ffffff, #ffffff) !important;
+        }
+
+        .bg-lime {
+            background-color: #9be447 !important;
+            background-image: linear-gradient(#9be447, #9be447) !important;
+        }
+
+        .bg-pink {
+            background-color: #f34fc1 !important;
+            background-image: linear-gradient(#f34fc1, #f34fc1) !important;
+        }
+
+        .bg-cyan {
+            background-color: #36e9ef !important;
+            background-image: linear-gradient(#36e9ef, #36e9ef) !important;
+        }
+
+        .bg-orange {
+            background-color: #ff8b45 !important;
+            background-image: linear-gradient(#ff8b45, #ff8b45) !important;
+        }
+
+        .text-white {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        .text-soft {
+            color: #d9d8eb !important;
+            -webkit-text-fill-color: #d9d8eb !important;
+        }
+
+        .text-night {
+            color: #0d0b20 !important;
+            -webkit-text-fill-color: #0d0b20 !important;
+        }
+
+        .text-lime {
+            color: #9be447 !important;
+            -webkit-text-fill-color: #9be447 !important;
+        }
+
+        .text-pink {
+            color: #f34fc1 !important;
+            -webkit-text-fill-color: #f34fc1 !important;
+        }
+
+        .text-cyan {
+            color: #36e9ef !important;
+            -webkit-text-fill-color: #36e9ef !important;
+        }
+
+        .text-orange {
+            color: #ff8b45 !important;
+            -webkit-text-fill-color: #ff8b45 !important;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #312b63 !important;
+            background-image: linear-gradient(#312b63, #312b63) !important;
+        }
+
+        .neon-rule {
+            height: 4px;
+            font-size: 0;
+            line-height: 0;
+        }
+
+        .section-title {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            line-height: 26px;
+            font-weight: 800;
+            letter-spacing: .2px;
+        }
+
+        .body-copy {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            line-height: 24px;
+        }
+
+        .eyebrow {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            line-height: 16px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .button-link {
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: .25px;
+        }
+
+        /* Outlook dark-mode overrides */
+        [data-ogsc] .bg-night {
+            background-color: #080615 !important;
+            background-image: linear-gradient(#080615, #080615) !important;
+        }
+
+        [data-ogsc] .bg-panel {
+            background-color: #11102b !important;
+            background-image: linear-gradient(#11102b, #11102b) !important;
+        }
+
+        [data-ogsc] .bg-panel-alt {
+            background-color: #17133b !important;
+            background-image: linear-gradient(#17133b, #17133b) !important;
+        }
+
+        [data-ogsc] .text-white {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        [data-ogsc] .text-soft {
+            color: #d9d8eb !important;
+            -webkit-text-fill-color: #d9d8eb !important;
+        }
+
+        [data-ogsc] .text-lime {
+            color: #9be447 !important;
+            -webkit-text-fill-color: #9be447 !important;
+        }
+
+        [data-ogsc] .text-pink {
+            color: #f34fc1 !important;
+            -webkit-text-fill-color: #f34fc1 !important;
+        }
+
+        [data-ogsc] .text-cyan {
+            color: #36e9ef !important;
+            -webkit-text-fill-color: #36e9ef !important;
+        }
+
+        [data-ogsc] .text-orange {
+            color: #ff8b45 !important;
+            -webkit-text-fill-color: #ff8b45 !important;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html,
+            body,
+            .bg-night {
+                background-color: #080615 !important;
+                background-image: linear-gradient(#080615, #080615) !important;
+            }
+
+            .bg-panel {
+                background-color: #11102b !important;
+                background-image: linear-gradient(#11102b, #11102b) !important;
+            }
+
+            .bg-panel-alt {
+                background-color: #17133b !important;
+                background-image: linear-gradient(#17133b, #17133b) !important;
+            }
+
+            .text-white {
+                color: #ffffff !important;
+                -webkit-text-fill-color: #ffffff !important;
+            }
+
+            .text-soft {
+                color: #d9d8eb !important;
+                -webkit-text-fill-color: #d9d8eb !important;
+            }
+
+            .text-lime {
+                color: #9be447 !important;
+                -webkit-text-fill-color: #9be447 !important;
+            }
+
+            .text-pink {
+                color: #f34fc1 !important;
+                -webkit-text-fill-color: #f34fc1 !important;
+            }
+
+            .text-cyan {
+                color: #36e9ef !important;
+                -webkit-text-fill-color: #36e9ef !important;
+            }
+        }
+
+        @media only screen and (max-width: 640px) {
+            .email-container {
+                width: 100% !important;
+            }
+
+            .content-padding {
+                padding-left: 22px !important;
+                padding-right: 22px !important;
+            }
+
+            .headline {
+                font-size: 36px !important;
+                line-height: 39px !important;
+            }
+
+            .mobile-full {
+                width: 100% !important;
+                display: block !important;
+            }
+
+            .mobile-spacer {
+                height: 12px !important;
+                line-height: 12px !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-night"
+      style="
+        margin:0 !important;
+        padding:0 !important;
+        width:100% !important;
+        background-color:#080615 !important;
+        background-image:linear-gradient(#080615,#080615) !important;">
+
+    <!-- Hidden preheader -->
+    <div id="preheaderText"
+         style="
+            display:none;
+            max-height:0;
+            overflow:hidden;
+            opacity:0;
+            color:transparent;
+            font-size:1px;
+            line-height:1px;">
+        A message from UREC Outdoors about Let&apos;s Glow.
+    </div>
+
+    <table role="presentation"
+           class="bg-night"
+           width="100%"
+           cellpadding="0"
+           cellspacing="0"
+           border="0"
+           bgcolor="#080615"
+           style="
+            width:100%;
+            background-color:#080615 !important;
+            background-image:linear-gradient(#080615,#080615) !important;">
+
+        <tr>
+            <td align="center"
+                class="bg-night"
+                bgcolor="#080615"
+                style="
+                    padding:24px 10px;
+                    background-color:#080615 !important;
+                    background-image:linear-gradient(#080615,#080615) !important;">
+
+                <table role="presentation"
+                       class="email-container bg-panel"
+                       width="100%"
+                       cellpadding="0"
+                       cellspacing="0"
+                       border="0"
+                       bgcolor="#11102b"
+                       align="center"
+                       style="
+                        width:100%;
+                        max-width:640px;
+                        margin:0 auto;
+                        text-align:left;
+                        background-color:#11102b !important;
+                        background-image:linear-gradient(#11102b,#11102b) !important;
+                        box-shadow:0 10px 34px rgba(0,0,0,.32);">
+
+                    <!-- =====================================================
+                         HEADER IMAGE
+                         Replace src with your hosted URL, CID, or generated
+                         image source. 1200x400 or 640x220 works well.
+                         ===================================================== -->
+                    <tr>
+                        <td class="bg-night"
+                            bgcolor="#080615"
+                            style="
+                                background-color:#080615 !important;
+                                background-image:linear-gradient(#080615,#080615) !important;">
+                            <img id="headerImage"
+                                 src="{{HEADER_IMAGE_SOURCE}}"
+                                 width="640"
+                                 alt="Let&apos;s Glow at the UREC Climbing Tower"
+                                 style="
+                                    display:block;
+                                    width:100%;
+                                    max-width:640px;
+                                    height:auto;
+                                    margin:0;
+                                    border:0;">
+                        </td>
+                    </tr>
+
+                    <!-- Neon top rule -->
+                    <tr>
+                        <td>
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="25%" height="4" bgcolor="#9be447" class="neon-rule bg-lime">&nbsp;</td>
+                                    <td width="25%" height="4" bgcolor="#36e9ef" class="neon-rule bg-cyan">&nbsp;</td>
+                                    <td width="25%" height="4" bgcolor="#f34fc1" class="neon-rule bg-pink">&nbsp;</td>
+                                    <td width="25%" height="4" bgcolor="#ff8b45" class="neon-rule bg-orange">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- HEADER -->
+                    <tr>
+                        <td class="content-padding bg-panel"
+                            bgcolor="#11102b"
+                            style="
+                                padding-top:28px;
+                                padding-bottom:30px;
+                                background-color:#11102b !important;
+                                background-image:linear-gradient(#11102b,#11102b) !important;">
+
+                            <div id="organizationLabel"
+                                 class="eyebrow text-cyan"
+                                 style="
+                                    color:#36e9ef !important;
+                                    -webkit-text-fill-color:#36e9ef !important;">
+                                UREC OUTDOORS
+                            </div>
+
+                            <div id="headerLabel"
+                                 class="eyebrow text-pink"
+                                 style="
+                                    margin-top:5px;
+                                    color:#f34fc1 !important;
+                                    -webkit-text-fill-color:#f34fc1 !important;">
+                                GLOW CLIMB
+                            </div>
+
+                            <div id="emailHeading"
+                                 class="headline text-white"
+                                 style="
+                                    margin-top:10px;
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:46px;
+                                    line-height:49px;
+                                    font-weight:900;
+                                    letter-spacing:-1.5px;
+                                    color:#ffffff !important;
+                                    -webkit-text-fill-color:#ffffff !important;">
+                                LET&apos;S <span class="text-lime"
+                                             style="
+                                                color:#9be447 !important;
+                                                -webkit-text-fill-color:#9be447 !important;">GLOW!</span>
+                            </div>
+
+                            <div id="headerSubtitle"
+                                 class="text-soft"
+                                 style="
+                                    margin-top:10px;
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:16px;
+                                    line-height:24px;
+                                    color:#d9d8eb !important;
+                                    -webkit-text-fill-color:#d9d8eb !important;">
+                                Same tower. Blacklights on. Everything glows.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- BODY -->
+                    <tr>
+                        <td class="content-padding bg-panel-alt"
+                            bgcolor="#17133b"
+                            style="
+                                padding-top:30px;
+                                padding-bottom:30px;
+                                background-color:#17133b !important;
+                                background-image:linear-gradient(#17133b,#17133b) !important;">
+
+                            <div id="bodyHeading"
+                                 class="section-title text-white"
+                                 style="
+                                    color:#ffffff !important;
+                                    -webkit-text-fill-color:#ffffff !important;">
+                                Event Details
+                            </div>
+
+                            <div id="bodyContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:12px;
+                                    color:#d9d8eb !important;
+                                    -webkit-text-fill-color:#d9d8eb !important;">
+                                Add your main email message here. This section is designed for
+                                generated body copy, event information, reminders, or a short
+                                introduction.
+                            </div>
+
+                            <!-- Optional CTA -->
+                            <table role="presentation"
+                                   cellpadding="0"
+                                   cellspacing="0"
+                                   border="0"
+                                   style="margin-top:22px;">
+                                <tr>
+                                    <td id="primaryButtonCell"
+                                        class="bg-lime"
+                                        bgcolor="#9be447"
+                                        style="
+                                            border-radius:4px;
+                                            background-color:#9be447 !important;
+                                            background-image:linear-gradient(#9be447,#9be447) !important;">
+                                        <a id="primaryButton"
+                                           class="button-link text-night"
+                                           href="{{PRIMARY_BUTTON_URL}}"
+                                           style="
+                                                display:inline-block;
+                                                padding:12px 20px;
+                                                color:#0d0b20 !important;
+                                                -webkit-text-fill-color:#0d0b20 !important;
+                                                text-decoration:none;">
+                                            REGISTER / LEARN MORE
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                    <!-- IMAGE -->
+                    <tr>
+                        <td id="imageSection"
+                            class="bg-panel"
+                            bgcolor="#11102b"
+                            style="
+                                padding:18px;
+                                background-color:#11102b !important;
+                                background-image:linear-gradient(#11102b,#11102b) !important;">
+                            <img id="contentImage"
+                                 src="{{CONTENT_IMAGE_SOURCE}}"
+                                 width="604"
+                                 alt="Let&apos;s Glow"
+                                 style="
+                                    display:block;
+                                    width:100%;
+                                    max-width:604px;
+                                    height:auto;
+                                    margin:0 auto;
+                                    border:0;">
+                        </td>
+                    </tr>
+
+                    <!-- ANNOUNCEMENTS -->
+                    <tr>
+                        <td class="content-padding bg-panel-alt"
+                            bgcolor="#17133b"
+                            style="
+                                padding-top:28px;
+                                padding-bottom:28px;
+                                background-color:#17133b !important;
+                                background-image:linear-gradient(#17133b,#17133b) !important;">
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="7"
+                                        class="bg-pink"
+                                        bgcolor="#f34fc1"
+                                        style="
+                                            width:7px;
+                                            background-color:#f34fc1 !important;
+                                            background-image:linear-gradient(#f34fc1,#f34fc1) !important;">
+                                        &nbsp;
+                                    </td>
+                                    <td style="padding-left:15px;">
+                                        <div id="announcementsHeading"
+                                             class="section-title text-white"
+                                             style="
+                                                color:#ffffff !important;
+                                                -webkit-text-fill-color:#ffffff !important;">
+                                            Announcements
+                                        </div>
+
+                                        <div id="announcementsContent"
+                                             class="body-copy text-soft"
+                                             style="
+                                                margin-top:10px;
+                                                color:#d9d8eb !important;
+                                                -webkit-text-fill-color:#d9d8eb !important;">
+                                            Add generated announcements, schedule changes, reminders,
+                                            or event notes here.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                    <!-- REQUEST -->
+                    <tr>
+                        <td class="content-padding bg-panel"
+                            bgcolor="#11102b"
+                            style="
+                                padding-top:22px;
+                                padding-bottom:26px;
+                                background-color:#11102b !important;
+                                background-image:linear-gradient(#11102b,#11102b) !important;">
+
+                            <table role="presentation"
+                                   width="100%"
+                                   cellpadding="0"
+                                   cellspacing="0"
+                                   border="0"
+                                   class="bg-night"
+                                   bgcolor="#080615"
+                                   style="
+                                    background-color:#080615 !important;
+                                    background-image:linear-gradient(#080615,#080615) !important;
+                                    border:1px solid #312b63;">
+                                <tr>
+                                    <td style="padding:20px 22px;">
+                                        <div id="requestHeading"
+                                             class="section-title text-lime"
+                                             style="
+                                                font-size:17px;
+                                                line-height:22px;
+                                                color:#9be447 !important;
+                                                -webkit-text-fill-color:#9be447 !important;">
+                                            Quick Request
+                                        </div>
+
+                                        <div id="requestContent"
+                                             class="body-copy text-soft"
+                                             style="
+                                                margin-top:7px;
+                                                color:#d9d8eb !important;
+                                                -webkit-text-fill-color:#d9d8eb !important;">
+                                            Put any action item, RSVP request, staffing note, or response
+                                            request here.
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                    <!-- ATTACHMENTS -->
+                    <tr>
+                        <td class="content-padding bg-panel-alt"
+                            bgcolor="#17133b"
+                            style="
+                                padding-top:26px;
+                                padding-bottom:26px;
+                                background-color:#17133b !important;
+                                background-image:linear-gradient(#17133b,#17133b) !important;">
+
+                            <div id="attachmentsHeading"
+                                 class="section-title text-cyan"
+                                 style="
+                                    color:#36e9ef !important;
+                                    -webkit-text-fill-color:#36e9ef !important;">
+                                Attachments
+                            </div>
+
+                            <div id="attachmentsContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:10px;
+                                    color:#d9d8eb !important;
+                                    -webkit-text-fill-color:#d9d8eb !important;">
+                                Attachment links or generated attachment items go here.
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- SIGNATURE -->
+                    <tr>
+                        <td class="content-padding bg-panel"
+                            bgcolor="#11102b"
+                            style="
+                                padding-top:28px;
+                                padding-bottom:28px;
+                                background-color:#11102b !important;
+                                background-image:linear-gradient(#11102b,#11102b) !important;">
+
+                            <div class="divider"
+                                 style="
+                                    height:1px;
+                                    margin-bottom:22px;
+                                    background-color:#312b63 !important;
+                                    background-image:linear-gradient(#312b63,#312b63) !important;">
+                            </div>
+
+                            <div id="signatureContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    color:#d9d8eb !important;
+                                    -webkit-text-fill-color:#d9d8eb !important;">
+                                Thank you,<br><br>
+                                <strong class="text-white"
+                                        style="
+                                            color:#ffffff !important;
+                                            -webkit-text-fill-color:#ffffff !important;">
+                                    Jack London
+                                </strong><br>
+                                UREC Outdoors
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- FOOTER -->
+                    <tr>
+                        <td class="bg-night"
+                            bgcolor="#080615"
+                            style="
+                                padding:24px 30px 26px 30px;
+                                background-color:#080615 !important;
+                                background-image:linear-gradient(#080615,#080615) !important;">
+
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td valign="top"
+                                        class="mobile-full"
+                                        style="font-family:Arial,Helvetica,sans-serif;">
+
+                                        <div id="footerOrganization"
+                                             class="text-white"
+                                             style="
+                                                font-size:14px;
+                                                line-height:20px;
+                                                font-weight:800;
+                                                color:#ffffff !important;
+                                                -webkit-text-fill-color:#ffffff !important;">
+                                            UREC Outdoors
+                                        </div>
+
+                                        <div id="footerText"
+                                             class="text-soft"
+                                             style="
+                                                margin-top:4px;
+                                                font-size:12px;
+                                                line-height:18px;
+                                                color:#d9d8eb !important;
+                                                -webkit-text-fill-color:#d9d8eb !important;">
+                                            University of Wisconsin–Green Bay
+                                        </div>
+                                    </td>
+
+                                    <td width="20"
+                                        class="mobile-spacer"
+                                        style="font-size:0;line-height:0;">
+                                        &nbsp;
+                                    </td>
+
+                                    <td valign="top"
+                                        align="right"
+                                        class="mobile-full"
+                                        style="font-family:Arial,Helvetica,sans-serif;">
+
+                                        <a id="footerWebsiteLink"
+                                           href="https://uwgb.edu/urec"
+                                           class="text-lime"
+                                           style="
+                                                font-size:12px;
+                                                line-height:18px;
+                                                font-weight:700;
+                                                text-decoration:none;
+                                                color:#9be447 !important;
+                                                -webkit-text-fill-color:#9be447 !important;">
+                                            UWGB.EDU/UREC
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table role="presentation"
+                                   width="100%"
+                                   cellpadding="0"
+                                   cellspacing="0"
+                                   border="0"
+                                   style="margin-top:20px;">
+                                <tr>
+                                    <td width="25%" height="3" bgcolor="#9be447" class="neon-rule bg-lime">&nbsp;</td>
+                                    <td width="25%" height="3" bgcolor="#36e9ef" class="neon-rule bg-cyan">&nbsp;</td>
+                                    <td width="25%" height="3" bgcolor="#f34fc1" class="neon-rule bg-pink">&nbsp;</td>
+                                    <td width="25%" height="3" bgcolor="#ff8b45" class="neon-rule bg-orange">&nbsp;</td>
+                                </tr>
+                            </table>
+
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
