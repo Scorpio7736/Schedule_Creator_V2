@@ -65,66 +65,121 @@ namespace Schedule_Creator_V2.Services.Email
 
 
         public static string BuildHtmlBody(
-            EmailType emailType)
+    EmailType emailType)
         {
             ArgumentNullException.ThrowIfNull(
                 emailType);
 
+
+            // =========================================================
+            // COMPLETE THEMED TEMPLATES
+            // =========================================================
+            //
+            // Email.html is the normal marker-driven template.
+            //
+            // Let's Glow and Tower of Power are complete HTML layouts
+            // containing their own themed sections. Those templates
+            // must be populated by ID instead of injecting the normal
+            // green email sections into them.
+            // =========================================================
+
+            bool useThemedRenderer =
+                !string.IsNullOrWhiteSpace(
+                    emailType.templateFileName) &&
+                !string.Equals(
+                    emailType.templateFileName,
+                    "Email.html",
+                    StringComparison.OrdinalIgnoreCase);
+
+            if (useThemedRenderer)
+            {
+                return ThemedEmailContentService
+                    .BuildHtmlBody(
+                        emailType);
+            }
+
+
+            // =========================================================
+            // STANDARD EMAIL TEMPLATE
+            // =========================================================
+
             string html =
-                LoadEmailTemplate(emailType);
+                LoadEmailTemplate(
+                    emailType);
 
             string subject =
-                BuildSubject(emailType);
+                BuildSubject(
+                    emailType);
 
-            html = ReplaceElementContent(
-                html,
-                "emailTitle",
-                Encode(subject));
+            html =
+                ReplaceElementContent(
+                    html,
+                    "emailTitle",
+                    Encode(
+                        subject));
 
-            html = ReplaceElementContent(
-                html,
-                "preheaderText",
-                Encode(subject));
+            html =
+                ReplaceElementContent(
+                    html,
+                    "preheaderText",
+                    Encode(
+                        subject));
 
-            html = ReplaceRequiredMarker(
-                html,
-                HeaderMarker,
-                BuildHeaderSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    HeaderMarker,
+                    BuildHeaderSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                BodyMarker,
-                BuildBodySection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    BodyMarker,
+                    BuildBodySection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                ImageMarker,
-                BuildImageSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    ImageMarker,
+                    BuildImageSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                AnnouncementsMarker,
-                BuildAnnouncementsSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    AnnouncementsMarker,
+                    BuildAnnouncementsSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                RequestMarker,
-                BuildRequestSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    RequestMarker,
+                    BuildRequestSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                AttachmentsMarker,
-                BuildAttachmentsSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    AttachmentsMarker,
+                    BuildAttachmentsSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                SignatureMarker,
-                BuildSignatureSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    SignatureMarker,
+                    BuildSignatureSection(
+                        emailType));
 
-            html = ReplaceRequiredMarker(
-                html,
-                FooterMarker,
-                BuildFooterSection(emailType));
+            html =
+                ReplaceRequiredMarker(
+                    html,
+                    FooterMarker,
+                    BuildFooterSection(
+                        emailType));
 
             return html;
         }

@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<None Update="Models\Objects\Email.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -25,34 +26,51 @@
 		<None Update="Models\Objects\Lets_Glow_Email_Template.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+
+		<None Update="Models\Objects\Tower_of_Power_Email_Template.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<Content Include="Images\EmailImages\**\*">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Azure.Identity" Version="1.21.0" />
 
-		<PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+		<PackageReference Include="Azure.Identity"
+						  Version="1.21.0" />
 
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.1" />
+		<PackageReference Include="Extended.Wpf.Toolkit"
+						  Version="4.7.25104.5739" />
 
-		<PackageReference Include="Microsoft.Graph" Version="5.91.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient"
+						  Version="6.1.1" />
 
-		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.13.2" />
+		<PackageReference Include="Microsoft.Graph"
+						  Version="5.91.0" />
+
+		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient"
+						  Version="3.13.2" />
+
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<Resource Include="Images\Background.jpg" />
 		<Resource Include="Images\Logo.jpg" />
 		<Resource Include="Images\Logo.png" />
 		<Resource Include="Images\UREC.png" />
+
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<Compile Update="Models\Records\CustomHeaderInputs.cs">
 			<Generator>MSBuild:Compile</Generator>
 		</Compile>
@@ -68,20 +86,25 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Queries.resx</DependentUpon>
 		</Compile>
+
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<EmbeddedResource Update="Queries.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Queries.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+
 	</ItemGroup>
 
 	<ItemGroup>
+
 		<None Update="Properties\Settings.settings">
 			<Generator>SettingsSingleFileGenerator</Generator>
 			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
 		</None>
+
 	</ItemGroup>
 
 </Project>

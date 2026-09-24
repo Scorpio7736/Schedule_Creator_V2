@@ -16,11 +16,14 @@ namespace Schedule_Creator_V2.Services.Email
                 // =================================================
 
                 new EmailType(
-                    displayName: "Custom",
+                    displayName:
+                        "Custom",
+
                     inputs: new List<IEmailInputs>
                     {
                         new EmailDetailsInputs(
-                            Subject: ""
+                            Subject:
+                                ""
                         ),
 
                         new CustomHeaderInputs(
@@ -48,12 +51,15 @@ namespace Schedule_Creator_V2.Services.Email
                                 ""
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs,
+                        EmailInputDefaults
+                            .DefaultSignatureInputs,
 
-                        EmailInputDefaults.DefaultFooterInputs
+                        EmailInputDefaults
+                            .DefaultFooterInputs
                     },
 
-                    allowSectionEditing: true
+                    allowSectionEditing:
+                        true
                 ),
 
 
@@ -62,7 +68,9 @@ namespace Schedule_Creator_V2.Services.Email
                 // =================================================
 
                 new EmailType(
-                    displayName: "Announcements",
+                    displayName:
+                        "Announcements",
+
                     inputs: new List<IEmailInputs>
                     {
                         new EmailDetailsInputs(
@@ -114,7 +122,8 @@ namespace Schedule_Creator_V2.Services.Email
                             ]
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     }
                 ),
 
@@ -166,7 +175,8 @@ namespace Schedule_Creator_V2.Services.Email
                                 "climbing community."
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     }
                 ),
 
@@ -239,7 +249,8 @@ namespace Schedule_Creator_V2.Services.Email
                                 ""
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     }
                 ),
 
@@ -292,7 +303,8 @@ namespace Schedule_Creator_V2.Services.Email
                                 "Let's Glow Schedule"
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     },
 
                     templateFileName:
@@ -353,7 +365,8 @@ namespace Schedule_Creator_V2.Services.Email
                             ]
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     },
 
                     templateFileName:
@@ -418,11 +431,197 @@ namespace Schedule_Creator_V2.Services.Email
                                 ""
                         ),
 
-                        EmailInputDefaults.DefaultSignatureInputs
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
                     },
 
                     templateFileName:
                         "Lets_Glow_Email_Template.html"
+                ),
+
+
+                // =================================================
+                // TOWER OF POWER SCHEDULE
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Tower of Power Schedule",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Tower of Power Schedule"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "CLIMBING COMPETITION",
+
+                            EmailHeading:
+                                "TOWER OF POWER",
+
+                            HeaderSubtitle:
+                                "Climb hard. Rack up points. Take the tower.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomImageInputs(
+                            ImageSource:
+                                "",
+
+                            ImageAltText:
+                                "Tower of Power Schedule"
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Tower_of_Power_Email_Template.html"
+                ),
+
+
+                // =================================================
+                // TOWER OF POWER ANNOUNCEMENTS
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Tower of Power Announcements",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Tower of Power Announcements"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "CLIMBING COMPETITION",
+
+                            EmailHeading:
+                                "TOWER OF POWER",
+
+                            HeaderSubtitle:
+                                "Climb hard. Rack up points. Take the tower.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomAnnouncementsInputs(
+                            AnnouncementsLabel:
+                                "ANNOUNCEMENTS",
+
+                            AnnouncementsIntro:
+                                "",
+
+                            AnnouncementsList:
+                            [
+                                ""
+                            ]
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Tower_of_Power_Email_Template.html"
+                ),
+
+
+                // =================================================
+                // TOWER OF POWER REQUESTS
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Tower of Power Requests",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Tower of Power Requests"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "CLIMBING COMPETITION",
+
+                            EmailHeading:
+                                "TOWER OF POWER",
+
+                            HeaderSubtitle:
+                                "Climb hard. Rack up points. Take the tower.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomRequestInputs(
+                            RequestLabel:
+                                "REQUEST",
+
+                            RequestTitle:
+                                "",
+
+                            RequestBody:
+                                "",
+
+                            RequestButton:
+                                "",
+
+                            RequestLink:
+                                ""
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Tower_of_Power_Email_Template.html"
                 )
             };
         }

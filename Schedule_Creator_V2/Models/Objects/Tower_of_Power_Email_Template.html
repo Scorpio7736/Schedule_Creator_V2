@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
@@ -8,34 +9,70 @@
 
     <meta name="x-apple-disable-message-reformatting">
 
+
+    <!-- =========================================================
+         TOWER OF POWER IS LIGHT ONLY
+         ========================================================= -->
+
     <meta name="color-scheme"
-          content="light only">
+          content="light">
 
     <meta name="supported-color-schemes"
-          content="light only">
+          content="light">
+
 
     <title id="emailTitle">
-        Tower of Power | UWGB Climbing Tower
+        Tower of Power | UREC Outdoors
     </title>
 
+
     <style>
+
+        /* =========================================================
+           COLOR SCHEME
+           ========================================================= */
+
         :root {
-            color-scheme: light only;
-            supported-color-schemes: light;
+            color-scheme: light only !important;
+            supported-color-schemes: light !important;
         }
+
+
+        /* =========================================================
+           PALETTE
+
+           CHARCOAL    #292425
+           BROWN       #493a30
+           ORANGE      #f15a24
+           CORAL       #ff7f50
+           PEACH       #f7cdbd
+           SAND        #f4b36a
+           CREAM       #fff9f4
+           WHITE       #ffffff
+           ========================================================= */
+
+
+        /* =========================================================
+           RESET
+           ========================================================= */
 
         html,
         body {
             margin: 0 !important;
             padding: 0 !important;
             width: 100% !important;
-            background-color: #f6dfd2 !important;
+            min-width: 100% !important;
+            background-color: #f7cdbd !important;
+            background-image: linear-gradient( #f7cdbd, #f7cdbd ) !important;
+            color: #292425 !important;
+            -webkit-text-fill-color: #292425 !important;
         }
 
+
         body {
-            color: #272327 !important;
-            -webkit-text-fill-color: #272327;
+            font-family: Arial, Helvetica, sans-serif !important;
         }
+
 
         table,
         td {
@@ -43,358 +80,278 @@
             border-spacing: 0 !important;
         }
 
+
+        table {
+            mso-table-lspace: 0pt !important;
+            mso-table-rspace: 0pt !important;
+        }
+
+
         img {
             display: block;
             border: 0;
             outline: none;
             text-decoration: none;
             height: auto;
+            -ms-interpolation-mode: bicubic;
         }
+
 
         a {
             color: inherit;
         }
 
+
+        /* =========================================================
+           LAYOUT
+           ========================================================= */
+
         .email-container {
             width: 100%;
             max-width: 640px;
             text-align: left;
+            background-color: #fff9f4 !important;
+            background-image: linear-gradient( #fff9f4, #fff9f4 ) !important;
         }
+
 
         .content-padding {
             padding-left: 38px;
             padding-right: 38px;
         }
 
-        /*
-         * TOWER OF POWER PALETTE
-         *
-         * Charcoal:     #272327
-         * Burnt Orange: #f15a24
-         * Coral Orange: #ff7b4f
-         * Peach:        #f7c8b4
-         * Cream:        #fff8f2
-         * Sand:         #f2b269
-         */
 
-        /*
-         * LOCKED BACKGROUNDS
-         */
+        /* =========================================================
+           BACKGROUNDS
+           ========================================================= */
 
-        .email-outer {
-            background-color: #f6dfd2 !important;
-            background-image: linear-gradient(
-                #f6dfd2,
-                #f6dfd2) !important;
+        .bg-outer {
+            background-color: #f7cdbd !important;
         }
 
-        .background-white {
-            background-color: #fff8f2 !important;
-            background-image: linear-gradient(
-                #fff8f2,
-                #fff8f2) !important;
+
+        .bg-cream {
+            background-color: #fff9f4 !important;
         }
 
-        .background-brand-green {
-            background-color: #272327 !important;
-            background-image: linear-gradient(
-                #272327,
-                #272327) !important;
+
+        .bg-white {
+            background-color: #ffffff !important;
         }
 
-        .background-mint {
-            background-color: #f7c8b4 !important;
-            background-image: linear-gradient(
-                #f7c8b4,
-                #f7c8b4) !important;
+
+        .bg-charcoal {
+            background-color: #292425 !important;
         }
 
-        .background-request {
-            background-color: #fff0e8 !important;
-            background-image: linear-gradient(
-                #fff0e8,
-                #fff0e8) !important;
+
+        .bg-brown {
+            background-color: #493a30 !important;
         }
 
-        .background-action {
+
+        .bg-orange {
             background-color: #f15a24 !important;
-            background-image: linear-gradient(
-                #f15a24,
-                #f15a24) !important;
         }
 
-        /*
-         * LOCKED TEXT COLORS
-         *
-         * Existing class names are intentionally preserved so
-         * this file can use the same SCV2 section builders.
-         */
 
-        .text-brand-green {
-            color: #f15a24 !important;
-            -webkit-text-fill-color: #f15a24 !important;
+        .bg-coral {
+            background-color: #ff7f50 !important;
         }
 
-        .text-black {
-            color: #272327 !important;
-            -webkit-text-fill-color: #272327 !important;
+
+        .bg-peach {
+            background-color: #f7cdbd !important;
         }
+
+
+        .bg-sand {
+            background-color: #f4b36a !important;
+        }
+
+
+        /* =========================================================
+           TEXT
+           ========================================================= */
 
         .text-white {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
 
-        .text-mint {
-            color: #f7c8b4 !important;
-            -webkit-text-fill-color: #f7c8b4 !important;
+
+        .text-cream {
+            color: #fff9f4 !important;
+            -webkit-text-fill-color: #fff9f4 !important;
         }
 
-        .text-header-light {
-            color: #fff8f2 !important;
-            -webkit-text-fill-color: #fff8f2 !important;
+
+        .text-charcoal {
+            color: #292425 !important;
+            -webkit-text-fill-color: #292425 !important;
         }
 
-        .text-body {
-            color: #3a3030 !important;
-            -webkit-text-fill-color: #3a3030 !important;
-        }
 
-        .text-secondary {
-            color: #443735 !important;
-            -webkit-text-fill-color: #443735 !important;
-        }
-
-        .text-request {
-            color: #5c4a45 !important;
-            -webkit-text-fill-color: #5c4a45 !important;
-        }
-
-        .footer-divider {
-            height: 1px;
-            margin: 20px 0 15px 0;
-            background-color: #ff8b66 !important;
-            background-image: linear-gradient(
-                #ff8b66,
-                #ff8b66) !important;
-        }
-
-        /*
-         * EVENT-SPECIFIC UTILITY CLASSES
-         */
-
-        .top-accent {
-            height: 12px;
-            background-color: #f15a24 !important;
-            background-image: linear-gradient(
-                #f15a24,
-                #f15a24) !important;
-        }
-
-        .event-kicker {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px;
-            line-height: 16px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .event-title {
-            font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
-            font-size: 44px;
-            line-height: 45px;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            font-weight: 900;
-        }
-
-        .event-subtitle {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px;
-            line-height: 22px;
-            font-weight: bold;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        /*
-         * OUTLOOK DARK-MODE OVERRIDES
-         */
-
-        [data-ogsc] .email-outer {
-            background-color: #f6dfd2 !important;
-            background-image: linear-gradient(
-                #f6dfd2,
-                #f6dfd2) !important;
-        }
-
-        [data-ogsc] .background-white {
-            background-color: #fff8f2 !important;
-            background-image: linear-gradient(
-                #fff8f2,
-                #fff8f2) !important;
-        }
-
-        [data-ogsc] .background-brand-green {
-            background-color: #272327 !important;
-            background-image: linear-gradient(
-                #272327,
-                #272327) !important;
-        }
-
-        [data-ogsc] .background-mint {
-            background-color: #f7c8b4 !important;
-            background-image: linear-gradient(
-                #f7c8b4,
-                #f7c8b4) !important;
-        }
-
-        [data-ogsc] .background-request {
-            background-color: #fff0e8 !important;
-            background-image: linear-gradient(
-                #fff0e8,
-                #fff0e8) !important;
-        }
-
-        [data-ogsc] .background-action {
-            background-color: #f15a24 !important;
-            background-image: linear-gradient(
-                #f15a24,
-                #f15a24) !important;
-        }
-
-        [data-ogsc] .text-brand-green {
+        .text-orange {
             color: #f15a24 !important;
             -webkit-text-fill-color: #f15a24 !important;
         }
 
-        [data-ogsc] .text-black {
-            color: #272327 !important;
-            -webkit-text-fill-color: #272327 !important;
+
+        .text-peach {
+            color: #f7cdbd !important;
+            -webkit-text-fill-color: #f7cdbd !important;
         }
+
+
+        .text-soft {
+            color: #625650 !important;
+            -webkit-text-fill-color: #625650 !important;
+        }
+
+
+        /* =========================================================
+           TYPOGRAPHY
+           ========================================================= */
+
+        .headline {
+            margin: 0;
+            font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
+            font-size: 48px;
+            line-height: 48px;
+            font-weight: 900;
+            letter-spacing: .3px;
+            text-transform: uppercase;
+            color: #fff9f4 !important;
+            -webkit-text-fill-color: #fff9f4 !important;
+        }
+
+
+        .section-title {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            line-height: 26px;
+            font-weight: 800;
+        }
+
+
+        .body-copy {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            line-height: 24px;
+        }
+
+
+        .eyebrow {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            line-height: 16px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+
+        .button-link {
+            display: inline-block;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: 800;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           OUTLOOK PROTECTION
+           ========================================================= */
+
+        [data-ogsb] .bg-outer,
+        [data-ogsc] .bg-outer {
+            background-color: #f7cdbd !important;
+        }
+
+
+        [data-ogsb] .bg-cream,
+        [data-ogsc] .bg-cream {
+            background-color: #fff9f4 !important;
+        }
+
+
+        [data-ogsb] .bg-white,
+        [data-ogsc] .bg-white {
+            background-color: #ffffff !important;
+        }
+
+
+        [data-ogsb] .bg-charcoal,
+        [data-ogsc] .bg-charcoal {
+            background-color: #292425 !important;
+        }
+
+
+        [data-ogsb] .bg-orange,
+        [data-ogsc] .bg-orange {
+            background-color: #f15a24 !important;
+        }
+
+
+        [data-ogsc] .text-charcoal {
+            color: #292425 !important;
+            -webkit-text-fill-color: #292425 !important;
+        }
+
+
+        [data-ogsc] .text-orange {
+            color: #f15a24 !important;
+            -webkit-text-fill-color: #f15a24 !important;
+        }
+
 
         [data-ogsc] .text-white {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
 
-        [data-ogsc] .text-mint {
-            color: #f7c8b4 !important;
-            -webkit-text-fill-color: #f7c8b4 !important;
-        }
-
-        [data-ogsc] .text-header-light {
-            color: #fff8f2 !important;
-            -webkit-text-fill-color: #fff8f2 !important;
-        }
-
-        [data-ogsc] .text-body {
-            color: #3a3030 !important;
-            -webkit-text-fill-color: #3a3030 !important;
-        }
-
-        [data-ogsc] .text-secondary {
-            color: #443735 !important;
-            -webkit-text-fill-color: #443735 !important;
-        }
-
-        [data-ogsc] .text-request {
-            color: #5c4a45 !important;
-            -webkit-text-fill-color: #5c4a45 !important;
-        }
-
-        /*
-         * CLIENTS THAT SUPPORT PREFERS-COLOR-SCHEME
-         */
 
         @media (prefers-color-scheme: dark) {
+
             html,
-            body,
-            .email-outer {
-                background-color: #f6dfd2 !important;
-                background-image: linear-gradient(
-                    #f6dfd2,
-                    #f6dfd2) !important;
+            body {
+                background-color: #f7cdbd !important;
+                color: #292425 !important;
+                -webkit-text-fill-color: #292425 !important;
             }
 
-            .background-white {
-                background-color: #fff8f2 !important;
-                background-image: linear-gradient(
-                    #fff8f2,
-                    #fff8f2) !important;
+            .email-container {
+                background-color: #fff9f4 !important;
             }
 
-            .background-brand-green {
-                background-color: #272327 !important;
-                background-image: linear-gradient(
-                    #272327,
-                    #272327) !important;
+            .bg-cream {
+                background-color: #fff9f4 !important;
             }
 
-            .background-mint {
-                background-color: #f7c8b4 !important;
-                background-image: linear-gradient(
-                    #f7c8b4,
-                    #f7c8b4) !important;
+            .bg-white {
+                background-color: #ffffff !important;
             }
 
-            .background-request {
-                background-color: #fff0e8 !important;
-                background-image: linear-gradient(
-                    #fff0e8,
-                    #fff0e8) !important;
-            }
-
-            .background-action {
-                background-color: #f15a24 !important;
-                background-image: linear-gradient(
-                    #f15a24,
-                    #f15a24) !important;
-            }
-
-            .text-brand-green {
-                color: #f15a24 !important;
-                -webkit-text-fill-color: #f15a24 !important;
-            }
-
-            .text-black {
-                color: #272327 !important;
-                -webkit-text-fill-color: #272327 !important;
-            }
-
-            .text-white {
-                color: #ffffff !important;
-                -webkit-text-fill-color: #ffffff !important;
-            }
-
-            .text-mint {
-                color: #f7c8b4 !important;
-                -webkit-text-fill-color: #f7c8b4 !important;
-            }
-
-            .text-header-light {
-                color: #fff8f2 !important;
-                -webkit-text-fill-color: #fff8f2 !important;
-            }
-
-            .text-body {
-                color: #3a3030 !important;
-                -webkit-text-fill-color: #3a3030 !important;
-            }
-
-            .text-secondary {
-                color: #443735 !important;
-                -webkit-text-fill-color: #443735 !important;
-            }
-
-            .text-request {
-                color: #5c4a45 !important;
-                -webkit-text-fill-color: #5c4a45 !important;
+            .bg-charcoal {
+                background-color: #292425 !important;
             }
         }
 
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
         @media only screen and (max-width: 640px) {
+
             .email-container {
                 width: 100% !important;
             }
@@ -405,191 +362,736 @@
             }
 
             .headline {
-                font-size: 32px !important;
-                line-height: 38px !important;
+                font-size: 38px !important;
+                line-height: 40px !important;
             }
 
-            .event-title {
-                font-size: 36px !important;
-                line-height: 38px !important;
+            .mobile-full {
+                display: block !important;
+                width: 100% !important;
+                text-align: left !important;
+            }
+
+            .mobile-spacer {
+                display: block !important;
+                width: 100% !important;
+                height: 12px !important;
             }
         }
     </style>
+
+
+    <!--[if mso]>
+
+    <style type="text/css">
+
+        body,
+        table,
+        td,
+        div,
+        p,
+        a {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif !important;
+        }
+
+        table {
+            border-collapse:
+                collapse !important;
+        }
+
+    </style>
+
+    <![endif]-->
+
 </head>
 
-<body class="email-outer"
+
+<body class="bg-outer"
+      bgcolor="#f7cdbd"
       style="
         margin:0 !important;
         padding:0 !important;
+
         width:100% !important;
-        background-color:#f6dfd2 !important;
-        background-image:linear-gradient(
-            #f6dfd2,
-            #f6dfd2) !important;">
+
+        background-color:
+            #f7cdbd !important;
+
+        color:
+            #292425 !important;">
+
+
+    <!-- =========================================================
+         PREHEADER
+         ========================================================= -->
 
     <div id="preheaderText"
          style="
-            display:none;
-            max-height:0;
-            overflow:hidden;
-            opacity:0;
-            color:transparent;
-            font-size:1px;
-            line-height:1px;">
+            display:none !important;
+            visibility:hidden !important;
 
-        Tower of Power at the UWGB Climbing Tower.
+            max-height:0 !important;
+            max-width:0 !important;
+
+            overflow:hidden !important;
+
+            opacity:0 !important;
+
+            color:transparent !important;
+
+            font-size:1px !important;
+            line-height:1px !important;">
+
+        A message from UREC Outdoors about Tower of Power.
+
     </div>
 
+
+    <!-- =========================================================
+         OUTER
+         ========================================================= -->
+
     <table role="presentation"
-           class="email-outer"
            width="100%"
            cellpadding="0"
            cellspacing="0"
            border="0"
-           bgcolor="#f6dfd2"
-           style="
-            width:100%;
-            background-color:#f6dfd2 !important;
-            background-image:linear-gradient(
-                #f6dfd2,
-                #f6dfd2) !important;">
+           bgcolor="#f7cdbd"
+           class="bg-outer">
 
         <tr>
+
             <td align="center"
-                bgcolor="#f6dfd2"
-                class="email-outer"
+                bgcolor="#f7cdbd"
+                class="bg-outer"
                 style="
-                    padding:24px 10px;
-                    background-color:#f6dfd2 !important;
-                    background-image:linear-gradient(
-                        #f6dfd2,
-                        #f6dfd2) !important;">
+                    padding:
+                        28px 10px;">
+
+
+                <!-- =================================================
+                     EMAIL CONTAINER
+                     ================================================= -->
 
                 <table role="presentation"
-                       class="email-container background-white"
                        width="100%"
                        cellpadding="0"
                        cellspacing="0"
                        border="0"
-                       bgcolor="#fff8f2"
                        align="center"
+                       bgcolor="#fff9f4"
+                       class="email-container bg-cream"
                        style="
                         width:100%;
                         max-width:640px;
-                        margin:0 auto;
-                        text-align:left;
-                        background-color:#fff8f2 !important;
-                        background-image:linear-gradient(
-                            #fff8f2,
-                            #fff8f2) !important;
-                        box-shadow:0 4px 18px
-                            rgba(39,35,39,.18);">
 
-                    <!-- TOP EVENT ACCENT -->
+                        margin:
+                            0 auto;
+
+                        background-color:
+                            #fff9f4 !important;
+
+                        box-shadow:
+                            0 10px 34px
+                            rgba(73,58,48,.18);">
+
+
+                    <!-- =================================================
+                         TOP POWER STRIPE
+                         ================================================= -->
+
                     <tr>
-                        <td class="top-accent"
+
+                        <td height="12"
                             bgcolor="#f15a24"
+                            class="bg-orange"
                             style="
                                 height:12px;
+
                                 line-height:12px;
+
                                 font-size:1px;
-                                background-color:#f15a24 !important;
-                                background-image:linear-gradient(
-                                    #f15a24,
-                                    #f15a24) !important;">
+
+                                border-left:
+                                    150px solid #f4b36a;
+
+                                border-right:
+                                    125px solid #292425;">
+
                             &nbsp;
+
                         </td>
+
                     </tr>
 
-                    <!-- EVENT IDENTITY STRIP -->
+
+                    <!-- =================================================
+                         HEADER IMAGE
+                         ================================================= -->
+
                     <tr>
-                        <td bgcolor="#272327"
-                            class="background-brand-green"
+
+                        <td bgcolor="#fff9f4"
+                            class="bg-cream"
                             style="
-                                padding:20px 38px 22px 38px;
-                                background-color:#272327 !important;
-                                background-image:linear-gradient(
-                                    #272327,
-                                    #272327) !important;
-                                border-bottom:8px solid #f15a24;">
+                                padding:0;">
 
-                            <div class="event-kicker text-mint"
+                            <img id="headerImage"
+                                 src="{{HEADER_IMAGE_SOURCE}}"
+                                 width="640"
+                                 alt="Tower of Power at the UREC Climbing Tower"
                                  style="
-                                    font-family:Arial,Helvetica,sans-serif;
-                                    font-size:12px;
-                                    line-height:16px;
-                                    letter-spacing:2px;
-                                    text-transform:uppercase;
-                                    font-weight:bold;
-                                    color:#f7c8b4 !important;
-                                    -webkit-text-fill-color:#f7c8b4 !important;">
-                                UREC OUTDOORS PRESENTS
+                                    display:block;
+
+                                    width:100%;
+                                    max-width:640px;
+
+                                    height:auto;
+
+                                    margin:0;">
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         HEADER
+                         ================================================= -->
+
+                    <tr id="headerSection">
+
+                        <td bgcolor="#292425"
+                            class="content-padding bg-charcoal"
+                            style="
+                                padding-top:
+                                    30px;
+
+                                padding-bottom:
+                                    32px;
+
+                                border-bottom:
+                                    7px solid #f15a24;">
+
+                            <div id="organizationLabel"
+                                 class="eyebrow text-peach">
+
+                                UREC OUTDOORS
+
                             </div>
 
-                            <div class="event-title text-white"
-                                 style="
-                                    margin-top:6px;
-                                    font-family:Impact,'Arial Black',Arial,Helvetica,sans-serif;
-                                    font-size:44px;
-                                    line-height:45px;
-                                    letter-spacing:.5px;
-                                    text-transform:uppercase;
-                                    font-weight:900;
-                                    color:#ffffff !important;
-                                    -webkit-text-fill-color:#ffffff !important;">
-                                TOWER OF POWER
-                            </div>
 
-                            <div class="event-subtitle text-header-light"
+                            <div id="headerLabel"
+                                 class="eyebrow text-orange"
                                  style="
-                                    margin-top:8px;
-                                    font-family:Arial,Helvetica,sans-serif;
-                                    font-size:15px;
-                                    line-height:22px;
-                                    font-weight:bold;
-                                    letter-spacing:.8px;
-                                    text-transform:uppercase;
-                                    color:#fff8f2 !important;
-                                    -webkit-text-fill-color:#fff8f2 !important;">
+                                    margin-top:
+                                        5px;">
+
                                 CLIMBING COMPETITION
+
                             </div>
+
+
+                            <div id="emailHeading"
+                                 class="headline text-cream"
+                                 style="
+                                    margin-top:
+                                        10px;">
+
+                                TOWER OF POWER
+
+                            </div>
+
+
+                            <div style="
+                                width:
+                                    100%;
+
+                                height:
+                                    6px;
+
+                                margin-top:
+                                    16px;
+
+                                background-color:
+                                    #f15a24 !important;
+
+                                border-right:
+                                    100px solid #f4b36a;">
+
+                                &nbsp;
+
+                            </div>
+
+
+                            <div id="headerSubtitle"
+                                 class="text-peach"
+                                 style="
+                                    margin-top:
+                                        14px;
+
+                                    font-family:
+                                        Arial,
+                                        Helvetica,
+                                        sans-serif;
+
+                                    font-size:
+                                        15px;
+
+                                    line-height:
+                                        23px;
+
+                                    font-weight:
+                                        700;">
+
+                                Climb hard. Rack up points. Take the tower.
+
+                            </div>
+
                         </td>
+
                     </tr>
 
-                    <!--
-                        IMPORTANT:
-                        The markers below intentionally match the standard
-                        SCV2 Email.html template so this themed template can
-                        support the same section options and section order.
-                    -->
 
-                    <!-- HEADER -->
-                    <!-- BODY -->
-                    <!-- IMAGE -->
-                    <!-- ANNOUNCEMENTS -->
-                    <!-- REQUEST -->
-                    <!-- ATTACHMENTS -->
-                    <!-- SIGNATURE -->
-                    <!-- FOOTER -->
+                    <!-- =================================================
+                         BODY
+                         ================================================= -->
 
-                    <!-- BOTTOM EVENT ACCENT -->
-                    <tr>
-                        <td bgcolor="#f15a24"
+                    <tr id="bodySection">
+
+                        <td bgcolor="#ffffff"
+                            class="content-padding bg-white"
                             style="
-                                height:10px;
-                                line-height:10px;
-                                font-size:1px;
-                                background-color:#f15a24 !important;
-                                background-image:linear-gradient(
-                                    #f15a24,
-                                    #f15a24) !important;">
-                            &nbsp;
+                                padding-top:
+                                    34px;
+
+                                padding-bottom:
+                                    34px;
+
+                                border-left:
+                                    7px solid #f15a24;">
+
+                            <div id="bodyHeading"
+                                 class="section-title text-charcoal">
+
+                                Hey Tower Team,
+
+                            </div>
+
+
+                            <div id="bodyContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:
+                                        12px;">
+
+                                Add your Tower of Power message here.
+
+                            </div>
+
                         </td>
+
                     </tr>
+
+
+                    <!-- =================================================
+                         IMAGE
+                         ================================================= -->
+
+                    <tr id="imageSection">
+
+                        <td align="center"
+                            bgcolor="#fff9f4"
+                            class="bg-cream"
+                            style="
+                                padding:
+                                    18px;">
+
+                            <img id="contentImage"
+                                 src="{{CONTENT_IMAGE_SOURCE}}"
+                                 width="604"
+                                 alt="Tower of Power"
+                                 style="
+                                    display:block;
+
+                                    width:100%;
+                                    max-width:604px;
+
+                                    height:auto;
+
+                                    margin:
+                                        0 auto;
+
+                                    border:
+                                        0;">
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         ANNOUNCEMENTS
+                         ================================================= -->
+
+                    <tr id="announcementsSection">
+
+                        <td bgcolor="#f7cdbd"
+                            class="content-padding bg-peach"
+                            style="
+                                padding-top:
+                                    30px;
+
+                                padding-bottom:
+                                    30px;
+
+                                border-left:
+                                    7px solid #f15a24;">
+
+                            <div id="announcementsHeading"
+                                 class="section-title text-orange">
+
+                                Announcements
+
+                            </div>
+
+
+                            <div id="announcementsContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:
+                                        10px;">
+
+                                Add Tower of Power announcements here.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         REQUEST
+                         ================================================= -->
+
+                    <tr id="requestSection">
+
+                        <td bgcolor="#292425"
+                            class="content-padding bg-charcoal"
+                            style="
+                                padding-top:
+                                    30px;
+
+                                padding-bottom:
+                                    30px;">
+
+                            <div style="
+                                padding:
+                                    22px;
+
+                                background-color:
+                                    #493a30 !important;
+
+                                border-top:
+                                    6px solid #f15a24;">
+
+                                <div id="requestHeading"
+                                     class="section-title text-orange"
+                                     style="
+                                        font-size:
+                                            18px;
+
+                                        line-height:
+                                            23px;">
+
+                                    Quick Request
+
+                                </div>
+
+
+                                <div id="requestContent"
+                                     class="body-copy text-cream"
+                                     style="
+                                        margin-top:
+                                            9px;">
+
+                                    Add your Tower of Power request here.
+
+                                </div>
+
+
+                                <div id="requestButtonSection"
+                                     style="
+                                        margin-top:
+                                            18px;">
+
+                                    <a id="requestButton"
+                                       href="https://urec.uwgb.edu"
+                                       class="button-link text-white bg-orange"
+                                       style="
+                                            display:inline-block;
+
+                                            padding:
+                                                12px 20px;
+
+                                            background-color:
+                                                #f15a24 !important;
+
+                                            color:
+                                                #ffffff !important;
+
+                                            -webkit-text-fill-color:
+                                                #ffffff !important;
+
+                                            text-decoration:
+                                                none;">
+
+                                        VIEW DETAILS
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         ATTACHMENTS
+                         ================================================= -->
+
+                    <tr id="attachmentsSection">
+
+                        <td bgcolor="#fff9f4"
+                            class="content-padding bg-cream"
+                            style="
+                                padding-top:
+                                    30px;
+
+                                padding-bottom:
+                                    30px;
+
+                                border-left:
+                                    7px solid #f15a24;">
+
+                            <div id="attachmentsHeading"
+                                 class="section-title text-orange">
+
+                                Attachments
+
+                            </div>
+
+
+                            <div id="attachmentsContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:
+                                        10px;">
+
+                                Attachment information goes here.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         SIGNATURE
+                         ================================================= -->
+
+                    <tr id="signatureSection">
+
+                        <td bgcolor="#ffffff"
+                            class="content-padding bg-white"
+                            style="
+                                padding-top:
+                                    30px;
+
+                                padding-bottom:
+                                    30px;
+
+                                border-top:
+                                    1px solid #e7b9a6;">
+
+                            <div id="signatureContent"
+                                 class="body-copy text-soft">
+
+                                Thank you,
+                                <br><br>
+
+                                <strong class="text-charcoal">
+
+                                    Jack London
+
+                                </strong>
+
+                                <br>
+
+                                UREC Outdoors
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =================================================
+                         FOOTER
+                         ================================================= -->
+
+                    <tr id="footerSection">
+
+                        <td bgcolor="#292425"
+                            class="bg-charcoal"
+                            style="
+                                padding:
+                                    24px 30px
+                                    26px 30px;">
+
+                            <table role="presentation"
+                                   width="100%"
+                                   cellpadding="0"
+                                   cellspacing="0"
+                                   border="0">
+
+                                <tr>
+
+                                    <td valign="top"
+                                        class="mobile-full">
+
+                                        <div id="footerOrganization"
+                                             class="text-white"
+                                             style="
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
+                                                font-size:
+                                                    14px;
+
+                                                line-height:
+                                                    20px;
+
+                                                font-weight:
+                                                    800;">
+
+                                            UREC Outdoors
+
+                                        </div>
+
+
+                                        <div id="footerText"
+                                             class="text-peach"
+                                             style="
+                                                margin-top:
+                                                    4px;
+
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
+                                                font-size:
+                                                    12px;
+
+                                                line-height:
+                                                    18px;">
+
+                                            University of Wisconsin–Green Bay
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td width="20"
+                                        class="mobile-spacer">
+
+                                        &nbsp;
+
+                                    </td>
+
+
+                                    <td valign="top"
+                                        align="right"
+                                        class="mobile-full">
+
+                                        <a id="footerWebsiteLink"
+                                           href="https://uwgb.edu/urec"
+                                           class="text-orange"
+                                           style="
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
+                                                font-size:
+                                                    12px;
+
+                                                line-height:
+                                                    18px;
+
+                                                font-weight:
+                                                    700;
+
+                                                text-decoration:
+                                                    none;">
+
+                                            UWGB.EDU/UREC
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                            <div style="
+                                height:
+                                    4px;
+
+                                margin-top:
+                                    20px;
+
+                                background-color:
+                                    #f15a24 !important;
+
+                                border-left:
+                                    130px solid #f4b36a;
+
+                                border-right:
+                                    130px solid #ff7f50;">
+
+                                &nbsp;
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
 
                 </table>
+
             </td>
+
         </tr>
+
     </table>
+
 </body>
+
 </html>

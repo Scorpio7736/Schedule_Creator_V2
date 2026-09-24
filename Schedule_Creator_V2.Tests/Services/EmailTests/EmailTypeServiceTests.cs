@@ -22,7 +22,7 @@ namespace Schedule_Creator_V2.Tests.Services.Email
             // Assert
 
             Assert.Equal(
-                7,
+                10,
                 result.Count);
         }
 

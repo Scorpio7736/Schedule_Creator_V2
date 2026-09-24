@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
@@ -9,7 +10,7 @@
     <meta name="x-apple-disable-message-reformatting">
 
     <!-- =========================================================
-         LET'S GLOW IS A DARK-ONLY EMAIL
+         LET'S GLOW IS DARK ONLY
          ========================================================= -->
 
     <meta name="color-scheme"
@@ -24,8 +25,9 @@
 
 
     <style>
+
         /* =========================================================
-           DARK-ONLY COLOR SCHEME
+           COLOR SCHEME
            ========================================================= */
 
         :root {
@@ -50,9 +52,11 @@
             -webkit-text-fill-color: #f7f8ff !important;
         }
 
+
         body {
             font-family: Arial, Helvetica, sans-serif !important;
         }
+
 
         table,
         td {
@@ -60,10 +64,12 @@
             border-spacing: 0 !important;
         }
 
+
         table {
             mso-table-lspace: 0pt !important;
             mso-table-rspace: 0pt !important;
         }
+
 
         img {
             display: block;
@@ -73,6 +79,7 @@
             height: auto;
             -ms-interpolation-mode: bicubic;
         }
+
 
         a {
             color: inherit;
@@ -91,6 +98,7 @@
             background-image: linear-gradient( #11102b, #11102b ) !important;
         }
 
+
         .content-padding {
             padding-left: 38px;
             padding-right: 38px;
@@ -98,7 +106,7 @@
 
 
         /* =========================================================
-           LET'S GLOW BACKGROUNDS
+           BACKGROUNDS
            ========================================================= */
 
         .bg-night {
@@ -106,30 +114,36 @@
             background-image: linear-gradient( #080615, #080615 ) !important;
         }
 
+
         .bg-panel {
             background-color: #11102b !important;
             background-image: linear-gradient( #11102b, #11102b ) !important;
         }
+
 
         .bg-panel-alt {
             background-color: #17133b !important;
             background-image: linear-gradient( #17133b, #17133b ) !important;
         }
 
+
         .bg-lime {
             background-color: #9be447 !important;
             background-image: linear-gradient( #9be447, #9be447 ) !important;
         }
+
 
         .bg-cyan {
             background-color: #36e9ef !important;
             background-image: linear-gradient( #36e9ef, #36e9ef ) !important;
         }
 
+
         .bg-pink {
             background-color: #f34fc1 !important;
             background-image: linear-gradient( #f34fc1, #f34fc1 ) !important;
         }
+
 
         .bg-orange {
             background-color: #ff8b45 !important;
@@ -138,7 +152,7 @@
 
 
         /* =========================================================
-           LET'S GLOW TEXT
+           TEXT
            ========================================================= */
 
         .text-white {
@@ -146,30 +160,36 @@
             -webkit-text-fill-color: #ffffff !important;
         }
 
+
         .text-soft {
             color: #d9d8eb !important;
             -webkit-text-fill-color: #d9d8eb !important;
         }
+
 
         .text-night {
             color: #0d0b20 !important;
             -webkit-text-fill-color: #0d0b20 !important;
         }
 
+
         .text-lime {
             color: #9be447 !important;
             -webkit-text-fill-color: #9be447 !important;
         }
+
 
         .text-cyan {
             color: #36e9ef !important;
             -webkit-text-fill-color: #36e9ef !important;
         }
 
+
         .text-pink {
             color: #f34fc1 !important;
             -webkit-text-fill-color: #f34fc1 !important;
         }
+
 
         .text-orange {
             color: #ff8b45 !important;
@@ -192,14 +212,15 @@
             -webkit-text-fill-color: #ffffff !important;
         }
 
+
         .section-title {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             font-size: 20px;
             line-height: 26px;
             font-weight: 800;
-            letter-spacing: .2px;
         }
+
 
         .body-copy {
             margin: 0;
@@ -207,6 +228,7 @@
             font-size: 15px;
             line-height: 24px;
         }
+
 
         .eyebrow {
             margin: 0;
@@ -217,6 +239,7 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+
 
         .button-link {
             display: inline-block;
@@ -230,198 +253,79 @@
 
 
         /* =========================================================
-           DIVIDERS
-           ========================================================= */
-
-        .divider {
-            height: 1px;
-            background-color: #312b63 !important;
-            background-image: linear-gradient( #312b63, #312b63 ) !important;
-        }
-
-        .neon-rule {
-            font-size: 0;
-            line-height: 0;
-        }
-
-
-        /* =========================================================
-           OUTLOOK DARK-MODE BACKGROUND PROTECTION
+           DARK MODE PROTECTION
            ========================================================= */
 
         [data-ogsb] .bg-night,
         [data-ogsc] .bg-night {
             background-color: #080615 !important;
-            background-image: linear-gradient( #080615, #080615 ) !important;
         }
+
 
         [data-ogsb] .bg-panel,
         [data-ogsc] .bg-panel {
             background-color: #11102b !important;
-            background-image: linear-gradient( #11102b, #11102b ) !important;
         }
+
 
         [data-ogsb] .bg-panel-alt,
         [data-ogsc] .bg-panel-alt {
             background-color: #17133b !important;
-            background-image: linear-gradient( #17133b, #17133b ) !important;
         }
 
-        [data-ogsb] .bg-lime,
-        [data-ogsc] .bg-lime {
-            background-color: #9be447 !important;
-            background-image: linear-gradient( #9be447, #9be447 ) !important;
-        }
-
-        [data-ogsb] .bg-cyan,
-        [data-ogsc] .bg-cyan {
-            background-color: #36e9ef !important;
-            background-image: linear-gradient( #36e9ef, #36e9ef ) !important;
-        }
-
-        [data-ogsb] .bg-pink,
-        [data-ogsc] .bg-pink {
-            background-color: #f34fc1 !important;
-            background-image: linear-gradient( #f34fc1, #f34fc1 ) !important;
-        }
-
-        [data-ogsb] .bg-orange,
-        [data-ogsc] .bg-orange {
-            background-color: #ff8b45 !important;
-            background-image: linear-gradient( #ff8b45, #ff8b45 ) !important;
-        }
-
-
-        /* =========================================================
-           OUTLOOK DARK-MODE TEXT PROTECTION
-           ========================================================= */
 
         [data-ogsc] .text-white {
             color: #ffffff !important;
             -webkit-text-fill-color: #ffffff !important;
         }
 
+
         [data-ogsc] .text-soft {
             color: #d9d8eb !important;
             -webkit-text-fill-color: #d9d8eb !important;
         }
 
-        [data-ogsc] .text-night {
-            color: #0d0b20 !important;
-            -webkit-text-fill-color: #0d0b20 !important;
-        }
 
         [data-ogsc] .text-lime {
             color: #9be447 !important;
             -webkit-text-fill-color: #9be447 !important;
         }
 
+
         [data-ogsc] .text-cyan {
             color: #36e9ef !important;
             -webkit-text-fill-color: #36e9ef !important;
         }
+
 
         [data-ogsc] .text-pink {
             color: #f34fc1 !important;
             -webkit-text-fill-color: #f34fc1 !important;
         }
 
-        [data-ogsc] .text-orange {
-            color: #ff8b45 !important;
-            -webkit-text-fill-color: #ff8b45 !important;
-        }
-
-
-        /* =========================================================
-           DARK MODE
-
-           Repeat EXACT SAME dark palette.
-           Do not provide a light variant.
-           ========================================================= */
 
         @media (prefers-color-scheme: dark) {
 
             html,
             body {
                 background-color: #080615 !important;
-                background-image: linear-gradient( #080615, #080615 ) !important;
                 color: #f7f8ff !important;
-                -webkit-text-fill-color: #f7f8ff !important;
             }
 
             .email-container {
                 background-color: #11102b !important;
-                background-image: linear-gradient( #11102b, #11102b ) !important;
             }
 
             .bg-night {
                 background-color: #080615 !important;
-                background-image: linear-gradient( #080615, #080615 ) !important;
             }
 
             .bg-panel {
                 background-color: #11102b !important;
-                background-image: linear-gradient( #11102b, #11102b ) !important;
             }
 
             .bg-panel-alt {
                 background-color: #17133b !important;
-                background-image: linear-gradient( #17133b, #17133b ) !important;
-            }
-
-            .bg-lime {
-                background-color: #9be447 !important;
-                background-image: linear-gradient( #9be447, #9be447 ) !important;
-            }
-
-            .bg-cyan {
-                background-color: #36e9ef !important;
-                background-image: linear-gradient( #36e9ef, #36e9ef ) !important;
-            }
-
-            .bg-pink {
-                background-color: #f34fc1 !important;
-                background-image: linear-gradient( #f34fc1, #f34fc1 ) !important;
-            }
-
-            .bg-orange {
-                background-color: #ff8b45 !important;
-                background-image: linear-gradient( #ff8b45, #ff8b45 ) !important;
-            }
-
-            .text-white {
-                color: #ffffff !important;
-                -webkit-text-fill-color: #ffffff !important;
-            }
-
-            .text-soft {
-                color: #d9d8eb !important;
-                -webkit-text-fill-color: #d9d8eb !important;
-            }
-
-            .text-night {
-                color: #0d0b20 !important;
-                -webkit-text-fill-color: #0d0b20 !important;
-            }
-
-            .text-lime {
-                color: #9be447 !important;
-                -webkit-text-fill-color: #9be447 !important;
-            }
-
-            .text-cyan {
-                color: #36e9ef !important;
-                -webkit-text-fill-color: #36e9ef !important;
-            }
-
-            .text-pink {
-                color: #f34fc1 !important;
-                -webkit-text-fill-color: #f34fc1 !important;
-            }
-
-            .text-orange {
-                color: #ff8b45 !important;
-                -webkit-text-fill-color: #ff8b45 !important;
             }
         }
 
@@ -453,17 +357,16 @@
             }
 
             .mobile-spacer {
+                display: block !important;
+                width: 100% !important;
                 height: 12px !important;
-                line-height: 12px !important;
             }
         }
     </style>
 
 
-    <!-- =========================================================
-         CLASSIC OUTLOOK
-         ========================================================= -->
     <!--[if mso]>
+
     <style type="text/css">
 
         body,
@@ -483,23 +386,10 @@
                 collapse !important;
         }
 
-        .bg-night {
-            background-color:
-                #080615 !important;
-        }
-
-        .bg-panel {
-            background-color:
-                #11102b !important;
-        }
-
-        .bg-panel-alt {
-            background-color:
-                #17133b !important;
-        }
-
     </style>
+
     <![endif]-->
+
 </head>
 
 
@@ -510,20 +400,10 @@
         padding:0 !important;
 
         width:100% !important;
-        min-width:100% !important;
 
         background-color:#080615 !important;
 
-        background-image:
-            linear-gradient(
-                #080615,
-                #080615
-            ) !important;
-
-        color:#f7f8ff !important;
-
-        -webkit-text-fill-color:
-            #f7f8ff !important;">
+        color:#f7f8ff !important;">
 
 
     <!-- =========================================================
@@ -553,7 +433,7 @@
 
 
     <!-- =========================================================
-         OUTER BACKGROUND
+         OUTER
          ========================================================= -->
 
     <table role="presentation"
@@ -562,17 +442,7 @@
            cellspacing="0"
            border="0"
            bgcolor="#080615"
-           class="bg-night"
-           style="
-            width:100%;
-
-            background-color:#080615 !important;
-
-            background-image:
-                linear-gradient(
-                    #080615,
-                    #080615
-                ) !important;">
+           class="bg-night">
 
         <tr>
 
@@ -580,15 +450,7 @@
                 bgcolor="#080615"
                 class="bg-night"
                 style="
-                    padding:24px 10px;
-
-                    background-color:#080615 !important;
-
-                    background-image:
-                        linear-gradient(
-                            #080615,
-                            #080615
-                        ) !important;">
+                    padding:24px 10px;">
 
 
                 <!-- =================================================
@@ -609,18 +471,11 @@
 
                         margin:0 auto;
 
-                        text-align:left;
-
                         background-color:#11102b !important;
 
-                        background-image:
-                            linear-gradient(
-                                #11102b,
-                                #11102b
-                            ) !important;
-
                         box-shadow:
-                            0 10px 34px rgba(0,0,0,.32);">
+                            0 10px 34px
+                            rgba(0,0,0,.32);">
 
 
                     <!-- =================================================
@@ -632,15 +487,7 @@
                         <td bgcolor="#080615"
                             class="bg-night"
                             style="
-                                padding:0;
-
-                                background-color:#080615 !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #080615,
-                                        #080615
-                                    ) !important;">
+                                padding:0;">
 
                             <img id="headerImage"
                                  src="{{HEADER_IMAGE_SOURCE}}"
@@ -651,14 +498,10 @@
 
                                     width:100%;
                                     max-width:640px;
+
                                     height:auto;
 
-                                    margin:0;
-
-                                    border:0;
-                                    outline:none;
-
-                                    text-decoration:none;">
+                                    margin:0;">
 
                         </td>
 
@@ -674,140 +517,44 @@
                         <td bgcolor="#11102b"
                             class="bg-panel"
                             style="
-                                padding:0;
+                                padding:0;">
 
-                                background-color:#11102b !important;
+                            <div style="
+                                height:4px;
+                                font-size:1px;
+                                line-height:4px;
 
-                                background-image:
-                                    linear-gradient(
-                                        #11102b,
-                                        #11102b
-                                    ) !important;">
+                                background-color:#9be447 !important;
 
-                            <table role="presentation"
-                                   width="100%"
-                                   cellpadding="0"
-                                   cellspacing="0"
-                                   border="0">
+                                border-left:
+                                    160px solid #9be447;
 
-                                <tr>
+                                border-right:
+                                    160px solid #f34fc1;">
 
-                                    <td width="25%"
-                                        height="4"
-                                        bgcolor="#9be447"
-                                        class="bg-lime neon-rule"
-                                        style="
-                                            height:4px;
+                                &nbsp;
 
-                                            background-color:#9be447 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #9be447,
-                                                    #9be447
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="4"
-                                        bgcolor="#36e9ef"
-                                        class="bg-cyan neon-rule"
-                                        style="
-                                            height:4px;
-
-                                            background-color:#36e9ef !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #36e9ef,
-                                                    #36e9ef
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="4"
-                                        bgcolor="#f34fc1"
-                                        class="bg-pink neon-rule"
-                                        style="
-                                            height:4px;
-
-                                            background-color:#f34fc1 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #f34fc1,
-                                                    #f34fc1
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="4"
-                                        bgcolor="#ff8b45"
-                                        class="bg-orange neon-rule"
-                                        style="
-                                            height:4px;
-
-                                            background-color:#ff8b45 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #ff8b45,
-                                                    #ff8b45
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-                                </tr>
-
-                            </table>
+                            </div>
 
                         </td>
 
                     </tr>
 
 
-                    <!-- HEADER -->
                     <!-- =================================================
                          HEADER
                          ================================================= -->
 
-                    <tr>
+                    <tr id="headerSection">
 
                         <td bgcolor="#11102b"
                             class="content-padding bg-panel"
                             style="
                                 padding-top:28px;
-                                padding-bottom:30px;
-
-                                background-color:#11102b !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #11102b,
-                                        #11102b
-                                    ) !important;">
+                                padding-bottom:30px;">
 
                             <div id="organizationLabel"
-                                 class="eyebrow text-cyan"
-                                 style="
-                                    color:#36e9ef !important;
-
-                                    -webkit-text-fill-color:
-                                        #36e9ef !important;">
+                                 class="eyebrow text-cyan">
 
                                 UREC OUTDOORS
 
@@ -817,12 +564,7 @@
                             <div id="headerLabel"
                                  class="eyebrow text-pink"
                                  style="
-                                    margin-top:5px;
-
-                                    color:#f34fc1 !important;
-
-                                    -webkit-text-fill-color:
-                                        #f34fc1 !important;">
+                                    margin-top:5px;">
 
                                 GLOW CLIMB
 
@@ -832,37 +574,9 @@
                             <div id="emailHeading"
                                  class="headline text-white"
                                  style="
-                                    margin-top:10px;
+                                    margin-top:10px;">
 
-                                    font-family:
-                                        Arial,
-                                        Helvetica,
-                                        sans-serif;
-
-                                    font-size:46px;
-                                    line-height:49px;
-
-                                    font-weight:900;
-
-                                    letter-spacing:-1.5px;
-
-                                    color:#ffffff !important;
-
-                                    -webkit-text-fill-color:
-                                        #ffffff !important;">
-
-                                LET&apos;S
-
-                                <span class="text-lime"
-                                      style="
-                                        color:#9be447 !important;
-
-                                        -webkit-text-fill-color:
-                                            #9be447 !important;">
-
-                                    GLOW!
-
-                                </span>
+                                LET&apos;S GLOW!
 
                             </div>
 
@@ -878,12 +592,8 @@
                                         sans-serif;
 
                                     font-size:16px;
-                                    line-height:24px;
 
-                                    color:#d9d8eb !important;
-
-                                    -webkit-text-fill-color:
-                                        #d9d8eb !important;">
+                                    line-height:24px;">
 
                                 Same tower. Blacklights on. Everything glows.
 
@@ -894,34 +604,20 @@
                     </tr>
 
 
-                    <!-- BODY -->
                     <!-- =================================================
                          BODY
                          ================================================= -->
 
-                    <tr>
+                    <tr id="bodySection">
 
                         <td bgcolor="#17133b"
                             class="content-padding bg-panel-alt"
                             style="
                                 padding-top:30px;
-                                padding-bottom:30px;
-
-                                background-color:#17133b !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #17133b,
-                                        #17133b
-                                    ) !important;">
+                                padding-bottom:30px;">
 
                             <div id="bodyHeading"
-                                 class="section-title text-white"
-                                 style="
-                                    color:#ffffff !important;
-
-                                    -webkit-text-fill-color:
-                                        #ffffff !important;">
+                                 class="section-title text-white">
 
                                 Hey Tower Team,
 
@@ -931,12 +627,7 @@
                             <div id="bodyContent"
                                  class="body-copy text-soft"
                                  style="
-                                    margin-top:12px;
-
-                                    color:#d9d8eb !important;
-
-                                    -webkit-text-fill-color:
-                                        #d9d8eb !important;">
+                                    margin-top:12px;">
 
                                 Add your Let&apos;s Glow message here.
 
@@ -947,27 +638,17 @@
                     </tr>
 
 
-                    <!-- IMAGE -->
                     <!-- =================================================
                          IMAGE
                          ================================================= -->
 
-                    <tr>
+                    <tr id="imageSection">
 
-                        <td id="imageSection"
-                            align="center"
+                        <td align="center"
                             bgcolor="#11102b"
                             class="bg-panel"
                             style="
-                                padding:18px;
-
-                                background-color:#11102b !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #11102b,
-                                        #11102b
-                                    ) !important;">
+                                padding:18px;">
 
                             <img id="contentImage"
                                  src="{{CONTENT_IMAGE_SOURCE}}"
@@ -978,26 +659,23 @@
 
                                     width:100%;
                                     max-width:604px;
+
                                     height:auto;
 
                                     margin:0 auto;
 
-                                    border:0;
-                                    outline:none;
-
-                                    text-decoration:none;">
+                                    border:0;">
 
                         </td>
 
                     </tr>
 
 
-                    <!-- ANNOUNCEMENTS -->
                     <!-- =================================================
                          ANNOUNCEMENTS
                          ================================================= -->
 
-                    <tr>
+                    <tr id="announcementsSection">
 
                         <td bgcolor="#17133b"
                             class="content-padding bg-panel-alt"
@@ -1005,230 +683,122 @@
                                 padding-top:28px;
                                 padding-bottom:28px;
 
-                                background-color:#17133b !important;
+                                border-left:
+                                    7px solid #f34fc1;">
 
-                                background-image:
-                                    linear-gradient(
-                                        #17133b,
-                                        #17133b
-                                    ) !important;">
+                            <div id="announcementsHeading"
+                                 class="section-title text-white">
 
-                            <table role="presentation"
-                                   width="100%"
-                                   cellpadding="0"
-                                   cellspacing="0"
-                                   border="0"
-                                   bgcolor="#17133b"
-                                   class="bg-panel-alt"
-                                   style="
-                                    width:100%;
+                                Announcements
 
-                                    background-color:#17133b !important;
-
-                                    background-image:
-                                        linear-gradient(
-                                            #17133b,
-                                            #17133b
-                                        ) !important;">
-
-                                <tr>
-
-                                    <td width="7"
-                                        bgcolor="#f34fc1"
-                                        class="bg-pink"
-                                        style="
-                                            width:7px;
-
-                                            background-color:#f34fc1 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #f34fc1,
-                                                    #f34fc1
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
+                            </div>
 
 
-                                    <td bgcolor="#17133b"
-                                        class="bg-panel-alt"
-                                        style="
-                                            padding-left:15px;
+                            <div id="announcementsContent"
+                                 class="body-copy text-soft"
+                                 style="
+                                    margin-top:10px;">
 
-                                            background-color:#17133b !important;
+                                Add announcements here.
 
-                                            background-image:
-                                                linear-gradient(
-                                                    #17133b,
-                                                    #17133b
-                                                ) !important;">
-
-                                        <div id="announcementsHeading"
-                                             class="section-title text-white"
-                                             style="
-                                                color:#ffffff !important;
-
-                                                -webkit-text-fill-color:
-                                                    #ffffff !important;">
-
-                                            Announcements
-
-                                        </div>
-
-
-                                        <div id="announcementsContent"
-                                             class="body-copy text-soft"
-                                             style="
-                                                margin-top:10px;
-
-                                                color:#d9d8eb !important;
-
-                                                -webkit-text-fill-color:
-                                                    #d9d8eb !important;">
-
-                                            Add announcements here.
-
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            </table>
+                            </div>
 
                         </td>
 
                     </tr>
 
 
-                    <!-- REQUEST -->
                     <!-- =================================================
                          REQUEST
                          ================================================= -->
 
-                    <tr>
+                    <tr id="requestSection">
 
                         <td bgcolor="#11102b"
                             class="content-padding bg-panel"
                             style="
-                                padding-top:22px;
-                                padding-bottom:26px;
+                                padding-top:24px;
+                                padding-bottom:28px;">
 
-                                background-color:#11102b !important;
+                            <div style="
+                                padding:20px 22px;
 
-                                background-image:
-                                    linear-gradient(
-                                        #11102b,
-                                        #11102b
-                                    ) !important;">
+                                background-color:#080615 !important;
 
-                            <table role="presentation"
-                                   width="100%"
-                                   cellpadding="0"
-                                   cellspacing="0"
-                                   border="0"
-                                   bgcolor="#080615"
-                                   class="bg-night"
-                                   style="
-                                    width:100%;
+                                border:
+                                    1px solid #312b63;">
 
-                                    background-color:#080615 !important;
+                                <div id="requestHeading"
+                                     class="section-title text-lime"
+                                     style="
+                                        font-size:17px;
+                                        line-height:22px;">
 
-                                    background-image:
-                                        linear-gradient(
-                                            #080615,
-                                            #080615
-                                        ) !important;
+                                    Quick Request
 
-                                    border:
-                                        1px solid #312b63;">
-
-                                <tr>
-
-                                    <td bgcolor="#080615"
-                                        class="bg-night"
-                                        style="
-                                            padding:20px 22px;
-
-                                            background-color:#080615 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #080615,
-                                                    #080615
-                                                ) !important;">
-
-                                        <div id="requestHeading"
-                                             class="section-title text-lime"
-                                             style="
-                                                font-size:17px;
-                                                line-height:22px;
-
-                                                color:#9be447 !important;
-
-                                                -webkit-text-fill-color:
-                                                    #9be447 !important;">
-
-                                            Quick Request
-
-                                        </div>
+                                </div>
 
 
-                                        <div id="requestContent"
-                                             class="body-copy text-soft"
-                                             style="
-                                                margin-top:7px;
+                                <div id="requestContent"
+                                     class="body-copy text-soft"
+                                     style="
+                                        margin-top:8px;">
 
-                                                color:#d9d8eb !important;
+                                    Add your request here.
 
-                                                -webkit-text-fill-color:
-                                                    #d9d8eb !important;">
+                                </div>
 
-                                            Add your request here.
 
-                                        </div>
+                                <div id="requestButtonSection"
+                                     style="
+                                        margin-top:18px;">
 
-                                    </td>
+                                    <a id="requestButton"
+                                       href="https://urec.uwgb.edu"
+                                       class="button-link text-night bg-lime"
+                                       style="
+                                            display:inline-block;
 
-                                </tr>
+                                            padding:12px 20px;
 
-                            </table>
+                                            background-color:
+                                                #9be447 !important;
+
+                                            color:
+                                                #0d0b20 !important;
+
+                                            -webkit-text-fill-color:
+                                                #0d0b20 !important;
+
+                                            text-decoration:none;">
+
+                                        VIEW DETAILS
+
+                                    </a>
+
+                                </div>
+
+                            </div>
 
                         </td>
 
                     </tr>
 
 
-                    <!-- ATTACHMENTS -->
                     <!-- =================================================
                          ATTACHMENTS
                          ================================================= -->
 
-                    <tr>
+                    <tr id="attachmentsSection">
 
                         <td bgcolor="#17133b"
                             class="content-padding bg-panel-alt"
                             style="
                                 padding-top:26px;
-                                padding-bottom:26px;
-
-                                background-color:#17133b !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #17133b,
-                                        #17133b
-                                    ) !important;">
+                                padding-bottom:26px;">
 
                             <div id="attachmentsHeading"
-                                 class="section-title text-cyan"
-                                 style="
-                                    color:#36e9ef !important;
-
-                                    -webkit-text-fill-color:
-                                        #36e9ef !important;">
+                                 class="section-title text-cyan">
 
                                 Attachments
 
@@ -1238,14 +808,9 @@
                             <div id="attachmentsContent"
                                  class="body-copy text-soft"
                                  style="
-                                    margin-top:10px;
+                                    margin-top:10px;">
 
-                                    color:#d9d8eb !important;
-
-                                    -webkit-text-fill-color:
-                                        #d9d8eb !important;">
-
-                                Attachment links or generated items go here.
+                                Attachment information goes here.
 
                             </div>
 
@@ -1254,12 +819,11 @@
                     </tr>
 
 
-                    <!-- SIGNATURE -->
                     <!-- =================================================
                          SIGNATURE
                          ================================================= -->
 
-                    <tr>
+                    <tr id="signatureSection">
 
                         <td bgcolor="#11102b"
                             class="content-padding bg-panel"
@@ -1267,47 +831,16 @@
                                 padding-top:28px;
                                 padding-bottom:28px;
 
-                                background-color:#11102b !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #11102b,
-                                        #11102b
-                                    ) !important;">
-
-                            <div class="divider"
-                                 style="
-                                    height:1px;
-
-                                    margin-bottom:22px;
-
-                                    background-color:#312b63 !important;
-
-                                    background-image:
-                                        linear-gradient(
-                                            #312b63,
-                                            #312b63
-                                        ) !important;">
-                            </div>
-
+                                border-top:
+                                    1px solid #312b63;">
 
                             <div id="signatureContent"
-                                 class="body-copy text-soft"
-                                 style="
-                                    color:#d9d8eb !important;
-
-                                    -webkit-text-fill-color:
-                                        #d9d8eb !important;">
+                                 class="body-copy text-soft">
 
                                 Thank you,
                                 <br><br>
 
-                                <strong class="text-white"
-                                        style="
-                                        color:#ffffff !important;
-
-                                        -webkit-text-fill-color:
-                                            #ffffff !important;">
+                                <strong class="text-white">
 
                                     Jack London
 
@@ -1324,75 +857,43 @@
                     </tr>
 
 
-                    <!-- FOOTER -->
                     <!-- =================================================
                          FOOTER
                          ================================================= -->
 
-                    <tr>
+                    <tr id="footerSection">
 
                         <td bgcolor="#080615"
                             class="bg-night"
                             style="
-                                padding:24px 30px 26px 30px;
-
-                                background-color:#080615 !important;
-
-                                background-image:
-                                    linear-gradient(
-                                        #080615,
-                                        #080615
-                                    ) !important;">
+                                padding:
+                                    24px 30px
+                                    26px 30px;">
 
                             <table role="presentation"
                                    width="100%"
                                    cellpadding="0"
                                    cellspacing="0"
-                                   border="0"
-                                   bgcolor="#080615"
-                                   class="bg-night"
-                                   style="
-                                    width:100%;
-
-                                    background-color:#080615 !important;
-
-                                    background-image:
-                                        linear-gradient(
-                                            #080615,
-                                            #080615
-                                        ) !important;">
+                                   border="0">
 
                                 <tr>
 
                                     <td valign="top"
-                                        bgcolor="#080615"
-                                        class="mobile-full bg-night"
-                                        style="
-                                            font-family:
-                                                Arial,
-                                                Helvetica,
-                                                sans-serif;
-
-                                            background-color:#080615 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #080615,
-                                                    #080615
-                                                ) !important;">
+                                        class="mobile-full">
 
                                         <div id="footerOrganization"
                                              class="text-white"
                                              style="
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
                                                 font-size:14px;
+
                                                 line-height:20px;
 
-                                                font-weight:800;
-
-                                                color:#ffffff !important;
-
-                                                -webkit-text-fill-color:
-                                                    #ffffff !important;">
+                                                font-weight:800;">
 
                                             UREC Outdoors
 
@@ -1404,13 +905,14 @@
                                              style="
                                                 margin-top:4px;
 
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
                                                 font-size:12px;
-                                                line-height:18px;
 
-                                                color:#d9d8eb !important;
-
-                                                -webkit-text-fill-color:
-                                                    #d9d8eb !important;">
+                                                line-height:18px;">
 
                                             University of Wisconsin–Green Bay
 
@@ -1420,21 +922,7 @@
 
 
                                     <td width="20"
-                                        bgcolor="#080615"
-                                        class="mobile-spacer bg-night"
-                                        style="
-                                            width:20px;
-
-                                            font-size:0;
-                                            line-height:0;
-
-                                            background-color:#080615 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #080615,
-                                                    #080615
-                                                ) !important;">
+                                        class="mobile-spacer">
 
                                         &nbsp;
 
@@ -1443,37 +931,24 @@
 
                                     <td valign="top"
                                         align="right"
-                                        bgcolor="#080615"
-                                        class="mobile-full bg-night"
-                                        style="
-                                            font-family:
-                                                Arial,
-                                                Helvetica,
-                                                sans-serif;
-
-                                            background-color:#080615 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #080615,
-                                                    #080615
-                                                ) !important;">
+                                        class="mobile-full">
 
                                         <a id="footerWebsiteLink"
                                            href="https://uwgb.edu/urec"
                                            class="text-lime"
                                            style="
+                                                font-family:
+                                                    Arial,
+                                                    Helvetica,
+                                                    sans-serif;
+
                                                 font-size:12px;
+
                                                 line-height:18px;
 
                                                 font-weight:700;
 
-                                                text-decoration:none;
-
-                                                color:#9be447 !important;
-
-                                                -webkit-text-fill-color:
-                                                    #9be447 !important;">
+                                                text-decoration:none;">
 
                                             UWGB.EDU/UREC
 
@@ -1486,118 +961,28 @@
                             </table>
 
 
-                            <!-- =================================================
-                                 FOOTER NEON RULE
-                                 ================================================= -->
+                            <div style="
+                                height:3px;
 
-                            <table role="presentation"
-                                   width="100%"
-                                   cellpadding="0"
-                                   cellspacing="0"
-                                   border="0"
-                                   bgcolor="#080615"
-                                   class="bg-night"
-                                   style="
-                                    width:100%;
+                                margin-top:20px;
 
-                                    margin-top:20px;
+                                background-color:
+                                    #36e9ef !important;
 
-                                    background-color:#080615 !important;
+                                border-left:
+                                    145px solid #9be447;
 
-                                    background-image:
-                                        linear-gradient(
-                                            #080615,
-                                            #080615
-                                        ) !important;">
+                                border-right:
+                                    145px solid #f34fc1;">
 
-                                <tr>
+                                &nbsp;
 
-                                    <td width="25%"
-                                        height="3"
-                                        bgcolor="#9be447"
-                                        class="bg-lime"
-                                        style="
-                                            height:3px;
-
-                                            background-color:#9be447 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #9be447,
-                                                    #9be447
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="3"
-                                        bgcolor="#36e9ef"
-                                        class="bg-cyan"
-                                        style="
-                                            height:3px;
-
-                                            background-color:#36e9ef !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #36e9ef,
-                                                    #36e9ef
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="3"
-                                        bgcolor="#f34fc1"
-                                        class="bg-pink"
-                                        style="
-                                            height:3px;
-
-                                            background-color:#f34fc1 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #f34fc1,
-                                                    #f34fc1
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-
-                                    <td width="25%"
-                                        height="3"
-                                        bgcolor="#ff8b45"
-                                        class="bg-orange"
-                                        style="
-                                            height:3px;
-
-                                            background-color:#ff8b45 !important;
-
-                                            background-image:
-                                                linear-gradient(
-                                                    #ff8b45,
-                                                    #ff8b45
-                                                ) !important;">
-
-                                        &nbsp;
-
-                                    </td>
-
-                                </tr>
-
-                            </table>
+                            </div>
 
                         </td>
 
                     </tr>
+
 
                 </table>
 
@@ -1608,4 +993,5 @@
     </table>
 
 </body>
+
 </html>
