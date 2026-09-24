@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <meta name="x-apple-disable-message-reformatting">
+
+    <meta name="color-scheme"
+          content="light only">
+
+    <meta name="supported-color-schemes"
+          content="light only">
+
+    <title id="emailTitle">
+        Tower of Power | UWGB Climbing Tower
+    </title>
+
+    <style>
+        :root {
+            color-scheme: light only;
+            supported-color-schemes: light;
+        }
+
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            background-color: #f6dfd2 !important;
+        }
+
+        body {
+            color: #272327 !important;
+            -webkit-text-fill-color: #272327;
+        }
+
+        table,
+        td {
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+        }
+
+        img {
+            display: block;
+            border: 0;
+            outline: none;
+            text-decoration: none;
+            height: auto;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .email-container {
+            width: 100%;
+            max-width: 640px;
+            text-align: left;
+        }
+
+        .content-padding {
+            padding-left: 38px;
+            padding-right: 38px;
+        }
+
+        /*
+         * TOWER OF POWER PALETTE
+         *
+         * Charcoal:     #272327
+         * Burnt Orange: #f15a24
+         * Coral Orange: #ff7b4f
+         * Peach:        #f7c8b4
+         * Cream:        #fff8f2
+         * Sand:         #f2b269
+         */
+
+        /*
+         * LOCKED BACKGROUNDS
+         */
+
+        .email-outer {
+            background-color: #f6dfd2 !important;
+            background-image: linear-gradient(
+                #f6dfd2,
+                #f6dfd2) !important;
+        }
+
+        .background-white {
+            background-color: #fff8f2 !important;
+            background-image: linear-gradient(
+                #fff8f2,
+                #fff8f2) !important;
+        }
+
+        .background-brand-green {
+            background-color: #272327 !important;
+            background-image: linear-gradient(
+                #272327,
+                #272327) !important;
+        }
+
+        .background-mint {
+            background-color: #f7c8b4 !important;
+            background-image: linear-gradient(
+                #f7c8b4,
+                #f7c8b4) !important;
+        }
+
+        .background-request {
+            background-color: #fff0e8 !important;
+            background-image: linear-gradient(
+                #fff0e8,
+                #fff0e8) !important;
+        }
+
+        .background-action {
+            background-color: #f15a24 !important;
+            background-image: linear-gradient(
+                #f15a24,
+                #f15a24) !important;
+        }
+
+        /*
+         * LOCKED TEXT COLORS
+         *
+         * Existing class names are intentionally preserved so
+         * this file can use the same SCV2 section builders.
+         */
+
+        .text-brand-green {
+            color: #f15a24 !important;
+            -webkit-text-fill-color: #f15a24 !important;
+        }
+
+        .text-black {
+            color: #272327 !important;
+            -webkit-text-fill-color: #272327 !important;
+        }
+
+        .text-white {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        .text-mint {
+            color: #f7c8b4 !important;
+            -webkit-text-fill-color: #f7c8b4 !important;
+        }
+
+        .text-header-light {
+            color: #fff8f2 !important;
+            -webkit-text-fill-color: #fff8f2 !important;
+        }
+
+        .text-body {
+            color: #3a3030 !important;
+            -webkit-text-fill-color: #3a3030 !important;
+        }
+
+        .text-secondary {
+            color: #443735 !important;
+            -webkit-text-fill-color: #443735 !important;
+        }
+
+        .text-request {
+            color: #5c4a45 !important;
+            -webkit-text-fill-color: #5c4a45 !important;
+        }
+
+        .footer-divider {
+            height: 1px;
+            margin: 20px 0 15px 0;
+            background-color: #ff8b66 !important;
+            background-image: linear-gradient(
+                #ff8b66,
+                #ff8b66) !important;
+        }
+
+        /*
+         * EVENT-SPECIFIC UTILITY CLASSES
+         */
+
+        .top-accent {
+            height: 12px;
+            background-color: #f15a24 !important;
+            background-image: linear-gradient(
+                #f15a24,
+                #f15a24) !important;
+        }
+
+        .event-kicker {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            line-height: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .event-title {
+            font-family: Impact, "Arial Black", Arial, Helvetica, sans-serif;
+            font-size: 44px;
+            line-height: 45px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .event-subtitle {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            line-height: 22px;
+            font-weight: bold;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        /*
+         * OUTLOOK DARK-MODE OVERRIDES
+         */
+
+        [data-ogsc] .email-outer {
+            background-color: #f6dfd2 !important;
+            background-image: linear-gradient(
+                #f6dfd2,
+                #f6dfd2) !important;
+        }
+
+        [data-ogsc] .background-white {
+            background-color: #fff8f2 !important;
+            background-image: linear-gradient(
+                #fff8f2,
+                #fff8f2) !important;
+        }
+
+        [data-ogsc] .background-brand-green {
+            background-color: #272327 !important;
+            background-image: linear-gradient(
+                #272327,
+                #272327) !important;
+        }
+
+        [data-ogsc] .background-mint {
+            background-color: #f7c8b4 !important;
+            background-image: linear-gradient(
+                #f7c8b4,
+                #f7c8b4) !important;
+        }
+
+        [data-ogsc] .background-request {
+            background-color: #fff0e8 !important;
+            background-image: linear-gradient(
+                #fff0e8,
+                #fff0e8) !important;
+        }
+
+        [data-ogsc] .background-action {
+            background-color: #f15a24 !important;
+            background-image: linear-gradient(
+                #f15a24,
+                #f15a24) !important;
+        }
+
+        [data-ogsc] .text-brand-green {
+            color: #f15a24 !important;
+            -webkit-text-fill-color: #f15a24 !important;
+        }
+
+        [data-ogsc] .text-black {
+            color: #272327 !important;
+            -webkit-text-fill-color: #272327 !important;
+        }
+
+        [data-ogsc] .text-white {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        [data-ogsc] .text-mint {
+            color: #f7c8b4 !important;
+            -webkit-text-fill-color: #f7c8b4 !important;
+        }
+
+        [data-ogsc] .text-header-light {
+            color: #fff8f2 !important;
+            -webkit-text-fill-color: #fff8f2 !important;
+        }
+
+        [data-ogsc] .text-body {
+            color: #3a3030 !important;
+            -webkit-text-fill-color: #3a3030 !important;
+        }
+
+        [data-ogsc] .text-secondary {
+            color: #443735 !important;
+            -webkit-text-fill-color: #443735 !important;
+        }
+
+        [data-ogsc] .text-request {
+            color: #5c4a45 !important;
+            -webkit-text-fill-color: #5c4a45 !important;
+        }
+
+        /*
+         * CLIENTS THAT SUPPORT PREFERS-COLOR-SCHEME
+         */
+
+        @media (prefers-color-scheme: dark) {
+            html,
+            body,
+            .email-outer {
+                background-color: #f6dfd2 !important;
+                background-image: linear-gradient(
+                    #f6dfd2,
+                    #f6dfd2) !important;
+            }
+
+            .background-white {
+                background-color: #fff8f2 !important;
+                background-image: linear-gradient(
+                    #fff8f2,
+                    #fff8f2) !important;
+            }
+
+            .background-brand-green {
+                background-color: #272327 !important;
+                background-image: linear-gradient(
+                    #272327,
+                    #272327) !important;
+            }
+
+            .background-mint {
+                background-color: #f7c8b4 !important;
+                background-image: linear-gradient(
+                    #f7c8b4,
+                    #f7c8b4) !important;
+            }
+
+            .background-request {
+                background-color: #fff0e8 !important;
+                background-image: linear-gradient(
+                    #fff0e8,
+                    #fff0e8) !important;
+            }
+
+            .background-action {
+                background-color: #f15a24 !important;
+                background-image: linear-gradient(
+                    #f15a24,
+                    #f15a24) !important;
+            }
+
+            .text-brand-green {
+                color: #f15a24 !important;
+                -webkit-text-fill-color: #f15a24 !important;
+            }
+
+            .text-black {
+                color: #272327 !important;
+                -webkit-text-fill-color: #272327 !important;
+            }
+
+            .text-white {
+                color: #ffffff !important;
+                -webkit-text-fill-color: #ffffff !important;
+            }
+
+            .text-mint {
+                color: #f7c8b4 !important;
+                -webkit-text-fill-color: #f7c8b4 !important;
+            }
+
+            .text-header-light {
+                color: #fff8f2 !important;
+                -webkit-text-fill-color: #fff8f2 !important;
+            }
+
+            .text-body {
+                color: #3a3030 !important;
+                -webkit-text-fill-color: #3a3030 !important;
+            }
+
+            .text-secondary {
+                color: #443735 !important;
+                -webkit-text-fill-color: #443735 !important;
+            }
+
+            .text-request {
+                color: #5c4a45 !important;
+                -webkit-text-fill-color: #5c4a45 !important;
+            }
+        }
+
+        @media only screen and (max-width: 640px) {
+            .email-container {
+                width: 100% !important;
+            }
+
+            .content-padding {
+                padding-left: 22px !important;
+                padding-right: 22px !important;
+            }
+
+            .headline {
+                font-size: 32px !important;
+                line-height: 38px !important;
+            }
+
+            .event-title {
+                font-size: 36px !important;
+                line-height: 38px !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="email-outer"
+      style="
+        margin:0 !important;
+        padding:0 !important;
+        width:100% !important;
+        background-color:#f6dfd2 !important;
+        background-image:linear-gradient(
+            #f6dfd2,
+            #f6dfd2) !important;">
+
+    <div id="preheaderText"
+         style="
+            display:none;
+            max-height:0;
+            overflow:hidden;
+            opacity:0;
+            color:transparent;
+            font-size:1px;
+            line-height:1px;">
+
+        Tower of Power at the UWGB Climbing Tower.
+    </div>
+
+    <table role="presentation"
+           class="email-outer"
+           width="100%"
+           cellpadding="0"
+           cellspacing="0"
+           border="0"
+           bgcolor="#f6dfd2"
+           style="
+            width:100%;
+            background-color:#f6dfd2 !important;
+            background-image:linear-gradient(
+                #f6dfd2,
+                #f6dfd2) !important;">
+
+        <tr>
+            <td align="center"
+                bgcolor="#f6dfd2"
+                class="email-outer"
+                style="
+                    padding:24px 10px;
+                    background-color:#f6dfd2 !important;
+                    background-image:linear-gradient(
+                        #f6dfd2,
+                        #f6dfd2) !important;">
+
+                <table role="presentation"
+                       class="email-container background-white"
+                       width="100%"
+                       cellpadding="0"
+                       cellspacing="0"
+                       border="0"
+                       bgcolor="#fff8f2"
+                       align="center"
+                       style="
+                        width:100%;
+                        max-width:640px;
+                        margin:0 auto;
+                        text-align:left;
+                        background-color:#fff8f2 !important;
+                        background-image:linear-gradient(
+                            #fff8f2,
+                            #fff8f2) !important;
+                        box-shadow:0 4px 18px
+                            rgba(39,35,39,.18);">
+
+                    <!-- TOP EVENT ACCENT -->
+                    <tr>
+                        <td class="top-accent"
+                            bgcolor="#f15a24"
+                            style="
+                                height:12px;
+                                line-height:12px;
+                                font-size:1px;
+                                background-color:#f15a24 !important;
+                                background-image:linear-gradient(
+                                    #f15a24,
+                                    #f15a24) !important;">
+                            &nbsp;
+                        </td>
+                    </tr>
+
+                    <!-- EVENT IDENTITY STRIP -->
+                    <tr>
+                        <td bgcolor="#272327"
+                            class="background-brand-green"
+                            style="
+                                padding:20px 38px 22px 38px;
+                                background-color:#272327 !important;
+                                background-image:linear-gradient(
+                                    #272327,
+                                    #272327) !important;
+                                border-bottom:8px solid #f15a24;">
+
+                            <div class="event-kicker text-mint"
+                                 style="
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:12px;
+                                    line-height:16px;
+                                    letter-spacing:2px;
+                                    text-transform:uppercase;
+                                    font-weight:bold;
+                                    color:#f7c8b4 !important;
+                                    -webkit-text-fill-color:#f7c8b4 !important;">
+                                UREC OUTDOORS PRESENTS
+                            </div>
+
+                            <div class="event-title text-white"
+                                 style="
+                                    margin-top:6px;
+                                    font-family:Impact,'Arial Black',Arial,Helvetica,sans-serif;
+                                    font-size:44px;
+                                    line-height:45px;
+                                    letter-spacing:.5px;
+                                    text-transform:uppercase;
+                                    font-weight:900;
+                                    color:#ffffff !important;
+                                    -webkit-text-fill-color:#ffffff !important;">
+                                TOWER OF POWER
+                            </div>
+
+                            <div class="event-subtitle text-header-light"
+                                 style="
+                                    margin-top:8px;
+                                    font-family:Arial,Helvetica,sans-serif;
+                                    font-size:15px;
+                                    line-height:22px;
+                                    font-weight:bold;
+                                    letter-spacing:.8px;
+                                    text-transform:uppercase;
+                                    color:#fff8f2 !important;
+                                    -webkit-text-fill-color:#fff8f2 !important;">
+                                CLIMBING COMPETITION
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!--
+                        IMPORTANT:
+                        The markers below intentionally match the standard
+                        SCV2 Email.html template so this themed template can
+                        support the same section options and section order.
+                    -->
+
+                    <!-- HEADER -->
+                    <!-- BODY -->
+                    <!-- IMAGE -->
+                    <!-- ANNOUNCEMENTS -->
+                    <!-- REQUEST -->
+                    <!-- ATTACHMENTS -->
+                    <!-- SIGNATURE -->
+                    <!-- FOOTER -->
+
+                    <!-- BOTTOM EVENT ACCENT -->
+                    <tr>
+                        <td bgcolor="#f15a24"
+                            style="
+                                height:10px;
+                                line-height:10px;
+                                font-size:1px;
+                                background-color:#f15a24 !important;
+                                background-image:linear-gradient(
+                                    #f15a24,
+                                    #f15a24) !important;">
+                            &nbsp;
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

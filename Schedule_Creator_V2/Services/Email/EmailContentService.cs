@@ -71,7 +71,7 @@ namespace Schedule_Creator_V2.Services.Email
                 emailType);
 
             string html =
-                LoadEmailTemplate();
+                LoadEmailTemplate(emailType);
 
             string subject =
                 BuildSubject(emailType);
@@ -130,19 +130,27 @@ namespace Schedule_Creator_V2.Services.Email
         }
 
 
-        private static string LoadEmailTemplate()
+        private static string LoadEmailTemplate(
+    EmailType emailType)
         {
+            string templateFileName =
+                string.IsNullOrWhiteSpace(
+                    emailType.templateFileName)
+                    ? "Email.html"
+                    : emailType.templateFileName;
+
             string templatePath =
                 Path.Combine(
                     AppContext.BaseDirectory,
                     "Models",
                     "Objects",
-                    "Email.html");
+                    templateFileName);
 
             if (!File.Exists(templatePath))
             {
                 throw new FileNotFoundException(
-                    "The HTML email template could not be found.",
+                    $"The HTML email template '{templateFileName}' " +
+                    $"could not be found.",
                     templatePath);
             }
 

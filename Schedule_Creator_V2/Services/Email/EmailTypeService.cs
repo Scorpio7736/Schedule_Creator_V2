@@ -11,7 +11,11 @@ namespace Schedule_Creator_V2.Services.Email
         {
             return new List<EmailType>
             {
-                /* CUSTOM */new EmailType(
+                // =================================================
+                // CUSTOM
+                // =================================================
+
+                new EmailType(
                     displayName: "Custom",
                     inputs: new List<IEmailInputs>
                     {
@@ -22,9 +26,16 @@ namespace Schedule_Creator_V2.Services.Email
                         new CustomHeaderInputs(
                             OrganizationName:
                                 EmailInputConstants.OrganizationName,
-                            HeaderLabel: "",
-                            EmailHeading: "",
-                            HeaderSubtitle: "",
+
+                            HeaderLabel:
+                                "",
+
+                            EmailHeading:
+                                "",
+
+                            HeaderSubtitle:
+                                "",
+
                             HeaderImageUrl:
                                 EmailImageSources.Default_HeaderImage
                         ),
@@ -32,70 +43,142 @@ namespace Schedule_Creator_V2.Services.Email
                         new CustomBodyInputs(
                             RecipientGreeting:
                                 EmailInputConstants.TowerTeamGreeting,
-                            EmailBody: ""
+
+                            EmailBody:
+                                ""
                         ),
 
                         EmailInputDefaults.DefaultSignatureInputs,
 
                         EmailInputDefaults.DefaultFooterInputs
                     },
+
                     allowSectionEditing: true
                 ),
-                /* ANNOUNCEMENTS */new EmailType(
+
+
+                // =================================================
+                // ANNOUNCEMENTS
+                // =================================================
+
+                new EmailType(
                     displayName: "Announcements",
                     inputs: new List<IEmailInputs>
                     {
                         new EmailDetailsInputs(
-                            ""
-                            ),
+                            Subject:
+                                ""
+                        ),
+
                         new CustomHeaderInputs(
-                            OrganizationName: EmailInputConstants.OrganizationName,
-                            HeaderLabel: "TOWER TEAM ANNOUNCEMENTS",
-                            EmailHeading: "",
-                            HeaderSubtitle: "",
-                            HeaderImageUrl: EmailImageSources.UpcomingClassHeader
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "TOWER TEAM ANNOUNCEMENTS",
+
+                            EmailHeading:
+                                "",
+
+                            HeaderSubtitle:
+                                "",
+
+                            HeaderImageUrl:
+                                EmailImageSources.UpcomingClassHeader
                         ),
+
                         new CustomBodyInputs(
-                                RecipientGreeting: EmailInputConstants.TowerTeamGreeting,
-                                EmailBody: "Here are the latest announcements for the Tower Team. Please review the information below and stay up to date with our activities and events."
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                "Here are the latest announcements for the " +
+                                "Tower Team. Please review the information " +
+                                "below and stay up to date with our " +
+                                "activities and events."
                         ),
+
                         new CustomAnnouncementsInputs(
-                            AnnouncementsLabel: "ANNOUNCEMENTS",
-                            AnnouncementsIntro: "Please find the latest updates and important information for the Tower Team below.",
-                            AnnouncementsList: [
+                            AnnouncementsLabel:
+                                "ANNOUNCEMENTS",
+
+                            AnnouncementsIntro:
+                                "Please find the latest updates and " +
+                                "important information for the Tower Team below.",
+
+                            AnnouncementsList:
+                            [
                                 "Announcement 1: Details about the first announcement.",
                                 "Announcement 2: Details about the second announcement.",
                                 "Announcement 3: Details about the third announcement."
-                                ]
+                            ]
                         ),
-                        EmailInputDefaults.DefaultSignatureInputs,
-                    }
-                ),
-                /* NR WELCOME */new EmailType(
-                        displayName: "(No Request) Welcome to the Climbing Tower Team",
-                        inputs: new List<IEmailInputs>
-                        {
-                            new EmailDetailsInputs(
-                                Subject: "Welcome to the Climbing Tower Team"
-                            ),
 
-                            new CustomHeaderInputs(
-                            OrganizationName: EmailInputConstants.OrganizationName,
-                            HeaderLabel: "WELCOME TO THE CLIMBING TOWER TEAM",
-                            EmailHeading: "WELCOME TO THE CLIMBING TOWER TEAM",
-                            HeaderSubtitle: "WE ARE EXCITED TO HAVE YOU ON BOARD!",
-                            HeaderImageUrl: EmailImageSources.WelcomToTheTowerTeamHeader
-                        ),
-                        new CustomBodyInputs(
-                                "Hello [RECIPIENT NAME],",
-                                "We are thrilled to welcome you to the Climbing Tower Team! Your dedication and enthusiasm are invaluable to our mission of providing a safe and enjoyable climbing experience for all. We look forward to working with you and seeing the positive impact you'll make on our team and the climbing community."
-                        ),
-                        EmailInputDefaults.DefaultSignatureInputs,
+                        EmailInputDefaults.DefaultSignatureInputs
                     }
                 ),
-                /* SCHEDULE ANNOUNCEMENT */
+
+
+                // =================================================
+                // NO REQUEST WELCOME
+                // =================================================
+
                 new EmailType(
-                    displayName: "Schedule Announcement",
+                    displayName:
+                        "(No Request) Welcome to the Climbing Tower Team",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Welcome to the Climbing Tower Team"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "WELCOME TO THE CLIMBING TOWER TEAM",
+
+                            EmailHeading:
+                                "WELCOME TO THE CLIMBING TOWER TEAM",
+
+                            HeaderSubtitle:
+                                "WE ARE EXCITED TO HAVE YOU ON BOARD!",
+
+                            HeaderImageUrl:
+                                EmailImageSources.WelcomToTheTowerTeamHeader
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                "Hello [RECIPIENT NAME],",
+
+                            EmailBody:
+                                "We are thrilled to welcome you to the " +
+                                "Climbing Tower Team! Your dedication and " +
+                                "enthusiasm are invaluable to our mission " +
+                                "of providing a safe and enjoyable climbing " +
+                                "experience for all. We look forward to " +
+                                "working with you and seeing the positive " +
+                                "impact you'll make on our team and the " +
+                                "climbing community."
+                        ),
+
+                        EmailInputDefaults.DefaultSignatureInputs
+                    }
+                ),
+
+
+                // =================================================
+                // SCHEDULE ANNOUNCEMENT
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Schedule Announcement",
+
                     inputs: new List<IEmailInputs>
                     {
                         new EmailDetailsInputs(
@@ -106,12 +189,16 @@ namespace Schedule_Creator_V2.Services.Email
                         new CustomHeaderInputs(
                             OrganizationName:
                                 EmailInputConstants.OrganizationName,
+
                             HeaderLabel:
                                 "CLIMBING TOWER SCHEDULE",
+
                             EmailHeading:
                                 "NEW SCHEDULE AVAILABLE",
+
                             HeaderSubtitle:
                                 "[START DATE] THROUGH [END DATE]",
+
                             HeaderImageUrl:
                                 EmailImageSources.Default_HeaderImage
                         ),
@@ -119,26 +206,35 @@ namespace Schedule_Creator_V2.Services.Email
                         new CustomBodyInputs(
                             RecipientGreeting:
                                 EmailInputConstants.TowerTeamGreeting,
-                            EmailBody: ""
+
+                            EmailBody:
+                                ""
                         ),
 
                         new CustomImageInputs(
-                            ImageSource: "",
-                            ImageAltText: ""
+                            ImageSource:
+                                "",
+
+                            ImageAltText:
+                                ""
                         ),
 
                         new CustomRequestInputs(
                             RequestLabel:
                                 "SCHEDULE",
+
                             RequestTitle:
                                 "Review the Full Schedule",
+
                             RequestBody:
                                 "Use the button below to open the " +
                                 "current schedule. Please review the " +
                                 "entire schedule, including any shifts " +
                                 "that are currently marked as missing.",
+
                             RequestButton:
                                 "View Schedule",
+
                             RequestLink:
                                 ""
                         ),
@@ -146,6 +242,188 @@ namespace Schedule_Creator_V2.Services.Email
                         EmailInputDefaults.DefaultSignatureInputs
                     }
                 ),
+
+
+                // =================================================
+                // LET'S GLOW SCHEDULE
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Let's Glow Schedule",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Let's Glow Schedule"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "GLOW CLIMB",
+
+                            EmailHeading:
+                                "LET'S GLOW!",
+
+                            HeaderSubtitle:
+                                "Same tower. Blacklights on. Everything glows.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomImageInputs(
+                            ImageSource:
+                                "",
+
+                            ImageAltText:
+                                "Let's Glow Schedule"
+                        ),
+
+                        EmailInputDefaults.DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Lets_Glow_Email_Template.html"
+                ),
+
+
+                // =================================================
+                // LET'S GLOW ANNOUNCEMENTS
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Let's Glow Announcements",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Let's Glow Announcements"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "GLOW CLIMB",
+
+                            EmailHeading:
+                                "LET'S GLOW!",
+
+                            HeaderSubtitle:
+                                "Same tower. Blacklights on. Everything glows.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomAnnouncementsInputs(
+                            AnnouncementsLabel:
+                                "ANNOUNCEMENTS",
+
+                            AnnouncementsIntro:
+                                "",
+
+                            AnnouncementsList:
+                            [
+                                ""
+                            ]
+                        ),
+
+                        EmailInputDefaults.DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Lets_Glow_Email_Template.html"
+                ),
+
+
+                // =================================================
+                // LET'S GLOW REQUESTS
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Let's Glow Requests",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Let's Glow Requests"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                "UREC OUTDOORS",
+
+                            HeaderLabel:
+                                "GLOW CLIMB",
+
+                            EmailHeading:
+                                "LET'S GLOW!",
+
+                            HeaderSubtitle:
+                                "Same tower. Blacklights on. Everything glows.",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                ""
+                        ),
+
+                        new CustomRequestInputs(
+                            RequestLabel:
+                                "REQUEST",
+
+                            RequestTitle:
+                                "",
+
+                            RequestBody:
+                                "",
+
+                            RequestButton:
+                                "",
+
+                            RequestLink:
+                                ""
+                        ),
+
+                        EmailInputDefaults.DefaultSignatureInputs
+                    },
+
+                    templateFileName:
+                        "Lets_Glow_Email_Template.html"
+                )
             };
         }
     }

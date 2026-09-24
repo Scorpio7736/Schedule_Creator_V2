@@ -5,6 +5,7 @@ namespace Schedule_Creator_V2.Models.Records
     public record EmailType(
         string displayName,
         List<IEmailInputs> inputs,
-        bool allowSectionEditing = false
+        bool allowSectionEditing = false,
+        string templateFileName = "Email.html"
     );
 }

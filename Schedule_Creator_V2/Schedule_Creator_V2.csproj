@@ -21,6 +21,10 @@
 		<None Update="Models\Objects\Email.html">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+
+		<None Update="Models\Objects\Lets_Glow_Email_Template.html">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<ItemGroup>

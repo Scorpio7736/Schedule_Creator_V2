@@ -76,10 +76,6 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            /*
-             * Save changes made to the previous email type
-             * before replacing the generated controls.
-             */
             if (currentEmailType is not null)
             {
                 EmailInputFormService
@@ -106,10 +102,6 @@ namespace Schedule_Creator_V2
             currentEmailType =
                 selectedEmailType;
 
-            /*
-             * Email types that allow section editing must
-             * always contain their required core sections.
-             */
             if (EmailSectionService
                     .CanEditSections(
                         currentEmailType))
@@ -141,10 +133,6 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            /*
-             * Keep every email section in the canonical order
-             * defined by EmailSectionService.
-             */
             EmailSectionService
                 .SortSections(
                     currentEmailType);
@@ -211,10 +199,6 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            // -----------------------------------------------------
-            // Sections that are not currently in the email
-            // -----------------------------------------------------
-
             IReadOnlyList<EmailSectionOption>
                 availableSections =
                     EmailSectionService
@@ -231,11 +215,6 @@ namespace Schedule_Creator_V2
 
             AddEmailSectionButton.IsEnabled =
                 availableSections.Count > 0;
-
-
-            // -----------------------------------------------------
-            // Sections that may currently be removed
-            // -----------------------------------------------------
 
             IReadOnlyList<ActiveEmailSection>
                 removableSections =
@@ -278,10 +257,6 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            /*
-             * Save everything the user already typed before
-             * destroying and rebuilding the dynamic controls.
-             */
             EmailInputFormService
                 .ApplyInputValues(
                     EmailInputFieldsPanel);
@@ -331,10 +306,6 @@ namespace Schedule_Creator_V2
                 return;
             }
 
-            /*
-             * Save current form values before rebuilding
-             * the dynamic controls.
-             */
             EmailInputFormService
                 .ApplyInputValues(
                     EmailInputFieldsPanel);
@@ -376,6 +347,7 @@ namespace Schedule_Creator_V2
                     true;
             }
         }
+
 
         private void ClearStaffSelectionButton_Click(
             object sender,
@@ -437,9 +409,8 @@ namespace Schedule_Creator_V2
                             selectedEmailType);
 
                 string htmlBody =
-                    EmailContentService
-                        .BuildHtmlBody(
-                            selectedEmailType);
+                    BuildRenderedHtmlBody(
+                        selectedEmailType);
 
                 EmailPreviewWindow previewWindow =
                     new EmailPreviewWindow(
@@ -522,9 +493,8 @@ namespace Schedule_Creator_V2
                             selectedEmailType);
 
                 string htmlBody =
-                    EmailContentService
-                        .BuildHtmlBody(
-                            selectedEmailType);
+                    BuildRenderedHtmlBody(
+                        selectedEmailType);
 
                 EmlEmailService
                     .CreateAndOpenEmail(
@@ -550,6 +520,28 @@ namespace Schedule_Creator_V2
                         true;
                 }
             }
+        }
+
+
+        // =========================================================
+        // HTML RENDERING
+        // =========================================================
+
+        private static string BuildRenderedHtmlBody(
+            EmailType emailType)
+        {
+            if (LetsGlowEmailContentService
+                    .UsesLetsGlowTemplate(
+                        emailType))
+            {
+                return LetsGlowEmailContentService
+                    .BuildHtmlBody(
+                        emailType);
+            }
+
+            return EmailContentService
+                .BuildHtmlBody(
+                    emailType);
         }
 
 
@@ -698,10 +690,6 @@ namespace Schedule_Creator_V2
 
                 OnPropertyChanged();
 
-                /*
-                 * A recipient cannot simultaneously be marked
-                 * as both To and Cc.
-                 */
                 if (value &&
                     isCc)
                 {
@@ -736,10 +724,6 @@ namespace Schedule_Creator_V2
 
                 OnPropertyChanged();
 
-                /*
-                 * A recipient cannot simultaneously be marked
-                 * as both To and Cc.
-                 */
                 if (value &&
                     isTo)
                 {
@@ -788,6 +772,7 @@ namespace Schedule_Creator_V2
 
         public event PropertyChangedEventHandler?
             PropertyChanged;
+
 
         private void OnPropertyChanged(
             [CallerMemberName]
