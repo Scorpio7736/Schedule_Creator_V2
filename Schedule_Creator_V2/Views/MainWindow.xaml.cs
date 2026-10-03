@@ -10,6 +10,8 @@ namespace Schedule_Creator_V2
 {
     public partial class MainWindow : Window
     {
+        private bool _isNavigating = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,11 +31,13 @@ namespace Schedule_Creator_V2
         {
             DisplayScreen.Content = null;
             DisplayScreen.Visibility = Visibility.Collapsed;
+
             HomeDashboard.Visibility = Visibility.Visible;
+            HomeDashboard.Opacity = 1;
         }
 
         // =========================================================
-        // PAGE NAVIGATION
+        // PAGE DISPLAY
         // =========================================================
 
         private void ShowPage(Page page)
@@ -41,8 +45,124 @@ namespace Schedule_Creator_V2
             ArgumentNullException.ThrowIfNull(page);
 
             HomeDashboard.Visibility = Visibility.Collapsed;
-            DisplayScreen.Visibility = Visibility.Visible;
+
             DisplayScreen.Content = page;
+            DisplayScreen.Opacity = 1;
+            DisplayScreen.Visibility = Visibility.Visible;
+        }
+
+        // =========================================================
+        // NAVIGATION
+        // =========================================================
+
+        private async Task NavigateToPageAsync(Page page)
+        {
+            ArgumentNullException.ThrowIfNull(page);
+
+            if (_isNavigating)
+            {
+                return;
+            }
+
+            _isNavigating = true;
+
+            try
+            {
+                await FadeOutCurrentPageAsync();
+
+                ShowPage(page);
+            }
+            finally
+            {
+                _isNavigating = false;
+            }
+        }
+
+        private async Task NavigateHomeAsync()
+        {
+            if (_isNavigating)
+            {
+                return;
+            }
+
+            _isNavigating = true;
+
+            try
+            {
+                await FadeOutCurrentPageAsync();
+
+                ShowHome();
+
+                PlayHomeAnimations();
+            }
+            finally
+            {
+                _isNavigating = false;
+            }
+        }
+
+        // =========================================================
+        // PAGE FADE OUT
+        // =========================================================
+
+        private async Task FadeOutCurrentPageAsync()
+        {
+            FrameworkElement? currentPage = null;
+
+            if (HomeDashboard.Visibility == Visibility.Visible)
+            {
+                currentPage = HomeDashboard;
+            }
+            else if (DisplayScreen.Visibility == Visibility.Visible)
+            {
+                currentPage = DisplayScreen;
+            }
+
+            if (currentPage == null)
+            {
+                return;
+            }
+
+            TaskCompletionSource<bool> animationFinished =
+                new TaskCompletionSource<bool>();
+
+            DoubleAnimation fadeOutAnimation =
+                new DoubleAnimation
+                {
+                    From = currentPage.Opacity,
+                    To = 0,
+
+                    Duration =
+                        TimeSpan.FromMilliseconds(450),
+
+                    EasingFunction =
+                        new QuadraticEase
+                        {
+                            EasingMode =
+                                EasingMode.EaseIn
+                        },
+
+                    FillBehavior =
+                        FillBehavior.HoldEnd
+                };
+
+            fadeOutAnimation.Completed +=
+                (sender, e) =>
+                {
+                    animationFinished.TrySetResult(true);
+                };
+
+            currentPage.BeginAnimation(
+                OpacityProperty,
+                fadeOutAnimation);
+
+            await animationFinished.Task;
+
+            currentPage.BeginAnimation(
+                OpacityProperty,
+                null);
+
+            currentPage.Opacity = 0;
         }
 
         // =========================================================
@@ -85,6 +205,8 @@ namespace Schedule_Creator_V2
             // =====================================================
             // RESET STARTING VALUES
             // =====================================================
+
+            HomeDashboard.Opacity = 1;
 
             WelcomeContent.Opacity = 0;
             WelcomeContentTransform.X = -60;
@@ -235,124 +357,128 @@ namespace Schedule_Creator_V2
         // NAVIGATION BUTTONS
         // =========================================================
 
-        private void Home_Btn_Click(
+        private async void Home_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowHome();
+            if (HomeDashboard.Visibility == Visibility.Visible)
+            {
+                PlayHomeAnimations();
+                return;
+            }
 
-            PlayHomeAnimations();
+            await NavigateHomeAsync();
         }
 
-        private void Send_Email_Btn_Click(
+        private async void Send_Email_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Send_Email());
         }
 
-        private void Build_Schedule_Btn_Click(
+        private async void Build_Schedule_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Build_Schedule());
         }
 
-        private void View_Schedule_Btn_Click(
+        private async void View_Schedule_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new View_Schedule());
         }
 
-        private void View_Email_List_Btn_Click(
+        private async void View_Email_List_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new View_Email_List());
         }
 
-        private void View_Days_Off_Btn_Click(
+        private async void View_Days_Off_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new View_Days_Off());
         }
 
-        private void Add_Belay_Cert_Btn_Click(
+        private async void Add_Belay_Cert_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Add_Belay_Cert());
         }
 
-        private void Remove_Staff_Btn_Click(
+        private async void Remove_Staff_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Remove_Staff());
         }
 
-        private void Remove_Days_Off_Btn_Click(
+        private async void Remove_Days_Off_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Remove_Days_Off());
         }
 
-        private void Add_Days_Off_Btn_Click(
+        private async void Add_Days_Off_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Add_Days_Off());
         }
 
-        private void Add_Staff_Btn_Click(
+        private async void Add_Staff_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Add_Staff());
         }
 
-        private void Add_Avail_Btn_Click(
+        private async void Add_Avail_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Add_Avail());
         }
 
-        private void Add_Collection_Btn_Click(
+        private async void Add_Collection_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Add_Job_Settings());
         }
 
-        private void Staff_Lookup_Btn_Click(
+        private async void Staff_Lookup_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new View_Staff());
         }
 
-        private void Edit_Staff_Btn_Click(
+        private async void Edit_Staff_Btn_Click(
             object sender,
             RoutedEventArgs e)
         {
-            ShowPage(
+            await NavigateToPageAsync(
                 new Edit_Staff());
         }
     }

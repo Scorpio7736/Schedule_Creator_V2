@@ -556,7 +556,7 @@
 
                     </Border>
 
-                    <!-- Everything below the banner fades in together -->
+                    <!-- Everything below the banner -->
                     <StackPanel x:Name="HomeLowerContent"
                                 Opacity="0">
 
