@@ -481,8 +481,16 @@
                                 <ColumnDefinition Width="230"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0"
-                                        VerticalAlignment="Center">
+                            <!-- Animated welcome content -->
+                            <StackPanel x:Name="WelcomeContent"
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Opacity="0">
+
+                                <StackPanel.RenderTransform>
+                                    <TranslateTransform x:Name="WelcomeContentTransform"
+                                                        X="-60"/>
+                                </StackPanel.RenderTransform>
 
                                 <TextBlock Text="Welcome back"
                                            FontSize="15"
@@ -527,6 +535,7 @@
 
                             </StackPanel>
 
+                            <!-- Static circle, fading logo -->
                             <Border Grid.Column="1"
                                     Width="175"
                                     Height="175"
@@ -535,9 +544,11 @@
                                     Background="#22FFFFFF"
                                     CornerRadius="88">
 
-                                <Image Margin="30"
+                                <Image x:Name="WelcomeLogo"
+                                       Margin="30"
                                        Source="/Images/Logo.png"
-                                       Stretch="Uniform"/>
+                                       Stretch="Uniform"
+                                       Opacity="0"/>
 
                             </Border>
 
@@ -545,271 +556,277 @@
 
                     </Border>
 
-                    <!-- Quick actions header -->
-                    <Grid Margin="2,0,2,14">
+                    <!-- Everything below the banner fades in together -->
+                    <StackPanel x:Name="HomeLowerContent"
+                                Opacity="0">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <!-- Quick actions header -->
+                        <Grid Margin="2,0,2,14">
 
-                        <StackPanel>
-
-                            <TextBlock Text="Quick Actions"
-                                       FontSize="22"
-                                       FontWeight="SemiBold"
-                                       Foreground="#1F2937"/>
-
-                            <TextBlock Margin="0,4,0,0"
-                                       Text="Open the tools you use most often."
-                                       Foreground="#6B7280"/>
-
-                        </StackPanel>
-
-                        <TextBlock Grid.Column="1"
-                                   VerticalAlignment="Bottom"
-                                   Foreground="#527064"
-                                   Text="Select an action to get started"/>
-
-                    </Grid>
-
-                    <!-- Main quick-action cards -->
-                    <UniformGrid Columns="4">
-
-                        <Button Style="{StaticResource DashboardButtonStyle}"
-                                Click="Build_Schedule_Btn_Click">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
                             <StackPanel>
 
-                                <Border Width="46"
-                                        Height="46"
-                                        HorizontalAlignment="Left"
-                                        Background="#DDF2E3"
-                                        CornerRadius="10">
-
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="23"
-                                               Foreground="#21843C"
-                                               Text="&#xE787;"/>
-
-                                </Border>
-
-                                <TextBlock Margin="0,16,0,0"
-                                           Text="Build Schedule"
-                                           FontSize="17"
+                                <TextBlock Text="Quick Actions"
+                                           FontSize="22"
                                            FontWeight="SemiBold"
                                            Foreground="#1F2937"/>
 
-                                <TextBlock Margin="0,7,0,0"
-                                           Text="Create and assign the upcoming staff schedule."
-                                           TextWrapping="Wrap"
-                                           LineHeight="19"
+                                <TextBlock Margin="0,4,0,0"
+                                           Text="Open the tools you use most often."
                                            Foreground="#6B7280"/>
 
                             </StackPanel>
 
-                        </Button>
+                            <TextBlock Grid.Column="1"
+                                       VerticalAlignment="Bottom"
+                                       Foreground="#527064"
+                                       Text="Select an action to get started"/>
 
-                        <Button Style="{StaticResource DashboardButtonStyle}"
-                                Click="View_Schedule_Btn_Click">
+                        </Grid>
 
-                            <StackPanel>
+                        <!-- Main quick-action cards -->
+                        <UniformGrid Columns="4">
 
-                                <Border Width="46"
-                                        Height="46"
-                                        HorizontalAlignment="Left"
-                                        Background="#E0EEFA"
-                                        CornerRadius="10">
+                            <Button Style="{StaticResource DashboardButtonStyle}"
+                                    Click="Build_Schedule_Btn_Click">
 
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="23"
-                                               Foreground="#266EA5"
-                                               Text="&#xE8A5;"/>
+                                <StackPanel>
 
-                                </Border>
+                                    <Border Width="46"
+                                            Height="46"
+                                            HorizontalAlignment="Left"
+                                            Background="#DDF2E3"
+                                            CornerRadius="10">
 
-                                <TextBlock Margin="0,16,0,0"
-                                           Text="View Schedule"
-                                           FontSize="17"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="23"
+                                                   Foreground="#21843C"
+                                                   Text="&#xE787;"/>
 
-                                <TextBlock Margin="0,7,0,0"
-                                           Text="Review saved schedules and current assignments."
-                                           TextWrapping="Wrap"
-                                           LineHeight="19"
-                                           Foreground="#6B7280"/>
+                                    </Border>
 
-                            </StackPanel>
+                                    <TextBlock Margin="0,16,0,0"
+                                               Text="Build Schedule"
+                                               FontSize="17"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
 
-                        </Button>
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="Create and assign the upcoming staff schedule."
+                                               TextWrapping="Wrap"
+                                               LineHeight="19"
+                                               Foreground="#6B7280"/>
 
-                        <Button Style="{StaticResource DashboardButtonStyle}"
-                                Click="Staff_Lookup_Btn_Click">
+                                </StackPanel>
 
-                            <StackPanel>
+                            </Button>
 
-                                <Border Width="46"
-                                        Height="46"
-                                        HorizontalAlignment="Left"
-                                        Background="#F0E7FA"
-                                        CornerRadius="10">
+                            <Button Style="{StaticResource DashboardButtonStyle}"
+                                    Click="View_Schedule_Btn_Click">
 
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="23"
-                                               Foreground="#7650A6"
-                                               Text="&#xE77B;"/>
+                                <StackPanel>
 
-                                </Border>
+                                    <Border Width="46"
+                                            Height="46"
+                                            HorizontalAlignment="Left"
+                                            Background="#E0EEFA"
+                                            CornerRadius="10">
 
-                                <TextBlock Margin="0,16,0,0"
-                                           Text="Staff Lookup"
-                                           FontSize="17"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="23"
+                                                   Foreground="#266EA5"
+                                                   Text="&#xE8A5;"/>
 
-                                <TextBlock Margin="0,7,0,0"
-                                           Text="Find staff details, positions, and availability."
-                                           TextWrapping="Wrap"
-                                           LineHeight="19"
-                                           Foreground="#6B7280"/>
+                                    </Border>
 
-                            </StackPanel>
+                                    <TextBlock Margin="0,16,0,0"
+                                               Text="View Schedule"
+                                               FontSize="17"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
 
-                        </Button>
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="Review saved schedules and current assignments."
+                                               TextWrapping="Wrap"
+                                               LineHeight="19"
+                                               Foreground="#6B7280"/>
 
-                        <Button Style="{StaticResource DashboardButtonStyle}"
-                                Click="Send_Email_Btn_Click">
+                                </StackPanel>
 
-                            <StackPanel>
+                            </Button>
 
-                                <Border Width="46"
-                                        Height="46"
-                                        HorizontalAlignment="Left"
-                                        Background="#FCEBD8"
-                                        CornerRadius="10">
+                            <Button Style="{StaticResource DashboardButtonStyle}"
+                                    Click="Staff_Lookup_Btn_Click">
 
-                                    <TextBlock HorizontalAlignment="Center"
-                                               VerticalAlignment="Center"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="23"
-                                               Foreground="#C26D18"
-                                               Text="&#xE715;"/>
+                                <StackPanel>
 
-                                </Border>
+                                    <Border Width="46"
+                                            Height="46"
+                                            HorizontalAlignment="Left"
+                                            Background="#F0E7FA"
+                                            CornerRadius="10">
 
-                                <TextBlock Margin="0,16,0,0"
-                                           Text="Send Email"
-                                           FontSize="17"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="23"
+                                                   Foreground="#7650A6"
+                                                   Text="&#xE77B;"/>
 
-                                <TextBlock Margin="0,7,0,0"
-                                           Text="Create formatted emails for selected staff."
-                                           TextWrapping="Wrap"
-                                           LineHeight="19"
-                                           Foreground="#6B7280"/>
+                                    </Border>
 
-                            </StackPanel>
+                                    <TextBlock Margin="0,16,0,0"
+                                               Text="Staff Lookup"
+                                               FontSize="17"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
 
-                        </Button>
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="Find staff details, positions, and availability."
+                                               TextWrapping="Wrap"
+                                               LineHeight="19"
+                                               Foreground="#6B7280"/>
 
-                    </UniformGrid>
+                                </StackPanel>
 
-                    <!-- Secondary tools -->
-                    <Grid Margin="0,10,0,24">
+                            </Button>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="18"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                            <Button Style="{StaticResource DashboardButtonStyle}"
+                                    Click="Send_Email_Btn_Click">
 
-                        <!-- Staff management -->
-                        <Border Grid.Column="0"
-                                Style="{StaticResource ContentCardStyle}">
+                                <StackPanel>
 
-                            <StackPanel>
+                                    <Border Width="46"
+                                            Height="46"
+                                            HorizontalAlignment="Left"
+                                            Background="#FCEBD8"
+                                            CornerRadius="10">
 
-                                <TextBlock Text="Staff Management"
-                                           FontSize="19"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="23"
+                                                   Foreground="#C26D18"
+                                                   Text="&#xE715;"/>
 
-                                <TextBlock Margin="0,5,0,17"
-                                           Text="Maintain staff records and qualifications."
-                                           Foreground="#6B7280"/>
+                                    </Border>
 
-                                <Button Height="38"
-                                        Margin="0,0,0,8"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="＋  Add a new staff member"
-                                        Click="Add_Staff_Btn_Click"/>
+                                    <TextBlock Margin="0,16,0,0"
+                                               Text="Send Email"
+                                               FontSize="17"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
 
-                                <Button Height="38"
-                                        Margin="0,0,0,8"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="✎  Edit staff information"
-                                        Click="Edit_Staff_Btn_Click"/>
+                                    <TextBlock Margin="0,7,0,0"
+                                               Text="Create formatted emails for selected staff."
+                                               TextWrapping="Wrap"
+                                               LineHeight="19"
+                                               Foreground="#6B7280"/>
 
-                                <Button Height="38"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="◷  Add staff availability"
-                                        Click="Add_Avail_Btn_Click"/>
+                                </StackPanel>
 
-                            </StackPanel>
+                            </Button>
 
-                        </Border>
+                        </UniformGrid>
 
-                        <!-- Schedule support -->
-                        <Border Grid.Column="2"
-                                Style="{StaticResource ContentCardStyle}">
+                        <!-- Secondary tools -->
+                        <Grid Margin="0,10,0,24">
 
-                            <StackPanel>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="18"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="Schedule Support"
-                                           FontSize="19"
-                                           FontWeight="SemiBold"
-                                           Foreground="#1F2937"/>
+                            <!-- Staff management -->
+                            <Border Grid.Column="0"
+                                    Style="{StaticResource ContentCardStyle}">
 
-                                <TextBlock Margin="0,5,0,17"
-                                           Text="Configure hours and review staff time off."
-                                           Foreground="#6B7280"/>
+                                <StackPanel>
 
-                                <Button Height="38"
-                                        Margin="0,0,0,8"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="◫  Configure job hours"
-                                        Click="Add_Collection_Btn_Click"/>
+                                    <TextBlock Text="Staff Management"
+                                               FontSize="19"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
 
-                                <Button Height="38"
-                                        Margin="0,0,0,8"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="＋  Add days off"
-                                        Click="Add_Days_Off_Btn_Click"/>
+                                    <TextBlock Margin="0,5,0,17"
+                                               Text="Maintain staff records and qualifications."
+                                               Foreground="#6B7280"/>
 
-                                <Button Height="38"
-                                        HorizontalContentAlignment="Left"
-                                        Padding="12,0"
-                                        Content="☷  View days off"
-                                        Click="View_Days_Off_Btn_Click"/>
+                                    <Button Height="38"
+                                            Margin="0,0,0,8"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="＋  Add a new staff member"
+                                            Click="Add_Staff_Btn_Click"/>
 
-                            </StackPanel>
+                                    <Button Height="38"
+                                            Margin="0,0,0,8"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="✎  Edit staff information"
+                                            Click="Edit_Staff_Btn_Click"/>
 
-                        </Border>
+                                    <Button Height="38"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="◷  Add staff availability"
+                                            Click="Add_Avail_Btn_Click"/>
 
-                    </Grid>
+                                </StackPanel>
+
+                            </Border>
+
+                            <!-- Schedule support -->
+                            <Border Grid.Column="2"
+                                    Style="{StaticResource ContentCardStyle}">
+
+                                <StackPanel>
+
+                                    <TextBlock Text="Schedule Support"
+                                               FontSize="19"
+                                               FontWeight="SemiBold"
+                                               Foreground="#1F2937"/>
+
+                                    <TextBlock Margin="0,5,0,17"
+                                               Text="Configure hours and review staff time off."
+                                               Foreground="#6B7280"/>
+
+                                    <Button Height="38"
+                                            Margin="0,0,0,8"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="◫  Configure job hours"
+                                            Click="Add_Collection_Btn_Click"/>
+
+                                    <Button Height="38"
+                                            Margin="0,0,0,8"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="＋  Add days off"
+                                            Click="Add_Days_Off_Btn_Click"/>
+
+                                    <Button Height="38"
+                                            HorizontalContentAlignment="Left"
+                                            Padding="12,0"
+                                            Content="☷  View days off"
+                                            Click="View_Days_Off_Btn_Click"/>
+
+                                </StackPanel>
+
+                            </Border>
+
+                        </Grid>
+
+                    </StackPanel>
 
                 </StackPanel>
 
