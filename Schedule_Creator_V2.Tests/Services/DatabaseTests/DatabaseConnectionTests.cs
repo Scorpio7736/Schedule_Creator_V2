@@ -28,7 +28,7 @@ namespace Schedule_Creator_V2.Tests.Services.Database
             string? previousOverride = (string?)overrideField.GetValue(null);
             var settings = new SqlConnectionStringBuilder
             {
-                DataSource = @"(localdb)MSSQLLocalDB",
+                DataSource = @"(localdb)\MSSQLLocalDB",
                 InitialCatalog = "master",
                 IntegratedSecurity = true,
                 TrustServerCertificate = true,
