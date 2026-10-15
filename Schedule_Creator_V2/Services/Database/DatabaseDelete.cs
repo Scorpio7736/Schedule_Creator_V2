@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Schedule_Creator_V2.Services.Database
 {
@@ -47,7 +47,6 @@ namespace Schedule_Creator_V2.Services.Database
             DELETE FROM [UWGB].[Staff] WHERE id = @id;
             DELETE FROM [UWGB].[Availability] WHERE id = @id;
             DELETE FROM [UWGB].[DaysOff] WHERE id = @id;
-            DELETE FROM [UWGB].[JobSettings];
             """,
             new SqlParameter("@id", id));
         }

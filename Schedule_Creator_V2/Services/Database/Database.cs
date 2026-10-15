@@ -1,4 +1,4 @@
-﻿using System.Configuration;
+using System.Configuration;
 using Microsoft.Data.SqlClient;
 
 namespace Schedule_Creator_V2.Services.Database
@@ -48,77 +48,52 @@ namespace Schedule_Creator_V2.Services.Database
 
 
         /// <summary>
-        /// Executes a non query command in the database. Primary use is going to be for INSERT INTO statements.
+        /// Executes a command and disposes its connection, including on failure.
         /// </summary>
-        /// <param name="commandText">SQL Command Text</param>
-        /// <param name="getParameters">Perameters</param>
-        /// <returns>Null</returns>
         public static void ExecuteNonQuery(string commandText, params SqlParameter[] getParameters)
         {
-            using (var sqlCommand = GetNewSqlCommand())
-            {
-                sqlCommand.CommandText = commandText;
-                sqlCommand.CommandType = System.Data.CommandType.Text;
-                foreach (var parameter in getParameters)
-                {
-                    sqlCommand.Parameters.Add(parameter);
-                }
-                sqlCommand.ExecuteNonQuery();
-            }
+            using var connection = new SqlConnection(GetConnectionString());
+            using var command = connection.CreateCommand();
+            command.CommandText = commandText;
+            command.Parameters.AddRange(getParameters);
+            connection.Open();
+            command.ExecuteNonQuery();
         }
+
         /// <summary>
-        /// Executes a Reader command. Primary use will be SELECT x FROM y statements.
+        /// Returns a reader that owns the open connection.
+        /// Callers must close or dispose the reader, even when reading fails.
         /// </summary>
-        /// <param name="commandText">SQL Command Text</param>
-        /// <param name="addParameters">Perameters</param>
-        /// <returns>A Reader Command to the Database</returns>
         public static SqlDataReader ExecuteReader(string commandText, params SqlParameter[] getParameters)
         {
-            var sqlCommand = GetNewSqlCommand();
-            sqlCommand.CommandText = commandText;
-            sqlCommand.CommandType = System.Data.CommandType.Text;
-            foreach (var parameter in getParameters)
+            var connection = new SqlConnection(GetConnectionString());
+            try
             {
-                sqlCommand.Parameters.Add(parameter);
+                using var command = connection.CreateCommand();
+                command.CommandText = commandText;
+                command.Parameters.AddRange(getParameters);
+                connection.Open();
+                return command.ExecuteReader(System.Data.CommandBehavior.CloseConnection);
             }
-            return sqlCommand.ExecuteReader();
-        }
-        /// <summary>
-        /// Executes a Scalar command in the database. Primary use is for getting IDs. It returns first column of the first row affected.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="commandText">SQL Command Text</param>
-        /// <param name="addParameters">Nullable Perameter arguments</param>
-        /// <returns>
-        /// An execute Command
-        /// </returns>
-        public static T ExecuteScalar<T>(string commandText, params SqlParameter[] getParameters)
-        {
-            using (var sqlCommand = GetNewSqlCommand())
+            catch
             {
-                sqlCommand.CommandText = commandText;
-                sqlCommand.CommandType = System.Data.CommandType.Text;
-                foreach (var parameter in getParameters)
-                {
-                    sqlCommand.Parameters.Add(parameter);
-                }
-                var result = sqlCommand.ExecuteScalar();
-                return (T)result;
+                // No reader was returned to take ownership of this connection.
+                connection.Dispose();
+                throw;
             }
         }
 
         /// <summary>
-        /// Creates the start of a SQL Command for use in later functions.
+        /// Returns the first value and disposes the connection, including on failure.
         /// </summary>
-        /// <returns>
-        /// None
-        /// </returns>
-        private static SqlCommand GetNewSqlCommand()
+        public static T ExecuteScalar<T>(string commandText, params SqlParameter[] getParameters)
         {
-            SqlConnection sqlConnection = new SqlConnection(GetConnectionString());
-            sqlConnection.Open();
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            return sqlCommand;
+            using var connection = new SqlConnection(GetConnectionString());
+            using var command = connection.CreateCommand();
+            command.CommandText = commandText;
+            command.Parameters.AddRange(getParameters);
+            connection.Open();
+            return (T)command.ExecuteScalar();
         }
     }
 }
