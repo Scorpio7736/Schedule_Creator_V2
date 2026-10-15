@@ -1,4 +1,4 @@
-﻿using Schedule_Creator_V2.Models.Constants;
+using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Records;
 using System;
@@ -1455,7 +1455,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 color:#bfdbd4 !important;
                                 -webkit-text-fill-color:#bfdbd4 !important;">
 
-                            University of Wisconsin–Green Bay
+                            {{Encode(footerInputs.FooterOrganization)}}
                         </div>
 
                         <div
@@ -1466,14 +1466,14 @@ namespace Schedule_Creator_V2.Services.Email
 
                             <a
                                 id="footerWebsiteLink"
-                                href="https://www.uwgb.edu/urec/adventure/climbing/"
+                                href="{{EncodeAttribute(NormalizeRequestLink(footerInputs.FooterWebsiteUrl))}}"
                                 class="text-white"
                                 style="
                                     color:#ffffff !important;
                                     -webkit-text-fill-color:#ffffff !important;
                                     text-decoration:underline;">
 
-                                urec.uwgb.edu
+                                {{Encode(footerInputs.FooterWebsiteLink)}}
                             </a>
                         </div>
 
@@ -1497,8 +1497,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 color:#bfdbd4 !important;
                                 -webkit-text-fill-color:#bfdbd4 !important;">
 
-                            You are receiving this message because you are
-                            affiliated with the UWGB Climbing Tower.
+                            {{EncodeWithLineBreaks(footerInputs.FooterText)}}
                         </div>
                     </td>
                 </tr>

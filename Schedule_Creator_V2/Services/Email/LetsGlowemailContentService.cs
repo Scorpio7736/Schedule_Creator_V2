@@ -1,4 +1,4 @@
-﻿using Schedule_Creator_V2.Models.Constants;
+using Schedule_Creator_V2.Models.Constants;
 using Schedule_Creator_V2.Models.Defaults;
 using Schedule_Creator_V2.Models.Records;
 using System;
@@ -15,24 +15,6 @@ namespace Schedule_Creator_V2.Services.Email
     {
         public const string TemplateFileName =
             "Lets_Glow_Email_Template.html";
-
-        private const string ImageMarker =
-            "<!-- IMAGE -->";
-
-        private const string AnnouncementsMarker =
-            "<!-- ANNOUNCEMENTS -->";
-
-        private const string RequestMarker =
-            "<!-- REQUEST -->";
-
-        private const string AttachmentsMarker =
-            "<!-- ATTACHMENTS -->";
-
-        private const string SignatureMarker =
-            "<!-- SIGNATURE -->";
-
-        private const string FooterMarker =
-            "<!-- FOOTER -->";
 
         private const string RichTextPrefix =
             "[[RICH_TEXT_HTML]]";
@@ -115,10 +97,7 @@ namespace Schedule_Creator_V2.Services.Email
              * the attachments section.
              */
             html =
-                RemoveBetweenMarkers(
-                    html,
-                    AttachmentsMarker,
-                    SignatureMarker);
+                RemoveSection(html, "attachmentsSection");
 
             html =
                 ApplySignature(
@@ -396,10 +375,7 @@ namespace Schedule_Creator_V2.Services.Email
                 string.IsNullOrWhiteSpace(
                     imageInputs.ImageSource))
             {
-                return RemoveBetweenMarkers(
-                    html,
-                    ImageMarker,
-                    AnnouncementsMarker);
+                return RemoveSection(html, "imageSection");
             }
 
             string resolvedImageSource =
@@ -446,10 +422,7 @@ namespace Schedule_Creator_V2.Services.Email
 
             if (announcementsInputs is null)
             {
-                return RemoveBetweenMarkers(
-                    html,
-                    AnnouncementsMarker,
-                    RequestMarker);
+                return RemoveSection(html, "announcementsSection");
             }
 
             string heading =
@@ -568,10 +541,7 @@ namespace Schedule_Creator_V2.Services.Email
 
             if (requestInputs is null)
             {
-                return RemoveBetweenMarkers(
-                    html,
-                    RequestMarker,
-                    AttachmentsMarker);
+                return RemoveSection(html, "requestSection");
             }
 
             string heading;
@@ -804,10 +774,7 @@ namespace Schedule_Creator_V2.Services.Email
 
             if (signatureInputs is null)
             {
-                return RemoveBetweenMarkers(
-                    html,
-                    SignatureMarker,
-                    FooterMarker);
+                return RemoveSection(html, "signatureSection");
             }
 
             string signatureHtml =
@@ -1146,46 +1113,36 @@ namespace Schedule_Creator_V2.Services.Email
         // TEMPLATE MANIPULATION
         // =========================================================
 
-        private static string RemoveBetweenMarkers(
-            string html,
-            string startMarker,
-            string endMarker)
+        private static string RemoveSection(string html, string sectionId)
         {
-            int startIndex =
-                html.IndexOf(
-                    startMarker,
-                    StringComparison.Ordinal);
-
-            if (startIndex < 0)
+            // Current templates identify optional sections by their table-row IDs.
+            // Count nested rows so removing a section also removes any inner tables.
+            var opening = Regex.Match(
+                html,
+                $@"<tr\b[^>]*\bid\s*=\s*[""']{Regex.Escape(sectionId)}[""'][^>]*>",
+                RegexOptions.IgnoreCase);
+            if (!opening.Success)
             {
                 throw new InvalidOperationException(
-                    $"The Let's Glow template is missing " +
-                    $"the marker: {startMarker}");
+                    $"The Let's Glow template does not contain the section '{sectionId}'.");
             }
 
-            int contentStart =
-                startIndex +
-                startMarker.Length;
-
-            int endIndex =
-                html.IndexOf(
-                    endMarker,
-                    contentStart,
-                    StringComparison.Ordinal);
-
-            if (endIndex < 0)
+            int depth = 1;
+            var rowTag = new Regex(@"</?tr\b[^>]*>", RegexOptions.IgnoreCase);
+            for (Match tag = rowTag.Match(html, opening.Index + opening.Length);
+                 tag.Success;
+                 tag = tag.NextMatch())
             {
-                throw new InvalidOperationException(
-                    $"The Let's Glow template is missing " +
-                    $"the marker: {endMarker}");
+                depth += tag.Value.StartsWith("</", StringComparison.Ordinal) ? -1 : 1;
+                if (depth == 0)
+                {
+                    return html.Remove(opening.Index, tag.Index + tag.Length - opening.Index);
+                }
             }
 
-            return
-                html[..contentStart] +
-                Environment.NewLine +
-                html[endIndex..];
+            throw new InvalidOperationException(
+                $"The Let's Glow template section '{sectionId}' has no closing row.");
         }
-
 
         private static string ReplaceElementContent(
             string html,
