@@ -1,0 +1,98 @@
+﻿/* =========================================================
+   TOWER OF POWER — BASE EMAIL THEME
+   Drop-in replacement for the base email's <style> contents.
+   Keeps all base HTML classes, IDs, and insertion placeholders.
+   ========================================================= */
+
+:root {
+    color-scheme: light only !important;
+    supported-color-schemes: light !important;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    background-color: #f7cdbd !important;
+    background-image: linear-gradient(#f7cdbd, #f7cdbd) !important;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #292425 !important;
+    -webkit-text-fill-color: #292425 !important;
+}
+
+table, td {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+table {
+    mso-table-lspace: 0pt !important;
+    mso-table-rspace: 0pt !important;
+}
+
+img {
+    display: block;
+    border: 0;
+    outline: none;
+    text-decoration: none;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+a {
+    color: inherit;
+}
+
+.email-container {
+    width: 100%;
+    max-width: 640px;
+    text-align: left;
+    background-color: #fff9f4 !important;
+    background-image: linear-gradient(#fff9f4, #fff9f4) !important;
+}
+
+.content-padding {
+    padding-left: 38px;
+    padding-right: 38px;
+}
+
+/* BASE TEMPLATE BACKGROUND CLASS NAMES — UNCHANGED */
+.email-outer {
+    background-color: #f7cdbd !important;
+    background-image: linear-gradient(#f7cdbd, #f7cdbd) !important;
+}
+
+.background-white {
+    background-color: #fff9f4 !important;
+    background-image: linear-gradient(#fff9f4, #fff9f4) !important;
+}
+
+.background-brand-green {
+    background-color: #292425 !important;
+    background-image: linear-gradient(#292425, #292425) !important;
+}
+
+.background-mint {
+    background-color: #f7cdbd !important;
+    background-image: linear-gradient(#f7cdbd, #f7cdbd) !important;
+}
+
+.background-request {
+    background-color: #ffffff !important;
+    background-image: linear-gradient(#ffffff, #ffffff) !important;
+}
+
+.background-action {
+    background-color: #f15a24 !important;
+    background-image: linear-gradient(#f15a24, #f15a24) !important;
+}
+
+/* BASE TEMPLATE TEXT CLASS NAMES — UNCHANGED */
+.text-brand-green {
+    color: #f15a24 !important;
+    -webkit-text-fill-color: #f15a24 !important;
+}

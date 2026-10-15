@@ -1,0 +1,115 @@
+﻿/* LET'S GLOW THEME — CSS ONLY
+   For Schedule Creator V2 / Models/Objects/Email.html
+   Retains the original class names and HTML placeholder contract.
+   Important: inline !important colors in the original markup take precedence.
+*/
+:root {
+    color-scheme: dark only !important;
+    supported-color-schemes: dark !important;
+}
+
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    background-color: #080615 !important;
+    background-image: linear-gradient(#080615, #080615) !important;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    color: #f7f8ff !important;
+    -webkit-text-fill-color: #f7f8ff !important;
+}
+
+table, td {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+table {
+    mso-table-lspace: 0pt !important;
+    mso-table-rspace: 0pt !important;
+}
+
+img {
+    display: block;
+    border: 0;
+    outline: none;
+    text-decoration: none;
+    height: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+a {
+    color: inherit;
+}
+
+.email-container {
+    width: 100%;
+    max-width: 640px;
+    text-align: left;
+    background-color: #11102b !important;
+    background-image: linear-gradient(#11102b, #11102b) !important;
+    box-shadow: 0 10px 34px rgba(0,0,0,.32);
+}
+
+.content-padding {
+    padding-left: 38px;
+    padding-right: 38px;
+}
+/* Existing base-email backgrounds, remapped to Let's Glow */
+.email-outer {
+    background-color: #080615 !important;
+    background-image: linear-gradient(#080615, #080615) !important;
+}
+
+.background-white {
+    background-color: #11102b !important;
+    background-image: linear-gradient(#11102b, #11102b) !important;
+}
+
+.background-brand-green {
+    background-color: #11102b !important;
+    background-image: linear-gradient(#11102b, #11102b) !important;
+}
+
+.background-mint {
+    background-color: #17133b !important;
+    background-image: linear-gradient(#17133b, #17133b) !important;
+}
+
+.background-request {
+    background-color: #080615 !important;
+    background-image: linear-gradient(#080615, #080615) !important;
+}
+
+.background-action {
+    background-color: #9be447 !important;
+    background-image: linear-gradient(#9be447, #9be447) !important;
+}
+/* Existing base-email text classes, remapped to Let's Glow */
+.text-brand-green {
+    color: #36e9ef !important;
+    -webkit-text-fill-color: #36e9ef !important;
+}
+
+.text-black {
+    color: #0d0b20 !important;
+    -webkit-text-fill-color: #0d0b20 !important;
+}
+
+.text-white {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+
+.text-mint {
+    color: #9be447 !important;
+    -webkit-text-fill-color: #9be447 !important;
+}
+
+.text-header-light {
+    color: #d9d8eb !important;
+    -webkit-text-fill-color: #d9d8eb !important;
