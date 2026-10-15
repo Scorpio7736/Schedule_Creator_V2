@@ -64,154 +64,117 @@ namespace Schedule_Creator_V2.Services.Email
         }
 
 
+
         public static string BuildHtmlBody(
-    EmailType emailType)
+            EmailType emailType)
         {
-            ArgumentNullException.ThrowIfNull(
+            ArgumentNullException.ThrowIfNull(emailType);
+
+            // =========================================================
+            // MASTER EMAIL TEMPLATE
+            // =========================================================
+
+            string html = LoadEmailTemplate(emailType);
+
+            string subject = BuildSubject(emailType);
+
+            // =========================================================
+            // EMAIL METADATA
+            // =========================================================
+
+            html = ReplaceElementContent(
+                html,
+                "emailTitle",
+                Encode(subject));
+
+            html = ReplaceElementContent(
+                html,
+                "preheaderText",
+                Encode(subject));
+
+            // =========================================================
+            // BUILD EMAIL SECTIONS
+            // =========================================================
+
+            html = ReplaceRequiredMarker(
+                html,
+                HeaderMarker,
+                BuildHeaderSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                BodyMarker,
+                BuildBodySection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                ImageMarker,
+                BuildImageSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                AnnouncementsMarker,
+                BuildAnnouncementsSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                RequestMarker,
+                BuildRequestSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                AttachmentsMarker,
+                BuildAttachmentsSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                SignatureMarker,
+                BuildSignatureSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                FooterMarker,
+                BuildFooterSection(emailType));
+
+            // =========================================================
+            // APPLY SELECTED EMAIL THEME
+            // =========================================================
+
+            html = EmailThemeService.ApplyTheme(
+                html,
                 emailType);
-
-
-            // =========================================================
-            // COMPLETE THEMED TEMPLATES
-            // =========================================================
-            //
-            // Email.html is the normal marker-driven template.
-            //
-            // Let's Glow and Tower of Power are complete HTML layouts
-            // containing their own themed sections. Those templates
-            // must be populated by ID instead of injecting the normal
-            // green email sections into them.
-            // =========================================================
-
-            bool useThemedRenderer =
-                !string.IsNullOrWhiteSpace(
-                    emailType.templateFileName) &&
-                !string.Equals(
-                    emailType.templateFileName,
-                    "Email.html",
-                    StringComparison.OrdinalIgnoreCase);
-
-            if (useThemedRenderer)
-            {
-                return ThemedEmailContentService
-                    .BuildHtmlBody(
-                        emailType);
-            }
-
-
-            // =========================================================
-            // STANDARD EMAIL TEMPLATE
-            // =========================================================
-
-            string html =
-                LoadEmailTemplate(
-                    emailType);
-
-            string subject =
-                BuildSubject(
-                    emailType);
-
-            html =
-                ReplaceElementContent(
-                    html,
-                    "emailTitle",
-                    Encode(
-                        subject));
-
-            html =
-                ReplaceElementContent(
-                    html,
-                    "preheaderText",
-                    Encode(
-                        subject));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    HeaderMarker,
-                    BuildHeaderSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    BodyMarker,
-                    BuildBodySection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    ImageMarker,
-                    BuildImageSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    AnnouncementsMarker,
-                    BuildAnnouncementsSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    RequestMarker,
-                    BuildRequestSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    AttachmentsMarker,
-                    BuildAttachmentsSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    SignatureMarker,
-                    BuildSignatureSection(
-                        emailType));
-
-            html =
-                ReplaceRequiredMarker(
-                    html,
-                    FooterMarker,
-                    BuildFooterSection(
-                        emailType));
 
             return html;
         }
 
 
-        private static string LoadEmailTemplate(
-    EmailType emailType)
-        {
-            string templateFileName =
-                string.IsNullOrWhiteSpace(
-                    emailType.templateFileName)
-                    ? "Email.html"
-                    : emailType.templateFileName;
 
-            string templatePath =
-                Path.Combine(
-                    AppContext.BaseDirectory,
-                    "Models",
-                    "Objects",
-                    templateFileName);
+
+        private static string LoadEmailTemplate(
+            EmailType emailType)
+        {
+            // All email types use Email.html.
+            // The selected theme is handled separately
+            // by EmailThemeService.
+
+            string templatePath = Path.Combine(
+                AppContext.BaseDirectory,
+                "Models",
+                "Objects",
+                "Email.html"
+            );
 
             if (!File.Exists(templatePath))
             {
                 throw new FileNotFoundException(
-                    $"The HTML email template '{templateFileName}' " +
-                    $"could not be found.",
+                    "The master email template Email.html " +
+                    "could not be found.",
                     templatePath);
             }
 
-            return File.ReadAllText(
-                templatePath);
+            return File.ReadAllText(templatePath);
         }
+
 
 
         // =========================================================
@@ -1436,6 +1399,19 @@ namespace Schedule_Creator_V2.Services.Email
                     .FirstOrDefault()
                 ?? EmailInputDefaults.DefaultFooterInputs;
 
+
+            bool isLetsGlow =
+                string.Equals(
+                    emailType.templateFileName,
+                    "Lets_Glow_Email_Template.html",
+                    StringComparison.OrdinalIgnoreCase);
+
+            string footerImageSource =
+                isLetsGlow
+                    ? EmailImageSources.LetsGlow_FooterImage
+                    : EmailImageSources.Default_FooterImage;
+
+
             return $$"""
                 <tr id="footerSection">
                     <td
@@ -1451,10 +1427,12 @@ namespace Schedule_Creator_V2.Services.Email
                                 #0f5640,
                                 #0f5640) !important;">
 
-                        <img
-                            id="footerLogo"
-                            src="{{EncodeAttribute(
-                                EmailImageSources.Default_FooterImage)}}"
+                        
+                            <img
+                                id="footerLogo"
+                                src="{{EncodeAttribute(
+                                    footerImageSource)}}"
+                
                             width="145"
                             alt="UWGB UREC Outdoors"
                             style="

@@ -106,4 +106,12 @@
 	  <Folder Include="Models\Objects\Emails\HTML\" />
 	</ItemGroup>
 
+
+	<ItemGroup>
+		<None Update="Models\Objects\Emails\Styles\*.css">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+
 </Project>

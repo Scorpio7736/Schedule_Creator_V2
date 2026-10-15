@@ -44,5 +44,17 @@ namespace Schedule_Creator_V2.Models.Constants
                         "Images",
                         "EmailImages",
                         "Footer_Default.png")));
+
+
+        public static readonly string LetsGlow_FooterImage =
+            "data:image/png;base64," +
+            Convert.ToBase64String(
+                File.ReadAllBytes(
+                    Path.Combine(
+                        AppContext.BaseDirectory,
+                        "Images",
+                        "EmailImages",
+                        "Footer_LetsGlow.png")));
+
     }
 }

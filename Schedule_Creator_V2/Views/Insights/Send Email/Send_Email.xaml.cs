@@ -527,22 +527,20 @@ namespace Schedule_Creator_V2
         // HTML RENDERING
         // =========================================================
 
+
         private static string BuildRenderedHtmlBody(
             EmailType emailType)
         {
-            if (LetsGlowEmailContentService
-                    .UsesLetsGlowTemplate(
-                        emailType))
-            {
-                return LetsGlowEmailContentService
-                    .BuildHtmlBody(
-                        emailType);
-            }
+            // Every email uses the same master HTML
+            // structure and section renderer.
+            //
+            // EmailContentService handles content.
+            // EmailThemeService handles styling.
 
-            return EmailContentService
-                .BuildHtmlBody(
-                    emailType);
+            return EmailContentService.BuildHtmlBody(
+                emailType);
         }
+
 
 
         // =========================================================

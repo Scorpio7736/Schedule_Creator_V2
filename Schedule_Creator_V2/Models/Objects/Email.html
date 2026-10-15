@@ -1,5 +1,7 @@
-﻿<!doctype html>
+﻿
+<!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
 
@@ -8,341 +10,74 @@
 
     <meta name="x-apple-disable-message-reformatting">
 
+    <!-- =========================================================
+         DYNAMIC EMAIL COLOR SCHEME
+         ========================================================= -->
+
     <meta name="color-scheme"
-          content="light only">
+          content="{{COLOR_SCHEME}}">
 
     <meta name="supported-color-schemes"
-          content="light only">
+          content="{{COLOR_SCHEME}}">
+
+    <!-- =========================================================
+         EMAIL TITLE
+         ========================================================= -->
 
     <title id="emailTitle">
         UWGB Climbing Tower Email
     </title>
 
-    <style>
-        :root {
-            color-scheme: light only;
-            supported-color-schemes: light;
-        }
+    <!-- =========================================================
+         DYNAMIC EMAIL STYLES
 
-        html,
-        body {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            background-color: #eef3f1 !important;
-        }
+         Replaced by EmailThemeService.
 
-        body {
-            color: #303936 !important;
-            -webkit-text-fill-color: #303936;
-        }
+         Default:
+             DefaultEmailStyles.css
 
-        table,
-        td {
-            border-collapse: collapse !important;
-            border-spacing: 0 !important;
-        }
+         Let's Glow:
+             LetsGlowStyles.css
 
-        img {
-            display: block;
-            border: 0;
-            outline: none;
-            text-decoration: none;
-            height: auto;
-        }
+         Tower of Power:
+             TowerOfPowerStyles.css
+         ========================================================= -->
 
-        a {
-            color: inherit;
-        }
-
-        .email-container {
-            width: 100%;
-            max-width: 640px;
-            text-align: left;
-        }
-
-        .content-padding {
-            padding-left: 38px;
-            padding-right: 38px;
-        }
-
-        /*
-         * LOCKED BACKGROUNDS
-         */
-
-        .email-outer {
-            background-color: #eef3f1 !important;
-            background-image: linear-gradient( #eef3f1, #eef3f1) !important;
-        }
-
-        .background-white {
-            background-color: #ffffff !important;
-            background-image: linear-gradient( #ffffff, #ffffff) !important;
-        }
-
-        .background-brand-green {
-            background-color: #0f5640 !important;
-            background-image: linear-gradient( #0f5640, #0f5640) !important;
-        }
-
-        .background-mint {
-            background-color: #bfdbd4 !important;
-            background-image: linear-gradient( #bfdbd4, #bfdbd4) !important;
-        }
-
-        .background-request {
-            background-color: #f5f7f6 !important;
-            background-image: linear-gradient( #f5f7f6, #f5f7f6) !important;
-        }
-
-        .background-action {
-            background-color: #54b948 !important;
-            background-image: linear-gradient( #54b948, #54b948) !important;
-        }
-
-        /*
-         * LOCKED TEXT COLORS
-         */
-
-        .text-brand-green {
-            color: #0f5640 !important;
-            -webkit-text-fill-color: #0f5640 !important;
-        }
-
-        .text-black {
-            color: #111111 !important;
-            -webkit-text-fill-color: #111111 !important;
-        }
-
-        .text-white {
-            color: #ffffff !important;
-            -webkit-text-fill-color: #ffffff !important;
-        }
-
-        .text-mint {
-            color: #bfdbd4 !important;
-            -webkit-text-fill-color: #bfdbd4 !important;
-        }
-
-        .text-header-light {
-            color: #eef7f4 !important;
-            -webkit-text-fill-color: #eef7f4 !important;
-        }
-
-        .text-body {
-            color: #303936 !important;
-            -webkit-text-fill-color: #303936 !important;
-        }
-
-        .text-secondary {
-            color: #26312d !important;
-            -webkit-text-fill-color: #26312d !important;
-        }
-
-        .text-request {
-            color: #4b5551 !important;
-            -webkit-text-fill-color: #4b5551 !important;
-        }
-
-        .footer-divider {
-            height: 1px;
-            margin: 20px 0 15px 0;
-            background-color: #397665 !important;
-            background-image: linear-gradient( #397665, #397665) !important;
-        }
-
-        /*
-         * OUTLOOK DARK-MODE OVERRIDES
-         */
-
-        [data-ogsc] .email-outer {
-            background-color: #eef3f1 !important;
-            background-image: linear-gradient( #eef3f1, #eef3f1) !important;
-        }
-
-        [data-ogsc] .background-white {
-            background-color: #ffffff !important;
-            background-image: linear-gradient( #ffffff, #ffffff) !important;
-        }
-
-        [data-ogsc] .background-brand-green {
-            background-color: #0f5640 !important;
-            background-image: linear-gradient( #0f5640, #0f5640) !important;
-        }
-
-        [data-ogsc] .background-mint {
-            background-color: #bfdbd4 !important;
-            background-image: linear-gradient( #bfdbd4, #bfdbd4) !important;
-        }
-
-        [data-ogsc] .background-request {
-            background-color: #f5f7f6 !important;
-            background-image: linear-gradient( #f5f7f6, #f5f7f6) !important;
-        }
-
-        [data-ogsc] .background-action {
-            background-color: #54b948 !important;
-            background-image: linear-gradient( #54b948, #54b948) !important;
-        }
-
-        [data-ogsc] .text-brand-green {
-            color: #0f5640 !important;
-            -webkit-text-fill-color: #0f5640 !important;
-        }
-
-        [data-ogsc] .text-black {
-            color: #111111 !important;
-            -webkit-text-fill-color: #111111 !important;
-        }
-
-        [data-ogsc] .text-white {
-            color: #ffffff !important;
-            -webkit-text-fill-color: #ffffff !important;
-        }
-
-        [data-ogsc] .text-mint {
-            color: #bfdbd4 !important;
-            -webkit-text-fill-color: #bfdbd4 !important;
-        }
-
-        [data-ogsc] .text-header-light {
-            color: #eef7f4 !important;
-            -webkit-text-fill-color: #eef7f4 !important;
-        }
-
-        [data-ogsc] .text-body {
-            color: #303936 !important;
-            -webkit-text-fill-color: #303936 !important;
-        }
-
-        [data-ogsc] .text-secondary {
-            color: #26312d !important;
-            -webkit-text-fill-color: #26312d !important;
-        }
-
-        [data-ogsc] .text-request {
-            color: #4b5551 !important;
-            -webkit-text-fill-color: #4b5551 !important;
-        }
-
-        /*
-         * CLIENTS THAT SUPPORT PREFERS-COLOR-SCHEME
-         */
-
-        @media (prefers-color-scheme: dark) {
-            html,
-            body,
-            .email-outer {
-                background-color: #eef3f1 !important;
-                background-image: linear-gradient( #eef3f1, #eef3f1) !important;
-            }
-
-            .background-white {
-                background-color: #ffffff !important;
-                background-image: linear-gradient( #ffffff, #ffffff) !important;
-            }
-
-            .background-brand-green {
-                background-color: #0f5640 !important;
-                background-image: linear-gradient( #0f5640, #0f5640) !important;
-            }
-
-            .background-mint {
-                background-color: #bfdbd4 !important;
-                background-image: linear-gradient( #bfdbd4, #bfdbd4) !important;
-            }
-
-            .background-request {
-                background-color: #f5f7f6 !important;
-                background-image: linear-gradient( #f5f7f6, #f5f7f6) !important;
-            }
-
-            .background-action {
-                background-color: #54b948 !important;
-                background-image: linear-gradient( #54b948, #54b948) !important;
-            }
-
-            .text-brand-green {
-                color: #0f5640 !important;
-                -webkit-text-fill-color: #0f5640 !important;
-            }
-
-            .text-black {
-                color: #111111 !important;
-                -webkit-text-fill-color: #111111 !important;
-            }
-
-            .text-white {
-                color: #ffffff !important;
-                -webkit-text-fill-color: #ffffff !important;
-            }
-
-            .text-mint {
-                color: #bfdbd4 !important;
-                -webkit-text-fill-color: #bfdbd4 !important;
-            }
-
-            .text-header-light {
-                color: #eef7f4 !important;
-                -webkit-text-fill-color: #eef7f4 !important;
-            }
-
-            .text-body {
-                color: #303936 !important;
-                -webkit-text-fill-color: #303936 !important;
-            }
-
-            .text-secondary {
-                color: #26312d !important;
-                -webkit-text-fill-color: #26312d !important;
-            }
-
-            .text-request {
-                color: #4b5551 !important;
-                -webkit-text-fill-color: #4b5551 !important;
-            }
-        }
-
-        @media only screen and (max-width: 640px) {
-            .email-container {
-                width: 100% !important;
-            }
-
-            .content-padding {
-                padding-left: 22px !important;
-                padding-right: 22px !important;
-            }
-
-            .headline {
-                font-size: 32px !important;
-                line-height: 38px !important;
-            }
-        }
+    <style id="emailStyles">
+        {{EMAIL_STYLES}}
     </style>
+
 </head>
 
 <body class="email-outer"
       style="
         margin:0 !important;
         padding:0 !important;
-        width:100% !important;
-        background-color:#eef3f1 !important;
-        background-image:linear-gradient(
-            #eef3f1,
-            #eef3f1) !important;">
+        width:100% !important;">
+
+    <!-- =========================================================
+         EMAIL PREHEADER
+         ========================================================= -->
 
     <div id="preheaderText"
          style="
-            display:none;
-            max-height:0;
-            overflow:hidden;
-            opacity:0;
-            color:transparent;
-            font-size:1px;
-            line-height:1px;">
+            display:none !important;
+            visibility:hidden !important;
+            max-height:0 !important;
+            max-width:0 !important;
+            overflow:hidden !important;
+            opacity:0 !important;
+            color:transparent !important;
+            font-size:1px !important;
+            line-height:1px !important;">
 
         A message from the UWGB Climbing Tower.
+
     </div>
+
+    <!-- =========================================================
+         OUTER EMAIL WRAPPER
+         ========================================================= -->
 
     <table role="presentation"
            class="email-outer"
@@ -350,24 +85,20 @@
            cellpadding="0"
            cellspacing="0"
            border="0"
-           bgcolor="#eef3f1"
            style="
-            width:100%;
-            background-color:#eef3f1 !important;
-            background-image:linear-gradient(
-                #eef3f1,
-                #eef3f1) !important;">
+                width:100%;
+                border-collapse:collapse;">
 
         <tr>
+
             <td align="center"
-                bgcolor="#eef3f1"
                 class="email-outer"
                 style="
-                    padding:24px 10px;
-                    background-color:#eef3f1 !important;
-                    background-image:linear-gradient(
-                        #eef3f1,
-                        #eef3f1) !important;">
+                    padding:24px 10px;">
+
+                <!-- =================================================
+                     MASTER EMAIL CONTAINER
+                     ================================================= -->
 
                 <table role="presentation"
                        class="email-container background-white"
@@ -375,32 +106,55 @@
                        cellpadding="0"
                        cellspacing="0"
                        border="0"
-                       bgcolor="#ffffff"
                        align="center"
                        style="
-                        width:100%;
-                        max-width:640px;
-                        margin:0 auto;
-                        text-align:left;
-                        background-color:#ffffff !important;
-                        background-image:linear-gradient(
-                            #ffffff,
-                            #ffffff) !important;
-                        box-shadow:0 4px 18px
-                            rgba(15,86,64,.12);">
+                            width:100%;
+                            max-width:640px;
+                            margin:0 auto;
+                            text-align:left;
+                            border-collapse:collapse;">
 
+                    <!-- =================================================
+                         HEADER
+                         ================================================= -->
                     <!-- HEADER -->
+                    <!-- =================================================
+                         BODY
+                         ================================================= -->
                     <!-- BODY -->
+                    <!-- =================================================
+                         IMAGE
+                         ================================================= -->
                     <!-- IMAGE -->
+                    <!-- =================================================
+                         ANNOUNCEMENTS
+                         ================================================= -->
                     <!-- ANNOUNCEMENTS -->
+                    <!-- =================================================
+                         REQUEST
+                         ================================================= -->
                     <!-- REQUEST -->
+                    <!-- =================================================
+                         ATTACHMENTS
+                         ================================================= -->
                     <!-- ATTACHMENTS -->
+                    <!-- =================================================
+                         SIGNATURE
+                         ================================================= -->
                     <!-- SIGNATURE -->
+                    <!-- =================================================
+                         FOOTER
+                         ================================================= -->
                     <!-- FOOTER -->
 
                 </table>
+
             </td>
+
         </tr>
+
     </table>
+
 </body>
+
 </html>
