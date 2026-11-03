@@ -2225,10 +2225,9 @@ namespace Schedule_Creator_V2.Services.Email
         }
 
         private static string SerializeBlock(
-            Block block)
+    Block block)
         {
-            if (block is
-                Paragraph paragraph)
+            if (block is Paragraph paragraph)
             {
                 string content =
                     string.Concat(
@@ -2240,8 +2239,7 @@ namespace Schedule_Creator_V2.Services.Email
                 if (string.IsNullOrEmpty(
                         content))
                 {
-                    content =
-                        "<br>";
+                    content = "<br />";
                 }
 
                 content =
@@ -2249,17 +2247,14 @@ namespace Schedule_Creator_V2.Services.Email
                         content,
                         paragraph);
 
-                return
-                    $"<p>{content}</p>";
+                return $"<p>{content}</p>";
             }
 
             if (block is
-                System.Windows.Documents.List
-                list)
+                System.Windows.Documents.List list)
             {
                 string tag =
-                    IsOrderedList(
-                        list)
+                    IsOrderedList(list)
                         ? "ol"
                         : "ul";
 
@@ -2273,8 +2268,7 @@ namespace Schedule_Creator_V2.Services.Email
                 foreach (ListItem listItem
                          in list.ListItems)
                 {
-                    html.Append(
-                        "<li>");
+                    html.Append("<li>");
 
                     foreach (Block itemBlock
                              in listItem.Blocks)
@@ -2284,27 +2278,24 @@ namespace Schedule_Creator_V2.Services.Email
                                 itemBlock));
                     }
 
-                    html.Append(
-                        "</li>");
+                    html.Append("</li>");
                 }
 
                 html.Append("</")
                     .Append(tag)
                     .Append('>');
 
-                return
-                    html.ToString();
+                return html.ToString();
             }
 
             return string.Empty;
         }
-
         private static string SerializeInline(
-            Inline inline)
+    Inline inline)
         {
             if (inline is LineBreak)
             {
-                return "<br>";
+                return "<br />";
             }
 
             if (inline is Run run)
@@ -2313,10 +2304,9 @@ namespace Schedule_Creator_V2.Services.Email
                     WebUtility.HtmlEncode(
                         run.Text);
 
-                return
-                    ApplyTextElementFormatting(
-                        content,
-                        run);
+                return ApplyTextElementFormatting(
+                    content,
+                    run);
             }
 
             if (inline is Span span)
@@ -2328,44 +2318,40 @@ namespace Schedule_Creator_V2.Services.Email
                             .Select(
                                 SerializeInline));
 
-                return
-                    ApplyTextElementFormatting(
-                        content,
-                        span);
+                return ApplyTextElementFormatting(
+                    content,
+                    span);
             }
 
             return string.Empty;
         }
 
-        private static string
-            ApplyTextElementFormatting(
-                string content,
-                TextElement element)
+        // =========================================================
+        // APPLY TEXT FORMATTING
+        // =========================================================
+
+        private static string ApplyTextElementFormatting(
+            string content,
+            TextElement element)
         {
-            if (element
-                    .FontWeight
-                    .ToOpenTypeWeight() >=
-                FontWeights
-                    .Bold
-                    .ToOpenTypeWeight())
+            // Bold
+            if (element.FontWeight.ToOpenTypeWeight() >=
+                FontWeights.Bold.ToOpenTypeWeight())
             {
-                content =
-                    $"<strong>{content}</strong>";
+                content = $"<strong>{content}</strong>";
             }
 
-            if (element.FontStyle ==
-                FontStyles.Italic)
+            // Italic
+            if (element.FontStyle == FontStyles.Italic)
             {
-                content =
-                    $"<em>{content}</em>";
+                content = $"<em>{content}</em>";
             }
 
+            // Underline
             if (element is Inline inline &&
-                HasUnderline(
-                    inline))
+                HasUnderline(inline))
             {
-                content =
-                    $"<u>{content}</u>";
+                content = $"<u>{content}</u>";
             }
 
             return content;
@@ -2539,19 +2525,28 @@ namespace Schedule_Creator_V2.Services.Email
         }
 
         private static void LoadHtml(
-            FlowDocument document,
-            string html)
+    FlowDocument document,
+    string html)
         {
             document.Blocks.Clear();
 
+            // Normalize HTML line breaks for XML parsing.
+            // Older content may contain <br>, while newer
+            // content uses <br />.
+
+            string normalizedHtml =
+                Regex.Replace(
+                    html,
+                    @"<br\s*/?>",
+                    "<br />",
+                    RegexOptions.IgnoreCase);
+
             XElement root =
                 XElement.Parse(
-                    $"<root>{html}</root>",
-                    LoadOptions
-                        .PreserveWhitespace);
+                    $"<root>{normalizedHtml}</root>",
+                    LoadOptions.PreserveWhitespace);
 
-            foreach (XNode node
-                     in root.Nodes())
+            foreach (XNode node in root.Nodes())
             {
                 if (node is XElement element)
                 {
@@ -2561,10 +2556,8 @@ namespace Schedule_Creator_V2.Services.Email
 
                     if (block is not null)
                     {
-                        document
-                            .Blocks
-                            .Add(
-                                block);
+                        document.Blocks.Add(
+                            block);
                     }
 
                     continue;
@@ -2574,12 +2567,10 @@ namespace Schedule_Creator_V2.Services.Email
                     !string.IsNullOrWhiteSpace(
                         text.Value))
                 {
-                    document
-                        .Blocks
-                        .Add(
-                            new Paragraph(
-                                new Run(
-                                    text.Value)));
+                    document.Blocks.Add(
+                        new Paragraph(
+                            new Run(
+                                text.Value)));
                 }
             }
         }

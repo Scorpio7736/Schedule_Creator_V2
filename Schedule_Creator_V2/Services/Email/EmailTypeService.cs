@@ -70,71 +70,111 @@ namespace Schedule_Creator_V2.Services.Email
                 // -------------------------------------------------
                 // INTERVIEW OFFER
                 // -------------------------------------------------
+                // -------------------------------------------------
+// INTERVIEW OFFER
+// -------------------------------------------------
 
-                new EmailType(
-                    displayName:
-                        "Interview Offer",
+new EmailType(
+    displayName:
+        "Interview Offer",
 
-                    inputs: new List<IEmailInputs>
-                    {
-                        new EmailDetailsInputs(
-                            Subject:
-                                "Climbing Tower - Interview Invitation"
-                        ),
+    inputs: new List<IEmailInputs>
+    {
+        new EmailDetailsInputs(
+            Subject:
+                "UREC Outdoors - Climbing Tower | Join Us for an Interview"
+        ),
 
-                        new CustomHeaderInputs(
-                            OrganizationName:
-                                EmailInputConstants.OrganizationName,
+        new CustomHeaderInputs(
+            OrganizationName:
+                EmailInputConstants.OrganizationName,
 
-                            HeaderLabel:
-                                "CLIMBING TOWER RECRUITMENT",
+            HeaderLabel:
+                "CLIMBING TOWER RECRUITMENT",
 
-                            EmailHeading:
-                                "INTERVIEW INVITATION",
+            EmailHeading:
+                "INTERVIEW INVITATION",
 
-                            HeaderSubtitle:
-                                "WE WOULD LOVE TO MEET YOU!",
+            HeaderSubtitle:
+                "JOIN US FOR AN INTERVIEW!",
 
-                            HeaderImageUrl:
-                                EmailImageSources.Default_HeaderImage
-                        ),
+            HeaderImageUrl:
+                EmailImageSources.Default_HeaderImage
+        ),
 
-                        new CustomBodyInputs(
-                            RecipientGreeting:
-                                "Hello [RECIPIENT NAME],",
+        new CustomBodyInputs(
+            RecipientGreeting:
+                "Hi [RECIPIENT NAME],",
 
-                            EmailBody:
-                                "Thank you for your interest in joining the " +
-                                "UREC Outdoors Climbing Tower Team!\n\n" +
+            EmailBody:
+                "Thank you for applying for employment with " +
+                "UREC Outdoors!\n\n" +
 
-                                "After reviewing your application, we would " +
-                                "like to invite you to interview for the " +
-                                "Climbing Tower Attendant position.\n\n" +
+                "We have reviewed your application, and we " +
+                "would like to invite you to interview for " +
+                "the [APPLIED POSITION(S)] position with " +
+                "our Climbing Tower team.\n\n" +
 
-                                "We would love the opportunity to learn more " +
-                                "about you, your experience, and your " +
-                                "interest in working with our team.\n\n" +
+                "Please let us know if you are still " +
+                "interested and provide your availability " +
+                "for a [VIRTUAL OR IN-PERSON] interview " +
+                "during [TIME FRAME]. We will do our best " +
+                "to find a time that works with your schedule.\n\n" +
 
-                                "Interview Details:\n" +
-                                "Date: [INTERVIEW DATE]\n" +
-                                "Time: [INTERVIEW TIME]\n" +
-                                "Location: [INTERVIEW LOCATION]\n\n" +
+                "If you are interested in any other UREC " +
+                "Outdoors positions, please let us know! " +
+                "Additional information about the Climbing " +
+                "Tower Attendant position, employment " +
+                "expectations, and benefits can be found below.\n\n" +
 
-                                "Please respond to this email to confirm " +
-                                "your availability. If the proposed time " +
-                                "does not work with your schedule, let us " +
-                                "know, and we will do our best to find " +
-                                "an alternative.\n\n" +
+                "Thank you for your interest, and we " +
+                "hope to hear from you soon!\n\n" +
 
-                                "We look forward to meeting with you!"
-                        ),
+                "JOB INFORMATION\n\n" +
 
-                        EmailInputDefaults
-                            .DefaultSignatureInputs
-                    }
-                ),
+                "Starting Wage: $12.25/hour, with annual raises\n" +
+                "Maximum Hours: 25 hours per week\n" +
+                "Minimum Hours: 3 hours per week " +
+                "(for regularly scheduled staff)\n" +
+                "Substitutes: Must work a minimum of " +
+                "one substitute shift per month " +
+                "(when applicable)\n" +
+                "Required Certifications: CPR/AED/First Aid " +
+                "and Top Rope Belay (when applicable). " +
+                "Training and certifications are provided " +
+                "by UREC Outdoors.\n\n" +
 
+                "PERKS & BENEFITS\n\n" +
 
+                "• Off-hours climbing with other " +
+                "UREC Outdoors staff\n" +
+                "• Semester bonus opportunities " +
+                "(contingent on climbing at the tower)\n" +
+                "• Free personal equipment rentals " +
+                "through UREC Outdoors\n" +
+                "• Pro-Deal membership offering discounts " +
+                "on outdoor equipment\n\n" +
+
+                "CLIMBING TOWER ATTENDANT\n\n" +
+
+                "Promote an active, welcoming, and energetic " +
+                "environment by teaching and advocating " +
+                "safe climbing skills. Use customer service " +
+                "skills to interact with patrons, communicate " +
+                "proper equipment usage, and demonstrate " +
+                "climbing techniques.\n\n" +
+
+                "Prior belay certification is not required " +
+                "to begin employment. Training and " +
+                "certification opportunities will be " +
+                "provided during employment."
+        ),
+
+        EmailInputDefaults
+            .DefaultSignatureInputs
+    }
+),
+                
                 // -------------------------------------------------
                 // POSITION OFFER
                 // -------------------------------------------------
