@@ -62,6 +62,221 @@ namespace Schedule_Creator_V2.Services.Email
                         true
                 ),
 
+                
+                // =================================================
+                // HIRING & RECRUITMENT
+                // =================================================
+
+                // -------------------------------------------------
+                // INTERVIEW OFFER
+                // -------------------------------------------------
+
+                new EmailType(
+                    displayName:
+                        "Interview Offer",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Climbing Tower - Interview Invitation"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "CLIMBING TOWER RECRUITMENT",
+
+                            EmailHeading:
+                                "INTERVIEW INVITATION",
+
+                            HeaderSubtitle:
+                                "WE WOULD LOVE TO MEET YOU!",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                "Hello [RECIPIENT NAME],",
+
+                            EmailBody:
+                                "Thank you for your interest in joining the " +
+                                "UREC Outdoors Climbing Tower Team!\n\n" +
+
+                                "After reviewing your application, we would " +
+                                "like to invite you to interview for the " +
+                                "Climbing Tower Attendant position.\n\n" +
+
+                                "We would love the opportunity to learn more " +
+                                "about you, your experience, and your " +
+                                "interest in working with our team.\n\n" +
+
+                                "Interview Details:\n" +
+                                "Date: [INTERVIEW DATE]\n" +
+                                "Time: [INTERVIEW TIME]\n" +
+                                "Location: [INTERVIEW LOCATION]\n\n" +
+
+                                "Please respond to this email to confirm " +
+                                "your availability. If the proposed time " +
+                                "does not work with your schedule, let us " +
+                                "know, and we will do our best to find " +
+                                "an alternative.\n\n" +
+
+                                "We look forward to meeting with you!"
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    }
+                ),
+
+
+                // -------------------------------------------------
+                // POSITION OFFER
+                // -------------------------------------------------
+
+                new EmailType(
+                    displayName:
+                        "Position Offer",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Climbing Tower - Position Offer"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "CLIMBING TOWER RECRUITMENT",
+
+                            EmailHeading:
+                                "CONGRATULATIONS!",
+
+                            HeaderSubtitle:
+                                "WE WOULD LOVE TO WELCOME YOU TO THE TEAM!",
+
+                            HeaderImageUrl:
+                                EmailImageSources.WelcomToTheTowerTeamHeader
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                "Hello [RECIPIENT NAME],",
+
+                            EmailBody:
+                                "Congratulations!\n\n" +
+
+                                "We are excited to offer you a position " +
+                                "as a Climbing Tower Attendant with " +
+                                "UREC Outdoors at UW-Green Bay!\n\n" +
+
+                                "Throughout the application and interview " +
+                                "process, we were impressed by your " +
+                                "qualifications, enthusiasm, and potential " +
+                                "to contribute to our team.\n\n" +
+
+                                "We believe you will be a great addition " +
+                                "to the Climbing Tower, and we look " +
+                                "forward to working with you.\n\n" +
+
+                                "Next Steps:\n\n" +
+
+                                "Please respond to this email by " +
+                                "[RESPONSE DEADLINE] to let us know if " +
+                                "you would like to accept the position.\n\n" +
+
+                                "Once we receive your confirmation, we " +
+                                "will provide additional information " +
+                                "regarding the hiring process, required " +
+                                "training, and onboarding.\n\n" +
+
+                                "Congratulations again, and we hope to " +
+                                "welcome you to the Climbing Tower " +
+                                "Team soon!"
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    }
+                ),
+
+
+                // -------------------------------------------------
+                // POSITION REJECTION
+                // -------------------------------------------------
+
+                new EmailType(
+                    displayName:
+                        "Position Rejection",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Climbing Tower - Application Update"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "CLIMBING TOWER RECRUITMENT",
+
+                            EmailHeading:
+                                "APPLICATION UPDATE",
+
+                            HeaderSubtitle:
+                                "THANK YOU FOR YOUR INTEREST",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                "Hello [RECIPIENT NAME],",
+
+                            EmailBody:
+                                "Thank you for your interest in joining " +
+                                "the UREC Outdoors Climbing Tower Team " +
+                                "and for taking the time to participate " +
+                                "in our hiring process.\n\n" +
+
+                                "After careful consideration, we have " +
+                                "decided to move forward with other " +
+                                "candidates for the Climbing Tower " +
+                                "Attendant position.\n\n" +
+
+                                "We sincerely appreciate the time and " +
+                                "effort you put into your application " +
+                                "and interview. We had the opportunity " +
+                                "to meet several great candidates, " +
+                                "making this a difficult decision.\n\n" +
+
+                                "We encourage you to consider applying " +
+                                "for future opportunities with " +
+                                "UREC Outdoors.\n\n" +
+
+                                "Thank you again for your interest, " +
+                                "and we wish you the best in your " +
+                                "future endeavors!"
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    }
+                ),
+
+
 
                 // =================================================
                 // ANNOUNCEMENTS
