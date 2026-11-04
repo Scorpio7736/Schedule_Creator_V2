@@ -132,11 +132,11 @@ namespace Schedule_Creator_V2.Services.Email
                                 "and employment details below."
                         ),
 
-                        new CustomAnnouncementsInputs(
-                            AnnouncementsLabel:
+                        new CustomPositionDescriptionInputs(
+                            Position:
                                 "CLIMBING TOWER ATTENDANT",
 
-                            AnnouncementsIntro:
+                            Description:
                                 "Promote an active and energetic " +
                                 "environment by teaching and advocating " +
                                 "safe climbing skills. Use customer " +
@@ -146,7 +146,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "certification not required to begin, " +
                                 "but will be offered during employment.",
 
-                            AnnouncementsList:
+                            Details:
                             [
                                 "Pay and hours: Starting wage is $12.25/hour with annual raises; up to 25 hours per week. Regularly scheduled staff work at least 3 hours per week.",
                                 "Substitute shifts: Substitutes must work at least one substitute shift per month when applicable.",
