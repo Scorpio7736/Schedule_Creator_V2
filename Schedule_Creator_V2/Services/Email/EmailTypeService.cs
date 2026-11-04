@@ -108,7 +108,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "with UREC Outdoors! We have reviewed " +
                                 "your application, and we would like to " +
                                 "offer you an interview regarding " +
-                                "employment as [APPLIED POSITION(S)].\n\n" +
+                                "employment as a Climbing Tower Attendant.\n\n" +
 
                                 "Please let us know if you are still " +
                                 "interested. You can find the Climbing " +
@@ -151,13 +151,12 @@ namespace Schedule_Creator_V2.Services.Email
 
                             RequestBody:
                                 "Please let us know your availability " +
-                                "for a [VIRTUAL OR IN-PERSON] interview " +
-                                "during [TIME FRAME]. You can reply " +
-                                "with a few dates and times that work " +
-                                "for you or use the button below to " +
-                                "book a 30-minute interview. If the " +
-                                "button is not available, simply " +
-                                "reply with your availability.",
+                                "for a virtual interview. Please choose " +
+                                "one of the available 30-minute openings " +
+                                "using the scheduling link below. If " +
+                                "none of the listed times work for you, " +
+                                "reply with a few dates and times " +
+                                "that would be convenient.",
 
                             RequestButton:
                                 "Schedule Your Interview",
