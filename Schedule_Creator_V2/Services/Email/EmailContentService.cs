@@ -596,13 +596,34 @@ namespace Schedule_Creator_V2.Services.Email
 
         private static string BuildPositionDescriptionSection(EmailType emailType)
         {
+            InterviewJobSelectionInputs? jobSelection = emailType.inputs?
+                .OfType<InterviewJobSelectionInputs>().FirstOrDefault();
+
+            if (jobSelection is not null)
+            {
+                return string.Join(Environment.NewLine,
+                    InterviewJobCatalog.Resolve(jobSelection.SelectedJobs)
+                        .Select(job => BuildPositionDescriptionCard(
+                            job.Title, job.Description, job.Details)));
+            }
+
             CustomPositionDescriptionInputs? inputs = emailType.inputs?
                 .OfType<CustomPositionDescriptionInputs>().FirstOrDefault();
-            if (inputs is null) return string.Empty;
 
-            string position = inputs.Position?.Trim() ?? string.Empty;
-            string description = inputs.Description?.Trim() ?? string.Empty;
-            List<string> details = inputs.Details?
+            return inputs is null
+                ? string.Empty
+                : BuildPositionDescriptionCard(
+                    inputs.Position, inputs.Description, inputs.Details);
+        }
+
+        private static string BuildPositionDescriptionCard(
+            string? positionValue,
+            string? descriptionValue,
+            IEnumerable<string>? detailValues)
+        {
+            string position = positionValue?.Trim() ?? string.Empty;
+            string description = descriptionValue?.Trim() ?? string.Empty;
+            List<string> details = detailValues?
                 .Where(item => !string.IsNullOrWhiteSpace(item))
                 .Select(item => item.Trim()).ToList() ?? new List<string>();
 
