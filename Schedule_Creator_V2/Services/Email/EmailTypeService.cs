@@ -96,7 +96,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "JOIN US FOR AN INTERVIEW!",
 
                             HeaderImageUrl:
-                                EmailImageSources.Default_HeaderImage
+                                EmailImageSources.WelcomToTheTowerTeamHeader
                         ),
 
                         new CustomBodyInputs(
