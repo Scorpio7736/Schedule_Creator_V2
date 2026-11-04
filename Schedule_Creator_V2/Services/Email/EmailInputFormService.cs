@@ -226,6 +226,12 @@ namespace Schedule_Creator_V2.Services.Email
             groupPanel.Children.Add(
                 groupHeading);
 
+            if (inputGroup is InterviewJobSelectionInputs interviewJobs)
+            {
+                AddInterviewJobSelectors(groupPanel, interviewJobs);
+            }
+            else
+            {
             PropertyInfo[] properties =
                 inputGroup
                     .GetType()
@@ -253,6 +259,8 @@ namespace Schedule_Creator_V2.Services.Email
                         inputGroup,
                         property);
                 }
+            }
+
             }
 
             return new Border
@@ -285,6 +293,58 @@ namespace Schedule_Creator_V2.Services.Email
                 Child =
                     groupPanel
             };
+        }
+
+
+        // =========================================================
+        // INTERVIEW JOB SELECTION
+        // =========================================================
+
+        private static void AddInterviewJobSelectors(
+            Panel parent,
+            InterviewJobSelectionInputs inputs)
+        {
+            parent.Children.Add(new TextBlock
+            {
+                Text = "Select one or more positions to include in the interview offer:",
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 0, 0, 10),
+                Foreground = CreateBrush(55, 65, 81)
+            });
+
+            foreach (InterviewJobDefinition job in InterviewJobCatalog.Jobs)
+            {
+                CheckBox option = new CheckBox
+                {
+                    Content = job.Title,
+                    IsChecked = inputs.SelectedJobs.Contains(job.Title),
+                    Margin = new Thickness(0, 0, 0, 10),
+                    FontSize = 14
+                };
+
+                option.Checked += (_, _) =>
+                {
+                    if (!inputs.SelectedJobs.Contains(job.Title))
+                        inputs.SelectedJobs.Add(job.Title);
+                };
+
+                option.Unchecked += (_, _) =>
+                {
+                    if (inputs.SelectedJobs.Count <= 1 &&
+                        inputs.SelectedJobs.Contains(job.Title))
+                    {
+                        // An interview offer must describe at least one position.
+                        option.IsChecked = true;
+                        return;
+                    }
+
+                    inputs.SelectedJobs.RemoveAll(
+                        title => string.Equals(
+                            title, job.Title, StringComparison.OrdinalIgnoreCase));
+                };
+
+                parent.Children.Add(option);
+            }
         }
 
 
