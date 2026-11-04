@@ -2893,7 +2893,8 @@ namespace Schedule_Creator_V2.Services.Email
                 "Intro",
                 "Text",
                 "Subtitle",
-                "Message"
+                "Message",
+                "Description"
             };
 
             return
