@@ -111,10 +111,25 @@ namespace Schedule_Creator_V2.Services.Email
                                 "employment as a Climbing Tower Attendant.\n\n" +
 
                                 "Please let us know if you are still " +
-                                "interested. You can find the Climbing " +
-                                "Tower position description and " +
-                                "employment details below, along with " +
-                                "options to schedule your interview."
+                                "interested in a 30-minute virtual " +
+                                "interview. You may reply to this email " +
+                                "with one of the available times below. " +
+                                "If none of these options work for you, " +
+                                "feel free to send us a few dates and " +
+                                "times that would be convenient.\n\n" +
+
+                                "Interview Availability (November 9-13, 2026):\n" +
+                                "• Monday, November 9: 11:45 AM-12:45 PM or 2:15-3:15 PM\n" +
+                                "• Tuesday, November 10: 9:00-10:30 AM or 12:45-3:15 PM\n" +
+                                "• Wednesday, November 11: 11:45 AM-3:15 PM\n" +
+                                "• Thursday, November 12: 9:00-10:30 AM or 12:45-3:15 PM\n" +
+                                "• Friday, November 13: 9:00-10:30 AM or 12:30-2:30 PM\n\n" +
+
+                                "Please choose any 30-minute opening " +
+                                "within these windows. All times are " +
+                                "Central Time. You can find the " +
+                                "Climbing Tower position description " +
+                                "and employment details below."
                         ),
 
                         new CustomAnnouncementsInputs(
@@ -139,34 +154,6 @@ namespace Schedule_Creator_V2.Services.Email
                                 "Climbing perks: Off-hours climbing with other UREC Outdoors staff and semester bonus opportunities (contingent on climbing at the tower).",
                                 "Equipment benefits: Free personal equipment rentals through UREC Outdoors and Pro-Deal membership offering discounts on outdoor equipment."
                             ]
-                        ),
-
-                        new CustomRequestInputs(
-                            RequestLabel:
-                                "INTERVIEW AVAILABILITY",
-
-                            RequestTitle:
-                                "Schedule Your Interview",
-
-                            RequestBody:
-                                "Please let us know your availability " +
-                                "for a virtual interview. Please choose " +
-                                "one of the available 30-minute openings " +
-                                "using the scheduling link below. " +
-                                "If you would prefer to simply reply " +
-                                "to this email with your availability, " +
-                                "that works too! If none of the listed " +
-                                "times work for you, please send a few " +
-                                "dates and times that would be convenient.",
-
-                            RequestButton:
-                                "Schedule Your Interview",
-
-                            // Paste your Microsoft Bookings meeting-type
-                            // URL into this field in the email builder.
-                            // An empty URL keeps the button hidden.
-                            RequestLink:
-                                ""
                         ),
 
                         EmailInputDefaults
