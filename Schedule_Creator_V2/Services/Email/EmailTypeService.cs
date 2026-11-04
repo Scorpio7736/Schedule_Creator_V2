@@ -122,15 +122,14 @@ namespace Schedule_Creator_V2.Services.Email
                                 "CLIMBING TOWER ATTENDANT",
 
                             AnnouncementsIntro:
-                                "Help create a welcoming, active, and " +
-                                "safe climbing environment. Attendants " +
-                                "provide customer service, teach and " +
-                                "promote safe climbing practices, " +
-                                "explain proper equipment use, and " +
-                                "demonstrate climbing techniques. " +
-                                "Previous belay certification is not " +
-                                "required; UREC Outdoors provides " +
-                                "training and certification opportunities.",
+                                "Promote an active and energetic " +
+                                "environment by teaching and advocating " +
+                                "safe climbing skills. Use customer " +
+                                "service skills to interact with users " +
+                                "and to communicate proper equipment " +
+                                "usage and climbing techniques. Belay " +
+                                "certification not required to begin, " +
+                                "but will be offered during employment.",
 
                             AnnouncementsList:
                             [
