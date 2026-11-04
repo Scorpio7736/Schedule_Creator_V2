@@ -96,7 +96,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "JOIN US FOR AN INTERVIEW!",
 
                             HeaderImageUrl:
-                                EmailImageSources.Default_HeaderImage
+                                EmailImageSources.WelcomToTheTowerTeamHeader
                         ),
 
                         new CustomBodyInputs(
@@ -118,12 +118,12 @@ namespace Schedule_Creator_V2.Services.Email
                                 "feel free to send us a few dates and " +
                                 "times that would be convenient.\n\n" +
 
-                                "Interview Availability (November 9-13, 2026):\n" +
-                                "• Monday, November 9: 11:45 AM-12:45 PM or 2:15-3:15 PM\n" +
-                                "• Tuesday, November 10: 9:00-10:30 AM or 12:45-3:15 PM\n" +
-                                "• Wednesday, November 11: 11:45 AM-3:15 PM\n" +
-                                "• Thursday, November 12: 9:00-10:30 AM or 12:45-3:15 PM\n" +
-                                "• Friday, November 13: 9:00-10:30 AM or 12:30-2:30 PM\n\n" +
+                                "Interview Availability ():\n" +
+                                "• Monday, : \n" +
+                                "• Tuesday, : \n" +
+                                "• Wednesday, : \n" +
+                                "• Thursday, : \n" +
+                                "• Friday, : \n\n" +
 
                                 "Please choose any 30-minute opening " +
                                 "within these windows. All times are " +
