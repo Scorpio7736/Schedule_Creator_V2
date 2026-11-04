@@ -152,10 +152,12 @@ namespace Schedule_Creator_V2.Services.Email
                                 "Please let us know your availability " +
                                 "for a virtual interview. Please choose " +
                                 "one of the available 30-minute openings " +
-                                "using the scheduling link below. If " +
-                                "none of the listed times work for you, " +
-                                "reply with a few dates and times " +
-                                "that would be convenient.",
+                                "using the scheduling link below. " +
+                                "If you would prefer to simply reply " +
+                                "to this email with your availability, " +
+                                "that works too! If none of the listed " +
+                                "times work for you, please send a few " +
+                                "dates and times that would be convenient.",
 
                             RequestButton:
                                 "Schedule Your Interview",
