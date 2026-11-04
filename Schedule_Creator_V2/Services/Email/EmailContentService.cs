@@ -23,6 +23,9 @@ namespace Schedule_Creator_V2.Services.Email
         private const string ImageMarker =
             "<!-- IMAGE -->";
 
+        private const string PositionDescriptionMarker =
+            "<!-- POSITION DESCRIPTION -->";
+
         private const string AnnouncementsMarker =
             "<!-- ANNOUNCEMENTS -->";
 
@@ -110,6 +113,11 @@ namespace Schedule_Creator_V2.Services.Email
                 html,
                 ImageMarker,
                 BuildImageSection(emailType));
+
+            html = ReplaceRequiredMarker(
+                html,
+                PositionDescriptionMarker,
+                BuildPositionDescriptionSection(emailType));
 
             html = ReplaceRequiredMarker(
                 html,
@@ -584,6 +592,40 @@ namespace Schedule_Creator_V2.Services.Email
         // =========================================================
         // ANNOUNCEMENTS
         // =========================================================
+
+
+        private static string BuildPositionDescriptionSection(EmailType emailType)
+        {
+            CustomPositionDescriptionInputs? inputs = emailType.inputs?
+                .OfType<CustomPositionDescriptionInputs>().FirstOrDefault();
+            if (inputs is null) return string.Empty;
+
+            string position = inputs.Position?.Trim() ?? string.Empty;
+            string description = inputs.Description?.Trim() ?? string.Empty;
+            List<string> details = inputs.Details?
+                .Where(item => !string.IsNullOrWhiteSpace(item))
+                .Select(item => item.Trim()).ToList() ?? new List<string>();
+
+            if (position.Length == 0 && description.Length == 0 && details.Count == 0)
+                return string.Empty;
+
+            string title = position.Length == 0 ? string.Empty
+                : "<h2 style=\"margin:0 0 12px;color:#0f5640;font-size:20px;\">" +
+                  Encode(position) + "</h2>";
+            string body = description.Length == 0 ? string.Empty
+                : "<div style=\"font-size:16px;line-height:25px;color:#303936;\">" +
+                  RenderRichText(description, useParagraphsForPlainText: true) + "</div>";
+            string bullets = details.Count == 0 ? string.Empty
+                : "<ul style=\"margin:16px 0 0 20px;padding:0;\">" +
+                  string.Join("", details.Select(item =>
+                    "<li style=\"margin-bottom:9px;color:#303936;\">" +
+                    Encode(item) + "</li>")) + "</ul>";
+
+            return "<tr id=\"positionDescriptionSection\"><td bgcolor=\"#f5f7f6\" " +
+                "class=\"content-padding background-request\" " +
+                "style=\"padding-top:28px;padding-bottom:28px;background-color:#f5f7f6;\">" +
+                title + body + bullets + "</td></tr>";
+        }
 
         private static string BuildAnnouncementsSection(
             EmailType emailType)
