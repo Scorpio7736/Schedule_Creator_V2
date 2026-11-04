@@ -105,18 +105,16 @@ namespace Schedule_Creator_V2.Services.Email
 
                             EmailBody:
                                 "Thank you for applying for employment " +
-                                "with UREC Outdoors!\n\n" +
+                                "with UREC Outdoors! We have reviewed " +
+                                "your application, and we would like to " +
+                                "offer you an interview regarding " +
+                                "employment as [APPLIED POSITION(S)].\n\n" +
 
-                                "After reviewing your application, we " +
-                                "would like to invite you to interview " +
-                                "for the Climbing Tower Attendant " +
-                                "position. We would love to learn more " +
-                                "about you, your experience, and your " +
-                                "interest in joining our team.\n\n" +
-
-                                "Please review the position information " +
-                                "and interview scheduling options below. " +
-                                "We look forward to meeting with you!"
+                                "Please let us know if you are still " +
+                                "interested. You can find the Climbing " +
+                                "Tower position description and " +
+                                "employment details below, along with " +
+                                "options to schedule your interview."
                         ),
 
                         new CustomAnnouncementsInputs(
@@ -136,15 +134,11 @@ namespace Schedule_Creator_V2.Services.Email
 
                             AnnouncementsList:
                             [
-                                "Starting wage: $12.25/hour, with annual raises",
-                                "Maximum hours: 25 hours per week",
-                                "Minimum hours: 3 hours per week for regularly scheduled staff",
-                                "Substitutes: At least one substitute shift per month when applicable",
-                                "Certifications: CPR/AED/First Aid and Top Rope Belay when applicable; training and certifications are provided",
-                                "Perk: Off-hours climbing with other UREC Outdoors staff",
-                                "Perk: Semester bonus opportunities, contingent on climbing at the tower",
-                                "Perk: Free personal equipment rentals through UREC Outdoors",
-                                "Perk: Pro-Deal membership with discounts on outdoor equipment"
+                                "Pay and hours: Starting wage is $12.25/hour with annual raises; up to 25 hours per week. Regularly scheduled staff work at least 3 hours per week.",
+                                "Substitute shifts: Substitutes must work at least one substitute shift per month when applicable.",
+                                "Certifications and training: CPR/AED/First Aid and Top Rope Belay are required when applicable. UREC Outdoors provides training and certification opportunities; prior belay certification is not required to begin employment.",
+                                "Climbing perks: Off-hours climbing with other UREC Outdoors staff and semester bonus opportunities (contingent on climbing at the tower).",
+                                "Equipment benefits: Free personal equipment rentals through UREC Outdoors and Pro-Deal membership offering discounts on outdoor equipment."
                             ]
                         ),
 
@@ -156,15 +150,14 @@ namespace Schedule_Creator_V2.Services.Email
                                 "Schedule Your Interview",
 
                             RequestBody:
-                                "Please let us know if you are still " +
-                                "interested and reply with a few dates " +
-                                "and times when you are available for a " +
-                                "30-minute interview. Alternatively, " +
-                                "you can select an available time using " +
-                                "the scheduling button below. If the " +
-                                "button is not shown, please reply with " +
-                                "your availability and we will " +
-                                "coordinate a time with you.",
+                                "Please let us know your availability " +
+                                "for a [VIRTUAL OR IN-PERSON] interview " +
+                                "during [TIME FRAME]. You can reply " +
+                                "with a few dates and times that work " +
+                                "for you or use the button below to " +
+                                "book a 30-minute interview. If the " +
+                                "button is not available, simply " +
+                                "reply with your availability.",
 
                             RequestButton:
                                 "Schedule Your Interview",
