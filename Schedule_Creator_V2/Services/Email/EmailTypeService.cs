@@ -70,111 +70,118 @@ namespace Schedule_Creator_V2.Services.Email
                 // -------------------------------------------------
                 // INTERVIEW OFFER
                 // -------------------------------------------------
-                // -------------------------------------------------
-// INTERVIEW OFFER
-// -------------------------------------------------
 
-new EmailType(
-    displayName:
-        "Interview Offer",
+                new EmailType(
+                    displayName:
+                        "Interview Offer",
 
-    inputs: new List<IEmailInputs>
-    {
-        new EmailDetailsInputs(
-            Subject:
-                "UREC Outdoors - Climbing Tower | Join Us for an Interview"
-        ),
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "UREC Outdoors - Climbing Tower | Interview Invitation"
+                        ),
 
-        new CustomHeaderInputs(
-            OrganizationName:
-                EmailInputConstants.OrganizationName,
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
 
-            HeaderLabel:
-                "CLIMBING TOWER RECRUITMENT",
+                            HeaderLabel:
+                                "CLIMBING TOWER RECRUITMENT",
 
-            EmailHeading:
-                "INTERVIEW INVITATION",
+                            EmailHeading:
+                                "INTERVIEW INVITATION",
 
-            HeaderSubtitle:
-                "JOIN US FOR AN INTERVIEW!",
+                            HeaderSubtitle:
+                                "JOIN US FOR AN INTERVIEW!",
 
-            HeaderImageUrl:
-                EmailImageSources.Default_HeaderImage
-        ),
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
 
-        new CustomBodyInputs(
-            RecipientGreeting:
-                "Hi [RECIPIENT NAME],",
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                "Hi [RECIPIENT NAME],",
 
-            EmailBody:
-                "Thank you for applying for employment with " +
-                "UREC Outdoors!\n\n" +
+                            EmailBody:
+                                "Thank you for applying for employment " +
+                                "with UREC Outdoors!\n\n" +
 
-                "We have reviewed your application, and we " +
-                "would like to invite you to interview for " +
-                "the [APPLIED POSITION(S)] position with " +
-                "our Climbing Tower team.\n\n" +
+                                "After reviewing your application, we " +
+                                "would like to invite you to interview " +
+                                "for the Climbing Tower Attendant " +
+                                "position. We would love to learn more " +
+                                "about you, your experience, and your " +
+                                "interest in joining our team.\n\n" +
 
-                "Please let us know if you are still " +
-                "interested and provide your availability " +
-                "for a [VIRTUAL OR IN-PERSON] interview " +
-                "during [TIME FRAME]. We will do our best " +
-                "to find a time that works with your schedule.\n\n" +
+                                "Please review the position information " +
+                                "and interview scheduling options below. " +
+                                "We look forward to meeting with you!"
+                        ),
 
-                "If you are interested in any other UREC " +
-                "Outdoors positions, please let us know! " +
-                "Additional information about the Climbing " +
-                "Tower Attendant position, employment " +
-                "expectations, and benefits can be found below.\n\n" +
+                        new CustomAnnouncementsInputs(
+                            AnnouncementsLabel:
+                                "CLIMBING TOWER ATTENDANT",
 
-                "Thank you for your interest, and we " +
-                "hope to hear from you soon!\n\n" +
+                            AnnouncementsIntro:
+                                "Help create a welcoming, active, and " +
+                                "safe climbing environment. Attendants " +
+                                "provide customer service, teach and " +
+                                "promote safe climbing practices, " +
+                                "explain proper equipment use, and " +
+                                "demonstrate climbing techniques. " +
+                                "Previous belay certification is not " +
+                                "required; UREC Outdoors provides " +
+                                "training and certification opportunities.",
 
-                "JOB INFORMATION\n\n" +
+                            AnnouncementsList:
+                            [
+                                "Starting wage: $12.25/hour, with annual raises",
+                                "Maximum hours: 25 hours per week",
+                                "Minimum hours: 3 hours per week for regularly scheduled staff",
+                                "Substitutes: At least one substitute shift per month when applicable",
+                                "Certifications: CPR/AED/First Aid and Top Rope Belay when applicable; training and certifications are provided",
+                                "Perk: Off-hours climbing with other UREC Outdoors staff",
+                                "Perk: Semester bonus opportunities, contingent on climbing at the tower",
+                                "Perk: Free personal equipment rentals through UREC Outdoors",
+                                "Perk: Pro-Deal membership with discounts on outdoor equipment"
+                            ]
+                        ),
 
-                "Starting Wage: $12.25/hour, with annual raises\n" +
-                "Maximum Hours: 25 hours per week\n" +
-                "Minimum Hours: 3 hours per week " +
-                "(for regularly scheduled staff)\n" +
-                "Substitutes: Must work a minimum of " +
-                "one substitute shift per month " +
-                "(when applicable)\n" +
-                "Required Certifications: CPR/AED/First Aid " +
-                "and Top Rope Belay (when applicable). " +
-                "Training and certifications are provided " +
-                "by UREC Outdoors.\n\n" +
+                        new CustomRequestInputs(
+                            RequestLabel:
+                                "INTERVIEW AVAILABILITY",
 
-                "PERKS & BENEFITS\n\n" +
+                            RequestTitle:
+                                "Schedule Your Interview",
 
-                "• Off-hours climbing with other " +
-                "UREC Outdoors staff\n" +
-                "• Semester bonus opportunities " +
-                "(contingent on climbing at the tower)\n" +
-                "• Free personal equipment rentals " +
-                "through UREC Outdoors\n" +
-                "• Pro-Deal membership offering discounts " +
-                "on outdoor equipment\n\n" +
+                            RequestBody:
+                                "Please let us know if you are still " +
+                                "interested and reply with a few dates " +
+                                "and times when you are available for a " +
+                                "30-minute interview. Alternatively, " +
+                                "you can select an available time using " +
+                                "the scheduling button below. If the " +
+                                "button is not shown, please reply with " +
+                                "your availability and we will " +
+                                "coordinate a time with you.",
 
-                "CLIMBING TOWER ATTENDANT\n\n" +
+                            RequestButton:
+                                "Schedule Your Interview",
 
-                "Promote an active, welcoming, and energetic " +
-                "environment by teaching and advocating " +
-                "safe climbing skills. Use customer service " +
-                "skills to interact with patrons, communicate " +
-                "proper equipment usage, and demonstrate " +
-                "climbing techniques.\n\n" +
+                            // Paste your Microsoft Bookings meeting-type
+                            // URL into this field in the email builder.
+                            // An empty URL keeps the button hidden.
+                            RequestLink:
+                                ""
+                        ),
 
-                "Prior belay certification is not required " +
-                "to begin employment. Training and " +
-                "certification opportunities will be " +
-                "provided during employment."
-        ),
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    }
+                ),
 
-        EmailInputDefaults
-            .DefaultSignatureInputs
-    }
-),
-                
+
                 // -------------------------------------------------
                 // POSITION OFFER
                 // -------------------------------------------------
