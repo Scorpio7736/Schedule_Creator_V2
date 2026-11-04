@@ -79,7 +79,7 @@ namespace Schedule_Creator_V2.Services.Email
                     {
                         new EmailDetailsInputs(
                             Subject:
-                                "UREC Outdoors - Climbing Tower | Interview Invitation"
+                                "UREC Outdoors | Interview Invitation"
                         ),
 
                         new CustomHeaderInputs(
@@ -87,7 +87,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 EmailInputConstants.OrganizationName,
 
                             HeaderLabel:
-                                "CLIMBING TOWER RECRUITMENT",
+                                "UREC OUTDOORS RECRUITMENT",
 
                             EmailHeading:
                                 "INTERVIEW INVITATION",
@@ -96,7 +96,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "JOIN US FOR AN INTERVIEW!",
 
                             HeaderImageUrl:
-                                EmailImageSources.WelcomToTheTowerTeamHeader
+                                EmailImageSources.Default_HeaderImage
                         ),
 
                         new CustomBodyInputs(
@@ -108,7 +108,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "with UREC Outdoors! We have reviewed " +
                                 "your application, and we would like to " +
                                 "offer you an interview regarding " +
-                                "employment as a Climbing Tower Attendant.\n\n" +
+                                "employment for the position(s) listed below.\n\n" +
 
                                 "Please let us know if you are still " +
                                 "interested in a 30-minute virtual " +
@@ -128,32 +128,15 @@ namespace Schedule_Creator_V2.Services.Email
                                 "Please choose any 30-minute opening " +
                                 "within these windows. All times are " +
                                 "Central Time. You can find the " +
-                                "Climbing Tower position description " +
+                                "selected position descriptions " +
                                 "and employment details below."
                         ),
 
-                        new CustomPositionDescriptionInputs(
-                            Position:
-                                "CLIMBING TOWER ATTENDANT",
-
-                            Description:
-                                "Promote an active and energetic " +
-                                "environment by teaching and advocating " +
-                                "safe climbing skills. Use customer " +
-                                "service skills to interact with users " +
-                                "and to communicate proper equipment " +
-                                "usage and climbing techniques. Belay " +
-                                "certification not required to begin, " +
-                                "but will be offered during employment.",
-
-                            Details:
-                            [
-                                "Pay and hours: Starting wage is $12.25/hour with annual raises; up to 25 hours per week. Regularly scheduled staff work at least 3 hours per week.",
-                                "Substitute shifts: Substitutes must work at least one substitute shift per month when applicable.",
-                                "Certifications and training: CPR/AED/First Aid and Top Rope Belay are required when applicable. UREC Outdoors provides training and certification opportunities; prior belay certification is not required to begin employment.",
-                                "Climbing perks: Off-hours climbing with other UREC Outdoors staff and semester bonus opportunities (contingent on climbing at the tower).",
-                                "Equipment benefits: Free personal equipment rentals through UREC Outdoors and Pro-Deal membership offering discounts on outdoor equipment."
-                            ]
+                        new InterviewJobSelectionInputs(
+                            SelectedJobs: new List<string>
+                            {
+                                InterviewJobCatalog.ClimbingTowerAttendant
+                            }
                         ),
 
                         EmailInputDefaults
