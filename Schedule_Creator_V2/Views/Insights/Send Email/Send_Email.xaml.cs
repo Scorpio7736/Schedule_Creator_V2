@@ -36,7 +36,11 @@ namespace Schedule_Creator_V2
         // CONSTRUCTOR
         // =========================================================
 
-        public Send_Email()
+        public Send_Email() : this(null)
+        {
+        }
+
+        public Send_Email(IEnumerable<int>? preselectedStaffIds)
         {
             InitializeComponent();
 
@@ -46,6 +50,15 @@ namespace Schedule_Creator_V2
                         new EmailRecipientSelection(
                             staff))
                     .ToList();
+
+            if (preselectedStaffIds is not null)
+            {
+                HashSet<int> selectedIds = new(preselectedStaffIds);
+                foreach (EmailRecipientSelection recipient in RecipientSelections)
+                {
+                    recipient.IsTo = selectedIds.Contains(recipient.Staff.id);
+                }
+            }
 
             EmailTypes =
                 EmailTypeService
