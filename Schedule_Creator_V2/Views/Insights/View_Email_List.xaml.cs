@@ -12,6 +12,9 @@ namespace Schedule_Creator_V2
     /// </summary>
     public partial class View_Email_List : Page
     {
+        private readonly List<int> matchingStaffIds = new();
+        private bool hasSelectedAvailabilityDay;
+
         public View_Email_List()
         {
             InitializeComponent();
@@ -34,14 +37,15 @@ namespace Schedule_Creator_V2
         private void LoadData(object sender, RoutedEventArgs e)
         {
             List<Staff> availOnDay;
+            DayOfWeek selectedDay = default;
+            hasSelectedAvailabilityDay = Enum.TryParse(
+                AvailabilityComboBox.SelectedItem?.ToString(), out selectedDay);
 
-            try
+            if (hasSelectedAvailabilityDay)
             {
-                DayOfWeek selectedDay = Enum.Parse<DayOfWeek>(AvailabilityComboBox.SelectedItem?.ToString());
-
                 availOnDay = DatabaseRead.ReadStaffAvailOnDay(selectedDay);
             }
-            catch
+            else
             {
                 availOnDay = DatabaseRead.ReadStaffWithNoAvail();
             }
@@ -49,15 +53,28 @@ namespace Schedule_Creator_V2
             List<ViewEmailRow> rows = new List<ViewEmailRow>();
             List<string> availEmails = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
+            matchingStaffIds.Clear();
 
             foreach (Staff staff in availOnDay)
             {
+                string availableTimes = "No saved availability";
+                if (hasSelectedAvailabilityDay)
+                {
+                    var ranges = DatabaseRead.ReadAvailByID(staff.id)
+                        .Where(a => a.dayOfTheWeek == selectedDay)
+                        .OrderBy(a => a.startTime)
+                        .Select(a => $"{a.startTime:h:mm tt}–{a.endTime:h:mm tt}");
+                    availableTimes = string.Join(", ", ranges);
+                }
+
                 rows.Add(new ViewEmailRow(
-                    staff.fName,
-                    staff.lName,
-                    staff.email
+                    staff.id,
+                    staff.displayName,
+                    staff.email,
+                    availableTimes
                 ));
 
+                matchingStaffIds.Add(staff.id);
                 availEmails.Add(staff.email);
             }
 
@@ -78,8 +95,16 @@ namespace Schedule_Creator_V2
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(EmailsTextBox.Text);
-            MessageBox.Show("Emails copied to clipboard!");
+            if (!hasSelectedAvailabilityDay || matchingStaffIds.Count == 0)
+            {
+                MessageBox.Show(
+                    "Select a day and load staff with availability before creating an email.",
+                    "No Available Recipients", MessageBoxButton.OK,
+                    MessageBoxImage.Information);
+                return;
+            }
+
+            NavigationService?.Navigate(new Send_Email(matchingStaffIds));
         }
     }
 }
