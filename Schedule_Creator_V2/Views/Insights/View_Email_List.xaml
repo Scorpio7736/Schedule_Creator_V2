@@ -541,7 +541,7 @@
                             <TextBlock Grid.Column="0"
                                        Margin="0,0,12,0"
                                        VerticalAlignment="Center"
-                                       Text="Paste this list into an email recipient field."
+                                       Text="Open the email composer with matching staff selected."
                                        FontSize="11"
                                        TextWrapping="Wrap"
                                        Foreground="#7A8680"/>
@@ -557,7 +557,7 @@
                                                FontSize="14"
                                                Text="&#xE8C8;"/>
 
-                                    <TextBlock Text="Copy Emails"/>
+                                    <TextBlock Text="Send Email"/>
 
                                 </StackPanel>
 
@@ -645,17 +645,17 @@
 
                                 <DataGrid.Columns>
 
-                                    <DataGridTextColumn Width="1.1*"
-                                                        Binding="{Binding fName}"
-                                                        Header="First Name"/>
-
-                                    <DataGridTextColumn Width="1.1*"
-                                                        Binding="{Binding lName}"
-                                                        Header="Last Name"/>
+                                    <DataGridTextColumn Width="1.3*"
+                                                        Binding="{Binding Name}"
+                                                        Header="Name"/>
 
                                     <DataGridTextColumn Width="2*"
-                                                        Binding="{Binding email}"
+                                                        Binding="{Binding Email}"
                                                         Header="Email Address"/>
+
+                                    <DataGridTextColumn Width="1.8*"
+                                                        Binding="{Binding AvailableTimes}"
+                                                        Header="Available Times"/>
 
                                 </DataGrid.Columns>
 
