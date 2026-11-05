@@ -1,7 +1,6 @@
 ﻿using Schedule_Creator_V2.Models;
 using Schedule_Creator_V2.Services.Database;
 using System.Collections;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -51,8 +50,6 @@ namespace Schedule_Creator_V2
             }
 
             List<ViewEmailRow> rows = new List<ViewEmailRow>();
-            List<string> availEmails = new List<string>();
-            StringBuilder stringBuilder = new StringBuilder();
             matchingStaffIds.Clear();
 
             foreach (Staff staff in availOnDay)
@@ -75,25 +72,13 @@ namespace Schedule_Creator_V2
                 ));
 
                 matchingStaffIds.Add(staff.id);
-                availEmails.Add(staff.email);
             }
 
             UsersDataGrid.ItemsSource = rows;
-
-            for (int i = 0; i < availEmails.Count; i++)
-            {
-                stringBuilder.Append(availEmails[i]);
-                if (i < availEmails.Count - 1)
-                {
-                    stringBuilder.Append(",");
-                }
-            }
-
-            EmailsTextBox.Text = stringBuilder.ToString();
         }
 
 
-        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        private void SendEmailButton_Click(object sender, RoutedEventArgs e)
         {
             if (!hasSelectedAvailabilityDay || matchingStaffIds.Count == 0)
             {
