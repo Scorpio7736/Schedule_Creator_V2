@@ -306,7 +306,7 @@ namespace Schedule_Creator_V2.Services.Email
         {
             parent.Children.Add(new TextBlock
             {
-                Text = "Select one or more positions to include in the interview offer:",
+                Text = "Select one or more positions to include in this email:",
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 0, 10),
                 Foreground = CreateBrush(55, 65, 81)
@@ -333,7 +333,7 @@ namespace Schedule_Creator_V2.Services.Email
                     if (inputs.SelectedJobs.Count <= 1 &&
                         inputs.SelectedJobs.Contains(job.Title))
                     {
-                        // An interview offer must describe at least one position.
+                        // An email using the position selector must include at least one position.
                         option.IsChecked = true;
                         return;
                     }
