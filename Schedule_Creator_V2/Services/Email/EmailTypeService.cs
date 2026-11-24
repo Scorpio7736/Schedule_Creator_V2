@@ -157,7 +157,7 @@ namespace Schedule_Creator_V2.Services.Email
                     {
                         new EmailDetailsInputs(
                             Subject:
-                                "Climbing Tower - Position Offer"
+                                "UREC Outdoors | Join Our Team!"
                         ),
 
                         new CustomHeaderInputs(
@@ -165,10 +165,10 @@ namespace Schedule_Creator_V2.Services.Email
                                 EmailInputConstants.OrganizationName,
 
                             HeaderLabel:
-                                "CLIMBING TOWER RECRUITMENT",
+                                "UREC OUTDOORS RECRUITMENT",
 
                             EmailHeading:
-                                "CONGRATULATIONS!",
+                                "POSITION OFFER",
 
                             HeaderSubtitle:
                                 "WE WOULD LOVE TO WELCOME YOU TO THE TEAM!",
@@ -179,38 +179,53 @@ namespace Schedule_Creator_V2.Services.Email
 
                         new CustomBodyInputs(
                             RecipientGreeting:
-                                "Hello [RECIPIENT NAME],",
+                                "Hi [RECIPIENT NAME],",
 
                             EmailBody:
-                                "Congratulations!\n\n" +
+                                "Thank you for taking the time to interview " +
+                                "with UREC Outdoors! After reviewing our " +
+                                "applicants, we are excited to offer you " +
+                                "employment in the position(s) listed below.\n\n" +
 
-                                "We are excited to offer you a position " +
-                                "as a Climbing Tower Attendant with " +
-                                "UREC Outdoors at UW-Green Bay!\n\n" +
+                                "We enjoyed learning more about you and " +
+                                "your interest in joining our team. We " +
+                                "believe you would make a great addition " +
+                                "to UREC Outdoors!\n\n" +
 
-                                "Throughout the application and interview " +
-                                "process, we were impressed by your " +
-                                "qualifications, enthusiasm, and potential " +
-                                "to contribute to our team.\n\n" +
+                                "Accepting Your Offer:\n" +
+                                "If you are interested in accepting this " +
+                                "offer, please respond to this email to " +
+                                "confirm. After receiving your response, " +
+                                "we will begin onboarding and share " +
+                                "information about your next steps, " +
+                                "required training, and certifications.\n\n" +
 
-                                "We believe you will be a great addition " +
-                                "to the Climbing Tower, and we look " +
-                                "forward to working with you.\n\n" +
+                                "Employment Information:\n" +
+                                "• Starting Wage: $12.25/hour, with annual " +
+                                "merit-based raises.\n" +
+                                "• Maximum Hours: 25 per week.\n" +
+                                "• Minimum Hours: 3 per week for regularly " +
+                                "scheduled staff.\n" +
+                                "• Substitute Staff: At least one shift " +
+                                "per month, when applicable.\n" +
+                                "• Certifications: CPR/AED/First Aid " +
+                                "(provided by UREC Outdoors).\n\n" +
 
-                                "Next Steps:\n\n" +
+                                "Additional position-specific benefits, " +
+                                "requirements, and descriptions are " +
+                                "included below.\n\n" +
 
-                                "Please respond to this email by " +
-                                "[RESPONSE DEADLINE] to let us know if " +
-                                "you would like to accept the position.\n\n" +
+                                "Thank you again for your interest in " +
+                                "UREC Outdoors. We look forward to hearing " +
+                                "from you and hope to welcome you to " +
+                                "our team!"
+                        ),
 
-                                "Once we receive your confirmation, we " +
-                                "will provide additional information " +
-                                "regarding the hiring process, required " +
-                                "training, and onboarding.\n\n" +
-
-                                "Congratulations again, and we hope to " +
-                                "welcome you to the Climbing Tower " +
-                                "Team soon!"
+                        new InterviewJobSelectionInputs(
+                            SelectedJobs: new List<string>
+                            {
+                                InterviewJobCatalog.ClimbingTowerAttendant
+                            }
                         ),
 
                         EmailInputDefaults
