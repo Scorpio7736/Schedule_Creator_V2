@@ -601,10 +601,18 @@ namespace Schedule_Creator_V2.Services.Email
 
             if (jobSelection is not null)
             {
+                bool isPositionOffer = string.Equals(
+                    emailType.displayName, "Position Offer",
+                    StringComparison.OrdinalIgnoreCase);
+
                 return string.Join(Environment.NewLine,
                     InterviewJobCatalog.Resolve(jobSelection.SelectedJobs)
                         .Select(job => BuildPositionDescriptionCard(
-                            job.Title, job.Description, job.Details)));
+                            job.Title,
+                            job.Description,
+                            isPositionOffer
+                                ? BuildOfferSpecificDetails(job)
+                                : job.Details)));
             }
 
             CustomPositionDescriptionInputs? inputs = emailType.inputs?
@@ -614,6 +622,39 @@ namespace Schedule_Creator_V2.Services.Email
                 ? string.Empty
                 : BuildPositionDescriptionCard(
                     inputs.Position, inputs.Description, inputs.Details);
+        }
+
+        private static IReadOnlyList<string> BuildOfferSpecificDetails(
+            InterviewJobDefinition job)
+        {
+            var details = new List<string>();
+
+            if (string.Equals(job.Title,
+                InterviewJobCatalog.ClimbingTowerAttendant,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                details.Add("Belay certification is not required to begin; training will be provided during employment.");
+                details.Add("Benefits: Off-hours climbing with other Climbing Tower staff and Pro-Deal outdoor equipment discounts.");
+            }
+            else if (string.Equals(job.Title,
+                InterviewJobCatalog.ShorewoodAttendant,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                details.Add("Benefits: Free personal equipment rentals from the Shorewood Center and Pro-Deal outdoor equipment discounts.");
+            }
+            else if (string.Equals(job.Title,
+                InterviewJobCatalog.TripCoordinator,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                details.Add("This offer is contingent upon successful completion of a training and trial period. Eligibility for full employment as a Trip Coordinator will be evaluated at its conclusion.");
+                details.Add("Trial: Participate in one Trip Coordinator Training Trip.");
+                details.Add("Trial: Complete either three weekend/day trips OR one weekend trip and one expedition lasting at least 10 days.");
+                details.Add("Trial: Obtain Wilderness First Aid and CPR/AED/First Aid certifications, provided by UREC Outdoors.");
+                details.Add("Requires at least one semester of training and a regularly scheduled Shorewood Center shift averaging at least two hours per week.");
+                details.Add("Benefits: Free personal equipment rentals from the Shorewood Center and Pro-Deal outdoor equipment discounts.");
+            }
+
+            return details;
         }
 
         private static string BuildPositionDescriptionCard(
