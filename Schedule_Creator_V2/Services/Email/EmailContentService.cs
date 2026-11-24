@@ -1480,13 +1480,39 @@ namespace Schedule_Creator_V2.Services.Email
                                 color:#303936 !important;
                                 -webkit-text-fill-color:#303936 !important;">
 
-                            {{RenderRichText(
-                                emailBody,
-                                useParagraphsForPlainText: true)}}
+                            {{RenderBodyWithOfferHeadings(emailType, emailBody)}}
                         </div>
                     </td>
                 </tr>
                 """;
+        }
+
+
+        private static string RenderBodyWithOfferHeadings(
+            EmailType emailType,
+            string emailBody)
+        {
+            string html = RenderRichText(
+                emailBody,
+                useParagraphsForPlainText: true);
+
+            if (!string.Equals(
+                    emailType.displayName,
+                    "Position Offer",
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return html;
+            }
+
+            return html
+                .Replace(
+                    "Accepting Your Offer:",
+                    "<strong>Accepting Your Offer:</strong>",
+                    StringComparison.Ordinal)
+                .Replace(
+                    "Employment Information:",
+                    "<strong>Employment Information:</strong>",
+                    StringComparison.Ordinal);
         }
 
 
