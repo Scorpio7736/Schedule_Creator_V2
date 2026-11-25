@@ -309,63 +309,134 @@ namespace Schedule_Creator_V2.Services.Email
         private static void AddTowerBallScoreSelectors(
             Panel parent, TowerBallScoreInputs inputs, IEnumerable<Staff> staffRoster)
         {
-            var staffList = staffRoster.OrderBy(staff => staff.displayName).ToList();
+            var staffList = staffRoster.GroupBy(staff => staff.id)
+                .Select(group => group.First())
+                .OrderBy(staff => staff.displayName).ToList();
+
             parent.Children.Add(new TextBlock
             {
-                Text = staffList.Count == 0
-                    ? "No staff available. Check that the staff roster loaded."
-                    : "Select staff to include and enter any score text.",
+                Text = "Add players from the staff roster, then enter their scores.",
                 TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0, 0, 0, 10)
+                Margin = new Thickness(0, 0, 0, 8)
             });
 
-            foreach (Staff staff in staffList)
+            var picker = new ComboBox
             {
-                if (!inputs.Entries.TryGetValue(staff.id, out var entry))
-                {
-                    entry = new TowerBallScoreEntry(staff.displayName);
-                    inputs.Entries.Add(staff.id, entry);
-                }
-                entry.Name = staff.displayName;
+                DisplayMemberPath = nameof(Staff.displayName),
+                MinHeight = 36,
+                Margin = new Thickness(0, 0, 0, 12),
+                ToolTip = "Select a staff member to add as a player"
+            };
+            var pickerLabel = new TextBlock
+            {
+                Text = "Add Player",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(0, 0, 0, 4)
+            };
+            var emptyMessage = new TextBlock
+            {
+                Text = "No players added yet.",
+                Foreground = CreateBrush(107, 114, 128),
+                Margin = new Thickness(0, 0, 0, 8)
+            };
+            var rows = new StackPanel();
+            parent.Children.Add(pickerLabel);
+            parent.Children.Add(picker);
+            parent.Children.Add(emptyMessage);
+            parent.Children.Add(rows);
 
+            bool refreshing = false;
+
+            void RefreshPicker()
+            {
+                refreshing = true;
+                try
+                {
+                    var available = staffList.Where(staff =>
+                        !inputs.Entries.TryGetValue(staff.id, out var entry) ||
+                        !entry.Included).ToList();
+                    picker.SelectedIndex = -1;
+                    picker.ItemsSource = available;
+                    picker.IsEnabled = available.Count > 0;
+                    pickerLabel.Text = staffList.Count == 0
+                        ? "Add Player — no staff available"
+                        : available.Count == 0
+                            ? "Add Player — all staff added"
+                            : "Add Player (select staff)";
+                    emptyMessage.Visibility = rows.Children.Count == 0
+                        ? Visibility.Visible : Visibility.Collapsed;
+                }
+                finally
+                {
+                    refreshing = false;
+                }
+            }
+
+            void AddPlayerRow(int staffId, TowerBallScoreEntry entry)
+            {
                 var row = new Grid { Margin = new Thickness(0, 0, 0, 8) };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                var check = new CheckBox
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+                var name = new TextBlock
                 {
-                    Content = staff.displayName,
-                    IsChecked = entry.Included,
-                    VerticalAlignment = VerticalAlignment.Center
+                    Text = entry.Name,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    TextWrapping = TextWrapping.Wrap
                 };
                 var score = new TextBox
                 {
                     Text = entry.Score,
-                    IsEnabled = entry.Included,
                     MinHeight = 36,
-                    Margin = new Thickness(8, 0, 0, 0),
+                    Margin = new Thickness(8, 0, 8, 0),
                     Padding = new Thickness(6),
                     TextWrapping = TextWrapping.Wrap,
                     ToolTip = "Score (any text)"
                 };
-                EmailValidationService.SetIsRequired(score, entry.Included);
-                check.Checked += (_, _) =>
-                {
-                    entry.Included = true;
-                    score.IsEnabled = true;
-                    EmailValidationService.SetIsRequired(score, true);
-                };
-                check.Unchecked += (_, _) =>
-                {
-                    entry.Included = false;
-                    score.IsEnabled = false;
-                    EmailValidationService.SetIsRequired(score, false);
-                };
+                EmailValidationService.SetIsRequired(score, true);
                 score.TextChanged += (_, _) => entry.Score = score.Text;
+
+                var remove = new Button
+                {
+                    Content = "Delete",
+                    Padding = new Thickness(10, 4, 10, 4),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    ToolTip = "Remove player from this scoreboard"
+                };
+                remove.Click += (_, _) =>
+                {
+                    inputs.Entries.Remove(staffId);
+                    rows.Children.Remove(row);
+                    RefreshPicker();
+                };
+
                 Grid.SetColumn(score, 1);
-                row.Children.Add(check);
+                Grid.SetColumn(remove, 2);
+                row.Children.Add(name);
                 row.Children.Add(score);
-                parent.Children.Add(row);
+                row.Children.Add(remove);
+                rows.Children.Add(row);
             }
+
+            foreach (var pair in inputs.Entries.Where(pair => pair.Value.Included))
+                AddPlayerRow(pair.Key, pair.Value);
+
+            picker.SelectionChanged += (_, _) =>
+            {
+                if (refreshing || picker.SelectedItem is not Staff staff)
+                    return;
+
+                if (inputs.Entries.TryGetValue(staff.id, out var existing) && existing.Included)
+                    return;
+
+                var entry = new TowerBallScoreEntry(staff.displayName) { Included = true };
+                inputs.Entries[staff.id] = entry;
+                AddPlayerRow(staff.id, entry);
+                RefreshPicker();
+            };
+
+            RefreshPicker();
         }
 
         private static void AddInterviewJobSelectors(
