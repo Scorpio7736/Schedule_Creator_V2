@@ -35,6 +35,15 @@ namespace Schedule_Creator_V2.Models.Constants
                         "EmailImages",
                         "Header_WelcomeToTheTeam.jpeg")));
 
+        public static readonly string TowerBallHeader =
+            "data:image/png;base64," +
+            File.ReadAllText(
+                Path.Combine(
+                    AppContext.BaseDirectory,
+                    "Images",
+                    "EmailImages",
+                    "Header_TowerBall.png.base64")).Trim();
+
         public static readonly string Default_FooterImage =
             "data:image/png;base64," +
             Convert.ToBase64String(
