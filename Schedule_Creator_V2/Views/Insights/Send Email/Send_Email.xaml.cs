@@ -153,7 +153,8 @@ namespace Schedule_Creator_V2
             EmailInputFormService
                 .BuildEmailInputControls(
                     EmailInputFieldsPanel,
-                    currentEmailType);
+                    currentEmailType,
+                    RecipientSelections.Select(recipient => recipient.Staff));
 
             bool canEditSections =
                 EmailSectionService
