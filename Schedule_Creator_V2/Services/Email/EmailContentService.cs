@@ -1508,7 +1508,7 @@ namespace Schedule_Creator_V2.Services.Email
             if (scores is null) return string.Empty;
 
             var entries = scores.Entries.Values.Where(entry => entry.Included)
-                .OrderBy(entry => entry.Name).ToList();
+                .OrderBy(entry => entry.DisplayOrder).ToList();
             if (entries.Count == 0) return string.Empty;
 
             string rows = string.Concat(entries.Select(entry =>
