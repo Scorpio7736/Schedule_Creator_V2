@@ -315,7 +315,7 @@ namespace Schedule_Creator_V2.Services.Email
 
             parent.Children.Add(new TextBlock
             {
-                Text = "Add players from the staff roster, then enter their scores.",
+                Text = "Add players, enter scores, and drag the grip to reorder the scoreboard.",
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(0, 0, 0, 8)
             });
@@ -372,12 +372,115 @@ namespace Schedule_Creator_V2.Services.Email
                 }
             }
 
+            const string dragFormat = "SCV2.TowerBall.PlayerRow";
+            Grid? draggingRow = null;
+
+            void SavePlayerOrder()
+            {
+                for (int index = 0; index < rows.Children.Count; index++)
+                {
+                    if (rows.Children[index] is Grid playerRow && playerRow.Tag is int id &&
+                        inputs.Entries.TryGetValue(id, out var player))
+                        player.DisplayOrder = index;
+                }
+            }
+
             void AddPlayerRow(int staffId, TowerBallScoreEntry entry)
             {
-                var row = new Grid { Margin = new Thickness(0, 0, 0, 8) };
+                var row = new Grid
+                {
+                    Margin = new Thickness(0, 0, 0, 8),
+                    Tag = staffId,
+                    AllowDrop = true,
+                    Background = Brushes.Transparent
+                };
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+                var grip = new Border
+                {
+                    Background = CreateBrush(243, 244, 246),
+                    CornerRadius = new CornerRadius(4),
+                    Padding = new Thickness(8, 5, 8, 5),
+                    Margin = new Thickness(0, 0, 8, 0),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Cursor = Cursors.SizeAll,
+                    ToolTip = "Drag to reorder this player",
+                    Child = new TextBlock
+                    {
+                        Text = "≡",
+                        FontSize = 20,
+                        Foreground = CreateBrush(107, 114, 128)
+                    }
+                };
+
+                Point? dragStart = null;
+                grip.PreviewMouseLeftButtonDown += (_, e) =>
+                    dragStart = e.GetPosition(grip);
+                grip.PreviewMouseLeftButtonUp += (_, _) => dragStart = null;
+                grip.MouseMove += (_, e) =>
+                {
+                    if (e.LeftButton != MouseButtonState.Pressed || dragStart is not Point start)
+                    {
+                        dragStart = null;
+                        return;
+                    }
+                    Point current = e.GetPosition(grip);
+                    if (Math.Abs(current.X - start.X) < SystemParameters.MinimumHorizontalDragDistance &&
+                        Math.Abs(current.Y - start.Y) < SystemParameters.MinimumVerticalDragDistance)
+                        return;
+
+                    dragStart = null;
+                    draggingRow = row;
+                    try
+                    {
+                        DragDrop.DoDragDrop(grip, new DataObject(dragFormat, staffId), DragDropEffects.Move);
+                    }
+                    finally
+                    {
+                        draggingRow = null;
+                        foreach (Grid playerRow in rows.Children.OfType<Grid>())
+                            playerRow.Background = Brushes.Transparent;
+                    }
+                };
+
+                row.PreviewDragOver += (_, e) =>
+                {
+                    if (draggingRow is null || draggingRow == row || !e.Data.GetDataPresent(dragFormat))
+                    {
+                        e.Effects = DragDropEffects.None;
+                    }
+                    else
+                    {
+                        e.Effects = DragDropEffects.Move;
+                        row.Background = CreateBrush(220, 235, 226);
+                    }
+                    e.Handled = true;
+                };
+                row.PreviewDragLeave += (_, _) => row.Background = Brushes.Transparent;
+                row.PreviewDrop += (_, e) =>
+                {
+                    row.Background = Brushes.Transparent;
+                    e.Handled = true;
+                    if (draggingRow is not Grid source || source == row ||
+                        !e.Data.GetDataPresent(dragFormat))
+                        return;
+
+                    int from = rows.Children.IndexOf(source);
+                    int target = rows.Children.IndexOf(row);
+                    if (from < 0 || target < 0)
+                        return;
+
+                    bool after = e.GetPosition(row).Y >= row.ActualHeight / 2;
+                    int destination = target + (after ? 1 : 0);
+                    if (from < destination) destination--;
+                    rows.Children.RemoveAt(from);
+                    rows.Children.Insert(destination, source);
+                    SavePlayerOrder();
+                    e.Effects = DragDropEffects.Move;
+                };
 
                 var name = new TextBlock
                 {
@@ -408,19 +511,24 @@ namespace Schedule_Creator_V2.Services.Email
                 {
                     inputs.Entries.Remove(staffId);
                     rows.Children.Remove(row);
+                    SavePlayerOrder();
                     RefreshPicker();
                 };
 
-                Grid.SetColumn(score, 1);
-                Grid.SetColumn(remove, 2);
+                Grid.SetColumn(name, 1);
+                Grid.SetColumn(score, 2);
+                Grid.SetColumn(remove, 3);
+                row.Children.Add(grip);
                 row.Children.Add(name);
                 row.Children.Add(score);
                 row.Children.Add(remove);
                 rows.Children.Add(row);
             }
 
-            foreach (var pair in inputs.Entries.Where(pair => pair.Value.Included))
+            foreach (var pair in inputs.Entries.Where(pair => pair.Value.Included)
+                         .OrderBy(pair => pair.Value.DisplayOrder))
                 AddPlayerRow(pair.Key, pair.Value);
+            SavePlayerOrder();
 
             picker.SelectionChanged += (_, _) =>
             {
@@ -433,6 +541,7 @@ namespace Schedule_Creator_V2.Services.Email
                 var entry = new TowerBallScoreEntry(staff.displayName) { Included = true };
                 inputs.Entries[staff.id] = entry;
                 AddPlayerRow(staff.id, entry);
+                SavePlayerOrder();
                 RefreshPicker();
             };
 
