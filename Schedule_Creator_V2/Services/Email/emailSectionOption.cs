@@ -477,6 +477,9 @@ namespace Schedule_Creator_V2.Services.Email
                 CustomBodyInputs =>
                     20,
 
+                TowerBallScoreInputs =>
+                    25,
+
                 CustomImageInputs =>
                     30,
 
