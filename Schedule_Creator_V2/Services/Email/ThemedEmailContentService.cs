@@ -923,7 +923,19 @@ namespace Schedule_Creator_V2.Services.Email
                         "The image URL must use HTTP or HTTPS.");
                 }
 
+                if (string.IsNullOrWhiteSpace(uri.Host))
+                {
+                    throw new InvalidOperationException("The image URL must contain a host.");
+                }
+
                 return uri.AbsoluteUri;
+            }
+
+            // An explicitly supplied but invalid URL must not be reinterpreted
+            // as a scheme-less hostname (for example, "http://").
+            if (trimmed.Contains("://", StringComparison.Ordinal))
+            {
+                throw new InvalidOperationException("The image URL is invalid.");
             }
 
             string httpsSource =
@@ -933,7 +945,8 @@ namespace Schedule_Creator_V2.Services.Email
             if (Uri.TryCreate(
                     httpsSource,
                     UriKind.Absolute,
-                    out Uri? httpsUri))
+                    out Uri? httpsUri) &&
+                !string.IsNullOrWhiteSpace(httpsUri.Host))
             {
                 return httpsUri.AbsoluteUri;
             }

@@ -90,7 +90,9 @@ namespace Schedule_Creator_V2.Services.Email
 
             // Update the static HTML color values
             // before inserting the selected CSS.
-            html = ApplyPalette(html, styleFile);
+            html = styleFile == "LetsGlowStyles.css"
+                ? LetsGlowThemeService.Apply(html)
+                : ApplyPalette(html, styleFile);
 
             html = html.Replace(
                 StyleMarker,
@@ -121,42 +123,21 @@ namespace Schedule_Creator_V2.Services.Email
 
             (string Old, string New)[] colors;
 
-            if (styleFile == "LetsGlowStyles.css")
+            colors = new[]
             {
-                colors = new[]
-                {
-                    ("#eef3f1", "#080615"),
-                    ("#ffffff", "#11102b"),
-                    ("#0f5640", "#36e9ef"),
-                    ("#bfdbd4", "#17133b"),
-                    ("#f5f7f6", "#080615"),
-                    ("#54b948", "#9be447"),
-                    ("#303936", "#d9d8eb"),
-                    ("#26312d", "#d9d8eb"),
-                    ("#4b5551", "#d9d8eb"),
-                    ("#111111", "#ffffff"),
-                    ("#eef7f4", "#ffffff"),
-                    ("#397665", "#36e9ef")
-                };
-            }
-            else
-            {
-                colors = new[]
-                {
-                    ("#eef3f1", "#f7cdbd"),
-                    ("#ffffff", "#fff9f4"),
-                    ("#0f5640", "#f15a24"),
-                    ("#bfdbd4", "#f7cdbd"),
-                    ("#f5f7f6", "#ffffff"),
-                    ("#54b948", "#f15a24"),
-                    ("#303936", "#625650"),
-                    ("#26312d", "#292425"),
-                    ("#4b5551", "#625650"),
-                    ("#111111", "#292425"),
-                    ("#eef7f4", "#fff9f4"),
-                    ("#397665", "#f15a24")
-                };
-            }
+                ("#eef3f1", "#f7cdbd"),
+                ("#ffffff", "#fff9f4"),
+                ("#0f5640", "#f15a24"),
+                ("#bfdbd4", "#f7cdbd"),
+                ("#f5f7f6", "#ffffff"),
+                ("#54b948", "#f15a24"),
+                ("#303936", "#625650"),
+                ("#26312d", "#292425"),
+                ("#4b5551", "#625650"),
+                ("#111111", "#292425"),
+                ("#eef7f4", "#fff9f4"),
+                ("#397665", "#f15a24")
+            };
 
             // Single-pass replacement prevents new
             // colors from being replaced a second time.

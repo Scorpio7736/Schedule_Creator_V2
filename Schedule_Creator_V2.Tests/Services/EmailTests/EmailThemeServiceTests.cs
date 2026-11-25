@@ -63,8 +63,8 @@ public sealed class EmailThemeServiceTests
     }
 
     [Theory]
-    [InlineData("Lets_Glow_Email_Template.html", "#FFFFFF", "#11102b")]
-    [InlineData("Lets_Glow_Email_Template.html", "#111111", "#ffffff")]
+    [InlineData("Lets_Glow_Email_Template.html", "#FFFFFF", "#f7f8ff")]
+    [InlineData("Lets_Glow_Email_Template.html", "#111111", "#f7f8ff")]
     [InlineData("Lets_Glow_Email_Template.html", "#0F5640", "#36e9ef")]
     [InlineData("Tower_of_Power_Email_Template.html", "#f5f7f6", "#ffffff")]
     [InlineData("Tower_of_Power_Email_Template.html", "#ffffff", "#fff9f4")]
@@ -74,7 +74,14 @@ public sealed class EmailThemeServiceTests
     {
         string result = EmailThemeService.ApplyTheme(
             $"<div style='color:{original}'>Text</div>{{{{EMAIL_STYLES}}}}", Email(template));
-        Assert.StartsWith($"<div style='color:{expected}'>Text</div>", result);
+        if (template == "Lets_Glow_Email_Template.html")
+        {
+            Assert.StartsWith($"<div style=\"color:{expected};\" class=\"glow-text\">Text</div>", result);
+        }
+        else
+        {
+            Assert.StartsWith($"<div style='color:{expected}'>Text</div>", result);
+        }
     }
 
     [Theory]

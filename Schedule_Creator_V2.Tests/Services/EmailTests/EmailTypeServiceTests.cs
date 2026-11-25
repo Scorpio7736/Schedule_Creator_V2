@@ -10,7 +10,7 @@ namespace Schedule_Creator_V2.Tests.Services.Email
         // =========================================================
 
         [Fact]
-        public void CreateEmailTypes_ReturnsFourEmailTypes()
+        public void CreateEmailTypes_ReturnsFourteenEmailTypes()
         {
             // Act
 
@@ -22,7 +22,7 @@ namespace Schedule_Creator_V2.Tests.Services.Email
             // Assert
 
             Assert.Equal(
-                10,
+                14,
                 result.Count);
         }
 
@@ -39,21 +39,25 @@ namespace Schedule_Creator_V2.Tests.Services.Email
 
             // Assert
 
-            Assert.Equal(
+            string[] expected =
+            {
                 "Custom",
-                result[0].displayName);
-
-            Assert.Equal(
+                "Interview Offer",
+                "Position Offer",
+                "Position Rejection",
                 "Announcements",
-                result[1].displayName);
-
-            Assert.Equal(
+                "Tower Ball Score Update",
                 "(No Request) Welcome to the Climbing Tower Team",
-                result[2].displayName);
-
-            Assert.Equal(
                 "Schedule Announcement",
-                result[3].displayName);
+                "Let's Glow Schedule",
+                "Let's Glow Announcements",
+                "Let's Glow Requests",
+                "Tower of Power Schedule",
+                "Tower of Power Announcements",
+                "Tower of Power Requests"
+            };
+
+            Assert.Equal(expected, result.Select(email => email.displayName).ToArray());
         }
 
 

@@ -136,7 +136,13 @@ public sealed class EmailRenderingCoverageTests
     [InlineData("standard", "ftp://example.com/photo.png")]
     [InlineData("themed", "ftp://example.com/photo.png")]
     [InlineData("glow", "ftp://example.com/photo.png")]
-    public void Render_UnsupportedImageScheme_Throws(string renderer, string source) =>
+    [InlineData("standard", "http://")]
+    [InlineData("themed", "http://")]
+    [InlineData("glow", "http://")]
+    [InlineData("standard", "https://")]
+    [InlineData("themed", "https://")]
+    [InlineData("glow", "https://")]
+    public void Render_InvalidOrUnsupportedImageSource_Throws(string renderer, string source) =>
         Assert.Throws<InvalidOperationException>(() =>
             Render(renderer, Email(new CustomImageInputs(source, "Picture"))));
 

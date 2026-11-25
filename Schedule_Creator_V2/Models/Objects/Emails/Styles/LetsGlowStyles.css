@@ -113,3 +113,94 @@ a {
 .text-header-light {
     color: #d9d8eb !important;
     -webkit-text-fill-color: #d9d8eb !important;
+}
+
+.text-body, .text-secondary, .text-request {
+    color: #d9d8eb !important;
+    -webkit-text-fill-color: #d9d8eb !important;
+}
+
+.footer-divider {
+    height: 1px;
+    margin: 20px 0 15px 0;
+    background-color: #37305b !important;
+    background-image: linear-gradient(#37305b, #37305b) !important;
+}
+
+.glow-button {
+    color: #11102b !important;
+    -webkit-text-fill-color: #11102b !important;
+}
+
+/* Keep the dark palette in Outlook and clients with dark-mode support. */
+[data-ogsc] .email-outer, [data-ogsb] .email-outer,
+[data-ogsc] .background-request, [data-ogsb] .background-request {
+    background-color: #080615 !important;
+    background-image: linear-gradient(#080615, #080615) !important;
+}
+[data-ogsc] .background-white, [data-ogsb] .background-white {
+    background-color: #11102b !important;
+    background-image: linear-gradient(#11102b, #11102b) !important;
+}
+[data-ogsc] .background-brand-green, [data-ogsb] .background-brand-green,
+[data-ogsc] .background-mint, [data-ogsb] .background-mint {
+    background-color: #17133b !important;
+    background-image: linear-gradient(#17133b, #17133b) !important;
+}
+[data-ogsc] .background-action, [data-ogsb] .background-action {
+    background-color: #9be447 !important;
+    background-image: linear-gradient(#9be447, #9be447) !important;
+}
+[data-ogsc] .glow-button, [data-ogsb] .glow-button {
+    color: #11102b !important;
+    -webkit-text-fill-color: #11102b !important;
+}
+[data-ogsc] .text-white, [data-ogsb] .text-white {
+    color: #f7f8ff !important;
+    -webkit-text-fill-color: #f7f8ff !important;
+}
+[data-ogsc] .text-body, [data-ogsb] .text-body,
+[data-ogsc] .text-secondary, [data-ogsb] .text-secondary,
+[data-ogsc] .text-request, [data-ogsb] .text-request {
+    color: #d9d8eb !important;
+    -webkit-text-fill-color: #d9d8eb !important;
+}
+
+@media (prefers-color-scheme:dark) {
+    html, body, .email-outer, .background-request {
+        background-color: #080615 !important;
+        background-image: linear-gradient(#080615, #080615) !important;
+    }
+    .background-white {
+        background-color: #11102b !important;
+        background-image: linear-gradient(#11102b, #11102b) !important;
+    }
+    .background-brand-green, .background-mint {
+        background-color: #17133b !important;
+        background-image: linear-gradient(#17133b, #17133b) !important;
+    }
+    .background-action {
+        background-color: #9be447 !important;
+        background-image: linear-gradient(#9be447, #9be447) !important;
+    }
+    .text-white {
+        color: #f7f8ff !important;
+        -webkit-text-fill-color: #f7f8ff !important;
+    }
+    .glow-button {
+        color: #11102b !important;
+        -webkit-text-fill-color: #11102b !important;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .email-container { width: 100% !important; }
+    .content-padding {
+        padding-left: 22px !important;
+        padding-right: 22px !important;
+    }
+    .headline {
+        font-size: 32px !important;
+        line-height: 38px !important;
+    }
+}
