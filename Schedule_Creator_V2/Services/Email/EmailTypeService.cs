@@ -369,6 +369,55 @@ namespace Schedule_Creator_V2.Services.Email
 
 
                 // =================================================
+                // TOWER BALL SCORE UPDATE
+                // =================================================
+
+                new EmailType(
+                    displayName:
+                        "Tower Ball Score Update",
+
+                    inputs: new List<IEmailInputs>
+                    {
+                        new EmailDetailsInputs(
+                            Subject:
+                                "Climbing Tower | Tower Ball Score Update"
+                        ),
+
+                        new CustomHeaderInputs(
+                            OrganizationName:
+                                EmailInputConstants.OrganizationName,
+
+                            HeaderLabel:
+                                "CLIMBING TOWER",
+
+                            EmailHeading:
+                                "TOWER BALL SCORE UPDATE",
+
+                            HeaderSubtitle:
+                                "LATEST SCORES AND STANDINGS",
+
+                            HeaderImageUrl:
+                                EmailImageSources.Default_HeaderImage
+                        ),
+
+                        new CustomBodyInputs(
+                            RecipientGreeting:
+                                EmailInputConstants.TowerTeamGreeting,
+
+                            EmailBody:
+                                "Here is the latest Tower Ball score update!\n\n" +
+                                "Current Scores:\n" +
+                                "[INSERT SCORES AND STANDINGS]\n\n" +
+                                "Keep up the great work!"
+                        ),
+
+                        EmailInputDefaults
+                            .DefaultSignatureInputs
+                    }
+                ),
+
+
+                // =================================================
                 // NO REQUEST WELCOME
                 // =================================================
 
