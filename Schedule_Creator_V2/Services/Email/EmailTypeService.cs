@@ -406,10 +406,10 @@ namespace Schedule_Creator_V2.Services.Email
 
                             EmailBody:
                                 "Here is the latest Tower Ball score update!\n\n" +
-                                "Current Scores:\n" +
-                                "[INSERT SCORES AND STANDINGS]\n\n" +
                                 "Keep up the great work!"
                         ),
+
+                        new TowerBallScoreInputs(new Dictionary<int, TowerBallScoreEntry>()),
 
                         EmailInputDefaults
                             .DefaultSignatureInputs
