@@ -1481,12 +1481,33 @@ namespace Schedule_Creator_V2.Services.Email
                                 -webkit-text-fill-color:#303936 !important;">
 
                             {{RenderBodyWithOfferHeadings(emailType, emailBody)}}
+                            {{BuildTowerBallScores(emailType)}}
                         </div>
                     </td>
                 </tr>
                 """;
         }
 
+
+        private static string BuildTowerBallScores(EmailType emailType)
+        {
+            var scores = emailType.inputs.OfType<TowerBallScoreInputs>().FirstOrDefault();
+            if (scores is null) return string.Empty;
+
+            var entries = scores.Entries.Values.Where(entry => entry.Included)
+                .OrderBy(entry => entry.Name).ToList();
+            if (entries.Count == 0) return string.Empty;
+
+            string rows = string.Concat(entries.Select(entry =>
+                $"<tr><td style=\"padding:10px;border-bottom:1px solid #dbe5df;\">{Encode(entry.Name)}</td>" +
+                $"<td style=\"padding:10px;border-bottom:1px solid #dbe5df;overflow-wrap:anywhere;\">{EncodeWithLineBreaks(entry.Score)}</td></tr>"));
+
+            return "<div style=\"margin-top:20px;font-weight:bold;color:#0f5640;\">Current Scores</div>" +
+                "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"0\" style=\"border-collapse:collapse;\">" +
+                "<tr><th align=\"left\" style=\"padding:10px;background-color:#e4efe9;\">Staff</th>" +
+                "<th align=\"left\" style=\"padding:10px;background-color:#e4efe9;\">Score</th></tr>" +
+                rows + "</table>";
+        }
 
         private static string RenderBodyWithOfferHeadings(
             EmailType emailType,
