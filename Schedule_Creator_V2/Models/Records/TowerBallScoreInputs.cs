@@ -15,6 +15,7 @@ namespace Schedule_Creator_V2.Models.Records
         public TowerBallScoreEntry(string name) => Name = name;
         public string Name { get; set; }
         public bool Included { get; set; }
+        public int DisplayOrder { get; set; }
         public string Score { get; set; } = string.Empty;
     }
 }
