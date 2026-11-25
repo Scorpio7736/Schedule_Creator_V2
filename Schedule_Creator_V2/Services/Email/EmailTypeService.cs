@@ -402,17 +402,29 @@ namespace Schedule_Creator_V2.Services.Email
 
                         new CustomBodyInputs(
                             RecipientGreeting:
-                                EmailInputConstants.TowerTeamGreeting,
+                                "Attention Tuesday Shift,",
 
                             EmailBody:
-                                "Here is the latest Tower Ball score update!\n\n" +
-                                "Keep up the great work!"
+                                "An urgent message from the Tower Ball Committee:\n\n" +
+                                "The latest scores and standings for the Tower Ball competition are now available. Please review the updated information below and stay informed about your performance."
                         ),
 
                         new TowerBallScoreInputs(new Dictionary<int, TowerBallScoreEntry>()),
 
-                        EmailInputDefaults
-                            .DefaultSignatureInputs
+                        new CustomSignatureInputs(
+                            SignatureClosing:
+                                "Signed,",
+                            SenderName:
+                                "Jack London",
+                            SenderTitle:
+                                "Member",
+                            SenderOrganization:
+                                "Tower Ball Committee",
+                            SenderEmail:
+                                "londjc22@uwgb.edu",
+                            SenderPhone:
+                                "(414) 425 - 4022)"
+                        )
                     }
                 ),
 
