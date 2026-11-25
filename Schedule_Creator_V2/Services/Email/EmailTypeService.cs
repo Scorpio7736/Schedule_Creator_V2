@@ -397,7 +397,7 @@ namespace Schedule_Creator_V2.Services.Email
                                 "LATEST SCORES AND STANDINGS",
 
                             HeaderImageUrl:
-                                EmailImageSources.Default_HeaderImage
+                                EmailImageSources.TowerBallHeader
                         ),
 
                         new CustomBodyInputs(
